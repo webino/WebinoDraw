@@ -109,7 +109,7 @@ class DrawStrategy extends PhpRendererStrategy
      */
     public function attach(EventManagerInterface $events, $priority = 1)
     {
-        parent::attach($events, $priority-100); // as last
+        parent::attach($events, $priority - 100); // as last
     }
 
     /**
@@ -119,6 +119,10 @@ class DrawStrategy extends PhpRendererStrategy
      */
     public function draw($xhtml, array $vars)
     {
+        if (empty($xhtml)) throw new Exception\InvalidArgumentException(
+            'Expects valid xhtml'
+        );
+
         libxml_use_internal_errors(true); // hack HTML5
         $doc                      = new \DOMDocument;
         $doc->preserveWhiteSpace  = false;
@@ -141,6 +145,10 @@ class DrawStrategy extends PhpRendererStrategy
      */
     public function drawDomDocument(\DOMDocument $doc, array $instructions, array $vars)
     {
+        if (empty($doc->xpath)) throw new Exception\InvalidArgumentException(
+            'Expects document with xpath'
+        );
+
         foreach ($instructions as $node) {
             $key   = key($node);
             $spec  = current($node);
@@ -170,15 +178,13 @@ class DrawStrategy extends PhpRendererStrategy
             // skip missing node
             if (!$nodes || !$nodes->length) continue;
 
-            if (!empty($spec['helper'])) {
-                $plugin = $this->renderer->plugin($spec['helper']);
-                $plugin->setVars($vars);
-                $plugin(new NodeList($nodes), $spec); // invoke helper
-                continue;
-            }
-            throw new Exception\InvalidInstructionException(
+            if (empty($spec['helper'])) throw new Exception\InvalidInstructionException(
                 sprintf("Option `helper` expected '%s'", print_r($spec, 1))
             );
+
+            $plugin = $this->renderer->plugin($spec['helper']);
+            $plugin->setVars($vars);
+            $plugin(new NodeList($nodes), $spec); // invoke helper
         }
         return $this;
     }
@@ -194,16 +200,27 @@ class DrawStrategy extends PhpRendererStrategy
      */
     public function injectResponse(ViewEvent $e)
     {
+        $renderer = $e->getRenderer();
+        if ($renderer !== $this->renderer) return;
+
         parent::injectResponse($e);
+
         $response = $e->getResponse();
-        $model    = $e->getModel();
-        $vars     = $model->getVariables()->getArrayCopy();
+        $result   = $response->getBody();
+
+        if (empty($result)) return;
+
+        $model = $e->getModel();
+        $vars  = $model->getVariables()->getArrayCopy();
+
+        // get variables from model children
         foreach ($model->getChildren() as $child) {
             $childVars = $child->getVariables();
             if ($childVars instanceof \ArrayObject)
                 $childVars = $childVars->getArrayCopy();
             $vars = array_replace($vars, $childVars);
         }
-        $response->setContent($this->draw($response->getBody(), $vars));
+        // draw response body to content
+        $response->setContent($this->draw($result, $vars));
     }
 }
