@@ -52,7 +52,7 @@ class DrawStrategyTest extends TestCase
 
     public function testSetInstructionsWithStackIndex()
     {
-        $testIndex    = rand(0, 999);
+        $testIndex    = 0;
         $instructions = array('instruction_node' => array(
             'stackIndex' => $testIndex
         ));
@@ -80,7 +80,7 @@ class DrawStrategyTest extends TestCase
     {
         $this->setExpectedException('Webino\Draw\Exception\InvalidInstructionException');
 
-        $testIndex    = rand(0, 999);
+        $testIndex    = 0;
         $instructions = array('instruction_node' => array(
             'stackIndex' => $testIndex
         ));
@@ -93,13 +93,13 @@ class DrawStrategyTest extends TestCase
 
     public function testSetInstructionsMerge()
     {
-        $testIndex = rand(0, 999);
+        $testIndex = 0;
         $expected  = $instructions = array('instruction_node' => array(
-            'first_option' => md5(uniqid(rand()))
+            'first_option' => 'first_option_value'
         ));
         $this->draw->setInstructions($instructions);
         $instructions = array('instruction_node' => array(
-            'second_option' => md5(uniqid(rand()))
+            'second_option' => 'second_option_value'
         ));
         $this->draw->setInstructions($instructions);
         $expected = array_replace_recursive($expected, $instructions);
@@ -108,15 +108,15 @@ class DrawStrategyTest extends TestCase
     
     public function testSetInstructionsMergeWidthStackIndex()
     {
-        $testIndex = rand(0, 999);
+        $testIndex = 0;
         $expected  = $instructions = array('instruction_node' => array(
             'stackIndex'   => $testIndex,
-            'first_option' => md5(uniqid(rand()))
+            'first_option' => 'first_option_value'
         ));
         $this->draw->setInstructions($instructions);
         $instructions = array('instruction_node' => array(
             'stackIndex'    => $testIndex,
-            'second_option' => md5(uniqid(rand()))
+            'second_option' => 'second_option_value'
         ));
         $this->draw->setInstructions($instructions);
         $expected = array(
