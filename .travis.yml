@@ -15,5 +15,5 @@ before_script:
   - cp -r ../WebinoDraw vendor/webino/webino-draw
 
 script:
-  - cd vendor/webino/webino-draw
+  - cd vendor/webino/webino-draw/tests
   - phpunit
