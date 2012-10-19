@@ -6,9 +6,9 @@ Provides ability to configure rendering of the layout.
 - Configurable layout
 - Decoupled logic from template
 - Uses ZF view variables and helpers
-- Works with pure HTML5
+- Works with pure XHTML5
 
-Operates over any template engine. This module is intended to be the last view strategy, and it is so powerful that your views can be pure HTML5.
+Operates over any template engine. This module is intended to be the last view strategy, and it is so powerful that your views can be pure XHTML5.
 
 ## Setup
 
