@@ -96,30 +96,30 @@ Following steps are necessary to get this module working (considering a zf2-skel
 
 Modularity of draw is provided by custom classes which consumes options and data to make operations over DOM nodes.
 
-    Copy code, paste it to your module config, change ".customclass" and play.
+*Copy code, paste it to your module config, change ".customclass" and play.*
 
 **DrawElement**
 
 Use it to modify element of page.
 
-        'draw-element-example' => array(
-            'query'  => '.customclass',         
-            'helper' => 'DrawElement',  
+    'draw-element-example' => array(
+        'query'  => '.customclass',         
+        'helper' => 'DrawElement',  
 
-            // Custom options:
-            'value'   => 'Draw element example value',     // set node value
-            'html'    => '<span>HTML value</span>',        // set node xhtml
-            'attribs' => array(                            // set attributes
-                'title' => 'Attribute example'
-            ),
-            'remove'  => '.',                              // XPATH, removes target node
-            'replace' => '<strong/>',                      // XHTML, replaces node
-            'onEmpty' => array(
-
-                // Custom options if node is empty:
-                'value' => 'Empty node example',           // use same options
-            ),
+        // Custom options:
+        'value'   => 'Draw element example value',     // set node value
+        'html'    => '<span>HTML value</span>',        // set node xhtml
+        'attribs' => array(                            // set attributes
+            'title' => 'Attribute example'
         ),
+        'remove'  => '.',                              // XPATH, removes target node
+        'replace' => '<strong/>',                      // XHTML, replaces node
+        'onEmpty' => array(
+
+            // Custom options if node is empty:
+            'value' => 'Empty node example',           // use same options
+        ),
+    ),
 
 **DrawLoop**
 

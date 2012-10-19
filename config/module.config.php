@@ -32,10 +32,7 @@ return array(
         ),
     ),
     'view_manager' => array(
-        'doctype'      => 'XHTML', // !!!XML REQUIRED
-        'strategies'   => array('ViewDrawStrategy'),
-        'template_map' => array(
-            'layout/layout' => __DIR__ . '/../view/layout/webino.html',
-        ),
+        'doctype'    => 'XHTML5', // !!!XML REQUIRED
+        'strategies' => array('ViewDrawStrategy'),
     ),
 );
