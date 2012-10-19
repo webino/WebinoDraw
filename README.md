@@ -1,4 +1,4 @@
-# XHTML Layout Renderer for Zend Framework
+# XHTML Layout Renderer for Zend Framework [![Build Status](https://secure.travis-ci.org/webino/WebinoDraw.png)](http://travis-ci.org/webino/WebinoDraw)
 Provides ability to configure rendering of the layout.
 
 ## Features
