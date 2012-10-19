@@ -21,7 +21,6 @@ class NodeList implements \IteratorAggregate
 {
     private $nodeList = null;
     private $escapeHtml = null;
-    private $escapeHtmlAttr = null;
 
     public function __construct($nodeList)
     {
@@ -51,20 +50,7 @@ class NodeList implements \IteratorAggregate
     {
         $this->escapeHtml = $escapeHtml;
     }
-
-    public function getEscapeHtmlAttr()
-    {
-        if (null === $this->escapeHtmlAttr)
-            $this->setEscapeHtmlAttr(new Helper\EscapeHtmlAttr);
-        return $this->escapeHtmlAttr;
-    }
-
-    public function setEscapeHtmlAttr($escapeHtmlAttr)
-    {
-        $this->escapeHtmlAttr = $escapeHtmlAttr;
-        return $this;
-    }
-
+    
     public function remove($xpath = '.')
     {
         foreach ($this->nodeList as $node)
@@ -100,14 +86,13 @@ class NodeList implements \IteratorAggregate
 
     public function setAttribs(array $attribs)
     {
-        $escapeHtmlAttr = $this->getEscapeHtmlAttr();
         foreach ($this->nodeList->getInnerIterator() as $node) {
             if ($node instanceof \DOMElement) {
                 foreach ($attribs as $name => $value) {
                     if (empty($value) && !is_numeric($value)) {
                         $node->removeAttribute($name);
                     } else {
-                        $node->setAttribute($name, $escapeHtmlAttr(trim($value)));
+                        $node->setAttribute($name, trim($value));
                     }
                 }
                 continue;

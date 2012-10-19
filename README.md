@@ -68,7 +68,7 @@ Following steps are necessary to get this module working (considering a zf2-skel
   - Use **view variables**:
 
         'webino' => array(
-            'query'  => 'body',
+            'query'  => 'title',
             'xpath'  => '//footer',
             'helper' => 'DrawElement',
             'value'  => '{$viewvar}',
