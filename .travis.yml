@@ -11,7 +11,9 @@ before_script:
   - cd ZendSkeletonApplication
   - php composer.phar self-update
   - php composer.phar install
+  - rm -rf vendor/webino/webino-draw
+  - cp -r ../WebinoDraw vendor/webino/webino-draw
 
 script:
-  - cd tests
+  - cd vendor/webino/webino-draw
   - phpunit
