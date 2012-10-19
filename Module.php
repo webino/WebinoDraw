@@ -19,17 +19,6 @@ use Zend\Mvc\MvcEvent;
 class Module
 {
     /**
-     * Setup module
-     *
-     * @param MvcEvent $e
-     * @return void
-     */
-    public function onBootstrap(MvcEvent $e)
-    {
-
-    }
-
-    /**
      * Module default config
      *
      * @return array
