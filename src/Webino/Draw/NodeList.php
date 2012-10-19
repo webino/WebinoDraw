@@ -101,7 +101,7 @@ class NodeList implements \IteratorAggregate
     public function setAttribs(array $attribs)
     {
         $escapeHtmlAttr = $this->getEscapeHtmlAttr();
-        foreach ($this->nodeList as $node) {
+        foreach ($this->nodeList->getInnerIterator() as $node) {
             if ($node instanceof \DOMElement) {
                 foreach ($attribs as $name => $value) {
                     if (empty($value) && !is_numeric($value)) {

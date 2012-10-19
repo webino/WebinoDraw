@@ -44,10 +44,25 @@ class DrawStrategyTest extends TestCase
 
     public function testSetInstructions()
     {
-        $instructions = array('instruction_node' => array());
-        $this->draw->setInstructions($instructions);
+        $instructions = array(
+            'instruction_node1' => array('option' => 'value1'),
+            'instruction_node2' => array('option' => 'value2'),
+        );
+        $expectFirst = array(
+            'instruction_node1' => $instructions['instruction_node1']
+        );
+        $expectSecond = array(
+            'instruction_node2' => $instructions['instruction_node2']
+        );
+        $this->draw->setInstructions($expectFirst);
+        $this->draw->setInstructions($expectSecond);
         $_instructions = $this->draw->getInstructions();
-        $this->assertEquals($instructions, $_instructions[DrawStrategy::STACK_SPACER]);
+        $this->assertEquals(
+            $expectFirst, $_instructions[DrawStrategy::STACK_SPACER]
+        );
+        $this->assertEquals(
+            $expectSecond, $_instructions[DrawStrategy::STACK_SPACER*2]
+        );
     }
 
     public function testSetInstructionsWithStackIndex()
@@ -80,13 +95,28 @@ class DrawStrategyTest extends TestCase
     {
         $this->setExpectedException('Webino\Draw\Exception\InvalidInstructionException');
 
-        $testIndex    = 0;
+        $testIndex    = 30;
         $instructions = array('instruction_node' => array(
             'stackIndex' => $testIndex
         ));
         $this->draw->setInstructions($instructions);
         $instructions = array('instruction_node2' => array(
             'stackIndex' => $testIndex
+        ));
+        $this->draw->setInstructions($instructions);
+    }
+    
+    public function testSetInstructionsOverrideStackIndexThrowException()
+    {
+        $this->setExpectedException('Webino\Draw\Exception\InvalidInstructionException');
+
+        $testIndex    = 20;
+        $instructions = array('instruction_node' => array(
+            'stackIndex' => $testIndex
+        ));
+        $this->draw->setInstructions($instructions);
+        $instructions = array('instruction_node2' => array(
+            'option' => 'value2',
         ));
         $this->draw->setInstructions($instructions);
     }

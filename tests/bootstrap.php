@@ -5,7 +5,9 @@ use Zend\Loader\StandardAutoloader;
 
 chdir(__DIR__);
 
-$vendorAutoload = __DIR__ . '/../../../autoload.php';
+$vendorAutoload = realpath(__DIR__ . '/../../../autoload.php') or
+    $vendorAutoload = realpath(__DIR__ . '/../../../vendor/autoload.php');
+
 if (!is_file($vendorAutoload)) throw new RuntimeException(
     'vendor/autoload.php could not be found. Did you run `php composer.phar install`?'
 );

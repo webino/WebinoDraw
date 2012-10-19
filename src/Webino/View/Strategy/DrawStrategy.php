@@ -54,7 +54,7 @@ class DrawStrategy extends PhpRendererStrategy
     public function setInstructions(array $instructions)
     {
         $_instructions = $this->getInstructions();
-        $instructionsN = count($_instructions);
+        $instructionsN = count($_instructions) * self::STACK_SPACER;
 
         foreach ($_instructions as &$spec) {
             foreach ($instructions as $iKey => $iSpec) {
@@ -64,6 +64,7 @@ class DrawStrategy extends PhpRendererStrategy
                 $spec = array_replace_recursive($spec, array($iKey => $iSpec));
             }
         }
+        unset($spec);
         foreach ($instructions as $index => $spec) {
 
             if (!is_array($spec)) throw new Exception\InvalidInstructionException(
@@ -72,12 +73,14 @@ class DrawStrategy extends PhpRendererStrategy
 
             if (!isset($spec['stackIndex']) ) {
                 // add without stack index
-                $instructionsN+= self::STACK_SPACER;
-                $_instructions[$instructionsN][$index] = $spec;
-                continue;
-            }
-
-            if (!isset($_instructions[$spec['stackIndex']])) {
+                $stackIndex = $instructionsN + self::STACK_SPACER;
+                if (!isset($_instructions[$stackIndex])) {
+                    $_instructions[$stackIndex][$index] = $spec;
+                    continue;
+                }
+                unset($stackIndex);
+                
+            } elseif (!isset($_instructions[$spec['stackIndex']])) {
                 // add with stackindex
                 $_instructions[$spec['stackIndex']][$index] = $spec;
                 continue;
