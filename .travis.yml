@@ -12,10 +12,7 @@ before_script:
   - php composer.phar self-update
   - php composer.phar install
   - mkdir -p vendor/webino/webino-draw
-  - cp -r ../WebinoDraw vendor/webino/webino-draw
-  - dir ..
-  - dir ../WebinoDraw
-  - dir vendor/webino/webino-draw
+  - cp -r ../WebinoDraw/* vendor/webino/webino-draw
 
 script:
   - cd vendor/webino/webino-draw/tests
