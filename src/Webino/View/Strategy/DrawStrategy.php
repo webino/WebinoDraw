@@ -75,6 +75,7 @@ class DrawStrategy extends PhpRendererStrategy
                 // add without stack index
                 $stackIndex = $instructionsN + self::STACK_SPACER;
                 if (!isset($_instructions[$stackIndex])) {
+                    $instructionsN = $stackIndex;
                     $_instructions[$stackIndex][$index] = $spec;
                     continue;
                 }

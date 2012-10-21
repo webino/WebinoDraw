@@ -54,6 +54,15 @@ class DrawStrategyTest extends TestCase
         $expectSecond = array(
             'instruction_node2' => $instructions['instruction_node2']
         );
+        $this->draw->setInstructions($instructions);
+        $_instructions = $this->draw->getInstructions();
+        $this->assertEquals(
+            array($expectFirst, $expectSecond),
+            array(
+                $_instructions[DrawStrategy::STACK_SPACER],
+                $_instructions[DrawStrategy::STACK_SPACER*2]
+            )
+        );
         $this->draw->setInstructions($expectFirst);
         $this->draw->setInstructions($expectSecond);
         $_instructions = $this->draw->getInstructions();

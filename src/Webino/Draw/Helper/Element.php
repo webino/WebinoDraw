@@ -57,27 +57,41 @@ class Element extends AbstractHelper
         $spec          = $varTranslator($spec, $this->getVars());
 
         // remove node by xpath
-        !array_key_exists('remove', $spec) or $nodes->remove($spec['remove']);
+        !array_key_exists('remove', $spec) or
+            $nodes->remove($spec['remove']);
+        
         // replace
-        !array_key_exists('replace', $spec) or $this->replace($nodes, $spec);
+        !array_key_exists('replace', $spec) or
+            $this->replace($nodes, $spec);
+        
         // text value
-        !array_key_exists('value', $spec) or $nodes->setValue($spec['value']);
+        !array_key_exists('value', $spec) or
+            $nodes->setValue($spec['value']);
+        
         // xhtml code
-        !array_key_exists('html', $spec) or $nodes->setHtml($spec['html']);
+        !array_key_exists('html', $spec) or
+            $this->setHtml($nodes, $spec);
+        
         // attribs
-        !array_key_exists('attribs', $spec) or $nodes->setAttribs($spec['attribs']);
+        !array_key_exists('attribs', $spec) or
+            $this->setAttribs($nodes, $spec);
+        
         // onEmpty
-        !array_key_exists('onEmpty', $spec) or $this->onEmpty($nodes, $spec['onEmpty']);
+        !array_key_exists('onEmpty', $spec) or
+            $this->onEmpty($nodes, $spec['onEmpty']);
     }
 
     public function onEmpty(NodeList $nodes, array $spec)
     {
         foreach ($nodes as $node) {
-            if (!empty($node->nodeValue) || is_numeric($node->nodeValue)) continue;
+            if (!empty($node->nodeValue) 
+                || is_numeric($node->nodeValue)
+            ) continue;
+            
             $this(new NodeList(array($node)), $spec);
         }
     }
-
+    
     public function replace(NodeList $nodes, array $spec)
     {
         foreach ($nodes as $node) {
@@ -87,5 +101,62 @@ class Element extends AbstractHelper
             unset($subspec['replace']);
             $this($nodes, $subspec);
         }
+    }
+    
+    public function setHtml(NodeList $nodes, array $spec)
+    {
+        $varTranslator = $this->getVarTranslator();
+        $preSet        = null;
+        
+        $var = $varTranslator->key2Var('html');
+        if (false !== strpos($spec['html'], $var)) {
+            $preSet = function(\DOMElement $node, $value)
+                use ($varTranslator, $var) 
+            {
+                if (empty($spec['var']['default'][$var])) {
+                    $translation[$var] = null;
+                } else {
+                    $translation[$var] = $spec['var']['default'][$var];
+                }
+                foreach ($node->childNodes as $child) {
+                    $translation[$var].= $child->ownerDocument->saveXML($child);
+                }
+                return $varTranslator->translateString(
+                    $value, $translation
+                );
+            };
+        }
+        
+        $nodes->setHtml($spec['html'], $preSet);
+    }
+    
+    public function setAttribs(NodeList $nodes, array $spec)
+    {
+        $varTranslator = $this->getVarTranslator();
+        
+        $nodes->setAttribs(
+            $spec['attribs'], 
+            function(\DOMElement $node, $value) use ($varTranslator) {
+                if ($node->attributes) {
+                    if (empty($spec['var']['default'])) {
+                        $translation = array();
+                    } else {
+                        $translation = $spec['var']['default'];
+                    }
+                    foreach ($node->attributes as $attrib) {
+                        $translation[
+                            $varTranslator->key2Var($attrib->name)
+                        ] = $attrib->value;
+                    }
+                    $value = $varTranslator->translateString(
+                        $value, $translation
+                    );
+                    if ($varTranslator->stringHasVar($value)) {
+                        $value = null;
+                    }
+                }
+                return $value;
+            }
+        );
     }
 }

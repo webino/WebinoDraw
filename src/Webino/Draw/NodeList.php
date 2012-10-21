@@ -84,11 +84,12 @@ class NodeList implements \IteratorAggregate
         return $this;
     }
 
-    public function setAttribs(array $attribs)
+    public function setAttribs(array $attribs, $preSet = null)
     {
         foreach ($this->nodeList->getInnerIterator() as $node) {
             if ($node instanceof \DOMElement) {
                 foreach ($attribs as $name => $value) {
+                    if ($preSet) $value = $preSet($node, $value);
                     if (empty($value) && !is_numeric($value)) {
                         $node->removeAttribute($name);
                     } else {
@@ -102,13 +103,11 @@ class NodeList implements \IteratorAggregate
         return $this;
     }
 
-    public function setHtml($xhtml)
+    public function setHtml($xhtml, $preSet = null)
     {
         foreach ($this->nodeList as $node) {
-            if (empty($xhtml)) {
-                $node->nodeValue = '';
-                continue;
-            }
+            if ($preSet) $xhtml = $preSet($node, $xhtml);
+            $node->nodeValue = '';
             $frag = $node->ownerDocument->createDocumentFragment();
             $frag->appendXml($xhtml);
             $node->appendChild($frag);

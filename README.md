@@ -69,6 +69,10 @@ Following steps are necessary to get this module working (considering a zf2-skel
             'value'  => 'Hello Webino!',
         ),
 
+  - Use **node variables**:
+
+        {$html} ... attribs
+
   - Use **view variables**:
 
         'webino' => array(
@@ -131,10 +135,8 @@ Use it to draw data structures.
 
 ## Todo
 
-
   - The "remove": Add multiple xpath or query option.
-  - The "html": Add "{$html}" variable support.
-  - Node value and attributes variable support.
+  - Node value variable support.
   - Variable fetch.
   - Adding element before other.
   - Variable case support.

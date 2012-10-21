@@ -44,15 +44,18 @@ class VarTranslator extends AbstractHelper
             if (!array_key_exists($key, $translation)) continue; // skip undefined
             foreach ($value as $helper => $functions) {
                 $plugin = $this->view->plugin($helper);
+                $_translation = $translation;
                 foreach ($functions as $fc => $calls) {
                     foreach ($calls as $params) {
-                        $this->translate($params, $translation);
-                        $translation[$key] = $plugin = call_user_func_array(
+                        $this->translate(
+                            $params, $this->array2translation($_translation)
+                        );
+                        $_translation[$key] = $plugin = call_user_func_array(
                             array($plugin, $fc), $params
                         );
                     }
                 }
-                $translation[$key] = (string)$translation[$key];
+                $translation[$key].= (string)$_translation[$key];
             }
         }
         return $translation;
@@ -66,11 +69,22 @@ class VarTranslator extends AbstractHelper
         }
         return $translation;
     }
+    
+    public function key2Var($key)
+    {
+        return sprintf(self::VAR_PATTERN, $key);
+    }
+    
+    public function stringHasVar($string)
+    {
+        $pattern = str_replace('%s', '[^\}]+', preg_quote(self::VAR_PATTERN));
+        return preg_match('~' . $pattern . '~', $string);
+    }
 
     public function array2Translation(array $vars)
     {
         foreach ($vars as $key => $value) {
-            $vars[sprintf(self::VAR_PATTERN, $key)] = $value;
+            $vars[$this->key2Var($key)] = $value;
             unset($vars[$key]);
         }
         return $vars;
