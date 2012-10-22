@@ -107,12 +107,21 @@ class Element extends AbstractHelper
     {
         $varTranslator = $this->getVarTranslator();
         $preSet        = null;
+        $html          = $spec['html'];
         
+        $render = array();
+        if (!empty($spec['render'])) {
+            foreach ($spec['render'] as $key => $value) {
+                $render[$varTranslator->key2Var($key)]
+                    = $this->view->render($value);
+            }
+        }
         $var = $varTranslator->key2Var('html');
-        if (false !== strpos($spec['html'], $var)) {
-            $preSet = function(\DOMElement $node, $value)
-                use ($varTranslator, $var) 
-            {
+        $preSet = function(\DOMElement $node, $value)
+            use ($varTranslator, $spec, $render, $var) 
+        {
+            $translation = $render;
+            if (false !== strpos($spec['html'], $var)) {
                 if (empty($spec['var']['default'][$var])) {
                     $translation[$var] = null;
                 } else {
@@ -121,11 +130,11 @@ class Element extends AbstractHelper
                 foreach ($node->childNodes as $child) {
                     $translation[$var].= $child->ownerDocument->saveXML($child);
                 }
-                return $varTranslator->translateString(
-                    $value, $translation
-                );
-            };
-        }
+            }
+            return $varTranslator->translateString(
+                $value, $translation
+            );
+        };
         
         $nodes->setHtml($spec['html'], $preSet);
     }

@@ -115,17 +115,20 @@ Use it to modify element of page.
         'helper' => 'DrawElement',  
 
         // Custom options:
-        'value'   => 'Draw element example value',     // set node value
-        'html'    => '<span>HTML value</span>',        // set node xhtml
-        'attribs' => array(                            // set attributes
+        'value'   => 'Draw element example value',       // set node value
+        'render'  => array(
+            'script' => 'script/path'                    // render view script to variable
+        ),
+        'html'    => '<span>HTML value</span>{$script}', // set node xhtml
+        'attribs' => array(                              // set attributes
             'title' => 'Attribute example'
         ),
-        'remove'  => '.',                              // XPATH, removes target node
-        'replace' => '<strong/>',                      // XHTML, replaces node
+        'remove'  => '.',                                // XPATH, removes target node
+        'replace' => '<strong/>',                        // XHTML, replaces node
         'onEmpty' => array(
 
             // Custom options if node is empty:
-            'value' => 'Empty node example',           // use same options
+            'value' => 'Empty node example',             // use same options
         ),
     ),
 
