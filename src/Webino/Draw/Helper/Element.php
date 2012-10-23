@@ -145,7 +145,7 @@ class Element extends AbstractHelper
         
         $nodes->setAttribs(
             $spec['attribs'], 
-            function(\DOMElement $node, $value) use ($varTranslator) {
+            function(\DOMElement $node, $value) use ($varTranslator, $spec) {
                 if ($node->attributes) {
                     if (empty($spec['var']['default'])) {
                         $translation = array();
@@ -153,12 +153,18 @@ class Element extends AbstractHelper
                         $translation = $spec['var']['default'];
                     }
                     foreach ($node->attributes as $attrib) {
-                        $translation[
-                            $varTranslator->key2Var($attrib->name)
-                        ] = $attrib->value;
+                        $translation[$attrib->name] = $attrib->value;
+                    }
+                    if (!empty($spec['var']['helper'])) {
+                        $helperSpec = $varTranslator(
+                            $spec['var']['helper'], $translation
+                        );
+                        $translation = $varTranslator->applyHelper(
+                            $translation, $helperSpec
+                        );
                     }
                     $value = $varTranslator->translateString(
-                        $value, $translation
+                        $value, $varTranslator->array2Translation($translation)
                     );
                     if ($varTranslator->stringHasVar($value)) {
                         $value = null;

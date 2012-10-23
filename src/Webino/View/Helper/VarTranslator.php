@@ -43,19 +43,25 @@ class VarTranslator extends AbstractHelper
         foreach ($spec as $key => $value) {
             if (!array_key_exists($key, $translation)) continue; // skip undefined
             foreach ($value as $helper => $functions) {
-                $plugin = $this->view->plugin($helper);
-                $_translation = $translation;
-                foreach ($functions as $fc => $calls) {
-                    foreach ($calls as $params) {
-                        $this->translate(
-                            $params, $this->array2translation($_translation)
-                        );
-                        $_translation[$key] = $plugin = call_user_func_array(
-                            array($plugin, $fc), $params
-                        );
+                if (function_exists($helper)) {
+                    $this->translate(
+                        $functions, $this->array2translation($translation)
+                    );
+                    $translation[$key] = call_user_func_array($helper, $functions);
+                } else {
+                    $plugin = $this->view->plugin($helper);
+                    foreach ($functions as $fc => $calls) {
+                        foreach ($calls as $params) {
+                            $this->translate(
+                                $params, $this->array2translation($translation)
+                            );
+                            $plugin = call_user_func_array(
+                                array($plugin, $fc), $params
+                            );
+                            $translation[$key].= (string) $plugin;
+                        }
                     }
                 }
-                $translation[$key].= (string)$_translation[$key];
             }
         }
         return $translation;
