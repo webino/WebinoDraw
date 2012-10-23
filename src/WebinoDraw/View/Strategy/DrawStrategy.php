@@ -7,10 +7,10 @@
  * @package     WebinoDraw
  */
 
-namespace Webino\View\Strategy;
+namespace WebinoDraw\View\Strategy;
 
-use Webino\Draw\Exception;
-use Webino\Draw\NodeList;
+use WebinoDraw\Exception;
+use WebinoDraw\Dom\NodeList;
 use Zend\Dom\Css2Xpath;
 use Zend\EventManager\EventManagerInterface;
 use Zend\View\Strategy\PhpRendererStrategy;

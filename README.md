@@ -7,38 +7,30 @@ Provides ability to configure rendering of the layout. Still under development.
 
 ## Features
 
-- Configurable layout
-- Decoupled logic from template
-- Uses ZF view variables and helpers
-- Works with pure XHTML5
+- Configurable layout.
+- Decoupled logic from template.
+- Uses ZF view variables and helpers.
+- Works with pure XHTML5.
 
 Operates over any template engine. This module is intended to be the last view strategy, and it is so powerful that your views can be pure XHTML5.
 
 ## Setup
 
-Following steps are necessary to get this module working (considering a zf2-skeleton or very similar application)
+Following steps are necessary to get this module working (considering a zf2-skeleton or very similar application).
 
-  1. Run `composer require webino/webino-draw:dev-master`
-  2. Add `WebinoDraw` to the enabled modules list
+  1. Run `php composer.phar require webino/webino-draw:dev-develop`
+  2. Add `WebinoDraw` to the enabled modules list.
 
 ## QuickStart
 
   - For example, add this code somewhere to your module config:
 
-        'di' => array(
-            'instance' => array(
-                'Webino\View\Strategy\DrawStrategy' => array(
-                    'parameters' => array(
-                        'instructions' => array(
-
-                            // Add your WebinoDraw instructions here:
-                            'webino' => array(
-                                'query'  => 'body',
-                                'helper' => 'WebinoDrawElement',
-                                'value'  => 'Hello Webino!',
-                            ),
-                        ),
-                    ),
+        'webino_draw' => array(
+            'instructions' => array(
+                'webino' => array(
+                    'query'  => 'body',
+                    'helper' => 'drawElement',
+                    'value'  => 'Hello Webino!',
                 ),
             ),
         ),
@@ -49,7 +41,7 @@ Following steps are necessary to get this module working (considering a zf2-skel
         'webino' => array(                   // custom name
             'query'  => 'body',              // css selector
             'xpath'  => '//footer',          // DOM XPATH
-            'helper' => 'WebinoDrawElement', // draw helper
+            'helper' => 'drawElement',       // draw helper
             'value'  => 'Hello Webino!',     // helper options
         ),
 
@@ -65,7 +57,7 @@ Following steps are necessary to get this module working (considering a zf2-skel
                 'body a',
                 '.customclass',
             ),
-            'helper' => 'WebinoDrawElement',  
+            'helper' => 'drawElement',  
             'value'  => 'Hello Webino!',
         ),
 
@@ -78,27 +70,35 @@ Following steps are necessary to get this module working (considering a zf2-skel
         'webino' => array(
             'query'  => 'title',
             'xpath'  => '//footer',
-            'helper' => 'WebinoDrawElement',
+            'helper' => 'drawElement',
             'value'  => '{$viewvar}',
         ),
 
   - Use **view helpers**:
 
+        @todo
 
+  - Use **functions**:
+
+        @todo
 
   - Set instructions **from controller**:
 
-        $this->getServiceLocator()->get('WebinoDrawStrategy')->setInstructions(array(
+        $this->getServiceLocator()->get('ViewDrawStrategy')->setInstructions(array(
             'custom' => array(
                 'query'  => '.customclass',
-                'helper' => 'WebinoDrawElement',
+                'helper' => 'drawElement',
                 'value'  => 'Custom value',
             ),
         ));
 
   - Set instructions always merge so in some cases it is useful to clear them:
 
-        $this->getServiceLocator()->get('WebinoDrawStrategy')->clearInstructions();
+        $this->getServiceLocator()->get('ViewDrawStrategy')->clearInstructions();
+
+## Instruction Set
+
+    TODO
 
 ## Helpers
 
@@ -106,13 +106,13 @@ Modularity of draw is provided by custom classes which consumes options and data
 
 *Copy code, paste it to your module config, change ".customclass" and play.*
 
-**WebinoDrawElement**
+**drawElement**
 
 Use it to modify element of page.
 
     'draw-element-example' => array(
         'query'  => '.customclass',         
-        'helper' => 'WebinoDrawElement',  
+        'helper' => 'drawElement',  
 
         // Custom options:
         'value'   => 'Draw element example value',       // set node value
@@ -132,8 +132,6 @@ Use it to modify element of page.
         ),
     ),
 
-**DrawLoop**
-
 Use it to draw data structures.
 
 ## Pitfalls
@@ -147,6 +145,8 @@ Use it to draw data structures.
   - Variable fetch.
   - Adding element before other.
   - Variable case support.
+  - Draw helper trigger event.
+  - Draw loop.
   - Cache.
 
 ## Outro

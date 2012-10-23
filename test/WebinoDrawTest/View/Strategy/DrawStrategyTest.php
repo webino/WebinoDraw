@@ -9,7 +9,7 @@
 
 namespace WebinoDrawTest\View\Strategy;
 
-use Webino\View\Strategy\DrawStrategy;
+use WebinoDraw\View\Strategy\DrawStrategy;
 use WebinoDrawTest\TestCase;
 
 /**
@@ -36,7 +36,7 @@ class DrawStrategyTest extends TestCase
 
     public function testSetInstructionsSpecExpectArray()
     {
-        $this->setExpectedException('Webino\Draw\Exception\InvalidInstructionException');
+        $this->setExpectedException('WebinoDraw\Exception\InvalidInstructionException');
 
         $instructions = array('invalid_instruction');
         $this->draw->setInstructions($instructions);
@@ -102,7 +102,7 @@ class DrawStrategyTest extends TestCase
 
     public function testSetInstructionsWithSameStackIndexThrowException()
     {
-        $this->setExpectedException('Webino\Draw\Exception\InvalidInstructionException');
+        $this->setExpectedException('WebinoDraw\Exception\InvalidInstructionException');
 
         $testIndex    = 30;
         $instructions = array('instruction_node' => array(
@@ -117,7 +117,7 @@ class DrawStrategyTest extends TestCase
     
     public function testSetInstructionsOverrideStackIndexThrowException()
     {
-        $this->setExpectedException('Webino\Draw\Exception\InvalidInstructionException');
+        $this->setExpectedException('WebinoDraw\Exception\InvalidInstructionException');
 
         $testIndex    = 20;
         $instructions = array('instruction_node' => array(
@@ -182,7 +182,7 @@ class DrawStrategyTest extends TestCase
 
     public function testDrawEmptyThrowsException()
     {
-        $this->setExpectedException('Webino\Draw\Exception\InvalidArgumentException');
+        $this->setExpectedException('WebinoDraw\Exception\InvalidArgumentException');
 
         $xhtml        = '';
         $instructions = array();
@@ -193,8 +193,10 @@ class DrawStrategyTest extends TestCase
     {
         $xhtml        = '<div/>';
         $instructions = array();
-        $expected = '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">'
-                    . PHP_EOL . '<html><body><div></div></body></html>' . PHP_EOL;
+        $expected     = '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"'
+                        . ' "http://www.w3.org/TR/REC-html40/loose.dtd">'
+                        . PHP_EOL . '<html><body><div></div></body></html>' . PHP_EOL;
+        
         $this->assertEquals($expected, $this->draw->draw($xhtml, $instructions));
     }
 
@@ -210,7 +212,7 @@ class DrawStrategyTest extends TestCase
 
     public function testDrawDomDocumentExpectsXpath()
     {
-        $this->setExpectedException('Webino\Draw\Exception\InvalidArgumentException');
+        $this->setExpectedException('WebinoDraw\Exception\InvalidArgumentException');
         $this->draw->drawDomDocument(new \DOMDocument, array(), array());
     }
 
@@ -225,20 +227,20 @@ class DrawStrategyTest extends TestCase
             array(
                 'test_node' => array(
                     'xpath'  => '.',
-                    'helper' => 'WebinoDrawElement'
+                    'helper' => 'drawElement'
                 )
             ),
         );
         $vars = array();
 
-        $drawHelperMock = $this->getMock('Webino\Draw\Helper\Element');
+        $drawHelperMock = $this->getMock('WebinoDraw\View\Helper\DrawElement', array(), array(), '', null);
         $drawHelperMock->expects($this->once())
             ->method('setVars')
             ->with($vars);
         $drawHelperMock->expects($this->once())
             ->method('__invoke')
             ->with(
-                $this->isInstanceOf('Webino\Draw\NodeList'),
+                $this->isInstanceOf('WebinoDraw\Dom\NodeList'),
                 $instructions[0]['test_node']
             );
 
@@ -261,26 +263,26 @@ class DrawStrategyTest extends TestCase
             array(
                 'test_node' => array(
                     'xpath'  => '.',
-                    'helper' => 'WebinoDrawElement'
+                    'helper' => 'drawElement'
                 )
             ),
             array(
                 'test_node2' => array(
                     'xpath'  => '.',
-                    'helper' => 'WebinoDrawElement'
+                    'helper' => 'drawElement'
                 )
             )
         );
         $vars = array();
 
-        $drawHelperMock = $this->getMock('Webino\Draw\Helper\Element');
+        $drawHelperMock = $this->getMock('WebinoDraw\View\Helper\DrawElement', array(), array(), '', null);
         $drawHelperMock->expects($this->exactly(2))
             ->method('setVars')
             ->with($vars);
         $drawHelperMock->expects($this->exactly(2))
             ->method('__invoke')
             ->with(
-                $this->isInstanceOf('Webino\Draw\NodeList'),
+                $this->isInstanceOf('WebinoDraw\Dom\NodeList'),
                 $instructions[0]['test_node']
             );
 
@@ -322,8 +324,9 @@ class DrawStrategyTest extends TestCase
             ->will($this->returnValue($childModelMocks));
 
         $responseBody = '<element/>';
-        $expectedBody = '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">'
-                    . PHP_EOL . '<html><body><element></element></body></html>' . PHP_EOL;
+        $expectedBody = '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"'
+                        . ' "http://www.w3.org/TR/REC-html40/loose.dtd">'
+                        . PHP_EOL . '<html><body><element></element></body></html>' . PHP_EOL;
 
         $responseMock = $this->getMock('Zend\Http\Response');
         $responseMock->expects($this->once())
@@ -377,8 +380,9 @@ class DrawStrategyTest extends TestCase
             ->will($this->returnValue($childModelMocks));
 
         $responseBody = '<element/>';
-        $expectedBody = '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">'
-                    . PHP_EOL . '<html><body><element></element></body></html>' . PHP_EOL;
+        $expectedBody = '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"'
+                        . ' "http://www.w3.org/TR/REC-html40/loose.dtd">'
+                        . PHP_EOL . '<html><body><element></element></body></html>' . PHP_EOL;
 
         $responseMock = $this->getMock('Zend\Http\Response');
         $responseMock->expects($this->once())

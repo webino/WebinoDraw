@@ -7,7 +7,7 @@
  * @package     WebinoDraw
  */
 
-namespace Webino\View\Helper;
+namespace WebinoDraw\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 

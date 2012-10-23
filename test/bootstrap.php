@@ -16,8 +16,7 @@ include $vendorAutoload;
 
 $loader = new StandardAutoloader(array(
      StandardAutoloader::LOAD_NS => array(
-         'Webino'         => __DIR__ . '/../src/Webino',
-         'WebinoDraw'     => __DIR__ . '/../',
+         'WebinoDraw'     => __DIR__ . '/../src/WebinoDraw',
          'WebinoDrawTest' => __DIR__ . '/WebinoDrawTest',
      ),
 ));

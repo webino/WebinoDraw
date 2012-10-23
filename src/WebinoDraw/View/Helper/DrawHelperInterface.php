@@ -7,7 +7,7 @@
  * @package     WebinoDraw
  */
 
-namespace Webino\Draw\Helper;
+namespace WebinoDraw\Draw\Helper;
 
 /**
  * @category    Webino
@@ -15,6 +15,6 @@ namespace Webino\Draw\Helper;
  * @subpackage  DrawHelper
  * @author      Peter Bačinský <peter@bacinsky.sk>
  */
-interface HelperInterface
+interface DrawHelperInterface
 {
 }

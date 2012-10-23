@@ -7,7 +7,7 @@
  * @package     WebinoDraw
  */
 
-namespace Webino\Draw\Exception;
+namespace WebinoDraw\Exception;
 
 /**
  * @category   Webino

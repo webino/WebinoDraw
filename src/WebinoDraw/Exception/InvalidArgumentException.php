@@ -7,13 +7,13 @@
  * @package     WebinoDraw
  */
 
-namespace Webino\Draw\Exception;
+namespace WebinoDraw\Exception;
 
 /**
  * @category    Webino
  * @package     WebinoDraw
  * @author      Peter Bačinský <peter@bacinsky.sk>
  */
-class InvalidInstructionException extends InvalidArgumentException
+class InvalidArgumentException extends \InvalidArgumentException implements ExceptionInterface
 {
 }

@@ -7,10 +7,10 @@
  * @package     WebinoDraw
  */
 
-namespace Webino\Draw\Helper;
+namespace WebinoDraw\View\Helper;
 
-use Webino\Draw\NodeList;
-use Webino\View\Helper\VarTranslator;
+use WebinoDraw\Dom\NodeList;
+use WebinoDraw\View\Helper\VarTranslator;
 use Zend\View\Helper\AbstractHelper;
 
 /**
@@ -19,15 +19,19 @@ use Zend\View\Helper\AbstractHelper;
  * @subpackage  DrawHelper
  * @author      Peter Bačinský <peter@bacinsky.sk>
  */
-class Element extends AbstractHelper
+class DrawElement extends AbstractHelper
 {
-    private $vars = array();
-
     /**
      *
      * @var VarTranslator
      */
     private $varTranslator;
+    
+    private $vars = array();
+
+    public function __construct(VarTranslator $varTranslator) {
+        $this->varTranslator = $varTranslator;
+    }
 
     public function getVars()
     {
@@ -40,21 +44,9 @@ class Element extends AbstractHelper
         return $this;
     }
 
-    public function getVarTranslator()
-    {
-        return $this->varTranslator;
-    }
-
-    public function setVarTranslator(VarTranslator $varTranslator)
-    {
-        $this->varTranslator = $varTranslator;
-        return $this;
-    }
-
     public function __invoke(NodeList $nodes, array $spec)
     {
-        $varTranslator = $this->getVarTranslator();
-        $spec          = $varTranslator($spec, $this->getVars());
+        $spec = $this->varTranslator->__invoke($spec, $this->getVars());
 
         // remove node by xpath
         !array_key_exists('remove', $spec) or
@@ -105,7 +97,7 @@ class Element extends AbstractHelper
     
     public function setHtml(NodeList $nodes, array $spec)
     {
-        $varTranslator = $this->getVarTranslator();
+        $varTranslator = $this->varTranslator;
         $render        = array();
         
         if (!empty($spec['render'])) {
@@ -139,7 +131,7 @@ class Element extends AbstractHelper
     
     public function setAttribs(NodeList $nodes, array $spec)
     {
-        $varTranslator = $this->getVarTranslator();
+        $varTranslator = $this->varTranslator;
         
         $nodes->setAttribs(
             $spec['attribs'], 

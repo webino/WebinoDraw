@@ -1,38 +1,24 @@
 <?php
 return array(
+    'service_manager' => array(
+        'factories' => array(
+            'ViewDrawStrategy' => 'WebinoDraw\Service\ViewDrawStrategyFactory',
+        ),
+    ),
     'di' => array(
         'instance' => array(
             'alias' => array(
-                'WebinoDrawStrategy' => 'Webino\View\Strategy\DrawStrategy',
-
-                /**
-                 * Default draw helpers
-                 */
-                'WebinoDrawElement' => 'Webino\Draw\Helper\Element',
+                'drawElement' => 'WebinoDraw\View\Helper\DrawElement',
             ),
-
-            /**
-             * WebinoDrawElement
-             */
-            'Webino\Draw\Helper\Element' => array(
+            'WebinoDraw\View\Helper\Element' => array(
                 'parameters' => array(
-                    'varTranslator' => 'Webino\View\Helper\VarTranslator',
+                    'varTranslator' => 'WebinoDraw\View\Helper\VarTranslator',
                 ),
             ),
-
-            /**
-             * WebinoDrawStrategy
-             */
-            'Webino\View\Strategy\DrawStrategy' => array(
-                'parameters' => array(
-                    'renderer' => 'Zend\View\Renderer\PhpRenderer',
-                ),
-            ),
-           
         ),
     ),
     'view_manager' => array(
         'doctype'    => 'XHTML5', // !!!XML REQUIRED
-        'strategies' => array('WebinoDrawStrategy'),
+        'strategies' => array('ViewDrawStrategy'),
     ),
 );

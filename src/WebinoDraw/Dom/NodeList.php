@@ -7,7 +7,7 @@
  * @package     WebinoDraw
  */
 
-namespace Webino\Draw;
+namespace WebinoDraw\Dom;
 
 use Zend\Dom\Css2Xpath;
 use Zend\View\Helper;
@@ -36,7 +36,7 @@ class NodeList implements \IteratorAggregate
 
     public function getIterator()
     {
-        return $this->nodeList;
+        return $this->nodeList->getInnerIterator();
     }
 
     public function getEscapeHtml()
@@ -53,7 +53,7 @@ class NodeList implements \IteratorAggregate
     
     public function remove($xpath = '.')
     {
-        foreach ($this->nodeList as $node)
+        foreach ($this as $node)
             foreach ($node->ownerDocument->xpath->query($xpath, $node) as $subnode)
                 $subnode->parentNode->removeChild($subnode);
         return $this;
@@ -62,7 +62,7 @@ class NodeList implements \IteratorAggregate
     public function replace($xhtml)
     {
         $nodeList = new \ArrayObject;
-        foreach ($this->nodeList as $node) {
+        foreach ($this as $node) {
             if (empty($xhtml)) {
                 $nodeList[] = $node;
                 continue;
@@ -79,14 +79,14 @@ class NodeList implements \IteratorAggregate
     public function setValue($value)
     {
         $escapeHtml = $this->getEscapeHtml();
-        foreach ($this->nodeList as $node)
+        foreach ($this as $node)
             $node->nodeValue = $escapeHtml($value);
         return $this;
     }
 
     public function setAttribs(array $attribs, $preSet = null)
     {
-        foreach ($this->nodeList->getInnerIterator() as $node) {
+        foreach ($this as $node) {
             if ($node instanceof \DOMElement) {
                 foreach ($attribs as $name => $value) {
                     if ($preSet) $value = $preSet($node, $value);
@@ -105,7 +105,7 @@ class NodeList implements \IteratorAggregate
 
     public function setHtml($xhtml, $preSet = null)
     {
-        foreach ($this->nodeList as $node) {
+        foreach ($this as $node) {
             if ($preSet) $xhtml = $preSet($node, $xhtml);
             $node->nodeValue = '';
             $frag = $node->ownerDocument->createDocumentFragment();

@@ -9,8 +9,6 @@
 
 namespace WebinoDraw;
 
-use Zend\Mvc\MvcEvent;
-
 /**
  * @category    Webino
  * @package     WebinoDraw
@@ -41,7 +39,7 @@ class Module
             ),
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
-                    'Webino' => __DIR__ . '/src/Webino',
+                    __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
                 ),
             ),
         );
