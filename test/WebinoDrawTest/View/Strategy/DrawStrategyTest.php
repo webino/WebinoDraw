@@ -225,7 +225,7 @@ class DrawStrategyTest extends TestCase
             array(
                 'test_node' => array(
                     'xpath'  => '.',
-                    'helper' => 'DrawElement'
+                    'helper' => 'WebinoDrawElement'
                 )
             ),
         );
@@ -261,13 +261,13 @@ class DrawStrategyTest extends TestCase
             array(
                 'test_node' => array(
                     'xpath'  => '.',
-                    'helper' => 'DrawElement'
+                    'helper' => 'WebinoDrawElement'
                 )
             ),
             array(
                 'test_node2' => array(
                     'xpath'  => '.',
-                    'helper' => 'DrawElement'
+                    'helper' => 'WebinoDrawElement'
                 )
             )
         );

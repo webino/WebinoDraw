@@ -34,7 +34,14 @@ class DrawStrategy extends PhpRendererStrategy
      * @var array
      */
     private $instructions = array();
-
+    
+    /**
+     * 
+     *
+     * @var array
+     */
+    private $instructionset = array();
+    
     /**
      *
      * @return array
@@ -101,6 +108,30 @@ class DrawStrategy extends PhpRendererStrategy
     public function clearInstructions()
     {
         $this->instructions = array();
+        return $this;
+    }
+    
+    /**
+     * Return instructions from set by key.
+     * 
+     * @param array $key
+     * @return array
+     */
+    public function getInstructionsFromSet($key)
+    {
+        if (empty($this->instructionset[$key])) return array();
+        return $this->instructionset[$key];
+    }
+    
+    /**
+     * Set array of instruction set list.
+     * 
+     * @param array $instructionset
+     * @return \Webino\View\Strategy\DrawStrategy
+     */
+    public function setInstructionSet(array $instructionset)
+    {
+        $this->instructionset =  $instructionset;
         return $this;
     }
 

@@ -3,16 +3,16 @@ return array(
     'di' => array(
         'instance' => array(
             'alias' => array(
-                'ViewDrawStrategy' => 'Webino\View\Strategy\DrawStrategy',
+                'WebinoDrawStrategy' => 'Webino\View\Strategy\DrawStrategy',
 
                 /**
                  * Default draw helpers
                  */
-                'DrawElement' => 'Webino\Draw\Helper\Element',
+                'WebinoDrawElement' => 'Webino\Draw\Helper\Element',
             ),
 
             /**
-             * DrawElement
+             * WebinoDrawElement
              */
             'Webino\Draw\Helper\Element' => array(
                 'parameters' => array(
@@ -21,7 +21,7 @@ return array(
             ),
 
             /**
-             * ViewDrawStrategy
+             * WebinoDrawStrategy
              */
             'Webino\View\Strategy\DrawStrategy' => array(
                 'parameters' => array(
@@ -33,6 +33,6 @@ return array(
     ),
     'view_manager' => array(
         'doctype'    => 'XHTML5', // !!!XML REQUIRED
-        'strategies' => array('ViewDrawStrategy'),
+        'strategies' => array('WebinoDrawStrategy'),
     ),
 );

@@ -34,7 +34,7 @@ Following steps are necessary to get this module working (considering a zf2-skel
                             // Add your WebinoDraw instructions here:
                             'webino' => array(
                                 'query'  => 'body',
-                                'helper' => 'DrawElement',
+                                'helper' => 'WebinoDrawElement',
                                 'value'  => 'Hello Webino!',
                             ),
                         ),
@@ -49,7 +49,7 @@ Following steps are necessary to get this module working (considering a zf2-skel
         'webino' => array(                   // custom name
             'query'  => 'body',              // css selector
             'xpath'  => '//footer',          // DOM XPATH
-            'helper' => 'DrawElement',       // draw helper
+            'helper' => 'WebinoDrawElement', // draw helper
             'value'  => 'Hello Webino!',     // helper options
         ),
 
@@ -65,7 +65,7 @@ Following steps are necessary to get this module working (considering a zf2-skel
                 'body a',
                 '.customclass',
             ),
-            'helper' => 'DrawElement',  
+            'helper' => 'WebinoDrawElement',  
             'value'  => 'Hello Webino!',
         ),
 
@@ -78,7 +78,7 @@ Following steps are necessary to get this module working (considering a zf2-skel
         'webino' => array(
             'query'  => 'title',
             'xpath'  => '//footer',
-            'helper' => 'DrawElement',
+            'helper' => 'WebinoDrawElement',
             'value'  => '{$viewvar}',
         ),
 
@@ -88,17 +88,17 @@ Following steps are necessary to get this module working (considering a zf2-skel
 
   - Set instructions **from controller**:
 
-        $this->getServiceLocator()->get('viewdrawstrategy')->setInstructions(array(
+        $this->getServiceLocator()->get('WebinoDrawStrategy')->setInstructions(array(
             'custom' => array(
                 'query'  => '.customclass',
-                'helper' => 'DrawElement',
+                'helper' => 'WebinoDrawElement',
                 'value'  => 'Custom value',
             ),
         ));
 
   - Set instructions always merge so in some cases it is useful to clear them:
 
-        $this->getServiceLocator()->get('viewdrawstrategy')->clearInstructions();
+        $this->getServiceLocator()->get('WebinoDrawStrategy')->clearInstructions();
 
 ## Helpers
 
@@ -106,13 +106,13 @@ Modularity of draw is provided by custom classes which consumes options and data
 
 *Copy code, paste it to your module config, change ".customclass" and play.*
 
-**DrawElement**
+**WebinoDrawElement**
 
 Use it to modify element of page.
 
     'draw-element-example' => array(
         'query'  => '.customclass',         
-        'helper' => 'DrawElement',  
+        'helper' => 'WebinoDrawElement',  
 
         // Custom options:
         'value'   => 'Draw element example value',       // set node value
