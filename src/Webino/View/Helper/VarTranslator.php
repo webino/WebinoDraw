@@ -25,7 +25,7 @@ class VarTranslator extends AbstractHelper
     const VAR_PATTERN = '{$%s}';
 
     public function __invoke($spec, array $vars)
-    {
+    {        
         // default variables
         empty($spec['var']['default']) or
             $vars = $this->translationDefaults($vars, $spec['var']['default']);

@@ -106,10 +106,8 @@ class Element extends AbstractHelper
     public function setHtml(NodeList $nodes, array $spec)
     {
         $varTranslator = $this->getVarTranslator();
-        $preSet        = null;
-        $html          = $spec['html'];
+        $render        = array();
         
-        $render = array();
         if (!empty($spec['render'])) {
             foreach ($spec['render'] as $key => $value) {
                 $render[$varTranslator->key2Var($key)]
