@@ -19,11 +19,15 @@
         <exec command="git clone ${test.appgit} ${test.basedir}/${test.appname}" checkreturn="true" logoutput="true"/>
         <exec command="cd ${test.basedir}/${test.appname} &amp;&amp; php composer.phar install" checkreturn="true" logoutput="true"/>
         
-        <echo msg="Link module" />
         <mkdir dir="${test.vendordir}"/>
+        <delete dir="${test.moduledir}"/>
         <exec command="ln -s ${project.basedir} ${test.moduledir}" checkreturn="true" logoutput="true"/>
         <exec command="cd ${test.moduletestdir} &amp;&amp; phpunit --include-path=${test.vendorbasedir}" checkreturn="true" logoutput="true"/>
         
+        <echo msg="Checkstyle" />
+        <delete dir="${log.basedir}"/>
+        <mkdir dir="${log.basedir}"/>
+        <exec command="phpcs --report=checkstyle --report-file=${log.basedir}/checkstyle.xml --standard=${project.checkstyle} --extensions=php ${test.modulesrcdir}" logoutput="true"/>
     </target>
     
 </project>
