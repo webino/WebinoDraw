@@ -5,20 +5,20 @@ use Zend\Loader\StandardAutoloader;
 
 chdir(__DIR__);
 
-$vendorAutoload = realpath(__DIR__ . '/../../../autoload.php') or
-    $vendorAutoload = realpath(__DIR__ . '/../../../vendor/autoload.php');
-
-if (!is_file($vendorAutoload)) throw new RuntimeException(
-    'vendor/autoload.php could not be found. Did you run `php composer.phar install`?'
+$autoloader = array(
+    __DIR__ . '/../../../autoload.php',
+    __DIR__ . '/../../../vendor/autoload.php',
+    'autoload.php',
 );
 
-include $vendorAutoload;
+foreach ($autoloader as $path) {
+    $loader = @include $path;
+    if ($loader) break;
+}
 
-$loader = new StandardAutoloader(array(
-     StandardAutoloader::LOAD_NS => array(
-         'WebinoDraw'     => __DIR__ . '/../src/WebinoDraw',
-         'WebinoDrawTest' => __DIR__ . '/WebinoDrawTest',
-     ),
-));
-$loader->register();
+if (!class_exists('Composer\Autoload\ClassLoader')) {
+    throw new RuntimeException('Unable to load. Run `php composer.phar install`.');
+}
 
+$loader->add('WebinoDraw', __DIR__ . '/../src');
+$loader->add('WebinoDrawTest', __DIR__ .  '/../test');

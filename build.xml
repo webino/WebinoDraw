@@ -1,0 +1,29 @@
+<!-- phing -->
+<project default="build" basedir=".">
+
+    <property file="${project.basedir}/build.properties" />
+    
+    <target name="build" depends="update">
+        
+    </target>
+    
+    <target name="update">
+        <echo>Updating project</echo>
+        
+        <exec command="git submodule init" checkreturn="true" logoutput="true"/>
+        <exec command="git submodule update" checkreturn="true" logoutput="true"/>
+        <exec command="git pull ${project.remote} ${project.branch}" checkreturn="true" logoutput="true"/>
+        
+        <echo msg="Getting latest ZendSkeletonApplication" />
+        <delete dir="${test.basedir}/${test.appname}"/>
+        <exec command="git clone ${test.appgit} ${test.basedir}/${test.appname}" checkreturn="true" logoutput="true"/>
+        <exec command="cd ${test.basedir}/${test.appname} &amp;&amp; php composer.phar install" checkreturn="true" logoutput="true"/>
+        
+        <echo msg="Link module" />
+        <mkdir dir="${test.vendordir}"/>
+        <exec command="ln -s ${project.basedir} ${test.moduledir}" checkreturn="true" logoutput="true"/>
+        <exec command="cd ${test.moduletestdir} &amp;&amp; phpunit --include-path=${test.vendorbasedir}" checkreturn="true" logoutput="true"/>
+        
+    </target>
+    
+</project>
