@@ -20,7 +20,7 @@
         <exec command="cd ${test.basedir}/${test.appname} &amp;&amp; php composer.phar install" checkreturn="true" logoutput="true"/>
         
         <mkdir dir="${test.vendordir}"/>
-        <delete dir="${test.moduledir}"/>
+        <delete file="${test.moduledir}"/>
         <exec command="ln -s ${project.basedir} ${test.moduledir}" checkreturn="true" logoutput="true"/>
         <exec command="cd ${test.moduletestdir} &amp;&amp; phpunit --include-path=${test.vendorbasedir}" checkreturn="true" logoutput="true"/>
         
