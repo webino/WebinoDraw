@@ -21,16 +21,19 @@
         
         <mkdir dir="${test.vendordir}"/>
         <delete file="${test.moduledir}"/>
-        <exec command="ln -s ${project.basedir} ${test.moduledir}" checkreturn="true" logoutput="true"/>
-        <exec command="cd ${test.moduletestdir} &amp;&amp; phpunit --include-path=${test.vendorbasedir}" checkreturn="true" logoutput="true"/>
-        
-        <echo msg="Checkstyle" />
         <delete dir="${log.basedir}"/>
         <mkdir dir="${log.basedir}"/>
+        <exec command="ln -s ${project.basedir} ${test.moduledir}" checkreturn="true" logoutput="true"/>
+        <exec command="cd ${test.moduletestdir} &amp;&amp; phpunit --include-path=${test.vendorbasedir} --coverage-html ${log.coveragedir} --testdox-html ${log.basedir}/testdox.html --coverage-clover ${log.basedir}/clover.xml --log-junit ${log.basedir}/junit.xml" checkreturn="true" logoutput="true"/>
+        
+        <echo msg="Checkstyle" />
         <exec command="phpcs --report=checkstyle --report-file=${log.basedir}/checkstyle.xml --standard=${project.checkstyle} --extensions=php ${test.modulesrcdir}" logoutput="true"/>
         <exec command="phpmd ${test.modulesrcdir} xml codesize,design,naming,unusedcode --reportfile ${log.basedir}/phpmd.xml" logoutput="true" />
         <exec command="phpcpd --log-pmd ${log.basedir}/pmd-cpd.xml ${test.modulesrcdir}" logoutput="true" />
         <exec command="phploc --log-csv ${log.basedir}/phploc.csv ${test.modulesrcdir}*" logoutput="true" />
+        <exec command="pdepend --summary-xml=${log.basedir}/pdepend.xml --jdepend-xml=${log.basedir}/jdepend.xml --jdepend-chart=${log.basedir}/dependencies.svg --overview-pyramid=${log.basedir}/overview-pyramid.svg ${test.modulesrcdir}" logoutput="true"/>
+        <exec command="apigen --source ${test.modulesrcdir} --destination ${log.apidir}" logoutput="true"/>
+        <exec command="phpcb --log ${log.basedir} --source ${test.modulesrcdir} --output ${log.codebrowserdir}" logoutput="true"/>
     </target>
     
 </project>

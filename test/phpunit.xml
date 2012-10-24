@@ -1,4 +1,9 @@
 <phpunit bootstrap="./bootstrap.php" colors="true">
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory>../src</directory>
+        </whitelist>
+    </filter>
     <testsuites>
         <testsuite name="WebinoDraw Test Suite">
             <directory>./</directory>
