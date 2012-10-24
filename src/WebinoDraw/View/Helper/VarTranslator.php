@@ -51,7 +51,7 @@ class VarTranslator extends AbstractHelper
      * Pattern of variable
      */
     const VAR_PATTERN = '{$%s}';
-    
+
     /**
      * Translate {$variables} in $spec values with data in $translation.
      * 
@@ -72,7 +72,7 @@ class VarTranslator extends AbstractHelper
         $this->translate($spec, $this->array2Translation($translation));
         return $spec;
     }
-    
+
     /**
      * Apply view helpers and functions on variables.
      * 
