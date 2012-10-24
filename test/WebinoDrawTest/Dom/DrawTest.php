@@ -15,7 +15,7 @@ use WebinoDrawTest\TestCase;
 
 /**
  * Test class for WebinoDraw\Dom\Draw.
- * 
+ *
  * @category    WebinoDraw
  * @package     WebinoDraw_Dom
  * @subpackage  UnitTests
@@ -39,11 +39,11 @@ class DrawTest extends TestCase
         $xhtml = '';
         $spec  = array();
         $vars  = array();
-        
-        $this->draw->draw($xhtml, $spec, $vars);
+
+        $this->draw->drawXhtml($xhtml, $spec, $vars);
     }
 
-    public function testDraw()
+    public function testDrawXhtml()
     {
         $xhtml    = '<div/>';
         $spec     = array();
@@ -51,8 +51,8 @@ class DrawTest extends TestCase
         $expected = '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"'
                     . ' "http://www.w3.org/TR/REC-html40/loose.dtd">'
                     . PHP_EOL . '<html><body><div></div></body></html>' . PHP_EOL;
-        
-        $this->assertEquals($expected, $this->draw->draw($xhtml, $spec, $vars));
+
+        $this->assertEquals($expected, $this->draw->drawXhtml($xhtml, $spec, $vars));
     }
 
     public function testDrawHTML5()
@@ -63,7 +63,7 @@ class DrawTest extends TestCase
         $expected = '<!DOCTYPE html>'
                     . PHP_EOL . '<html><body><article></article></body></html>' . PHP_EOL;
 
-        $this->assertEquals($expected, $this->draw->draw($xhtml, $spec, $vars));
+        $this->assertEquals($expected, $this->draw->drawXhtml($xhtml, $spec, $vars));
     }
 
     public function testDrawDomExpectsXpath()

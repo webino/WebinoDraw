@@ -116,7 +116,7 @@ class DrawStrategyTest extends TestCase
         ));
         $this->draw->setInstructions($instructions);
     }
-    
+
     public function testSetInstructionsOverrideStackIndexThrowException()
     {
         $this->setExpectedException('WebinoDraw\Exception\InvalidInstructionException');
@@ -146,7 +146,7 @@ class DrawStrategyTest extends TestCase
         $expected = array_replace_recursive($expected, $instructions);
         $this->assertEquals($expected, current($this->draw->getInstructions()));
     }
-    
+
     public function testSetInstructionsMergeWidthStackIndex()
     {
         $testIndex = 0;
@@ -212,9 +212,9 @@ class DrawStrategyTest extends TestCase
             ->will($this->returnValue($childModelMocks));
 
         $responseBody = '<element/>';
-        
+
         $this->drawMock->expects($this->once())
-            ->method('draw')
+            ->method('drawXhtml')
             ->will($this->returnValue($responseBody));
 
         $responseMock = $this->getMock('Zend\Http\Response');
@@ -266,9 +266,9 @@ class DrawStrategyTest extends TestCase
             ->will($this->returnValue($childModelMocks));
 
         $responseBody = '<element/>';
-        
+
         $this->drawMock->expects($this->once())
-            ->method('draw')
+            ->method('drawXhtml')
             ->will($this->returnValue($responseBody));
 
         $responseMock = $this->getMock('Zend\Http\Response');

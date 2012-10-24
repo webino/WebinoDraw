@@ -27,27 +27,32 @@ class DrawStrategy extends PhpRendererStrategy
      */
     const STACK_SPACER = 10;
 
+    /**
+     * @var WebinoDraw\Dom\Draw
+     */
     private $draw;
-    
+
     /**
      *
      * @var array
      */
     private $instructions = array();
-    
+
     /**
-     * 
-     *
      * @var array
      */
     private $instructionset = array();
-    
+
+    /**
+     * @param \WebinoDraw\Dom\Draw $draw
+     */
     public function __construct(Draw $draw)
     {
         $this->draw = $draw;
     }
-    
+
     /**
+     * Return draw instructions.
      *
      * @return array
      */
@@ -57,8 +62,9 @@ class DrawStrategy extends PhpRendererStrategy
     }
 
     /**
+     * Add draw instructions.
      *
-     * @param array $instructions
+     * @param  array $instructions
      * @return DrawStrategy
      *
      * @throws Exception\InvalidInstructionException
@@ -70,7 +76,9 @@ class DrawStrategy extends PhpRendererStrategy
 
         foreach ($_instructions as &$spec) {
             foreach ($instructions as $iKey => $iSpec) {
-                if (key($spec) != $iKey) continue;
+                if (key($spec) != $iKey) {
+                    continue;
+                }
                 // merge existing spec
                 unset($instructions[$iKey]);
                 $spec = array_replace_recursive($spec, array($iKey => $iSpec));
@@ -79,9 +87,11 @@ class DrawStrategy extends PhpRendererStrategy
         unset($spec);
         foreach ($instructions as $index => $spec) {
 
-            if (!is_array($spec)) throw new Exception\InvalidInstructionException(
-                sprintf('Instruction node spec expect array', print_r($spec, 1))
-            );
+            if (!is_array($spec)) {
+                throw new Exception\InvalidInstructionException(
+                    sprintf('Instruction node spec expect array', print_r($spec, 1))
+                );
+            }
 
             if (!isset($spec['stackIndex']) ) {
                 // add without stack index
@@ -92,7 +102,7 @@ class DrawStrategy extends PhpRendererStrategy
                     continue;
                 }
                 unset($stackIndex);
-                
+
             } elseif (!isset($_instructions[$spec['stackIndex']])) {
                 // add with stackindex
                 $_instructions[$spec['stackIndex']][$index] = $spec;
@@ -107,6 +117,7 @@ class DrawStrategy extends PhpRendererStrategy
     }
 
     /**
+     * Clear all instructions.
      *
      * @return DrawStrategy
      */
@@ -115,28 +126,30 @@ class DrawStrategy extends PhpRendererStrategy
         $this->instructions = array();
         return $this;
     }
-    
+
     /**
      * Return instructions from set by key.
-     * 
-     * @param array $key
+     *
+     * @param  array $key
      * @return array
      */
     public function getInstructionsFromSet($key)
     {
-        if (empty($this->instructionset[$key])) return array();
+        if (empty($this->instructionset[$key])) {
+            return array();
+        }
         return $this->instructionset[$key];
     }
-    
+
     /**
      * Set array of instruction set list.
-     * 
-     * @param array $instructionset
+     *
+     * @param  array $instructionset
      * @return \Webino\View\Strategy\DrawStrategy
      */
     public function setInstructionSet(array $instructionset)
     {
-        $this->instructionset =  $instructionset;
+        $this->instructionset = $instructionset;
         return $this;
     }
 
@@ -159,7 +172,7 @@ class DrawStrategy extends PhpRendererStrategy
      */
     public function draw($xhtml, array $instructions, array $vars)
     {
-        return $this->draw->draw($xhtml, $instructions, $vars);
+        return $this->draw->drawXhtml($xhtml, $instructions, $vars);
     }
 
     /**
@@ -168,25 +181,25 @@ class DrawStrategy extends PhpRendererStrategy
      * Populates the content of the response object from the view rendering
      * results.
      *
-     * @param ViewEvent $e
+     * @param  ViewEvent $event
      * @return void
      */
-    public function injectResponse(ViewEvent $e)
+    public function injectResponse(ViewEvent $event)
     {
-        if (!($e->getRenderer() instanceof \Zend\View\Renderer\PhpRenderer)) {
+        if (!($event->getRenderer() instanceof \Zend\View\Renderer\PhpRenderer)) {
             return;
         }
 
-        parent::injectResponse($e);
+        parent::injectResponse($event);
 
-        $response     = $e->getResponse();
+        $response     = $event->getResponse();
         $responseBody = $response->getBody();
 
         if (empty($responseBody)) {
             return;
         }
 
-        $model = $e->getModel();
+        $model = $event->getModel();
         $vars  = $model->getVariables()->getArrayCopy();
 
         // get variables from model children
@@ -197,6 +210,7 @@ class DrawStrategy extends PhpRendererStrategy
             }
             $vars = array_replace($vars, $childVars);
         }
+
         // draw response body to content
         $instructions = $this->getInstructions();
         ksort($instructions);

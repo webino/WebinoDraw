@@ -15,15 +15,15 @@ use Zend\View\Helper\AbstractHelper;
 /**
  * This component is used to replace variables in array
  * with values in the other array.
- * 
+ *
  * The first array is a specification with custom options
  * with {$variable} in values.
- * 
+ *
  * The second array contains data by variable names like
  * keys. Those {$variable} will be substituted with data.
- * 
+ *
  * Custom options accepted by this component:
- * 
+ *
  * <pre>
  * 'var' => array(
  *   'default' => array(
@@ -39,11 +39,11 @@ use Zend\View\Helper\AbstractHelper;
  *   ),
  * ),
  * </pre>
- * 
+ *
  * By those custom options this component call view helpers
  * and functions over those {$variable}. This is useful because
  * you can for example generate whole head link and many more.
- * 
+ *
  * @package     WebinoDraw_View
  * @subpackage  Helper
  */
@@ -56,7 +56,7 @@ class VarTranslator extends AbstractHelper
 
     /**
      * Translate {$variables} in $spec values with data in $translation.
-     * 
+     *
      * @param  array $spec Associative array with variables in values, and custom options.
      * @param  array $translation Data to substitute variables.
      * @return array Translated $spec.
@@ -77,7 +77,7 @@ class VarTranslator extends AbstractHelper
 
     /**
      * Apply view helpers and functions on variables.
-     * 
+     *
      * @param  array $translation Variables with values to modify.
      * @param  array $spec Helper options.
      * @return array Array with modified values.
@@ -116,10 +116,10 @@ class VarTranslator extends AbstractHelper
         }
         return $translation;
     }
-    
+
     /**
      * Set defaults into translation.
-     * 
+     *
      * @param array $translation
      * @param array $defaults
      * @return array
@@ -133,10 +133,10 @@ class VarTranslator extends AbstractHelper
         }
         return $translation;
     }
-    
+
     /**
      * Transform varname into {$varname}.
-     * 
+     *
      * @param string $key
      * @return string
      */
@@ -144,10 +144,10 @@ class VarTranslator extends AbstractHelper
     {
         return sprintf(self::VAR_PATTERN, $key);
     }
-    
+
     /**
      * Return true if {$var} is in the string.
-     * 
+     *
      * @param string $string
      * @return bool
      */
@@ -156,10 +156,10 @@ class VarTranslator extends AbstractHelper
         $pattern = str_replace('%s', '[^\}]+', preg_quote(self::VAR_PATTERN));
         return (bool) preg_match('~' . $pattern . '~', $string);
     }
-    
+
     /**
      * Transform simple array keys to {$var} like.
-     * 
+     *
      * @param array $array
      * @return array
      */
@@ -171,10 +171,10 @@ class VarTranslator extends AbstractHelper
         }
         return $array;
     }
-    
+
     /**
      * Replace {$var} in $subject with data from $translation.
-     * 
+     *
      * @param string|array $subject
      * @param array $translation
      * @return \WebinoDraw\View\Helper\VarTranslator
@@ -193,10 +193,10 @@ class VarTranslator extends AbstractHelper
         }
         return $this;
     }
-    
+
     /**
      * Replace {$var} in string with data from translation.
-     * 
+     *
      * @param type $str
      * @param array $translation
      * @return type
