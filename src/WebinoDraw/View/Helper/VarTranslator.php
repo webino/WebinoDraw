@@ -24,6 +24,7 @@ use Zend\View\Helper\AbstractHelper;
  * 
  * Custom options accepted by this component:
  * 
+ * <pre>
  * 'var' => array(
  *   'default' => array(
  *     'customvar' => 'customval',      // if variable is empty use default value
@@ -37,6 +38,7 @@ use Zend\View\Helper\AbstractHelper;
  *     ),
  *   ),
  * ),
+ * </pre>
  * 
  * By those custom options this component call view helpers
  * and functions over those {$variable}. This is useful because
@@ -114,6 +116,7 @@ class VarTranslator extends AbstractHelper
         }
         return $translation;
     }
+    
     /**
      * Set defaults into translation.
      * 
@@ -130,6 +133,7 @@ class VarTranslator extends AbstractHelper
         }
         return $translation;
     }
+    
     /**
      * Transform varname into {$varname}.
      * 
@@ -140,6 +144,7 @@ class VarTranslator extends AbstractHelper
     {
         return sprintf(self::VAR_PATTERN, $key);
     }
+    
     /**
      * Return true if {$var} is in the string.
      * 
@@ -151,6 +156,7 @@ class VarTranslator extends AbstractHelper
         $pattern = str_replace('%s', '[^\}]+', preg_quote(self::VAR_PATTERN));
         return (bool) preg_match('~' . $pattern . '~', $string);
     }
+    
     /**
      * Transform simple array keys to {$var} like.
      * 
@@ -165,6 +171,7 @@ class VarTranslator extends AbstractHelper
         }
         return $array;
     }
+    
     /**
      * Replace {$var} in $subject with data from $translation.
      * 
@@ -186,6 +193,7 @@ class VarTranslator extends AbstractHelper
         }
         return $this;
     }
+    
     /**
      * Replace {$var} in string with data from translation.
      * 
@@ -200,9 +208,8 @@ class VarTranslator extends AbstractHelper
                 if ($key === $str) {
                     return $value;
                 }
-            } else {
-                $str = str_replace($key, $value, $str);
             }
+            $str = str_replace($key, $value, $str);
         }
         return $str;
     }
