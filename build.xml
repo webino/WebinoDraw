@@ -23,6 +23,9 @@
         <delete file="${test.moduledir}"/>
         <delete dir="${log.basedir}"/>
         <mkdir dir="${log.basedir}"/>
+        <mkdir dir="${log.coveragedir}"/>
+        <mkdir dir="${log.apidir}"/>
+        <mkdir dir="${log.codebrowserdir}"/>
         <exec command="ln -s ${project.basedir} ${test.moduledir}" checkreturn="true" logoutput="true"/>
         <exec command="cd ${test.moduletestdir} &amp;&amp; phpunit --include-path=${test.vendorbasedir} --coverage-html ${log.coveragedir} --testdox-html ${log.basedir}/testdox.html --coverage-clover ${log.basedir}/clover.xml --log-junit ${log.basedir}/junit.xml" checkreturn="true" logoutput="true"/>
         
