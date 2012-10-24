@@ -132,14 +132,13 @@ Use it to modify element of page.
         ),
     ),
 
-Use it to draw data structures.
-
 ## Pitfalls
 
   - Use `<![CDATA[ ]]>` with entities, like `&amp;` to `<![CDATA[&amp;]]>`
 
 ## Todo
 
+  - Refactor DrawStrategy.
   - The "remove": Add multiple xpath or query option.
   - Node value variable support.
   - Variable fetch.

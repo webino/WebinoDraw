@@ -2,7 +2,7 @@
 return array(
     'service_manager' => array(
         'factories' => array(
-            'ViewDrawStrategy' => 'WebinoDraw\Service\ViewDrawStrategyFactory',
+            'ViewDrawStrategy' => 'WebinoDraw\Mvc\Service\ViewDrawStrategyFactory',
         ),
     ),
     'di' => array(

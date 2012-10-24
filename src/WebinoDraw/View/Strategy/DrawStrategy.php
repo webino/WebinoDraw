@@ -1,26 +1,24 @@
 <?php
 /**
- * Webino (http://zf.webino.org/)
+ * Webino (https://github.com/webino/)
  *
- * @copyright   Copyright (c) 2012 Peter Bačinský (http://www.bacinsky.sk/)
+ * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
+ * @copyright   Copyright (c) 2012 Peter Bačinský <peter@bacinsky.sk>
  * @license     New BSD License
- * @package     WebinoDraw
+ * @package     WebinoDraw_View
  */
 
 namespace WebinoDraw\View\Strategy;
 
 use WebinoDraw\Exception;
-use WebinoDraw\Dom\NodeList;
-use Zend\Dom\Css2Xpath;
+use WebinoDraw\Dom\Draw;
 use Zend\EventManager\EventManagerInterface;
 use Zend\View\Strategy\PhpRendererStrategy;
 use Zend\View\ViewEvent;
 
 /**
- * @category    Webino
- * @package     WebinoDraw
- * @subpackage  ViewStrategy
- * @author      Peter Bačinský <peter@bacinsky.sk>
+ * @package     WebinoDraw_View
+ * @subpackage  Strategy
  */
 class DrawStrategy extends PhpRendererStrategy
 {
@@ -29,6 +27,8 @@ class DrawStrategy extends PhpRendererStrategy
      */
     const STACK_SPACER = 10;
 
+    private $draw;
+    
     /**
      *
      * @var array
@@ -41,6 +41,11 @@ class DrawStrategy extends PhpRendererStrategy
      * @var array
      */
     private $instructionset = array();
+    
+    public function __construct(Draw $draw)
+    {
+        $this->draw = $draw;
+    }
     
     /**
      *
@@ -152,76 +157,9 @@ class DrawStrategy extends PhpRendererStrategy
      * @param string $xhtml
      * @return string
      */
-    public function draw($xhtml, array $vars)
+    public function draw($xhtml, array $instructions, array $vars)
     {
-        if (empty($xhtml)) throw new Exception\InvalidArgumentException(
-            'Expects valid xhtml'
-        );
-
-        libxml_use_internal_errors(true); // hack HTML5
-        $doc                      = new \DOMDocument;
-        $doc->preserveWhiteSpace  = false;
-        $doc->formatOutput        = false;
-        $doc->substituteEntities  = false;
-        $doc->strictErrorChecking = false;
-        $doc->loadHtml($xhtml);
-        $doc->xpath   = new \DOMXpath($doc);
-        $instructions = $this->getInstructions();
-        ksort($instructions);
-        $this->drawDomDocument($doc, $instructions, $vars);
-        return $doc->saveHTML();
-    }
-
-    /**
-     *
-     * @param \DOMDocument $doc
-     * @param array $instructions
-     * @return DrawStrategy
-     */
-    public function drawDomDocument(\DOMDocument $doc, array $instructions, array $vars)
-    {
-        if (empty($doc->xpath)) throw new Exception\InvalidArgumentException(
-            'Expects document with xpath'
-        );
-
-        foreach ($instructions as $node) {
-            $key   = key($node);
-            $spec  = current($node);
-            $xpath = array();
-
-            // skip unmapped instructions
-            if (empty($spec['xpath']) && empty($spec['query'])) continue;
-
-            if (!empty($spec['xpath'])) {
-                if (!is_array($spec['xpath'])) $xpath[] = $spec['xpath'];
-                else $xpath = array_merge($xpath, $spec['xpath']);
-            };
-            if (!empty($spec['query'])) { // transform css query to xpath
-                if (!is_array($spec['query'])) $xpath[] = Css2Xpath::transform($spec['query']);
-                else $xpath = array_merge($xpath, array_map(function($value){
-                    return Css2Xpath::transform($value);
-                }, $spec['query']));
-            }
-
-            if (empty($xpath)) throw new Exception\InvalidInstructionException(
-                sprintf("Option `xpath` expected '%s'", print_r($spec, 1))
-            );
-
-            $xpath = join('|', $xpath);
-            $nodes = $doc->xpath->query($xpath);
-
-            // skip missing node
-            if (!$nodes || !$nodes->length) continue;
-
-            if (empty($spec['helper'])) throw new Exception\InvalidInstructionException(
-                sprintf("Option `helper` expected '%s'", print_r($spec, 1))
-            );
-
-            $plugin = $this->renderer->plugin($spec['helper']);
-            $plugin->setVars($vars);
-            $plugin(new NodeList($nodes), $spec); // invoke helper
-        }
-        return $this;
+        return $this->draw->draw($xhtml, $instructions, $vars);
     }
 
     /**
@@ -235,15 +173,18 @@ class DrawStrategy extends PhpRendererStrategy
      */
     public function injectResponse(ViewEvent $e)
     {
-        $renderer = $e->getRenderer();
-        if ($renderer !== $this->renderer) return;
+        if (!($e->getRenderer() instanceof \Zend\View\Renderer\PhpRenderer)) {
+            return;
+        }
 
         parent::injectResponse($e);
 
-        $response = $e->getResponse();
-        $result   = $response->getBody();
+        $response     = $e->getResponse();
+        $responseBody = $response->getBody();
 
-        if (empty($result)) return;
+        if (empty($responseBody)) {
+            return;
+        }
 
         $model = $e->getModel();
         $vars  = $model->getVariables()->getArrayCopy();
@@ -251,11 +192,15 @@ class DrawStrategy extends PhpRendererStrategy
         // get variables from model children
         foreach ($model->getChildren() as $child) {
             $childVars = $child->getVariables();
-            if ($childVars instanceof \ArrayObject)
+            if ($childVars instanceof \ArrayObject) {
                 $childVars = $childVars->getArrayCopy();
+            }
             $vars = array_replace($vars, $childVars);
         }
         // draw response body to content
-        $response->setContent($this->draw($result, $vars));
+        $instructions = $this->getInstructions();
+        ksort($instructions);
+        $content = $this->draw($responseBody, $instructions, $vars);
+        $response->setContent($content);
     }
 }

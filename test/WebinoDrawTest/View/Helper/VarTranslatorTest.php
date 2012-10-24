@@ -1,8 +1,8 @@
 <?php
 /**
- * Webino (http://github.com/webino/)
+ * Webino (https://github.com/webino/)
  *
- * @link        http://github.com/webino/WebinoDraw/ for the canonical source repository
+ * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
  * @copyright   Copyright (c) 2012 Peter Bačinský <peter@bacinsky.sk>
  * @license     New BSD License
  * @package     WebinoDraw_View

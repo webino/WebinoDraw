@@ -21,12 +21,14 @@ use WebinoDrawTest\TestCase;
 class DrawStrategyTest extends TestCase
 {
     protected $draw;
+    protected $drawMock;
     protected $rendererMock;
 
     protected function setUp()
     {
         $this->rendererMock = $this->getMock('Zend\View\Renderer\PhpRenderer');
-        $this->draw         = new DrawStrategy($this->rendererMock);
+        $this->drawMock     = $this->getMock('WebinoDraw\Dom\Draw', array(), array(), '', null);
+        $this->draw         = new DrawStrategy($this->drawMock);
     }
 
     public function testGetInstructionsReturnArray()
@@ -180,120 +182,6 @@ class DrawStrategyTest extends TestCase
         //todo: assert attached last?
     }
 
-    public function testDrawEmptyThrowsException()
-    {
-        $this->setExpectedException('WebinoDraw\Exception\InvalidArgumentException');
-
-        $xhtml        = '';
-        $instructions = array();
-        $this->draw->draw($xhtml, $instructions);
-    }
-
-    public function testDraw()
-    {
-        $xhtml        = '<div/>';
-        $instructions = array();
-        $expected     = '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"'
-                        . ' "http://www.w3.org/TR/REC-html40/loose.dtd">'
-                        . PHP_EOL . '<html><body><div></div></body></html>' . PHP_EOL;
-        
-        $this->assertEquals($expected, $this->draw->draw($xhtml, $instructions));
-    }
-
-    public function testDrawHTML5()
-    {
-        $xhtml        = '<!DOCTYPE html><html><body><article/></body></html>';
-        $instructions = array();
-        $expected = '<!DOCTYPE html>'
-                    . PHP_EOL . '<html><body><article></article></body></html>' . PHP_EOL;
-
-        $this->assertEquals($expected, $this->draw->draw($xhtml, $instructions));
-    }
-
-    public function testDrawDomDocumentExpectsXpath()
-    {
-        $this->setExpectedException('WebinoDraw\Exception\InvalidArgumentException');
-        $this->draw->drawDomDocument(new \DOMDocument, array(), array());
-    }
-
-    public function testDrawDomDocumentSingleNode()
-    {
-        $xhtml = '<test_node/>';
-        $doc   = new \DOMDocument;
-        $doc->loadXML($xhtml);
-        $doc->xpath = new \DOMXPath($doc);
-
-        $instructions = array(
-            array(
-                'test_node' => array(
-                    'xpath'  => '.',
-                    'helper' => 'drawElement'
-                )
-            ),
-        );
-        $vars = array();
-
-        $drawHelperMock = $this->getMock('WebinoDraw\View\Helper\DrawElement', array(), array(), '', null);
-        $drawHelperMock->expects($this->once())
-            ->method('setVars')
-            ->with($vars);
-        $drawHelperMock->expects($this->once())
-            ->method('__invoke')
-            ->with(
-                $this->isInstanceOf('WebinoDraw\Dom\NodeList'),
-                $instructions[0]['test_node']
-            );
-
-        $this->rendererMock->expects($this->once())
-            ->method('plugin')
-            ->with($instructions[0]['test_node']['helper'])
-            ->will($this->returnValue($drawHelperMock));
-
-        $this->draw->drawDomDocument($doc, $instructions, $vars);
-    }
-
-    public function testDrawDomDocument()
-    {
-        $xhtml = '<test_node/>';
-        $doc   = new \DOMDocument;
-        $doc->loadXML($xhtml);
-        $doc->xpath = new \DOMXPath($doc);
-
-        $instructions = array(
-            array(
-                'test_node' => array(
-                    'xpath'  => '.',
-                    'helper' => 'drawElement'
-                )
-            ),
-            array(
-                'test_node2' => array(
-                    'xpath'  => '.',
-                    'helper' => 'drawElement'
-                )
-            )
-        );
-        $vars = array();
-
-        $drawHelperMock = $this->getMock('WebinoDraw\View\Helper\DrawElement', array(), array(), '', null);
-        $drawHelperMock->expects($this->exactly(2))
-            ->method('setVars')
-            ->with($vars);
-        $drawHelperMock->expects($this->exactly(2))
-            ->method('__invoke')
-            ->with(
-                $this->isInstanceOf('WebinoDraw\Dom\NodeList'),
-                $instructions[0]['test_node']
-            );
-
-        $this->rendererMock->expects($this->exactly(2))
-            ->method('plugin')
-            ->with($instructions[0]['test_node']['helper'])
-            ->will($this->returnValue($drawHelperMock));
-
-        $this->draw->drawDomDocument($doc, $instructions, $vars);
-    }
-
     public function testInjectResponse()
     {
         $variablesMock = $this->getMock('\ArrayObject');
@@ -324,27 +212,25 @@ class DrawStrategyTest extends TestCase
             ->will($this->returnValue($childModelMocks));
 
         $responseBody = '<element/>';
-        $expectedBody = '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"'
-                        . ' "http://www.w3.org/TR/REC-html40/loose.dtd">'
-                        . PHP_EOL . '<html><body><element></element></body></html>' . PHP_EOL;
+        
+        $this->drawMock->expects($this->once())
+            ->method('draw')
+            ->will($this->returnValue($responseBody));
 
         $responseMock = $this->getMock('Zend\Http\Response');
         $responseMock->expects($this->once())
             ->method('getBody')
             ->will($this->returnValue($responseBody));
-        $responseMock->expects($this->exactly(2))
+        $responseMock->expects($this->once())
             ->method('setContent')
             ->with($this->logicalOr(
-                $this->matches(true), $this->matches($expectedBody)
+                $this->matches(true), $this->matches($responseBody)
             ));
 
         $eventMock = $this->getMock('Zend\View\ViewEvent');
         $eventMock->expects($this->any())
             ->method('getRenderer')
             ->will($this->returnValue($this->rendererMock));
-        $eventMock->expects($this->once())
-            ->method('getResult')
-            ->will($this->returnValue(true));
         $eventMock->expects($this->once())
             ->method('getModel')
             ->will($this->returnValue($modelMock));
@@ -380,27 +266,25 @@ class DrawStrategyTest extends TestCase
             ->will($this->returnValue($childModelMocks));
 
         $responseBody = '<element/>';
-        $expectedBody = '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"'
-                        . ' "http://www.w3.org/TR/REC-html40/loose.dtd">'
-                        . PHP_EOL . '<html><body><element></element></body></html>' . PHP_EOL;
+        
+        $this->drawMock->expects($this->once())
+            ->method('draw')
+            ->will($this->returnValue($responseBody));
 
         $responseMock = $this->getMock('Zend\Http\Response');
         $responseMock->expects($this->once())
             ->method('getBody')
             ->will($this->returnValue($responseBody));
-        $responseMock->expects($this->exactly(2))
+        $responseMock->expects($this->once())
             ->method('setContent')
             ->with($this->logicalOr(
-                $this->matches(true), $this->matches($expectedBody)
+                $this->matches(true), $this->matches($responseBody)
             ));
 
         $eventMock = $this->getMock('Zend\View\ViewEvent');
         $eventMock->expects($this->any())
             ->method('getRenderer')
             ->will($this->returnValue($this->rendererMock));
-        $eventMock->expects($this->once())
-            ->method('getResult')
-            ->will($this->returnValue(true));
         $eventMock->expects($this->once())
             ->method('getModel')
             ->will($this->returnValue($modelMock));
@@ -437,18 +321,8 @@ class DrawStrategyTest extends TestCase
             ->method('containerExists')
             ->will($this->returnValue(false));
 
-        $placeholderMock = $this->getMock('Zend\View\Helper\Placeholder');
-        $placeholderMock->expects($this->once())
-            ->method('getRegistry')
-            ->will($this->returnValue($registryMock));
-
-        $this->rendererMock->expects($this->once())
-            ->method('plugin')
-            ->with('placeholder')
-            ->will($this->returnValue($placeholderMock));
-
         $responseMock = $this->getMock('Zend\Http\Response');
-        $responseMock->expects($this->once())
+        $responseMock->expects($this->never())
             ->method('setContent');
         $responseMock->expects($this->once())
             ->method('getBody')
