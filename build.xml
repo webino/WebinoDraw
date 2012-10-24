@@ -3,12 +3,12 @@
 
     <property file="${project.basedir}/build.properties" />
     
-    <target name="build" depends="update">
+    <target name="build" depends="update,test">
         
     </target>
     
     <target name="update">
-        <echo>Updating project</echo>
+        <echo>Updating ...</echo>
         
         <exec command="git submodule init" checkreturn="true" logoutput="true"/>
         <exec command="git submodule update" checkreturn="true" logoutput="true"/>
@@ -18,6 +18,11 @@
         <delete dir="${test.basedir}/${test.appname}"/>
         <exec command="git clone ${test.appgit} ${test.basedir}/${test.appname}" checkreturn="true" logoutput="true"/>
         <exec command="cd ${test.basedir}/${test.appname} &amp;&amp; php composer.phar install" checkreturn="true" logoutput="true"/>
+
+    </target>
+    
+    <target name="test">
+        <echo>Testing ...</echo>
         
         <mkdir dir="${test.vendordir}"/>
         <delete file="${test.moduledir}"/>
@@ -37,6 +42,7 @@
         <exec command="pdepend --summary-xml=${log.basedir}/pdepend.xml --jdepend-xml=${log.basedir}/jdepend.xml --jdepend-chart=${log.basedir}/dependencies.svg --overview-pyramid=${log.basedir}/overview-pyramid.svg ${test.modulesrcdir}" logoutput="true"/>
         <exec command="apigen --source ${test.modulesrcdir} --destination ${log.apidir}" logoutput="true"/>
         <exec command="phpcb --log ${log.basedir} --source ${test.modulesrcdir} --output ${log.codebrowserdir}" logoutput="true"/>
+        
     </target>
     
 </project>
