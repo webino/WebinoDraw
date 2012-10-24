@@ -7,9 +7,11 @@
  * @license     New BSD License
  * @package     WebinoDraw_View
  */
+
 namespace WebinoDraw\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
+
 /**
  * This component is used to replace variables in array
  * with values in the other array.
@@ -49,11 +51,12 @@ class VarTranslator extends AbstractHelper
      * Pattern of variable
      */
     const VAR_PATTERN = '{$%s}';
+    
     /**
      * Translate {$variables} in $spec values with data in $translation.
      * 
-     * @param array $spec Associative array with variables in values, and custom options.
-     * @param array $translation Data to substitute variables.
+     * @param  array $spec Associative array with variables in values, and custom options.
+     * @param  array $translation Data to substitute variables.
      * @return array Translated $spec.
      */
     public function __invoke(array $spec, array $translation)
@@ -69,11 +72,12 @@ class VarTranslator extends AbstractHelper
         $this->translate($spec, $this->array2Translation($translation));
         return $spec;
     }
+    
     /**
      * Apply view helpers and functions on variables.
      * 
-     * @param array $translation Variables with values to modify.
-     * @param array $spec Helper options.
+     * @param  array $translation Variables with values to modify.
+     * @param  array $spec Helper options.
      * @return array Array with modified values.
      */
     public function applyHelper(array $translation, array $spec)
@@ -193,8 +197,8 @@ class VarTranslator extends AbstractHelper
     {
         foreach ($translation as $key => $value) {
             if (is_array($value)) {
-                if ($key == $str) {
-                    $str = $value;
+                if ($key === $str) {
+                    return $value;
                 }
             } else {
                 $str = str_replace($key, $value, $str);
