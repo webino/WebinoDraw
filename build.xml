@@ -30,6 +30,7 @@
         <exec command="phpcs --report=checkstyle --report-file=${log.basedir}/checkstyle.xml --standard=${project.checkstyle} --extensions=php ${test.modulesrcdir}" logoutput="true"/>
         <exec command="phpmd ${test.modulesrcdir} xml codesize,design,naming,unusedcode --reportfile ${log.basedir}/phpmd.xml" logoutput="true" />
         <exec command="phpcpd --log-pmd ${log.basedir}/pmd-cpd.xml ${test.modulesrcdir}" logoutput="true" />
+        <exec command="phploc --log-csv ${log.basedir}/phploc.csv ${test.modulesrcdir}*" logoutput="true" />
     </target>
     
 </project>
