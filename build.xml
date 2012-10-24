@@ -10,14 +10,14 @@
     <target name="update">
         <echo>Updating project</echo>
         
-<!--        <exec command="git submodule init" checkreturn="true" logoutput="true"/>
+        <exec command="git submodule init" checkreturn="true" logoutput="true"/>
         <exec command="git submodule update" checkreturn="true" logoutput="true"/>
         <exec command="git pull ${project.remote} ${project.branch}" checkreturn="true" logoutput="true"/>
         
         <echo msg="Getting latest ZendSkeletonApplication" />
         <delete dir="${test.basedir}/${test.appname}"/>
         <exec command="git clone ${test.appgit} ${test.basedir}/${test.appname}" checkreturn="true" logoutput="true"/>
-        <exec command="cd ${test.basedir}/${test.appname} &amp;&amp; php composer.phar install" checkreturn="true" logoutput="true"/>-->
+        <exec command="cd ${test.basedir}/${test.appname} &amp;&amp; php composer.phar install" checkreturn="true" logoutput="true"/>
         
         <mkdir dir="${test.vendordir}"/>
         <delete file="${test.moduledir}"/>
@@ -29,6 +29,7 @@
         <mkdir dir="${log.basedir}"/>
         <exec command="phpcs --report=checkstyle --report-file=${log.basedir}/checkstyle.xml --standard=${project.checkstyle} --extensions=php ${test.modulesrcdir}" logoutput="true"/>
         <exec command="phpmd ${test.modulesrcdir} xml codesize,design,naming,unusedcode --reportfile ${log.basedir}/phpmd.xml" logoutput="true" />
+        <exec command="phpcpd --log-pmd ${log.basedir}/pmd-cpd.xml ${test.modulesrcdir}" logoutput="true" />
     </target>
     
 </project>
