@@ -20,6 +20,26 @@ use Zend\View\Helper\AbstractHelper;
  * Custom options accepted by this component:
  *
  * <pre>
+ * 'value'   => 'customtext',
+ * 'html'    => '&lt;customxhtml/&gt;',
+ * 'replace' => '&lt;customxhtml/&gt;',
+ * 'remove'  => array(
+ *   'query' => array(
+ *     '.css selector',
+ *   ),
+ *   'xpath' => array(
+ *     '//xpath',
+ *   ),
+ * ),
+ * 'trigger' => array(
+ *   'event.name',
+ * ),
+ * 'attribs' => array(
+ *   'attribname' => 'customattrib',
+ * ),
+ * 'onEmpty' => array(
+ *   // same options as normal
+ * ),
  * 'var' => array(
  *   'default' => array(
  *     'customvar' => 'customval',      // if variable is empty use default value
@@ -159,7 +179,7 @@ class DrawElement extends AbstractHelper implements DrawHelperInterface
             ) {
                 continue;
             }
-            $this(new NodeList(array($node)), $spec);
+            $this->drawNodes(new NodeList(array($node)), $spec);
         }
     }
 
@@ -170,7 +190,7 @@ class DrawElement extends AbstractHelper implements DrawHelperInterface
             $nodes->replace($spec['replace']);
             $subspec = $spec;
             unset($subspec['replace']);
-            $this($nodes, $subspec);
+            $this->drawNodes($nodes, $subspec);
         }
     }
 

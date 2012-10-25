@@ -25,7 +25,9 @@ class NodeList implements \IteratorAggregate
     public function __construct($nodeList)
     {
         if (is_array($nodeList) || $nodeList instanceof \DOMNodeList) {
-            if (is_array($nodeList)) $nodeList = new \ArrayObject($nodeList);
+            if (is_array($nodeList)) {
+                $nodeList = new \ArrayObject($nodeList);
+            }
             $this->nodeList = new \IteratorIterator($nodeList);
             return;
         }
@@ -89,7 +91,9 @@ class NodeList implements \IteratorAggregate
         foreach ($this as $node) {
             if ($node instanceof \DOMElement) {
                 foreach ($attribs as $name => $value) {
-                    if ($preSet) $value = $preSet($node, $value);
+                    if (is_callable($preSet)) {
+                        $value = $preSet($node, $value);
+                    }
                     if (empty($value) && !is_numeric($value)) {
                         $node->removeAttribute($name);
                     } else {
@@ -106,7 +110,9 @@ class NodeList implements \IteratorAggregate
     public function setHtml($xhtml, $preSet = null)
     {
         foreach ($this as $node) {
-            if ($preSet) $xhtml = $preSet($node, $xhtml);
+            if (is_callable($preSet)) {
+                $xhtml = $preSet($node, $xhtml);
+            }
             $node->nodeValue = '';
             $frag = $node->ownerDocument->createDocumentFragment();
             $frag->appendXml($xhtml);
