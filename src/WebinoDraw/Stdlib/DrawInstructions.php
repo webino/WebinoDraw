@@ -13,6 +13,8 @@ namespace WebinoDraw\Stdlib;
 use WebinoDraw\Exception;
 
 /**
+ * Draw instructions utilities.
+ *
  * @category    Webino
  * @package     WebinoDraw_Stdlib
  */

@@ -13,8 +13,7 @@ namespace WebinoDraw\Stdlib;
 use Zend\ServiceManager\AbstractPluginManager;
 
 /**
- * This component is used to replace variables in array
- * with values in the other array.
+ * Replace variables in array with values in the other array.
  *
  * The first array is a specification with custom options
  * with {$variable} in values.
@@ -139,7 +138,7 @@ class VarTranslator
      *
      * @param  array $translation Variables with values to modify.
      * @param  array $spec Helper options.
-     * @param  Zend\ServiceManager\AbstractPluginManager $pluginManager Helper loader.
+     * @param  \Zend\ServiceManager\AbstractPluginManager $pluginManager Helper loader.
      * @return array Array with data instead {$var}.
      */
     public function applyHelper(array &$translation, array $spec, AbstractPluginManager $pluginManager)

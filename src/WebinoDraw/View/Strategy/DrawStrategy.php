@@ -17,6 +17,8 @@ use Zend\View\Strategy\PhpRendererStrategy;
 use Zend\View\ViewEvent;
 
 /**
+ * Draw XHTML with this view strategy.
+ *
  * @category    Webino
  * @package     WebinoDraw_View
  * @subpackage  Strategy

@@ -15,7 +15,7 @@ use WebinoDraw\Stdlib\VarTranslator;
 use Zend\View\Helper\AbstractHelper;
 
 /**
- * WebinoDraw helper used for DOM base modifications.
+ * Draw helper used for DOM base modifications.
  *
  * Custom options accepted by this component:
  *
@@ -206,9 +206,12 @@ class DrawElement extends AbstractHelper implements DrawHelperInterface
             }
         }
         $var = $varTranslator->key2Var('html');
-        $preSet = function(\DOMElement $node, $value)
-            use ($varTranslator, $spec, $render, $var)
-        {
+        $preSet = function(\DOMElement $node, $value) use (
+            $varTranslator,
+            $spec,
+            $render,
+            $var
+        ) {
             $translation = $render;
             if (false !== strpos($spec['html'], $var)) {
                 if (empty($spec['var']['default'][$var])) {
@@ -220,9 +223,7 @@ class DrawElement extends AbstractHelper implements DrawHelperInterface
                     $translation[$var].= $child->ownerDocument->saveXML($child);
                 }
             }
-            return $varTranslator->translateString(
-                $value, $translation
-            );
+            return $varTranslator->translateString($value, $translation);
         };
 
         $nodes->setHtml($spec['html'], $preSet);
@@ -235,9 +236,11 @@ class DrawElement extends AbstractHelper implements DrawHelperInterface
 
         $nodes->setAttribs(
             $spec['attribs'],
-            function(\DOMElement $node, $value)
-                use ($varTranslator, $spec, $helperPluginManager)
-            {
+            function(\DOMElement $node, $value) use (
+                $varTranslator,
+                $spec,
+                $helperPluginManager
+            ) {
                 if ($node->attributes) {
                     if (empty($spec['var']['default'])) {
                         $translation = array();

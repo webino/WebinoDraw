@@ -13,6 +13,8 @@ namespace WebinoDraw\View\Helper;
 use WebinoDraw\Dom\NodeList;
 
 /**
+ * Interface for draw helpers.
+ *
  * @category    Webino
  * @package     WebinoDraw_View
  * @subpackage  Helper

@@ -16,6 +16,8 @@ use Zend\Dom\Css2Xpath;
 use Zend\View\Renderer\PhpRenderer;
 
 /**
+ * Use instructions and data to render XHTML.
+ *
  * @category    Webino
  * @package     WebinoDraw_Dom
  */
