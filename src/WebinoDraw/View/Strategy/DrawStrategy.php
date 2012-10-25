@@ -17,6 +17,7 @@ use Zend\View\Strategy\PhpRendererStrategy;
 use Zend\View\ViewEvent;
 
 /**
+ * @category    Webino
  * @package     WebinoDraw_View
  * @subpackage  Strategy
  */

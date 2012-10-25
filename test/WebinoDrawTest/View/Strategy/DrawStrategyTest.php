@@ -16,7 +16,7 @@ use WebinoDrawTest\TestCase;
 /**
  * Test class for WebinoDraw\Stdlib\VarTranslator.
  *
- * @category    WebinoDraw
+ * @category    Webino
  * @package     WebinoDraw_View
  * @subpackage  UnitTests
  * @group       WebinoDraw_View
@@ -32,6 +32,35 @@ class DrawStrategyTest extends TestCase
         $this->rendererMock = $this->getMock('Zend\View\Renderer\PhpRenderer');
         $this->drawMock     = $this->getMock('WebinoDraw\Dom\Draw', array(), array(), '', null);
         $this->draw         = new DrawStrategy($this->drawMock);
+    }
+
+    public function testGetInstructionsFromSet()
+    {
+        $instructionset = array(
+            'instructionset0' => array('instructions0'),
+            'instructionset1' => array('instructions1'),
+            'instructionset2' => array('instructions2'),
+        );
+
+        $this->draw->setInstructionset($instructionset);
+
+        $key      = 'instructionset0';
+        $expected = $instructionset[$key];
+        $actual   = $this->draw->getInstructionsFromSet($key);
+
+        $this->assertSame($expected, $actual);
+
+        $key      = 'instructionset1';
+        $expected = $instructionset[$key];
+        $actual   = $this->draw->getInstructionsFromSet($key);
+
+        $this->assertSame($expected, $actual);
+
+        $key      = 'instructionset2';
+        $expected = $instructionset[$key];
+        $actual   = $this->draw->getInstructionsFromSet($key);
+
+        $this->assertSame($expected, $actual);
     }
 
     public function testGetInstructionsReturnArray()

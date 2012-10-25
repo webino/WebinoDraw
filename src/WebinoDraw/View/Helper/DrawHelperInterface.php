@@ -5,7 +5,7 @@
  * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
  * @copyright   Copyright (c) 2012 Peter Bačinský <peter@bacinsky.sk>
  * @license     New BSD License
- * @package     WebinoDraw_Draw
+ * @package     WebinoDraw_View
  */
 
 namespace WebinoDraw\View\Helper;
@@ -13,7 +13,8 @@ namespace WebinoDraw\View\Helper;
 use WebinoDraw\Dom\NodeList;
 
 /**
- * @package     WebinoDraw_Draw
+ * @category    Webino
+ * @package     WebinoDraw_View
  * @subpackage  Helper
  */
 interface DrawHelperInterface

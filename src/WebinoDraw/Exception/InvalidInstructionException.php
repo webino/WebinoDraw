@@ -1,18 +1,18 @@
 <?php
 /**
- * Webino (http://zf.webino.org/)
+ * Webino (https://github.com/webino/)
  *
- * @copyright   Copyright (c) 2012 Peter Bačinský (http://www.bacinsky.sk/)
+ * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
+ * @copyright   Copyright (c) 2012 Peter Bačinský <peter@bacinsky.sk>
  * @license     New BSD License
- * @package     WebinoDraw
+ * @package     WebinoDraw_Exception
  */
 
 namespace WebinoDraw\Exception;
 
 /**
  * @category    Webino
- * @package     WebinoDraw
- * @author      Peter Bačinský <peter@bacinsky.sk>
+ * @package     WebinoDraw_Exception
  */
 class InvalidInstructionException extends InvalidArgumentException
 {

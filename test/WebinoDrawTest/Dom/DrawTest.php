@@ -16,7 +16,7 @@ use WebinoDrawTest\TestCase;
 /**
  * Test class for WebinoDraw\Dom\Draw.
  *
- * @category    WebinoDraw
+ * @category    Webino
  * @package     WebinoDraw_Dom
  * @subpackage  UnitTests
  * @group       WebinoDraw_Dom

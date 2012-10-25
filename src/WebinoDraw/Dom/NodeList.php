@@ -1,10 +1,11 @@
 <?php
 /**
- * Webino (http://zf.webino.org/)
+ * Webino (https://github.com/webino/)
  *
- * @copyright   Copyright (c) 2012 Peter Bačinský (http://www.bacinsky.sk/)
+ * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
+ * @copyright   Copyright (c) 2012 Peter Bačinský <peter@bacinsky.sk>
  * @license     New BSD License
- * @package     WebinoDraw
+ * @package     WebinoDraw_Dom
  */
 
 namespace WebinoDraw\Dom;
@@ -14,8 +15,7 @@ use Zend\View\Helper;
 
 /**
  * @category    Webino
- * @package     WebinoDraw
- * @author      Peter Bačinský <peter@bacinsky.sk>
+ * @package     WebinoDraw_Dom
  */
 class NodeList implements \IteratorAggregate
 {
@@ -50,7 +50,7 @@ class NodeList implements \IteratorAggregate
     {
         $this->escapeHtml = $escapeHtml;
     }
-    
+
     public function remove($xpath = '.')
     {
         foreach ($this as $node)

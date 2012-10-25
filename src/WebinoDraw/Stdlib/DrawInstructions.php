@@ -7,13 +7,14 @@
  * @license     New BSD License
  * @package     WebinoDraw_Stdlib
  */
+
 namespace WebinoDraw\Stdlib;
 
 use WebinoDraw\Exception;
 
 /**
+ * @category    Webino
  * @package     WebinoDraw_Stdlib
- * @subpackage  Helper
  */
 abstract class DrawInstructions
 {

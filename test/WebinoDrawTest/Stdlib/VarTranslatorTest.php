@@ -16,7 +16,7 @@ use WebinoDrawTest\TestCase;
 /**
  * Test class for WebinoDraw\Stdlib\VarTranslator.
  *
- * @category    WebinoDraw
+ * @category    Webino
  * @package     WebinoDraw_Stdlib
  * @subpackage  UnitTests
  * @group       WebinoDraw_Stdlib

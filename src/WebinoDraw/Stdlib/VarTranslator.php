@@ -22,8 +22,8 @@ use Zend\ServiceManager\AbstractPluginManager;
  * The second array contains data by variable names like
  * keys. Those {$variable} will be substituted with data.
  *
+ * @category    Webino
  * @package     WebinoDraw_Stdlib
- * @subpackage  Helper
  */
 class VarTranslator
 {

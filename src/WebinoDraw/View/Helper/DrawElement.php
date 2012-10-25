@@ -1,10 +1,11 @@
 <?php
 /**
- * Webino (http://zf.webino.org/)
+ * Webino (https://github.com/webino/)
  *
- * @copyright   Copyright (c) 2012 Peter Bačinský (http://www.bacinsky.sk/)
+ * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
+ * @copyright   Copyright (c) 2012 Peter Bačinský <peter@bacinsky.sk>
  * @license     New BSD License
- * @package     WebinoDraw
+ * @package     WebinoDraw_View
  */
 
 namespace WebinoDraw\View\Helper;
@@ -39,9 +40,8 @@ use Zend\View\Helper\AbstractHelper;
  * you can for example generate whole head link and many more.
  *
  * @category    Webino
- * @package     WebinoDraw
- * @subpackage  DrawHelper
- * @author      Peter Bačinský <peter@bacinsky.sk>
+ * @package     WebinoDraw_View
+ * @subpackage  Helper
  */
 class DrawElement extends AbstractHelper implements DrawHelperInterface
 {

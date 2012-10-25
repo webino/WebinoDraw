@@ -16,8 +16,8 @@ use Zend\Dom\Css2Xpath;
 use Zend\View\Renderer\PhpRenderer;
 
 /**
- * @package     WebinoDraw
- * @subpackage  WebinoDraw_Dom
+ * @category    Webino
+ * @package     WebinoDraw_Dom
  */
 class Draw
 {
