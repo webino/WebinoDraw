@@ -36,6 +36,11 @@ class NodeList implements \IteratorAggregate
         );
     }
 
+    public function createNodeList($nodeList)
+    {
+        return new self($nodeList);
+    }
+
     public function getIterator()
     {
         return $this->nodeList->getInnerIterator();

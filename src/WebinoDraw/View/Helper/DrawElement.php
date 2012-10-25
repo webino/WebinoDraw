@@ -179,18 +179,18 @@ class DrawElement extends AbstractHelper implements DrawHelperInterface
             ) {
                 continue;
             }
-            $this->drawNodes(new NodeList(array($node)), $spec);
+            $this->drawNodes($nodes->createNodeList(array($node)), $spec);
         }
     }
 
     public function replace(NodeList $nodes, array $spec)
     {
         foreach ($nodes as $node) {
-            $nodes   = new NodeList(array($node));
-            $nodes->replace($spec['replace']);
+            $newNodes = $nodes->createNodeList(array($node));
+            $newNodes->replace($spec['replace']);
             $subspec = $spec;
             unset($subspec['replace']);
-            $this->drawNodes($nodes, $subspec);
+            $this->drawNodes($newNodes, $subspec);
         }
     }
 

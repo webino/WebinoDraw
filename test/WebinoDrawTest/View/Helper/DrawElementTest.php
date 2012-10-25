@@ -55,7 +55,7 @@ class DrawElementTest extends TestCase
         );
 
         $this->nodeListMock
-            ->expects($this->exactly(1))
+            ->expects($this->once())
             ->method('setHtml')
             ->with($expected);
 
@@ -69,21 +69,27 @@ class DrawElementTest extends TestCase
             'replace' => $expected,
         );
 
-        $dom = new \DOMDocument;
-        $dom->loadXML('<dummy><node/><node/></dummy>');
+        $subnodeListMock = $this->getMock('WebinoDraw\Dom\NodeList', array(), array(), '', null);
+        $subnodeListMock
+            ->expects($this->exactly(2))
+            ->method('replace')
+            ->with($expected);
 
         $this->nodeListMock
             ->expects($this->once())
             ->method('getIterator')
             ->will(
                 $this->returnValue(
-                    new \IteratorIterator(
-                        $dom->getElementsByTagName('node')
-                    )
+                    new \ArrayIterator(array(null, null))
                 )
             );
 
+        $this->nodeListMock
+            ->expects($this->exactly(2))
+            ->method('createNodeList')
+                 ->with(array(null))
+            ->will($this->returnValue($subnodeListMock));
+
         $this->drawElement->drawNodes($this->nodeListMock, $options);
-        $this->assertSame(1, $dom->getElementsByTagName('testhtml')->length);
     }
 }
