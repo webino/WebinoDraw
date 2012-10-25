@@ -29,8 +29,7 @@ class NodeListTest extends TestCase
         $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
         $expected   = '<box/>';
         $dom->xpath = new \DOMXpath($dom);
-
-        $nodeList = new NodeList($dom->firstChild->childNodes);
+        $nodeList   = new NodeList($dom->firstChild->childNodes);
 
         $nodeList->remove();
 
@@ -44,12 +43,22 @@ class NodeListTest extends TestCase
         $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
         $expected   = '<box><dummyOne/></box>';
         $dom->xpath = new \DOMXpath($dom);
-
-        $nodeList = new NodeList(array($dom->firstChild->firstChild));
+        $nodeList   = new NodeList(array($dom->firstChild->firstChild));
 
         $nodeList->remove('//dummyTwo');
 
         $expected = '<?xml version="1.0"?>' . PHP_EOL . $expected . PHP_EOL;
         $this->assertSame($expected, $dom->saveXML());
+    }
+
+    public function testRemoveFromInvalidDocumentThrowsException()
+    {
+        $this->setExpectedException('WebinoDraw\Exception\RuntimeException');
+
+        $dom        = new \DOMDocument;
+        $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
+        $nodeList   = new NodeList(array($dom->firstChild->firstChild));
+
+        $nodeList->remove();
     }
 }
