@@ -29,27 +29,27 @@ class DrawInstructionsTest extends TestCase
             'instruction_node1' => array('option' => 'value1'),
             'instruction_node2' => array('option' => 'value2'),
         );
-        $expectFirst = array(
+        $expectOne = array(
             'instruction_node1' => $instructions['instruction_node1']
         );
-        $expectSecond = array(
+        $expectTwo = array(
             'instruction_node2' => $instructions['instruction_node2']
         );
         $_instructions = DrawInstructions::merge(array(), $instructions);
         $this->assertEquals(
-            array($expectFirst, $expectSecond),
+            array($expectOne, $expectTwo),
             array(
                 $_instructions[DrawInstructions::STACK_SPACER],
                 $_instructions[DrawInstructions::STACK_SPACER*2]
             )
         );
-        $_instructions = DrawInstructions::merge($_instructions, $expectFirst);
-        $_instructions = DrawInstructions::merge($_instructions, $expectSecond);
+        $_instructions = DrawInstructions::merge($_instructions, $expectOne);
+        $_instructions = DrawInstructions::merge($_instructions, $expectTwo);
         $this->assertEquals(
-            $expectFirst, $_instructions[DrawInstructions::STACK_SPACER]
+            $expectOne, $_instructions[DrawInstructions::STACK_SPACER]
         );
         $this->assertEquals(
-            $expectSecond, $_instructions[DrawInstructions::STACK_SPACER*2]
+            $expectTwo, $_instructions[DrawInstructions::STACK_SPACER*2]
         );
     }
 

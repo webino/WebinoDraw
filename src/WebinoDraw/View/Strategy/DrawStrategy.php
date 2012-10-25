@@ -26,7 +26,7 @@ class DrawStrategy extends PhpRendererStrategy
     /**
      * @var WebinoDraw\Dom\Draw
      */
-    private $draw;
+    private $nodeList;
 
     /**
      * @var array
@@ -43,7 +43,7 @@ class DrawStrategy extends PhpRendererStrategy
      */
     public function __construct(Draw $draw)
     {
-        $this->draw = $draw;
+        $this->nodeList = $draw;
     }
 
     /**
@@ -131,7 +131,7 @@ class DrawStrategy extends PhpRendererStrategy
      */
     public function draw($xhtml, array $instructions, array $vars)
     {
-        return $this->draw->drawXhtml($xhtml, $instructions, $vars);
+        return $this->nodeList->drawXhtml($xhtml, $instructions, $vars);
     }
 
     /**

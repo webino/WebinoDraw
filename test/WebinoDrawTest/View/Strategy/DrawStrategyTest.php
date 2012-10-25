@@ -63,6 +63,12 @@ class DrawStrategyTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
+    public function testGetUnknownInstructionsFromSetReturnEmptyArray()
+    {
+        $actual = $this->draw->getInstructionsFromSet('unknown');
+        $this->assertSame(array(), $actual);
+    }
+
     public function testGetInstructionsReturnArray()
     {
         $this->assertTrue(is_array($this->draw->getInstructions()));
