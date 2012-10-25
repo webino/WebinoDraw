@@ -206,7 +206,10 @@ class DrawElement extends AbstractHelper implements DrawHelperInterface
             }
         }
         $var = $varTranslator->key2Var('html');
-        $preSet = function(\DOMElement $node, $value) use (
+        $preSet = function (
+            \DOMElement $node,
+            $value
+        ) use (
             $varTranslator,
             $spec,
             $render,
@@ -236,7 +239,10 @@ class DrawElement extends AbstractHelper implements DrawHelperInterface
 
         $nodes->setAttribs(
             $spec['attribs'],
-            function(\DOMElement $node, $value) use (
+            function (
+                \DOMElement $node,
+                $value
+            ) use (
                 $varTranslator,
                 $spec,
                 $helperPluginManager
