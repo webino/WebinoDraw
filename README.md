@@ -111,7 +111,7 @@
 
   - Use **functions** and **view helpers**:
 
-    Modifies variable values, helper definition accepts {$var}.
+    Modifies variable values, helper definition accepts in function/method parameters {$var}.
 
         'draw-node-example' => array(
             'query'  => 'body',
@@ -201,7 +201,6 @@
 
 ## Todo
 
-  - Refactor DrawStrategy.
   - The "remove": Add multiple xpath or query option.
   - Node value variable support.
   - Variable fetch.
