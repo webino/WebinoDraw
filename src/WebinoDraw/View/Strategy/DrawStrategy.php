@@ -10,8 +10,8 @@
 
 namespace WebinoDraw\View\Strategy;
 
-use WebinoDraw\Exception;
 use WebinoDraw\Dom\Draw;
+use WebinoDraw\Stdlib\DrawInstructions;
 use Zend\EventManager\EventManagerInterface;
 use Zend\View\Strategy\PhpRendererStrategy;
 use Zend\View\ViewEvent;
@@ -23,17 +23,11 @@ use Zend\View\ViewEvent;
 class DrawStrategy extends PhpRendererStrategy
 {
     /**
-     * Stack space before instruction without index
-     */
-    const STACK_SPACER = 10;
-
-    /**
      * @var WebinoDraw\Dom\Draw
      */
     private $draw;
 
     /**
-     *
      * @var array
      */
     private $instructions = array();
@@ -58,6 +52,7 @@ class DrawStrategy extends PhpRendererStrategy
      */
     public function getInstructions()
     {
+        ksort($this->instructions);
         return $this->instructions;
     }
 
@@ -66,53 +61,13 @@ class DrawStrategy extends PhpRendererStrategy
      *
      * @param  array $instructions
      * @return DrawStrategy
-     *
-     * @throws Exception\InvalidInstructionException
      */
     public function setInstructions(array $instructions)
     {
-        $_instructions = $this->getInstructions();
-        $instructionsN = count($_instructions) * self::STACK_SPACER;
-
-        foreach ($_instructions as &$spec) {
-            foreach ($instructions as $iKey => $iSpec) {
-                if (key($spec) != $iKey) {
-                    continue;
-                }
-                // merge existing spec
-                unset($instructions[$iKey]);
-                $spec = array_replace_recursive($spec, array($iKey => $iSpec));
-            }
-        }
-        unset($spec);
-        foreach ($instructions as $index => $spec) {
-
-            if (!is_array($spec)) {
-                throw new Exception\InvalidInstructionException(
-                    sprintf('Instruction node spec expect array', print_r($spec, 1))
-                );
-            }
-
-            if (!isset($spec['stackIndex']) ) {
-                // add without stack index
-                $stackIndex = $instructionsN + self::STACK_SPACER;
-                if (!isset($_instructions[$stackIndex])) {
-                    $instructionsN = $stackIndex;
-                    $_instructions[$stackIndex][$index] = $spec;
-                    continue;
-                }
-                unset($stackIndex);
-
-            } elseif (!isset($_instructions[$spec['stackIndex']])) {
-                // add with stackindex
-                $_instructions[$spec['stackIndex']][$index] = $spec;
-                continue;
-            }
-            throw new Exception\InvalidInstructionException(
-                sprintf('Stack index already exists `%s`', print_r($spec, 1))
-            );
-        }
-        $this->instructions = $_instructions;
+        $this->instructions = DrawInstructions::merge(
+            $this->getInstructions(),
+            $instructions
+        );
         return $this;
     }
 
@@ -154,7 +109,7 @@ class DrawStrategy extends PhpRendererStrategy
     }
 
     /**
-     * Attach the aggregate to the specified event manager
+     * Attach the aggregate to the specified event manager.
      *
      * @param  EventManagerInterface $events
      * @param  int $priority
@@ -166,9 +121,12 @@ class DrawStrategy extends PhpRendererStrategy
     }
 
     /**
+     * Render XHTML tempalte string.
      *
-     * @param string $xhtml
-     * @return string
+     * @param  string $xhtml XHTML template.
+     * @param  array $instructions Options how to render.
+     * @param  array $vars Data variables.
+     * @return string Rendered HTML.
      */
     public function draw($xhtml, array $instructions, array $vars)
     {
@@ -176,7 +134,7 @@ class DrawStrategy extends PhpRendererStrategy
     }
 
     /**
-     * Populate the response object from the View
+     * Populate the response object from the View.
      *
      * Populates the content of the response object from the view rendering
      * results.
@@ -212,9 +170,12 @@ class DrawStrategy extends PhpRendererStrategy
         }
 
         // draw response body to content
-        $instructions = $this->getInstructions();
-        ksort($instructions);
-        $content = $this->draw($responseBody, $instructions, $vars);
-        $response->setContent($content);
+        $response->setContent(
+            $this->draw(
+                $responseBody,
+                $this->getInstructions(),
+                $vars
+            )
+        );
     }
 }

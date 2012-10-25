@@ -5,33 +5,40 @@
  * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
  * @copyright   Copyright (c) 2012 Peter Bačinský <peter@bacinsky.sk>
  * @license     New BSD License
- * @package     WebinoDraw_View
+ * @package     WebinoDraw_Stdlib
  */
 
-namespace WebinoDrawTest\View\Helper;
+namespace WebinoDrawTest\Stdlib;
 
-use WebinoDraw\View\Helper\VarTranslator;
+use WebinoDraw\Stdlib\VarTranslator;
 use WebinoDrawTest\TestCase;
 
 /**
- * Test class for WebinoDraw\View\Helper\VarTranslator.
- * 
+ * Test class for WebinoDraw\Stdlib\VarTranslator.
+ *
  * @category    WebinoDraw
- * @package     WebinoDraw_View
+ * @package     WebinoDraw_Stdlib
  * @subpackage  UnitTests
- * @group       WebinoDraw_View
- * @group       WebinoDraw_View_Helper
+ * @group       WebinoDraw_Stdlib
  */
 class VarTranslatorTest extends TestCase
 {
     /**
-     * @var WebinoDraw\View\Helper\VarTranslator
+     * @var WebinoDraw\Stdlib\VarTranslator
      */
     protected $varTranslator;
 
+    /**
+     * Zend\
+     *
+     * @var type
+     */
+    protected $pluginHelperMock;
+
     protected function setUp()
     {
-        $this->varTranslator = new VarTranslator($this->rendererMock);
+        $this->pluginHelperMock = $this->getMock('Zend\ServiceManager\AbstractPluginManager');
+        $this->varTranslator    = new VarTranslator($this->pluginHelperMock);
     }
 
     public function testTranslateString()
@@ -40,17 +47,17 @@ class VarTranslatorTest extends TestCase
         $expected    = 'before value after';
         $translation = array('{$var}' => 'value');
         $result      = $this->varTranslator->translateString($string, $translation);
-        
+
         $this->assertEquals($expected, $result);
     }
-    
+
     public function testTranslateStringArrayValue()
     {
         $string      = '{$var}';
         $expected    = array('value');
         $translation = array('{$var}' => $expected);
         $result      = $this->varTranslator->translateString($string, $translation);
-        
+
         $this->assertEquals($expected, $result);
     }
 }

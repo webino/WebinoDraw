@@ -1,20 +1,15 @@
 <?php
 return array(
-    'service_manager' => array(
-        'factories' => array(
-            'ViewDrawStrategy' => 'WebinoDraw\Mvc\Service\ViewDrawStrategyFactory',
-        ),
-    ),
     'di' => array(
         'instance' => array(
             'alias' => array(
                 'drawElement' => 'WebinoDraw\View\Helper\DrawElement',
             ),
-            'WebinoDraw\View\Helper\Element' => array(
-                'parameters' => array(
-                    'varTranslator' => 'WebinoDraw\View\Helper\VarTranslator',
-                ),
-            ),
+        ),
+    ),
+    'service_manager' => array(
+        'factories' => array(
+            'ViewDrawStrategy' => 'WebinoDraw\Mvc\Service\ViewDrawStrategyFactory',
         ),
     ),
     'view_manager' => array(

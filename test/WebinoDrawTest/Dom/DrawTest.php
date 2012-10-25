@@ -94,7 +94,7 @@ class DrawTest extends TestCase
             ->method('setVars')
             ->with($vars);
         $drawHelperMock->expects($this->once())
-            ->method('__invoke')
+            ->method('drawNodes')
             ->with(
                 $this->isInstanceOf('WebinoDraw\Dom\NodeList'),
                 $instructions[0]['test_node']
@@ -136,7 +136,7 @@ class DrawTest extends TestCase
             ->method('setVars')
             ->with($vars);
         $drawHelperMock->expects($this->exactly(2))
-            ->method('__invoke')
+            ->method('drawNodes')
             ->with(
                 $this->isInstanceOf('WebinoDraw\Dom\NodeList'),
                 $instructions[0]['test_node']

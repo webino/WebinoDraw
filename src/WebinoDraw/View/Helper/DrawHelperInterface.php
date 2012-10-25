@@ -1,20 +1,43 @@
 <?php
 /**
- * Webino (http://zf.webino.org/)
+ * Webino (https://github.com/webino/)
  *
- * @copyright   Copyright (c) 2012 Peter Bačinský (http://www.bacinsky.sk/)
+ * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
+ * @copyright   Copyright (c) 2012 Peter Bačinský <peter@bacinsky.sk>
  * @license     New BSD License
- * @package     WebinoDraw
+ * @package     WebinoDraw_Draw
  */
 
-namespace WebinoDraw\Draw\Helper;
+namespace WebinoDraw\View\Helper;
+
+use WebinoDraw\Dom\NodeList;
 
 /**
- * @category    Webino
- * @package     WebinoDraw
- * @subpackage  DrawHelper
- * @author      Peter Bačinský <peter@bacinsky.sk>
+ * @package     WebinoDraw_Draw
+ * @subpackage  Helper
  */
 interface DrawHelperInterface
 {
+    /**
+     * Provide manipulation over DOM elements.
+     *
+     * @param \WebinoDraw\Dom\NodeList $nodes Matched DOM nodes.
+     * @param array $spec Draw helper options.
+     */
+    public function drawNodes(NodeList $nodes, array $spec);
+
+    /**
+     * Get variables used.
+     *
+     * @return array
+     */
+    public function getVars();
+
+    /**
+     * Set variables to used in the scope.
+     *
+     * @param  array $vars
+     * @return WebinoDraw\Draw\Helper\DrawHelperInterface
+     */
+    public function setVars(array $vars);
 }

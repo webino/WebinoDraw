@@ -48,7 +48,8 @@ class Draw
             );
         }
 
-        libxml_use_internal_errors(true); // hack HTML5
+        // hack HTML5
+        libxml_use_internal_errors(true);
 
         $doc                      = new \DOMDocument;
         $doc->preserveWhiteSpace  = false;
@@ -91,7 +92,8 @@ class Draw
                 if (!is_array($spec['xpath'])) $xpath[] = $spec['xpath'];
                 else $xpath = array_merge($xpath, $spec['xpath']);
             };
-            if (!empty($spec['query'])) { // transform css query to xpath
+            // transform css query to xpath
+            if (!empty($spec['query'])) {
                 if (!is_array($spec['query'])) $xpath[] = Css2Xpath::transform($spec['query']);
                 else $xpath = array_merge($xpath, array_map(function($value){
                     return Css2Xpath::transform($value);
@@ -114,7 +116,7 @@ class Draw
 
             $plugin = $this->renderer->plugin($spec['helper']);
             $plugin->setVars($vars);
-            $plugin(new NodeList($nodes), $spec); // invoke helper
+            $plugin->drawNodes(new NodeList($nodes), $spec);
         }
         return $this;
     }

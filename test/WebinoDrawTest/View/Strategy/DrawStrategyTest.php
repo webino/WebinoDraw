@@ -1,10 +1,11 @@
 <?php
 /**
- * Webino (http://zf.webino.org/)
+ * Webino (https://github.com/webino/)
  *
- * @copyright   Copyright (c) 2012 Peter Bačinský (http://www.bacinsky.sk/)
+ * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
+ * @copyright   Copyright (c) 2012 Peter Bačinský <peter@bacinsky.sk>
  * @license     New BSD License
- * @package     WebinoDraw
+ * @package     WebinoDraw_View
  */
 
 namespace WebinoDrawTest\View\Strategy;
@@ -13,10 +14,12 @@ use WebinoDraw\View\Strategy\DrawStrategy;
 use WebinoDrawTest\TestCase;
 
 /**
- * @category    Webino
- * @package     WebinoDraw
+ * Test class for WebinoDraw\Stdlib\VarTranslator.
+ *
+ * @category    WebinoDraw
+ * @package     WebinoDraw_View
  * @subpackage  UnitTests
- * @author      Peter Bačinský <peter@bacinsky.sk>
+ * @group       WebinoDraw_View
  */
 class DrawStrategyTest extends TestCase
 {
@@ -42,128 +45,6 @@ class DrawStrategyTest extends TestCase
 
         $instructions = array('invalid_instruction');
         $this->draw->setInstructions($instructions);
-    }
-
-    public function testSetInstructions()
-    {
-        $instructions = array(
-            'instruction_node1' => array('option' => 'value1'),
-            'instruction_node2' => array('option' => 'value2'),
-        );
-        $expectFirst = array(
-            'instruction_node1' => $instructions['instruction_node1']
-        );
-        $expectSecond = array(
-            'instruction_node2' => $instructions['instruction_node2']
-        );
-        $this->draw->setInstructions($instructions);
-        $_instructions = $this->draw->getInstructions();
-        $this->assertEquals(
-            array($expectFirst, $expectSecond),
-            array(
-                $_instructions[DrawStrategy::STACK_SPACER],
-                $_instructions[DrawStrategy::STACK_SPACER*2]
-            )
-        );
-        $this->draw->setInstructions($expectFirst);
-        $this->draw->setInstructions($expectSecond);
-        $_instructions = $this->draw->getInstructions();
-        $this->assertEquals(
-            $expectFirst, $_instructions[DrawStrategy::STACK_SPACER]
-        );
-        $this->assertEquals(
-            $expectSecond, $_instructions[DrawStrategy::STACK_SPACER*2]
-        );
-    }
-
-    public function testSetInstructionsWithStackIndex()
-    {
-        $testIndex    = 0;
-        $instructions = array('instruction_node' => array(
-            'stackIndex' => $testIndex
-        ));
-        $this->draw->setInstructions($instructions);
-        $_instructions = $this->draw->getInstructions();
-        $this->assertArrayHasKey($testIndex, $_instructions);
-        $this->assertEquals($instructions, $_instructions[$testIndex]);
-    }
-
-    public function testSetInstructionsWithLowerStackIndex()
-    {
-        $this->draw->setInstructions(array('instruction_node0' => array()));
-        $this->draw->setInstructions(array('instruction_node1' => array()));
-        $this->draw->setInstructions(array('instruction_node2' => array()));
-        $instructions = array('instruction_nodeX' => array(
-            'stackIndex' => 1
-        ));
-        $this->draw->setInstructions($instructions);
-        $_instructions = $this->draw->getInstructions();
-        $this->assertArrayHasKey(1, $_instructions);
-        $this->assertEquals($instructions, $_instructions[1]);
-    }
-
-    public function testSetInstructionsWithSameStackIndexThrowException()
-    {
-        $this->setExpectedException('WebinoDraw\Exception\InvalidInstructionException');
-
-        $testIndex    = 30;
-        $instructions = array('instruction_node' => array(
-            'stackIndex' => $testIndex
-        ));
-        $this->draw->setInstructions($instructions);
-        $instructions = array('instruction_node2' => array(
-            'stackIndex' => $testIndex
-        ));
-        $this->draw->setInstructions($instructions);
-    }
-
-    public function testSetInstructionsOverrideStackIndexThrowException()
-    {
-        $this->setExpectedException('WebinoDraw\Exception\InvalidInstructionException');
-
-        $testIndex    = 20;
-        $instructions = array('instruction_node' => array(
-            'stackIndex' => $testIndex
-        ));
-        $this->draw->setInstructions($instructions);
-        $instructions = array('instruction_node2' => array(
-            'option' => 'value2',
-        ));
-        $this->draw->setInstructions($instructions);
-    }
-
-    public function testSetInstructionsMerge()
-    {
-        $testIndex = 0;
-        $expected  = $instructions = array('instruction_node' => array(
-            'first_option' => 'first_option_value'
-        ));
-        $this->draw->setInstructions($instructions);
-        $instructions = array('instruction_node' => array(
-            'second_option' => 'second_option_value'
-        ));
-        $this->draw->setInstructions($instructions);
-        $expected = array_replace_recursive($expected, $instructions);
-        $this->assertEquals($expected, current($this->draw->getInstructions()));
-    }
-
-    public function testSetInstructionsMergeWidthStackIndex()
-    {
-        $testIndex = 0;
-        $expected  = $instructions = array('instruction_node' => array(
-            'stackIndex'   => $testIndex,
-            'first_option' => 'first_option_value'
-        ));
-        $this->draw->setInstructions($instructions);
-        $instructions = array('instruction_node' => array(
-            'stackIndex'    => $testIndex,
-            'second_option' => 'second_option_value'
-        ));
-        $this->draw->setInstructions($instructions);
-        $expected = array(
-            $testIndex => array_replace_recursive($expected, $instructions)
-        );
-        $this->assertEquals($expected, $this->draw->getInstructions());
     }
 
     public function testClearInstructions()

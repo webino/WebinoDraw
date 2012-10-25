@@ -22,7 +22,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class ViewDrawStrategyFactory implements FactoryInterface
 {
     /**
-     * Create the ViewDrawStrategy
+     * Create the ViewDrawStrategy.
      *
      * Creates a Webino\View\Strategy\DrawStrategy and populates it with the
      * ['webino_draw']['instructions'] and ['webino_draw']['instructionset']
