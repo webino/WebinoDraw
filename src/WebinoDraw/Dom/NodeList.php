@@ -159,20 +159,26 @@ class NodeList implements \IteratorAggregate
     /**
      * Replace node with XHTML code.
      *
-     * @param  string $xhtml
+     * @param  string $xhtml XHTML to replace node.
+     * @param  Callable $preSet Modify and return xhtml. Passed parameters $node, $xhtml.
      * @return \WebinoDraw\Dom\NodeList
      */
-    public function replace($xhtml)
+    public function replace($xhtml, $preSet = null)
     {
+        $remove   = array();
         $nodeList = new \ArrayObject;
         foreach ($this as $node) {
-            if (empty($xhtml)) {
-                $nodeList[] = $node;
-                continue;
+            if (is_callable($preSet)) {
+                $nodeXhtml = $preSet($node, $xhtml);
+            } else {
+                $nodeXhtml = $xhtml;
             }
             $frag = $node->ownerDocument->createDocumentFragment();
-            $frag->appendXml($xhtml);
+            $frag->appendXml($nodeXhtml);
             $nodeList[] = $node->parentNode->insertBefore($frag, $node);
+            $remove[] = $node;
+        }
+        foreach ($remove as $node) {
             $node->parentNode->removeChild($node);
         }
         $this->nodeList = new \IteratorIterator($nodeList);

@@ -23,6 +23,13 @@ use WebinoDrawTest\TestCase;
  */
 class NodeListTest extends TestCase
 {
+    public function testConstructWithInvalidNodeList()
+    {
+        $this->setExpectedException('\WebinoDraw\Exception\InvalidArgumentException');
+
+        $nodeList = new NodeList(null);
+    }
+
     public function testCreateNodeList()
     {
         $nodeList = new NodeList(array());
@@ -113,7 +120,7 @@ class NodeListTest extends TestCase
         $dom->xpath = new \DOMXpath($dom);
         $nodeList   = new NodeList($dom->firstChild->childNodes);
 
-        $nodeList->setHtml($html, function(\DOMNode$node, $xhtml){
+        $nodeList->setHtml($html, function(\DOMNode $node, $xhtml){
             return $xhtml . '<modified/>';
         });
 
@@ -125,13 +132,15 @@ class NodeListTest extends TestCase
     {
         $dom        = new \DOMDocument;
         $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
-        $attribs    = 'attr0="val0" attr1="val1"';
+        $attribs    = 'attr0="val0" attr1="0"';
         $expected   = '<box><dummyOne ' . $attribs . '/>'
                     . '<dummyTwo ' . $attribs . '/></box>';
         $dom->xpath = new \DOMXpath($dom);
         $nodeList   = new NodeList($dom->firstChild->childNodes);
 
-        $nodeList->setAttribs(array('attr0' => 'val0', 'attr1' => 'val1'));
+        $nodeList->setAttribs(
+            array('attr0' => 'val0', 'attr1' => '0', 'attr2' => '')
+        );
 
         $expected = '<?xml version="1.0"?>' . PHP_EOL . $expected . PHP_EOL;
         $this->assertSame($expected, $dom->saveXML());
@@ -163,12 +172,30 @@ class NodeListTest extends TestCase
     {
         $dom        = new \DOMDocument;
         $dom->loadXML('<box><dummyReplaced/><dummyeplaced/></box>');
-        $xhtml      = '<dummyeplaced/>';
-        $expected   = '<box>' . $xhtml . $xhtml . '</box>';
+        $html       = '<dummyeplaced/>';
+        $expected   = '<box>' . $html . $html . '</box>';
         $dom->xpath = new \DOMXpath($dom);
         $nodeList   = new NodeList($dom->firstChild->childNodes);
 
-        $nodeList->replace($xhtml);
+        $nodeList->replace($html);
+
+        $expected = '<?xml version="1.0"?>' . PHP_EOL . $expected . PHP_EOL;
+        $this->assertSame($expected, $dom->saveXML());
+    }
+
+    public function testReplaceWithPreSet()
+    {
+        $dom        = new \DOMDocument;
+        $dom->loadXML('<box><dummyReplaced/><dummyReplaced/></box>');
+        $html       = '<dummyReplaced/>';
+        $expected   = '<box>' . $html . '<modified/>'
+                    . $html . '<modified/>' . '</box>';
+        $dom->xpath = new \DOMXpath($dom);
+        $nodeList   = new NodeList($dom->firstChild->childNodes);
+
+        $nodeList->replace($html, function(\DOMNode $node, $html){
+            return $html . '<modified/>';
+        });
 
         $expected = '<?xml version="1.0"?>' . PHP_EOL . $expected . PHP_EOL;
         $this->assertSame($expected, $dom->saveXML());
