@@ -208,6 +208,7 @@
   - Variable case support.
   - Draw helper trigger event.
   - Draw loop.
+  - Log.
   - Ajax.
   - Cache.
 
