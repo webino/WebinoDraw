@@ -149,7 +149,10 @@ class DrawElement extends AbstractDrawHelper
         $varTranslator = $this->getVarTranslator();
         $helper        = $this;
 
-        $preSet = function (\DOMElement $node, $value) use (
+        $preSet = function (
+            \DOMElement $node,
+            $value
+        ) use (
             $helper,
             $spec,
             $translation,
@@ -184,7 +187,10 @@ class DrawElement extends AbstractDrawHelper
             }
         }
 
-        $preSet = function (\DOMElement $node,$value) use (
+        $preSet = function (
+            \DOMElement $node,
+            $value
+        ) use (
             $spec,
             $varTranslator,
             $translation,
@@ -219,7 +225,10 @@ class DrawElement extends AbstractDrawHelper
         $varTranslator = $this->getVarTranslator();
         $helper        = $this;
 
-        $preSet = function (\DOMElement $node, $value) use (
+        $preSet = function (
+            \DOMElement $node,
+            $value
+        ) use (
             $helper,
             $spec,
             $translation,
