@@ -33,7 +33,7 @@ class NodeList implements \IteratorAggregate
     private $escapeHtml;
 
     /**
-     * @param  array|DOMNodeList $nodeList
+     * @param  array|DOMNodeList $nodeList DOMNodes in array or DOMNodelist.
      * @return void
      * @throws Exception\InvalidArgumentException
      */
@@ -52,7 +52,7 @@ class NodeList implements \IteratorAggregate
     }
 
     /**
-     * @param  array|DOMNodeList $nodeList
+     * @param  array|DOMNodeList $nodeList DOMNodes in array or DOMNodelist.
      * @return \WebinoDraw\Dom\NodeList
      */
     public function createNodeList($nodeList)
@@ -80,7 +80,6 @@ class NodeList implements \IteratorAggregate
     }
 
     /**
-     *
      * @param \Zend\View\Helper\EscapeHtml $escapeHtml
      */
     public function setEscapeHtml(EscapeHtml $escapeHtml)
@@ -89,28 +88,70 @@ class NodeList implements \IteratorAggregate
     }
 
     /**
-     * Remove nodes mapped by xpath.
+     * Set node text value.
      *
-     * @param string $xpath
+     * @param  string $value
+     * @param  Callable $preSet Modify and return value. Passed parameters $node, $value.
+     * @return \WebinoDraw\Dom\NodeList
+     */
+    public function setValue($value, $preSet = null)
+    {
+        $escapeHtml = $this->getEscapeHtml();
+        foreach ($this as $node) {
+            if (is_callable($preSet)) {
+                $nodeValue = $preSet($node, $value);
+            } else {
+                $nodeValue = $value;
+            }
+            $node->nodeValue = $escapeHtml($nodeValue);
+        }
+        return $this;
+    }
+
+    /**
+     * Set html value to nodes.
+     *
+     * @param  string $xhtml
+     * @param  Callable $preSet Modify and return xhtml. Passed parameters $node, $xhtml.
+     * @return \WebinoDraw\Dom\NodeList
+     */
+    public function setHtml($xhtml, $preSet = null)
+    {
+        foreach ($this as $node) {
+            if (is_callable($preSet)) {
+                $nodeXhtml = $preSet($node, $xhtml);
+            } else {
+                $nodeXhtml = $xhtml;
+            }
+            $node->nodeValue = '';
+            $frag = $node->ownerDocument->createDocumentFragment();
+            $frag->appendXml($nodeXhtml);
+            $node->appendChild($frag);
+        }
+        return $this;
+    }
+
+    /**
+     * Set attributes to nodes.
+     *
+     * @param  array $attribs Attributes to set.
+     * @param  Callable $preSet Modify and return value. Passed parameters $node, $value.
      * @return \WebinoDraw\Dom\NodeList
      * @throws Exception\RuntimeException
      */
-    public function remove($xpath = '.')
+    public function setAttribs(array $attribs, $preSet = null)
     {
-        $remove = array();
         foreach ($this as $node) {
-            if (empty($node->ownerDocument->xpath)) {
-                throw new Exception\RuntimeException(
-                    'Expects DOMDocument with XPath'
-                );
+            foreach ($attribs as $name => $value) {
+                if (is_callable($preSet)) {
+                    $value = $preSet($node, $value);
+                }
+                if (empty($value) && !is_numeric($value)) {
+                    $node->removeAttribute($name);
+                } else {
+                    $node->setAttribute($name, trim($value));
+                }
             }
-            $nodes = $node->ownerDocument->xpath->query($xpath, $node);
-            foreach ($nodes as $subnode) {
-                $remove[] = $subnode;
-            }
-        }
-        foreach ($remove as $node) {
-            $node->parentNode->removeChild($node);
         }
         return $this;
     }
@@ -139,66 +180,28 @@ class NodeList implements \IteratorAggregate
     }
 
     /**
-     * Set node text value.
+     * Remove nodes mapped by xpath.
      *
-     * @param  string $value
-     * @return \WebinoDraw\Dom\NodeList
-     */
-    public function setValue($value)
-    {
-        $escapeHtml = $this->getEscapeHtml();
-        foreach ($this as $node) {
-            $node->nodeValue = $escapeHtml($value);
-        }
-        return $this;
-    }
-
-    /**
-     * Set html value to nodes.
-     *
-     * @param  string $xhtml
-     * @param  Callable $preSet Modify and return xhtml. Passed parameters $node, $xhtml.
-     * @return \WebinoDraw\Dom\NodeList
-     */
-    public function setHtml($xhtml, $preSet = null)
-    {
-        foreach ($this as $node) {
-            if (is_callable($preSet)) {
-                $xhtml = $preSet($node, $xhtml);
-            }
-            $node->nodeValue = '';
-            $frag = $node->ownerDocument->createDocumentFragment();
-            $frag->appendXml($xhtml);
-            $node->appendChild($frag);
-        }
-        return $this;
-    }
-
-    /**
-     * Set attributes to nodes.
-     *
-     * @param  array $attribs Attributes to set.
-     * @param  Callable $preSet Modify and return value. Passed parameters $node, $value.
+     * @param string $xpath
      * @return \WebinoDraw\Dom\NodeList
      * @throws Exception\RuntimeException
      */
-    public function setAttribs(array $attribs, $preSet = null)
+    public function remove($xpath = '.')
     {
+        $remove = array();
         foreach ($this as $node) {
-            if ($node instanceof \DOMElement) {
-                foreach ($attribs as $name => $value) {
-                    if (is_callable($preSet)) {
-                        $value = $preSet($node, $value);
-                    }
-                    if (empty($value) && !is_numeric($value)) {
-                        $node->removeAttribute($name);
-                    } else {
-                        $node->setAttribute($name, trim($value));
-                    }
-                }
-                continue;
+            if (empty($node->ownerDocument->xpath)) {
+                throw new Exception\RuntimeException(
+                    'Expects DOMDocument with XPath'
+                );
             }
-            throw new Exception\RuntimeException('Invalid element ' . get_class($node));
+            $nodes = $node->ownerDocument->xpath->query($xpath, $node);
+            foreach ($nodes as $subnode) {
+                $remove[] = $subnode;
+            }
+        }
+        foreach ($remove as $node) {
+            $node->parentNode->removeChild($node);
         }
         return $this;
     }
