@@ -147,18 +147,13 @@ class DrawElement extends AbstractDrawHelper
     {
         $translation   = array();
         $varTranslator = $this->getVarTranslator();
-        $var           = $varTranslator->key2var('nodeValue');
         $helper        = $this;
 
-        $preSet = function (
-            \DOMElement $node,
-            $value
-        ) use (
+        $preSet = function (\DOMElement $node, $value) use (
             $helper,
             $spec,
             $translation,
-            $varTranslator,
-            $var
+            $varTranslator
         ) {
             empty($spec['var']['default']) or
                 $varTranslator->translationDefaults(
@@ -189,10 +184,7 @@ class DrawElement extends AbstractDrawHelper
             }
         }
 
-        $preSet = function (
-            \DOMElement $node,
-            $value
-        ) use (
+        $preSet = function (\DOMElement $node,$value) use (
             $spec,
             $varTranslator,
             $translation,
@@ -223,22 +215,15 @@ class DrawElement extends AbstractDrawHelper
 
     public function setAttribs(NodeList $nodes, array $spec)
     {
-        $helperPluginManager = $this->view->getHelperPluginManager();
-        $translation         = array();
-        $varTranslator       = $this->getVarTranslator();
-        $var                 = $varTranslator->key2var('nodeValue');
-        $helper              = $this;
+        $translation   = array();
+        $varTranslator = $this->getVarTranslator();
+        $helper        = $this;
 
-        $preSet = function (
-            \DOMElement $node,
-            $value
-        ) use (
+        $preSet = function (\DOMElement $node, $value) use (
             $helper,
             $spec,
-            $helperPluginManager,
             $translation,
-            $varTranslator,
-            $var
+            $varTranslator
         ) {
             empty($spec['var']['default']) or
                 $varTranslator->translationDefaults(
@@ -251,7 +236,8 @@ class DrawElement extends AbstractDrawHelper
                 $helper->getNodeTranslation($node)
             );
             $value = $varTranslator->translateString(
-                $value, $translation
+                $value,
+                $translation
             );
             if ($varTranslator->stringHasVar($value)) {
                 $value = null;

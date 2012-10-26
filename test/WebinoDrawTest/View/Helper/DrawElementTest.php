@@ -68,11 +68,11 @@ class DrawElementTest extends TestCase
                 }
             ));
 
-        $varTranslator->expects($this->exactly(2))
+        $varTranslator->expects($this->once())
             ->method('key2var')
             ->will($this->returnValue($var));
 
-        $varTranslator->expects($this->once())  
+        $varTranslator->expects($this->once())
             ->method('array2translation')
             ->will($this->returnValue(array()));
 
