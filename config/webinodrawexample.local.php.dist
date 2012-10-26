@@ -1,0 +1,14 @@
+<?php
+return array(
+    'webino_draw' => array(
+        'instructions' => array(
+
+            'set-value-example' => array(
+                'query'  => 'h1',
+                'helper' => 'drawElement',
+                'value'  => 'Hello Webino!',
+            ),
+            
+        ),
+    ),
+);
