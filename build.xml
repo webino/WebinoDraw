@@ -10,15 +10,13 @@
     <target name="prepare">
         <echo>Preparing ...</echo>
 
-        <mkdir  dir="${test.vendordir}"/>
-        <delete file="${test.moduledir}"/>
         <delete dir="${test.basedir}/${test.appname}"/>
         <delete dir="${log.basedir}"/>
         <mkdir  dir="${log.basedir}"/>
         <mkdir  dir="${log.coveragedir}"/>
         <mkdir  dir="${log.apidir}"/>
         <mkdir  dir="${log.codebrowserdir}"/>
-        
+
     </target>
 
     <target name="update">
@@ -37,6 +35,8 @@
     <target name="test">
         <echo>Testing ...</echo>
 
+        <mkdir  dir="${test.vendordir}"/>
+        <delete file="${test.moduledir}"/>
         <exec command="ln -s ${project.basedir} ${test.moduledir}" checkreturn="true" logoutput="true"/>
         <exec command="cd ${test.moduletestdir} &amp;&amp; phpunit --include-path=${test.vendorbasedir} --coverage-html ${log.coveragedir} --testdox-html ${log.basedir}/testdox.html --coverage-clover ${log.basedir}/clover.xml --log-junit ${log.basedir}/junit.xml" checkreturn="true" logoutput="true"/>
 
