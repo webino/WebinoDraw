@@ -11,8 +11,6 @@
 namespace WebinoDraw\View\Helper;
 
 use WebinoDraw\Dom\NodeList;
-use WebinoDraw\Stdlib\VarTranslator;
-use Zend\View\Helper\AbstractHelper;
 
 /**
  * Draw helper used for DOM base modifications.
@@ -63,57 +61,8 @@ use Zend\View\Helper\AbstractHelper;
  * @package     WebinoDraw_View
  * @subpackage  Helper
  */
-class DrawElement extends AbstractHelper implements DrawHelperInterface
+class DrawElement extends AbstractDrawHelper
 {
-    /**
-     * @var array
-     */
-    private $vars = array();
-
-    /**
-     * @var WebinoDraw\View\Helper\VarTranslator
-     */
-    private $varTranslator;
-
-    /**
-     * @return array
-     */
-    public function getVars()
-    {
-        return $this->vars;
-    }
-
-    /**
-     * @param  array $vars
-     * @return \WebinoDraw\View\Helper\DrawElement
-     */
-    public function setVars(array $vars)
-    {
-        $this->vars = $vars;
-        return $this;
-    }
-
-    /**
-     * @return WebinoDraw\Stdlib\VarTranslator
-     */
-    public function getVarTranslator()
-    {
-        if (!$this->varTranslator) {
-            $this->setVarTranslator(new VarTranslator);
-        }
-        return $this->varTranslator;
-    }
-
-    /**
-     * @param  \WebinoDraw\Stdlib\VarTranslator $varTranslator
-     * @return \WebinoDraw\View\Helper\DrawElement
-     */
-    public function setVarTranslator(VarTranslator $varTranslator)
-    {
-        $this->varTranslator = $varTranslator;
-        return $this;
-    }
-
     /**
      *
      * @param \WebinoDraw\Dom\NodeList $nodes

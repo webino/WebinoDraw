@@ -33,7 +33,7 @@ class NodeListTest extends TestCase
 
         $nodeList->remove();
 
-        $expected = '<?xml version="1.0"?>' . PHP_EOL . '<box/>' . PHP_EOL;
+        $expected = '<?xml version="1.0"?>' . PHP_EOL . $expected . PHP_EOL;
         $this->assertSame($expected, $dom->saveXML());
     }
 
@@ -60,5 +60,53 @@ class NodeListTest extends TestCase
         $nodeList   = new NodeList(array($dom->firstChild->firstChild));
 
         $nodeList->remove();
+    }
+
+    public function testSetValue()
+    {
+        $dom        = new \DOMDocument;
+        $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
+        $value      = 'TestValue';
+        $expected   = '<box><dummyOne>' . $value . '</dummyOne>'
+                    . '<dummyTwo>' . $value . '</dummyTwo></box>';
+        $dom->xpath = new \DOMXpath($dom);
+        $nodeList   = new NodeList($dom->firstChild->childNodes);
+
+        $nodeList->setValue($value);
+
+        $expected = '<?xml version="1.0"?>' . PHP_EOL . $expected . PHP_EOL;
+        $this->assertSame($expected, $dom->saveXML());
+    }
+
+    public function testSetHtml()
+    {
+        $dom        = new \DOMDocument;
+        $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
+        $html       = '<testnode/>';
+        $expected   = '<box><dummyOne>' . $html . '</dummyOne>'
+                    . '<dummyTwo>' . $html . '</dummyTwo></box>';
+        $dom->xpath = new \DOMXpath($dom);
+        $nodeList   = new NodeList($dom->firstChild->childNodes);
+
+        $nodeList->setHtml($html);
+
+        $expected = '<?xml version="1.0"?>' . PHP_EOL . $expected . PHP_EOL;
+        $this->assertSame($expected, $dom->saveXML());
+    }
+
+    public function testSetAttribs()
+    {
+        $dom        = new \DOMDocument;
+        $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
+        $attribs    = 'attr0="val0" attr1="val1"';
+        $expected   = '<box><dummyOne ' . $attribs . '/>'
+                    . '<dummyTwo ' . $attribs . '/></box>';
+        $dom->xpath = new \DOMXpath($dom);
+        $nodeList   = new NodeList($dom->firstChild->childNodes);
+
+        $nodeList->setAttribs(array('attr0' => 'val0', 'attr1' => 'val1'));
+
+        $expected = '<?xml version="1.0"?>' . PHP_EOL . $expected . PHP_EOL;
+        $this->assertSame($expected, $dom->saveXML());
     }
 }
