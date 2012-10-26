@@ -151,27 +151,27 @@ class DrawElement extends AbstractDrawHelper
         $helper        = $this;
 
         $preSet = function (
-                \DOMElement $node,
-                $value
-            ) use (
-                $helper,
-                $spec,
-                $translation,
-                $varTranslator,
-                $var
-            ) {
-                empty($spec['var']['default']) or
-                    $varTranslator->translationDefaults(
-                        $translation,
-                        $varTranslator->array2translation($spec['var']['default'])
-                    );
-
-                $translation = array_merge(
+            \DOMElement $node,
+            $value
+        ) use (
+            $helper,
+            $spec,
+            $translation,
+            $varTranslator,
+            $var
+        ) {
+            empty($spec['var']['default']) or
+                $varTranslator->translationDefaults(
                     $translation,
-                    $helper->getNodeTranslation($node)
+                    $varTranslator->array2translation($spec['var']['default'])
                 );
-                return $varTranslator->translateString($value, $translation);
-            };
+
+            $translation = array_merge(
+                $translation,
+                $helper->getNodeTranslation($node)
+            );
+            return $varTranslator->translateString($value, $translation);
+        };
 
         $nodes->setValue($spec['value'], $preSet);
     }
@@ -190,33 +190,33 @@ class DrawElement extends AbstractDrawHelper
         }
 
         $preSet = function (
-                \DOMElement $node,
-                $value
-            ) use (
-                $spec,
-                $varTranslator,
-                $translation,
-                $var
-            ) {
-                empty($spec['var']['default']) or
-                    $varTranslator->translationDefaults(
-                        $translation,
-                        $varTranslator->array2translation($spec['var']['default'])
-                    );
+            \DOMElement $node,
+            $value
+        ) use (
+            $spec,
+            $varTranslator,
+            $translation,
+            $var
+        ) {
+            empty($spec['var']['default']) or
+                $varTranslator->translationDefaults(
+                    $translation,
+                    $varTranslator->array2translation($spec['var']['default'])
+                );
 
-                if (false !== strpos($spec['html'], $var)) {
-                    if ($node->childNodes->length) {
-                        $translation[$var] = null;
-                    } elseif (!isset($translation[$var])) {
-                        $translation[$var] = null;
-                    }
-                    foreach ($node->childNodes as $child) {
-                        $html = trim($child->ownerDocument->saveXML($child));
-                        empty($html) or $translation[$var].= $html;
-                    }
+            if (false !== strpos($spec['html'], $var)) {
+                if ($node->childNodes->length) {
+                    $translation[$var] = null;
+                } elseif (!isset($translation[$var])) {
+                    $translation[$var] = null;
                 }
-                return $varTranslator->translateString($value, $translation);
-            };
+                foreach ($node->childNodes as $child) {
+                    $html = trim($child->ownerDocument->saveXML($child));
+                    empty($html) or $translation[$var].= $html;
+                }
+            }
+            return $varTranslator->translateString($value, $translation);
+        };
 
         $nodes->setHtml($spec['html'], $preSet);
     }
@@ -230,34 +230,34 @@ class DrawElement extends AbstractDrawHelper
         $helper              = $this;
 
         $preSet = function (
-                \DOMElement $node,
-                $value
-            ) use (
-                $helper,
-                $spec,
-                $helperPluginManager,
-                $translation,
-                $varTranslator,
-                $var
-            ) {
-                empty($spec['var']['default']) or
-                    $varTranslator->translationDefaults(
-                        $translation,
-                        $varTranslator->array2translation($spec['var']['default'])
-                    );
-
-                $translation = array_merge(
+            \DOMElement $node,
+            $value
+        ) use (
+            $helper,
+            $spec,
+            $helperPluginManager,
+            $translation,
+            $varTranslator,
+            $var
+        ) {
+            empty($spec['var']['default']) or
+                $varTranslator->translationDefaults(
                     $translation,
-                    $helper->getNodeTranslation($node)
+                    $varTranslator->array2translation($spec['var']['default'])
                 );
-                $value = $varTranslator->translateString(
-                    $value, $translation
-                );
-                if ($varTranslator->stringHasVar($value)) {
-                    $value = null;
-                }
-                return $value;
-            };
+
+            $translation = array_merge(
+                $translation,
+                $helper->getNodeTranslation($node)
+            );
+            $value = $varTranslator->translateString(
+                $value, $translation
+            );
+            if ($varTranslator->stringHasVar($value)) {
+                $value = null;
+            }
+            return $value;
+        };
 
         $nodes->setAttribs($spec['attribs'], $preSet);
     }
