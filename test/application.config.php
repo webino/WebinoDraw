@@ -9,6 +9,7 @@ return array(
             'config/autoload/{,*.}{global,local}.php',
         ),
         'module_paths' => array(
+            'WebinoDraw' => __DIR__ . '/../../..',
             './module',
             './vendor',
         ),
