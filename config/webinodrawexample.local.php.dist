@@ -6,6 +6,7 @@ return array(
             // todo render example
             // todo content example
             // todo trigger event example
+            // todo xpath example
 
             'set-value-example' => array(
                 'query'   => '.hero-unit .btn-success',
@@ -56,6 +57,27 @@ return array(
                 'query'  => '.remove-me',
                 'helper' => 'drawElement',
                 'remove' => '.',
+            ),
+
+            'nodevar-example-prepare' => array(
+                'query'   => '.hero-unit',
+                'helper'  => 'drawElement',
+                'html'    => '{$html}<h2 data-webino-test="ORIGATRIB">ORIGCONTENT</h2>',
+            ),
+
+            'nodevar-example' => array(
+                'query'  => '.hero-unit h2',
+                'helper' => 'drawElement',
+                'value'  => '{$value}',
+                'var'    => array(
+                    'default' => array(
+                        'value' => '{$nodeValue} NODEVARTEST {$data-webino-test}',
+                        'title' => '{$nodeValue} NODEVARATTRIBTEST {$data-webino-test}',
+                    ),
+                ),
+                'attribs' => array(
+                    'title' => '{$title}',
+                ),
             ),
 
         ),

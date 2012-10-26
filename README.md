@@ -202,13 +202,10 @@
 ## Todo
 
   - The "remove": Add multiple xpath or query option.
-  - Node value variable support.
   - Variable fetch.
-  - Adding element before other.
   - Variable case support.
   - Draw helper trigger event.
   - Draw loop.
-  - Log.
   - Ajax.
   - Cache.
 

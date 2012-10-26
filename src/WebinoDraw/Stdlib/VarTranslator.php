@@ -54,7 +54,7 @@ class VarTranslator
      * @param  string $key
      * @return string
      */
-    public function key2Var($key)
+    public function key2var($key)
     {
         return sprintf(self::VAR_PATTERN, $key);
     }
@@ -77,10 +77,10 @@ class VarTranslator
      * @param  array $array
      * @return array
      */
-    public function array2Translation(array $array)
+    public function array2translation(array $array)
     {
         foreach ($array as $key => $value) {
-            $array[$this->key2Var($key)] = $value;
+            $array[$this->key2var($key)] = $value;
             unset($array[$key]);
         }
         return $array;

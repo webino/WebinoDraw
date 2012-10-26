@@ -90,7 +90,7 @@ class DrawElement extends AbstractDrawHelper
 
         $varTranslator->translate(
             $spec,
-            $varTranslator->array2Translation($translation)
+            $varTranslator->array2translation($translation)
         );
 
         unset($translation);
@@ -103,17 +103,17 @@ class DrawElement extends AbstractDrawHelper
         !array_key_exists('replace', $spec) or
             $this->replace($nodes, $spec);
 
+        // attribs
+        !array_key_exists('attribs', $spec) or
+            $this->setAttribs($nodes, $spec);
+
         // text value
         !array_key_exists('value', $spec) or
-            $nodes->setValue($spec['value']);
+            $this->setValue($nodes, $spec);
 
         // xhtml code
         !array_key_exists('html', $spec) or
             $this->setHtml($nodes, $spec);
-
-        // attribs
-        !array_key_exists('attribs', $spec) or
-            $this->setAttribs($nodes, $spec);
 
         // onEmpty
         !array_key_exists('onEmpty', $spec) or
@@ -143,40 +143,80 @@ class DrawElement extends AbstractDrawHelper
         }
     }
 
+    public function setValue(NodeList $nodes, array $spec)
+    {
+        $translation   = array();
+        $varTranslator = $this->getVarTranslator();
+        $var           = $varTranslator->key2var('nodeValue');
+        $helper        = $this;
+
+        $preSet = function (
+                \DOMElement $node,
+                $value
+            ) use (
+                $helper,
+                $spec,
+                $translation,
+                $varTranslator,
+                $var
+            ) {
+                empty($spec['var']['default']) or
+                    $varTranslator->translationDefaults(
+                        $translation,
+                        $varTranslator->array2translation($spec['var']['default'])
+                    );
+
+                $translation = array_merge(
+                    $translation,
+                    $helper->getNodeTranslation($node)
+                );
+                return $varTranslator->translateString($value, $translation);
+            };
+
+        $nodes->setValue($spec['value'], $preSet);
+    }
+
     public function setHtml(NodeList $nodes, array $spec)
     {
         $varTranslator = $this->getVarTranslator();
-        $render        = array();
+        $translation   = array();
+        $var           = $varTranslator->key2var('html');
 
         if (!empty($spec['render'])) {
             foreach ($spec['render'] as $key => $value) {
-                $render[$varTranslator->key2Var($key)]
+                $translation[$varTranslator->key2var($key)]
                     = $this->view->render($value);
             }
         }
-        $var = $varTranslator->key2Var('html');
+
         $preSet = function (
-            \DOMElement $node,
-            $value
-        ) use (
-            $varTranslator,
-            $spec,
-            $render,
-            $var
-        ) {
-            $translation = $render;
-            if (false !== strpos($spec['html'], $var)) {
-                if (empty($spec['var']['default'][$var])) {
-                    $translation[$var] = null;
-                } else {
-                    $translation[$var] = $spec['var']['default'][$var];
+                \DOMElement $node,
+                $value
+            ) use (
+                $spec,
+                $varTranslator,
+                $translation,
+                $var
+            ) {
+                empty($spec['var']['default']) or
+                    $varTranslator->translationDefaults(
+                        $translation,
+                        $varTranslator->array2translation($spec['var']['default'])
+                    );
+
+                if (false !== strpos($spec['html'], $var)) {
+                    if ($node->childNodes->length) {
+                        $translation[$var] = null;
+                    } elseif (!isset($translation[$var])) {
+                        $translation[$var] = null;
+                    }
+                    foreach ($node->childNodes as $child) {
+                        $html = trim($child->ownerDocument->saveXML($child));
+                        empty($html) or $translation[$var].= $html;
+                    }
                 }
-                foreach ($node->childNodes as $child) {
-                    $translation[$var].= $child->ownerDocument->saveXML($child);
-                }
-            }
-            return $varTranslator->translateString($value, $translation);
-        };
+                return $varTranslator->translateString($value, $translation);
+            };
 
         $nodes->setHtml($spec['html'], $preSet);
     }
@@ -184,50 +224,41 @@ class DrawElement extends AbstractDrawHelper
     public function setAttribs(NodeList $nodes, array $spec)
     {
         $helperPluginManager = $this->view->getHelperPluginManager();
+        $translation         = array();
         $varTranslator       = $this->getVarTranslator();
+        $var                 = $varTranslator->key2var('nodeValue');
+        $helper              = $this;
 
-        $nodes->setAttribs(
-            $spec['attribs'],
-            function (
+        $preSet = function (
                 \DOMElement $node,
                 $value
             ) use (
-                $varTranslator,
+                $helper,
                 $spec,
-                $helperPluginManager
+                $helperPluginManager,
+                $translation,
+                $varTranslator,
+                $var
             ) {
-                if ($node->attributes) {
-                    if (empty($spec['var']['default'])) {
-                        $translation = array();
-                    } else {
-                        $translation = $spec['var']['default'];
-                    }
-                    foreach ($node->attributes as $attrib) {
-                        $translation[$attrib->name] = $attrib->value;
-                    }
-                    if (!empty($spec['var']['helper'])) {
-                        $helperSpec = $spec['var']['helper'];
-                        $varTranslator->translate(
-                            $helperSpec,
-                            $varTranslator->array2Translation($translation)
-                        );
-
-                        $varTranslator->applyHelper(
-                            $translation,
-                            $helperSpec,
-                            $helperPluginManager
-                        );
-                    }
-                    $value = $varTranslator->translateString(
-                        $value,
-                        $varTranslator->array2Translation($translation)
+                empty($spec['var']['default']) or
+                    $varTranslator->translationDefaults(
+                        $translation,
+                        $varTranslator->array2translation($spec['var']['default'])
                     );
-                    if ($varTranslator->stringHasVar($value)) {
-                        $value = null;
-                    }
+
+                $translation = array_merge(
+                    $translation,
+                    $helper->getNodeTranslation($node)
+                );
+                $value = $varTranslator->translateString(
+                    $value, $translation
+                );
+                if ($varTranslator->stringHasVar($value)) {
+                    $value = null;
                 }
                 return $value;
-            }
-        );
+            };
+
+        $nodes->setAttribs($spec['attribs'], $preSet);
     }
 }

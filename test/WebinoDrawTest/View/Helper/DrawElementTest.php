@@ -47,6 +47,44 @@ class DrawElementTest extends TestCase
         $this->drawElement->drawNodes($this->nodeListMock, $options);
     }
 
+    public function testDrawNodesValueVar()
+    {
+        $var      = '{$nodeValue}';
+        $options  = array(
+            'value' => $var . 'customValue',
+        );
+        $node          = new \DOMElement('node0', 'value0');
+        $varTranslator = $this->getMock('\WebinoDraw\Stdlib\VarTranslator');
+        $testCase      = $this;
+
+        $this->nodeListMock
+            ->expects($this->once())
+            ->method('setValue')
+            ->will($this->returnCallback(
+                function ($value, $preSet) use ($options, $node, $testCase) {
+                    $result = $preSet($node, $options['value']);
+                    $testCase->assertTrue($result);
+                    return $value;
+                }
+            ));
+
+        $varTranslator->expects($this->exactly(2))
+            ->method('key2var')
+            ->will($this->returnValue($var));
+
+        $varTranslator->expects($this->once())  
+            ->method('array2translation')
+            ->will($this->returnValue(array()));
+
+        $varTranslator->expects($this->once())
+            ->method('translateString')
+            ->with($options['value'], array('{$nodeValue}' => $node->nodeValue))
+            ->will($this->returnValue(true));
+
+        $this->drawElement->setVarTranslator($varTranslator);
+        $this->drawElement->drawNodes($this->nodeListMock, $options);
+    }
+
     public function testDrawNodesHtml()
     {
         $expected = '<testhtml/>';
