@@ -2,38 +2,44 @@
 <project default="build" basedir=".">
 
     <property file="${project.basedir}/build.properties" />
-    
-    <target name="build" depends="update,test">
+
+    <target name="build" depends="prepare,update,test">
+
+    </target>
+
+    <target name="prepare">
+        <echo>Preparing ...</echo>
+
+        <mkdir  dir="${test.vendordir}"/>
+        <delete file="${test.moduledir}"/>
+        <delete dir="${test.basedir}/${test.appname}"/>
+        <delete dir="${log.basedir}"/>
+        <mkdir  dir="${log.basedir}"/>
+        <mkdir  dir="${log.coveragedir}"/>
+        <mkdir  dir="${log.apidir}"/>
+        <mkdir  dir="${log.codebrowserdir}"/>
         
     </target>
-    
+
     <target name="update">
         <echo>Updating ...</echo>
-        
+
         <exec command="git submodule init" checkreturn="true" logoutput="true"/>
         <exec command="git submodule update" checkreturn="true" logoutput="true"/>
         <exec command="git pull ${project.remote} ${project.branch}" checkreturn="true" logoutput="true"/>
-        
+
         <echo msg="Getting latest ZendSkeletonApplication" />
-        <delete dir="${test.basedir}/${test.appname}"/>
         <exec command="git clone ${test.appgit} ${test.basedir}/${test.appname}" checkreturn="true" logoutput="true"/>
         <exec command="cd ${test.basedir}/${test.appname} &amp;&amp; php composer.phar install" checkreturn="true" logoutput="true"/>
 
     </target>
-    
+
     <target name="test">
         <echo>Testing ...</echo>
-        
-        <mkdir dir="${test.vendordir}"/>
-        <delete file="${test.moduledir}"/>
-        <delete dir="${log.basedir}"/>
-        <mkdir dir="${log.basedir}"/>
-        <mkdir dir="${log.coveragedir}"/>
-        <mkdir dir="${log.apidir}"/>
-        <mkdir dir="${log.codebrowserdir}"/>
+
         <exec command="ln -s ${project.basedir} ${test.moduledir}" checkreturn="true" logoutput="true"/>
         <exec command="cd ${test.moduletestdir} &amp;&amp; phpunit --include-path=${test.vendorbasedir} --coverage-html ${log.coveragedir} --testdox-html ${log.basedir}/testdox.html --coverage-clover ${log.basedir}/clover.xml --log-junit ${log.basedir}/junit.xml" checkreturn="true" logoutput="true"/>
-        
+
         <echo msg="Checkstyle" />
         <exec command="phpcs --report=checkstyle --report-file=${log.basedir}/checkstyle.xml --standard=${project.checkstyle} --extensions=php ${test.modulesrcdir}" logoutput="true"/>
         <exec command="phpmd ${test.modulesrcdir} xml codesize,design,naming,unusedcode --reportfile ${log.basedir}/phpmd.xml" logoutput="true" />
@@ -42,7 +48,7 @@
         <exec command="pdepend --summary-xml=${log.basedir}/pdepend.xml --jdepend-xml=${log.basedir}/jdepend.xml --jdepend-chart=${log.basedir}/dependencies.svg --overview-pyramid=${log.basedir}/overview-pyramid.svg ${test.modulesrcdir}" logoutput="true"/>
         <exec command="apigen --source ${test.modulesrcdir} --destination ${log.apidir}" logoutput="true"/>
         <exec command="phpcb --log ${log.basedir} --source ${test.modulesrcdir} --output ${log.codebrowserdir}" logoutput="true"/>
-        
+
     </target>
-    
+
 </project>
