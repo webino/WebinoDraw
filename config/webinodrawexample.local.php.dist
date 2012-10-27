@@ -83,7 +83,7 @@ return array(
             'viewvar-example-prepare' => array(
                 'query'  => '.hero-unit',
                 'helper' => 'drawElement',
-                'html'   => '{$html}<div class="viewvar-example">XXXX</div>',
+                'html'   => '{$html}<div class="viewvar-example"/>',
             ),
 
             'viewvar-example' => array(
@@ -94,6 +94,30 @@ return array(
                     'fetch' => array(
                         'depthvar' => 'value.in.the.depth',
                     ),
+                ),
+            ),
+
+            'loop-example-prepare' => array(
+                'query'  => '.hero-unit',
+                'helper' => 'drawElement',
+                'html'   => '{$html}<ul class="loop-example"><li>BEFORE</li><li>ITEM</li><li>AFTER</li></ul>',
+            ),
+
+            'loop-example' => array(
+                'query'  => '.loop-example li[2]',
+                'helper' => 'drawElement',
+                'value'  => '{$index} {$property0}',
+                'loop'   => array(
+                    'base'    => 'items',
+                    'index'   => '0',
+                    'onEmpty' => array(
+                        'replace' => array(
+                            '..' => '<p>YOU HAVE NO ITEMS</p>',
+                        ),
+                    ),
+                ),
+                'attribs'   => array(
+                    'title' => '{$property1}',
                 ),
             ),
 
