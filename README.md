@@ -5,6 +5,8 @@
 
   Provides ability to configure rendering of the layout. Still under development.
 
+  ![WebinoDraw principle](http://static.webino.org/documentation/webino_draw_principle.png)
+
 ## Features
 
   - Configurable layout.
