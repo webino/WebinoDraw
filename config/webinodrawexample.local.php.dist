@@ -22,7 +22,7 @@ return array(
                 'helper' => 'drawElement',
                 'html'   => '{$value}',
                 'var'    => array(
-                    'default' => array(
+                    'set' => array(
                         'value' => 'Welcome to %sWebino%s',
                     ),
                     'helper' => array(
@@ -62,7 +62,7 @@ return array(
             'nodevar-example-prepare' => array(
                 'query'   => '.hero-unit',
                 'helper'  => 'drawElement',
-                'html'    => '{$html}<h2 data-webino-test="ORIGATRIB">ORIGCONTENT</h2>',
+                'html'    => '{$html}<h2 data-webino-test="ORIGATTRIB">ORIGCONTENT</h2>',
             ),
 
             'nodevar-example' => array(
@@ -70,13 +70,30 @@ return array(
                 'helper' => 'drawElement',
                 'value'  => '{$value}',
                 'var'    => array(
-                    'default' => array(
+                    'set' => array(
                         'value' => '{$nodeValue} NODEVARTEST {$data-webino-test}',
                         'title' => '{$nodeValue} NODEVARATTRIBTEST {$data-webino-test}',
                     ),
                 ),
                 'attribs' => array(
                     'title' => '{$title}',
+                ),
+            ),
+
+            'viewvar-example-prepare' => array(
+                'query'  => '.hero-unit',
+                'helper' => 'drawElement',
+                'html'   => '{$html}<div class="viewvar-example">XXXX</div>',
+            ),
+
+            'viewvar-example' => array(
+                'query'  => '.viewvar-example',
+                'helper' => 'drawElement',
+                'value'  => '{$viewvar} {$depthvar}',
+                'var'    => array(
+                    'fetch' => array(
+                        'depthvar' => 'value.in.the.depth',
+                    ),
                 ),
             ),
 

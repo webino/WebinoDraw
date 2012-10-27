@@ -73,6 +73,20 @@ class DrawElement extends AbstractDrawHelper
         $varTranslator = $this->getVarTranslator();
         $translation   = $this->getVars();
 
+        // set variables
+        empty($spec['var']['set']) or
+            $varTranslator->translationMerge(
+                $translation,
+                $spec['var']['set']
+            );
+
+        // fetch variables
+        empty($spec['var']['fetch']) or
+            $varTranslator->translationFetch(
+                $translation,
+                $spec['var']['fetch']
+            );
+
         // default variables
         empty($spec['var']['default']) or
             $varTranslator->translationDefaults(
@@ -203,9 +217,9 @@ class DrawElement extends AbstractDrawHelper
                 );
 
             if (false !== strpos($spec['html'], $var)) {
-                if ($node->childNodes->length) {
-                    $translation[$var] = null;
-                } elseif (!isset($translation[$var])) {
+                if ($node->childNodes->length
+                  || !array_key_exists($var, $translation)
+                ) {
                     $translation[$var] = null;
                 }
                 foreach ($node->childNodes as $child) {

@@ -32,23 +32,6 @@ class VarTranslator
     const VAR_PATTERN = '{$%s}';
 
     /**
-     * Set defaults into translation.
-     *
-     * @param  array $translation
-     * @param  array $defaults
-     * @return array
-     */
-    public function translationDefaults(array &$translation, array $defaults)
-    {
-        foreach ($defaults as $key => $value) {
-            if (empty($translation[$key])) {
-                $translation[$key] = $value;
-            }
-        }
-        return $this;
-    }
-
-    /**
      * Transform varname into {$varname}.
      *
      * @param  string $key
@@ -92,21 +75,25 @@ class VarTranslator
      * If $str = {$var} and translation has item with key {$var} = array,
      * immediately return this array.
      *
-     * @param  string $str
+     * @param  string $string
      * @param  array $translation
      * @return string
      */
-    public function translateString($str, array $translation)
+    public function translateString($string, array $translation)
     {
-        foreach ($translation as $key => $value) {
-            if (is_array($value)) {
-                if ($key === $str) {
-                    return $value;
-                }
-            }
-            $str = str_replace($key, $value, $str);
+        $pattern = str_replace('%s', '[^\}]+', preg_quote(self::VAR_PATTERN));
+        $match   = array();
+
+        preg_match_all('~' . $pattern . '~', $string, $match);
+        if (empty($match[0])) {
+            return $string;
         }
-        return $str;
+        foreach ($match[0] as $key) {
+            if (array_key_exists($key, $translation)) {
+                $string = str_replace($key, $translation[$key], $string);
+            }
+        }
+        return $string;
     }
 
     /**
@@ -127,6 +114,84 @@ class VarTranslator
                 continue;
             }
             $param = $this->translateString($param, $translation);
+        }
+        return $this;
+    }
+
+    /**
+     *
+     * @param  array $translation
+     * @param  array $defaults
+     * @return \WebinoDraw\Stdlib\VarTranslator
+     */
+    public function translationMerge(array &$translation, array $defaults)
+    {
+        foreach ($defaults as $key => $value) {
+            $translation[$key] = $this->translate($value, $translation);
+        }
+        return $this;
+    }
+
+    /**
+     * Set defaults into translation.
+     *
+     * @param  array $translation
+     * @param  array $defaults
+     * @return array
+     */
+    public function translationDefaults(array &$translation, array $defaults)
+    {
+        foreach ($defaults as $key => $value) {
+            if (empty($translation[$key])) {
+                $translation[$key] = $this->translate($value, $translation);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Fetch custom variables to translation
+     *
+     * example of properties:
+     *
+     * $translation = array(
+     *     'value' => array(
+     *         'in' => array(
+     *             'the' => array(
+     *                 'depth' => 'valueInTheDepth',
+     *             ),
+     *         ),
+     *     ),
+     * );
+     *
+     * example of options:
+     *
+     * $options = array(
+     *     'customVar' => 'value.in.the.depth',
+     * );
+     *
+     * @param array $translation
+     * @param array $options
+     *
+     * @return Webino_ViewHelper_VarTranslator
+     */
+    public function translationFetch(array &$translation, array $options)
+    {
+        foreach ($options as $varName => $varBase) {
+
+            $value = $translation;
+            $frags = explode('.', $varBase);
+
+            foreach ($frags as $baseKey) {
+                // undefined
+                if (empty($value[$baseKey])) {
+                    $value = null;
+                    break;
+                }
+
+                $value = &$value[$baseKey];
+            }
+            $translation[$varName] = &$value;
         }
         return $this;
     }

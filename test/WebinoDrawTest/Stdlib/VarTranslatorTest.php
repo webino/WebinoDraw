@@ -50,14 +50,4 @@ class VarTranslatorTest extends TestCase
 
         $this->assertEquals($expected, $result);
     }
-
-    public function testTranslateStringArrayValue()
-    {
-        $string      = '{$var}';
-        $expected    = array('value');
-        $translation = array('{$var}' => $expected);
-        $result      = $this->varTranslator->translateString($string, $translation);
-
-        $this->assertEquals($expected, $result);
-    }
 }

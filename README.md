@@ -9,17 +9,15 @@
 
   - Configurable layout.
   - Decoupled logic from template.
-  - Uses ZF view variables and helpers.
+  - Uses ZF2 view variables and helpers.
   - Works with pure XHTML5.
-
-  Operates over any template engine. This module is intended to be the last view strategy,
-  and it is so powerful that your views can be pure XHTML5.
+  - You can still use phtml, but why!
 
 ## Setup
 
   Following steps are necessary to get this module working (considering a zf2-skeleton or very similar application).
 
-  1. Run `php composer.phar require webino/webino-draw:dev-develop`
+  1. Run: `php composer.phar require webino/webino-draw:dev-develop`
   2. Add `WebinoDraw` to the enabled modules list.
 
 ## QuickStart
@@ -44,14 +42,14 @@
 
         'draw-node-example' => array(        // custom name
             'query'  => 'body',              // css selector
-            'xpath'  => '//footer',          // DOM XPATH
+            'xpath'  => '//footer',          // DOM XPath
             'helper' => 'drawElement',       // draw helper
             'value'  => 'Hello Webino!',     // helper options
         ),
 
   - As you see you can use **css selector** or **xpath** even combine them together to map dom nodes to draw instruction.
 
-    It is possible to set multiple selectors and xpaths:
+    It is possible to set many selectors and XPath:
 
         'draw-node-example' => array(
             'xpath' => array(
@@ -90,11 +88,40 @@
 
   - Use **view variables**:
 
+    Assume that controller action return view model with multi-dimensional array.
+
         'draw-node-example' => array(
             'query'  => 'body',
             'helper' => 'drawElement',
             'value'  => '{$viewvar}',
         ),
+
+    Set and override:
+
+        'draw-node-example' => array(
+            'query'  => 'body',
+            'helper' => 'drawElement',
+            'value'  => '{$viewvar}',
+            'var'    => array(
+                'set' => array(
+                    'viewvar' => 'customval',
+                ),
+             ),
+        ),
+
+    Fetch variables:
+
+        'draw-node-example' => array(
+            'query'  => 'body',
+            'helper' => 'drawElement',
+            'value'  => '{$depthvar}',
+            'var'    => array(
+                'fetch' => array(
+                    'depthvar' => 'value.in.the.depth',
+                ),
+            ),
+        ),
+
 
     Set default variables:
 
@@ -111,7 +138,7 @@
 
   - Use **functions** and **view helpers**:
 
-    Modifies variable values, helper definition accepts in function/method parameters {$var}.
+    Modify variable values, helper definition accepts in function/method parameters: `{$var}`
 
         'draw-node-example' => array(
             'query'  => 'body',
@@ -182,11 +209,11 @@
         'render'  => array(
             'script' => 'script/path'                    // render view script to variable
         ),
-        'html'    => '<span>HTML value</span>{$script}', // set node xhtml
+        'html'    => '<span>HTML value</span>{$script}', // set node XHTML
         'attribs' => array(                              // set attributes
             'title' => 'Attribute example'
         ),
-        'remove'  => '.',                                // XPATH, removes target node
+        'remove'  => '.',                                // XPath, removes target node
         'replace' => '<strong/>',                        // XHTML, replaces node
         'onEmpty' => array(
 
@@ -197,19 +224,28 @@
 
 ## Pitfalls
 
-  - Use `<![CDATA[ ]]>` with entities, like `&amp;` to `<![CDATA[&amp;]]>`
+  - Use `<![CDATA[ ]]>` with entities, like `&amp;` to: `<![CDATA[&amp;]]>`
+
+## Examples
+
+  Look for more examples in: `config/webinodrawexample.local.php.dist`
+
+  - Install ZendSkeletonApplication.
+  - Setup WebinoDraw module.
+  - Copy: `vendor/webino/webino-draw/config/webinodrawexample.local.php.dist`
+  - Paste it to application: `config/autoload/webinodrawexample.local.php`
+  - Check your ZF2 Application welcome page for changes.
 
 ## Todo
 
   - The "remove": Add multiple xpath or query option.
-  - Variable fetch.
   - Variable case support.
   - Draw helper trigger event.
   - Draw loop.
   - Ajax.
   - Cache.
 
-## Outro
+## Addendum
 
   Please, if you are interested in this Zend Framework module report any issues and don't hesitate to contribute.
 
