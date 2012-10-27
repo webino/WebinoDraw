@@ -121,12 +121,12 @@ class VarTranslator
     /**
      *
      * @param  array $translation
-     * @param  array $defaults
+     * @param  array $values
      * @return \WebinoDraw\Stdlib\VarTranslator
      */
-    public function translationMerge(array &$translation, array $defaults)
+    public function translationMerge(array &$translation, array $values)
     {
-        foreach ($defaults as $key => $value) {
+        foreach ($values as $key => $value) {
             $translation[$key] = $this->translate($value, $translation);
         }
         return $this;

@@ -123,7 +123,7 @@ class DrawElementTest extends TestCase
             );
 
         $this->nodeListMock
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(4))
             ->method('createNodeList')
                  ->with(array(null))
             ->will($this->returnValue($subnodeListMock));
