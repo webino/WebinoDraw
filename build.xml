@@ -35,8 +35,9 @@
     <target name="test">
         <echo>Testing ...</echo>
 
-        <copy file="${test.apptestcfg}" tofile="${test.appcfg}" overwrite="true"/>
-        <copy file="${test.modulecfg}"  tofile="${test.moduletestcfg}" overwrite="true"/>
+        <copy file="${test.apptestcfg}"        tofile="${test.appcfg}"        overwrite="true"/>
+        <copy file="${test.apptestcontroller}" tofile="${test.appcontroller}" overwrite="true"/>
+        <copy file="${test.modulecfg}"         tofile="${test.moduletestcfg}" overwrite="true"/>
 
         <exec command="cd ${module.testdir} &amp;&amp; phpunit --include-path=${test.vendorbasedir} --coverage-html ${log.coveragedir} --testdox-html ${log.basedir}/testdox.html --coverage-clover ${log.basedir}/clover.xml --log-junit ${log.basedir}/junit.xml" checkreturn="true" logoutput="true"/>
 
