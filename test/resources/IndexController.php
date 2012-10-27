@@ -1,10 +1,10 @@
 <?php
 /**
- * Webino (https://github.com/webino/)
+ * Zend Framework (http://framework.zend.com/)
  *
- * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
- * @copyright   Copyright (c) 2012 Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
+ * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
 namespace Application\Controller;
@@ -30,13 +30,20 @@ class IndexController extends AbstractActionController
 
             'items' => array(
                 'item0' => array(
-                    'property' => 'value0',
+                    'property0' => 'value00',
+                    'property1' => 'value01',
+                    'childs'    => array(
+                        'property00' => 'value010',
+                        'property01' => 'value011',
+                    ),
                 ),
                 'item1' => array(
-                    'property' => 'value1',
+                    'property0' => 'value10',
+                    'property1' => 'value11',
                 ),
                 'item3' => array(
-                    'property' => 'value3',
+                    'property0' => 'value30',
+                    'property1' => 'value31',
                 ),
             ),
         ));
