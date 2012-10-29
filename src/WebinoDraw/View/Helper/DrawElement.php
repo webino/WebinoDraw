@@ -194,9 +194,8 @@ class DrawElement extends AbstractDrawElement
                     $this->drawNodes($newNodes, $subspec);
                 }
                 continue;
-            } else {
-                $newNodes = $nodes->createNodeList(array($node));
             }
+            
             $newNodes = $nodes->createNodeList(array($node));
             $preSet   = $this->getHtmlPreSet($spec['replace'], $spec);
             $newNodes->replace($spec['replace'], $preSet);
@@ -206,6 +205,12 @@ class DrawElement extends AbstractDrawElement
         }
     }
 
+    /**
+     * Render view script to {$var}.
+     *
+     * @param array $translation
+     * @param array $options
+     */
     public function render(array &$translation, array $options)
     {
         foreach ($options as $key => $value) {

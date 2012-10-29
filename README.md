@@ -232,11 +232,11 @@
 
   Look for more examples in: `config/webinodrawexample.local.php.dist`
 
-  - Install ZendSkeletonApplication.
-  - Setup WebinoDraw module.
-  - Copy: `vendor/webino/webino-draw/config/webinodrawexample.local.php.dist`
-  - Paste it to application: `config/autoload/webinodrawexample.local.php`
-  - Check your ZF2 Application welcome page for changes.
+  1. Install ZendSkeletonApplication.
+  2. Setup WebinoDraw module.
+  3. Copy: `vendor/webino/webino-draw/config/webinodrawexample.local.php.dist`
+  4. Paste it to application: `config/autoload/webinodrawexample.local.php`
+  5. Check your ZF2 Application welcome page for changes.
 
 ## Todo
 
