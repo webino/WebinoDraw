@@ -19,7 +19,7 @@
 
   Following steps are necessary to get this module working (considering a zf2-skeleton or very similar application).
 
-  1. Run: `php composer.phar require webino/webino-draw:0.*`
+  1. Run: `php composer.phar require webino/webino-draw:1.*`
   2. Add `WebinoDraw` to the enabled modules list.
 
 ## QuickStart
