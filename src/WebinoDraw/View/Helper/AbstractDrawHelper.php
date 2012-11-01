@@ -75,19 +75,16 @@ abstract class AbstractDrawHelper extends AbstractHelper implements DrawHelperIn
      * @param  \DOMElement $node
      * @return array
      */
-    public function getNodeTranslation(\DOMElement $node)
+    public function nodeTranslation(\DOMElement $node)
     {
-        $translation   = array();
-        $varTranslator = $this->getVarTranslator();
+        $translation = array();
 
         if (!empty($node->nodeValue)) {
-            $key = $varTranslator->key2var('nodeValue');
-            $translation[$key] = $node->nodeValue;
+            $translation['nodeValue'] = $node->nodeValue;
         }
 
         foreach ($node->attributes as $attr) {
-            $key = $varTranslator->key2var($attr->name);
-            $translation[$key] = $attr->value;
+            $translation[$attr->name] = $attr->value;
         }
 
         return $translation;

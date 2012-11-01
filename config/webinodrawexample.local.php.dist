@@ -7,6 +7,7 @@ return array(
             // todo content example
             // todo trigger event example
             // todo xpath example
+            // todo table example
 
             'set-value-example' => array(
                 'query'   => '.hero-unit .btn-success',
@@ -97,6 +98,32 @@ return array(
                 ),
             ),
 
+            'filter-example-prepare' => array(
+                'query'  => '.hero-unit',
+                'helper' => 'drawElement',
+                'html'   => '{$html}<p class="filter-example">-this should be upper case-</p>',
+            ),
+
+            'filter-example' => array(
+                'query'  => '.filter-example',
+                'helper' => 'drawElement',
+                'value'  => '{$nodeValue}',
+                'var'    => array(
+                    'filter' => array(
+                        'pre' => array(
+                            'nodeValue' => array(
+                                'stringToUpper' => array(
+                                    '{$nodeValue}'
+                                ),
+                                'trim' => array(
+                                    '{$nodeValue}', '-'
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+
             'loop-example-prepare' => array(
                 'query'  => '.hero-unit',
                 'helper' => 'drawElement',
@@ -119,7 +146,12 @@ return array(
                         'loop-example-strong-node' => array(
                             'query'  => 'strong',
                             'helper' => 'drawElement',
-                            'value'  => '{$key} {$index} {$property0}',
+                            'value'  => '{$key} {$index} {$property0} {$test}',
+                            'var'  => array(
+                                'fetch' => array(
+                                    'test' => 'childs.item00.property0'
+                                ),
+                            ),
                         ),
                         'loop-example-span-node' => array(
                             'query'  => 'span',

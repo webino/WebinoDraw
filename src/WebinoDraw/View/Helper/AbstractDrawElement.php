@@ -10,6 +10,8 @@
 
 namespace WebinoDraw\View\Helper;
 
+use Zend\Filter\StaticFilter;
+
 /**
  * @category    Webino
  * @package     WebinoDraw_View
@@ -38,16 +40,22 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
             $translation,
             $varTranslator
         ) {
+
+            $nodeTranslation = $helper->nodeTranslation($node);
+
             empty($spec['var']['default']) or
                 $varTranslator->translationDefaults(
-                    $translation,
-                    $varTranslator->array2translation($spec['var']['default'])
+                    $nodeTranslation,
+                    $spec['var']['default']
                 );
+
+            $helper->applyVarTranslator($nodeTranslation, $spec);
 
             $translation = array_merge(
                 $translation,
-                $helper->getNodeTranslation($node)
+                $varTranslator->array2translation($nodeTranslation)
             );
+
             return $varTranslator->translateString($value, $translation);
         };
     }
@@ -61,37 +69,47 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
      */
     protected function htmlPreSet($subject, array $spec)
     {
-        $varTranslator = $this->getVarTranslator();
         $translation   = array();
-        $var           = $varTranslator->key2var('html');
+        $varTranslator = $this->getVarTranslator();
+        $helper        = $this;
 
         return function (
             \DOMElement $node,
             $value
         ) use (
+            $helper,
             $subject,
             $spec,
             $varTranslator,
-            $translation,
-            $var
+            $translation
         ) {
+            $nodeTranslation = $helper->nodeTranslation($node);
+
             empty($spec['var']['default']) or
                 $varTranslator->translationDefaults(
-                    $translation,
-                    $varTranslator->array2translation($spec['var']['default'])
+                    $nodeTranslation,
+                    $spec['var']['default']
                 );
 
-            if (false !== strpos($subject, $var)) {
+            if (false !== strpos($subject, 'html')) {
                 if ($node->childNodes->length
-                  || !array_key_exists($var, $translation)
+                  || !array_key_exists('html', $translation)
                 ) {
-                    $translation[$var] = null;
+                    $nodeTranslation['html'] = null;
                 }
                 foreach ($node->childNodes as $child) {
                     $html = trim($child->ownerDocument->saveXML($child));
-                    empty($html) or $translation[$var].= $html;
+                    empty($html) or $nodeTranslation['html'].= $html;
                 }
             }
+
+            $helper->applyVarTranslator($nodeTranslation, $spec);
+
+            $translation = array_merge(
+                $translation,
+                $varTranslator->array2translation($nodeTranslation)
+            );
+
             return $varTranslator->translateString($value, $translation);
         };
     }
@@ -117,24 +135,59 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
             $translation,
             $varTranslator
         ) {
+            $nodeTranslation = $helper->nodeTranslation($node);
+
             empty($spec['var']['default']) or
                 $varTranslator->translationDefaults(
-                    $translation,
-                    $varTranslator->array2translation($spec['var']['default'])
+                    $nodeTranslation,
+                    $spec['var']['default']
                 );
+
+            $helper->applyVarTranslator($nodeTranslation, $spec);
 
             $translation = array_merge(
                 $translation,
-                $helper->getNodeTranslation($node)
+                $varTranslator->array2translation($nodeTranslation)
             );
-            $value = $varTranslator->translateString(
-                $value,
-                $translation
-            );
+
+            $value = $varTranslator->translateString($value, $translation);
+
             if ($varTranslator->stringHasVar($value)) {
                 $value = null;
             }
             return $value;
         };
+    }
+
+    /**
+     * Apply varTranslator on translation.
+     *
+     * @param array $translation
+     * @param array $spec
+     */
+    public function applyVarTranslator(array &$translation, array $spec)
+    {
+        $varTranslator = $this->getVarTranslator();
+
+        empty($spec['var']['filter']['pre']) or
+            $varTranslator->applyFilter(
+                $translation,
+                $spec['var']['filter']['pre'],
+                StaticFilter::getPluginManager()
+            );
+
+        empty($spec['var']['helper']) or
+            $varTranslator->applyHelper(
+                $translation,
+                $spec['var']['helper'],
+                $this->view->getHelperPluginManager()
+            );
+
+        empty($spec['var']['filter']['post']) or
+            $varTranslator->applyFilter(
+                $translation,
+                $spec['var']['filter']['post'],
+                StaticFilter::getPluginManager()
+            );
     }
 }

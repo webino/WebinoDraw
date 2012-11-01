@@ -12,6 +12,7 @@ namespace WebinoDraw\Stdlib;
 
 use WebinoDraw\Stdlib\DrawInstructions;
 use Zend\ServiceManager\AbstractPluginManager;
+use Zend\Filter\FilterPluginManager;
 
 /**
  * Replace variables in array with values in the other array.
@@ -102,12 +103,13 @@ class VarTranslator
      *
      * @param  string|array $subject
      * @param  array $translation
-     * @return \WebinoDraw\Stdlib\VarTranslator
+     * @return void
      */
     public function translate(&$subject, array $translation)
     {
         if (is_string($subject)) {
-            return $this->translateString($subject, $translation);
+            $subject = $this->translateString($subject, $translation);
+            return;
         }
         foreach ($subject as &$param) {
             if (is_array($param)) {
@@ -116,7 +118,6 @@ class VarTranslator
             }
             $param = $this->translateString($param, $translation);
         }
-        return $this;
     }
 
     /**
@@ -128,7 +129,8 @@ class VarTranslator
     public function translationMerge(array &$translation, array $values)
     {
         foreach ($values as $key => $value) {
-            $translation[$key] = $this->translate($value, $translation);
+            $this->translate($value, $translation);
+            $translation[$key] = $value;
         }
         return $this;
     }
@@ -144,7 +146,8 @@ class VarTranslator
     {
         foreach ($defaults as $key => $value) {
             if (empty($translation[$key])) {
-                $translation[$key] = $this->translate($value, $translation);
+                $this->translate($value, $translation);
+                $translation[$key] = $value;
             }
         }
         return $this;
@@ -179,7 +182,6 @@ class VarTranslator
     public function translationFetch(array &$translation, array $options)
     {
         foreach ($options as $varName => $varBase) {
-            
             $translation[$varName] = DrawInstructions::toBase($translation, $varBase);
         }
         return $this;
@@ -193,7 +195,7 @@ class VarTranslator
      * @param  array $translation Variables with values to modify.
      * @param  array $spec Helper options.
      * @param  \Zend\ServiceManager\AbstractPluginManager $pluginManager Helper loader.
-     * @return array Array with data instead {$var}.
+     * @return \WebinoDraw\Stdlib\VarTranslator
      */
     public function applyHelper(array &$translation, array $spec, AbstractPluginManager $pluginManager)
     {
@@ -226,6 +228,49 @@ class VarTranslator
                             $translation[$key].= (string) $plugin;
                         }
                     }
+                }
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Apply filters and functions on variables.
+     *
+     * Call user function if exists else call filter.
+     *
+     * @param  array $translation Variables with values to modify.
+     * @param  array $spec Filter options.
+     * @param  \Zend\Filter\FilterPluginManager $pluginManager Filter loader.
+     * @return \WebinoDraw\Stdlib\VarTranslator
+     */
+    public function applyFilter(array &$translation, array $spec, FilterPluginManager $pluginManager)
+    {
+        foreach ($spec as $key => $value) {
+            // skip undefined
+            if (!array_key_exists($key, $translation)) {
+                continue;
+            }
+            foreach ($value as $helper => $options) {
+                // we can use functions first
+                if (function_exists($helper)) {
+                    $this->translate(
+                        $options,
+                        $this->array2translation($translation)
+                    );
+                    $translation[$key] = call_user_func_array($helper, $options);
+                } else {
+                    $this->translate(
+                        $options,
+                        $this->array2translation($translation)
+                    );
+
+                    if (empty($options[1])) {
+                        $options[1] = array();
+                    }
+
+                    $filter = $pluginManager->get($helper, $options[1]);
+                    $translation[$key] = $filter->filter($options[0]);
                 }
             }
         }

@@ -1,22 +1,24 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
+ * Webino (https://github.com/webino/)
  *
- * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
+ * @copyright   Copyright (c) 2012 Peter Bačinský <peter@bacinsky.sk>
+ * @license     New BSD License
  */
 
 namespace Application\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
 
+/**
+ * WebinoDraw  test application controller.
+ */
 class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
-        return new ViewModel(array(
+        return array(
 
             'viewvar' => 'TESTVIEWVAR',
 
@@ -28,24 +30,32 @@ class IndexController extends AbstractActionController
                 ),
             ),
 
-            'items' => array(
-                'item0' => array(
-                    'property0' => 'value00',
-                    'property1' => 'value01',
-                    'childs'    => array(
-                        'property00' => 'value010',
-                        'property01' => 'value011',
+            'depth' => array(
+                'items' => array(
+                    'item0' => array(
+                        'property0' => 'value00',
+                        'property1' => 'value01',
+                        'childs'    => array(
+                            'item00' => array(
+                                'property0' => 'value000',
+                                'property1' => 'value001',
+                            ),
+                            'item01' => array(
+                                'property0' => 'value010',
+                                'property1' => 'value011',
+                            ),
+                        ),
+                    ),
+                    'item1' => array(
+                        'property0' => 'value10',
+                        'property1' => 'value11',
+                    ),
+                    'item3' => array(
+                        'property0' => 'value30',
+                        'property1' => 'value31',
                     ),
                 ),
-                'item1' => array(
-                    'property0' => 'value10',
-                    'property1' => 'value11',
-                ),
-                'item3' => array(
-                    'property0' => 'value30',
-                    'property1' => 'value31',
-                ),
             ),
-        ));
+        );
     }
 }

@@ -68,17 +68,15 @@ class DrawElementTest extends TestCase
                 }
             ));
 
-        $varTranslator->expects($this->once())
-            ->method('key2var')
-            ->will($this->returnValue($var));
+        $nodeTranslation = array('{$nodeValue}' => $node->nodeValue);
 
-        $varTranslator->expects($this->once())
+        $varTranslator->expects($this->exactly(2))
             ->method('array2translation')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue($nodeTranslation));
 
         $varTranslator->expects($this->once())
             ->method('translateString')
-            ->with($options['value'], array('{$nodeValue}' => $node->nodeValue))
+            ->with($options['value'], $nodeTranslation)
             ->will($this->returnValue(true));
 
         $this->drawElement->setVarTranslator($varTranslator);

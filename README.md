@@ -3,7 +3,7 @@
   [![Build Status](https://secure.travis-ci.org/webino/WebinoDraw.png?branch=master)](http://travis-ci.org/webino/WebinoDraw "Master")
   [![Build Status](https://secure.travis-ci.org/webino/WebinoDraw.png?branch=develop)](http://travis-ci.org/webino/WebinoDraw "Develop")
 
-  Provides ability to configure rendering of the layout. Still under development.
+  Provides ability to configure rendering of the layout. **Still under development, use it for play.**
 
   ![WebinoDraw principle](http://static.webino.org/documentation/webino_draw_principle.png)
 
@@ -11,7 +11,7 @@
 
   - Configurable layout.
   - Decoupled logic from template.
-  - Uses ZF2 view variables and helpers.
+  - Uses PHP functions, ZF2 view variables, helpers and filters.
   - Works with pure XHTML5.
   - You can still use phtml, but why!
 
@@ -19,7 +19,7 @@
 
   Following steps are necessary to get this module working (considering a zf2-skeleton or very similar application).
 
-  1. Run: `php composer.phar require webino/webino-draw:dev-develop`
+  1. Run: `php composer.phar require webino/webino-draw:0.*`
   2. Add `WebinoDraw` to the enabled modules list.
 
 ## QuickStart
@@ -138,7 +138,7 @@
              ),
         ),
 
-  - Use **functions** and **view helpers**:
+  - Use **functions**, **view helpers** and **filters**:
 
     Modify variable values, helper definition accepts in function/method parameters: `{$var}`
 
@@ -154,6 +154,15 @@
                         ),
                         'customfunction' => array(array()),
                     ),
+                ),
+                'filter' => array(
+                    'pre' => array(
+                        'customvar' => array(
+                            'stringToUpper' => array(),
+                            'customfunction' => array(),
+                        ),
+                    ),
+                    'post' => array(),
                 ),
             ),
         ),
@@ -240,6 +249,27 @@
         'onEmpty' => array(                              // custom options if node is empty
             'value' => 'Empty node example',             // use same options as normal
         ),
+        'var' => array(
+            'helper' => array(                           // use helpers on vriables
+                'customvar' => array(
+                    'customhelper' => array(             // zend helper
+                        '__invoke' => array(array()),    // zend helper methods with aprams
+                    ),
+                    'customfunction' => array(array()),  // use php function with params
+                ),
+            ),
+            'filter' => array(                           // filter variables
+                'pre' => array(                          // filter called before helpers
+                    'customvar' => array(
+                        'customfilter'   => array(),     // use zend filter with params
+                        'customfinction' => array(),     // use php function with params
+                    ),
+                ),
+                'post' => array(
+                                                         // filter called after helper, same as for pre
+                ),
+            ),
+        ),
         'loop' => array(                                 // loop node by view array items
             'base'    => 'depth.items',                  // path to view array
             'index'   => '0',                            // index start point (not required)
@@ -270,7 +300,7 @@
 
   - The "remove": Add multiple xpath or query option.
   - Variable case support.
-  - Draw helper trigger event.
+  - Instruction option to trigger event.
   - Ajax.
   - Cache.
 

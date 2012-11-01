@@ -13,6 +13,7 @@ namespace WebinoDraw\View\Helper;
 use WebinoDraw\Stdlib\DrawInstructions;
 use WebinoDraw\Dom\NodeList;
 use WebinoDraw\Exception;
+use Zend\Filter\StaticFilter;
 
 /**
  * Draw helper used for DOMElement modifications.
@@ -55,12 +56,7 @@ class DrawElement extends AbstractDrawElement
         empty($spec['render']) or
             $this->render($translation, $spec['render']);
 
-        empty($spec['var']['helper']) or
-            $varTranslator->applyHelper(
-                $translation,
-                $spec['var']['helper'],
-                $this->view->getHelperPluginManager()
-            );
+        $this->applyVarTranslator($translation, $spec);
 
         $varTranslator->translate(
             $spec,
@@ -225,7 +221,7 @@ class DrawElement extends AbstractDrawElement
      *
      * @param  \WebinoDraw\Dom\NodeList $nodes
      * @param  array $spec
-     * @param  array $translation
+     * @param  array $localTranslation
      * @return type
      */
     private function loop(NodeList $nodes, array $spec, array $translation)
@@ -270,24 +266,26 @@ class DrawElement extends AbstractDrawElement
             foreach ($items as $key => $item) {
                 $index++;
 
-                $item['key']   = (string) $key;
-                $item['index'] = (string) $index;
-                $newNode       = clone $nodeClone;
-                $newNodeList   = $nodes->createNodeList(array($newNode));
+                $item['key']      = (string) $key;
+                $item['index']    = (string) $index;
+                $newNode          = clone $nodeClone;
+                $newNodeList      = $nodes->createNodeList(array($newNode));
+                $localTranslation = $translation;
+
 
                 $varTranslator->translationMerge(
-                    $translation,
+                    $localTranslation,
                     $item
                 );
 
-                $this->doWork($newNodeList, $spec, $translation);
+                $this->doWork($newNodeList, $spec, $localTranslation);
 
                 empty($spec['loop']['instructions']) or
                     DrawInstructions::render(
                         $newNode,
                         $this->view,
                         $spec['loop']['instructions'],
-                        $translation
+                        $localTranslation
                     );
 
                 if ($insertBefore) {
