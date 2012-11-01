@@ -1,0 +1,170 @@
+<?php
+return array(
+    'webino_draw' => array(
+        'instructions' => array(
+
+            // todo render example
+            // todo content example
+            // todo trigger event example
+            // todo xpath example
+            // todo table example
+
+            'set-value-example' => array(
+                'query'   => '.hero-unit .btn-success',
+                'helper'  => 'drawElement',
+                'value'   => 'Fork WebinoDraw on GitHub »',
+                'attribs' => array(
+                    'href' => 'https://github.com/webino/WebinoDraw',
+                ),
+            ),
+
+            'set-html-extra-example' => array(
+                'query'  => 'h1',
+                'helper' => 'drawElement',
+                'html'   => '{$value}',
+                'var'    => array(
+                    'set' => array(
+                        'value' => 'Welcome to %sWebino%s',
+                    ),
+                    'helper' => array(
+                        'value' => array(
+                            'sprintf' => array(
+                                '{$value}', '<span class="zf-green">', '</span>'
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+
+            'replace-example' => array(
+                'query'   => '.hero-unit p[1]',
+                'helper'  => 'drawElement',
+                'replace' => '<strong>TEST REPLACE</strong>',
+            ),
+
+            'add-element-example' => array(
+                'query'  => '.hero-unit',
+                'helper' => 'drawElement',
+                'html'   => '<span>TEST ADD BEFORE</span>{$html}',
+            ),
+
+            'remove-example-dummy' => array(
+                'query'  => '.hero-unit',
+                'helper' => 'drawElement',
+                'html'   => '{$html}<p class="remove-me">THIS SHOULD BE REMOVED</p>',
+            ),
+
+            'remove-example' => array(
+                'query'  => '.remove-me',
+                'helper' => 'drawElement',
+                'remove' => '.',
+            ),
+
+            'nodevar-example-prepare' => array(
+                'query'   => '.hero-unit',
+                'helper'  => 'drawElement',
+                'html'    => '{$html}<h2 data-webino-test="ORIGATTRIB">ORIGCONTENT</h2>',
+            ),
+
+            'nodevar-example' => array(
+                'query'  => '.hero-unit h2',
+                'helper' => 'drawElement',
+                'value'  => '{$value}',
+                'var'    => array(
+                    'set' => array(
+                        'value' => '{$nodeValue} NODEVARTEST {$data-webino-test}',
+                        'title' => '{$nodeValue} NODEVARATTRIBTEST {$data-webino-test}',
+                    ),
+                ),
+                'attribs' => array(
+                    'title' => '{$title}',
+                ),
+            ),
+
+            'viewvar-example-prepare' => array(
+                'query'  => '.hero-unit',
+                'helper' => 'drawElement',
+                'html'   => '{$html}<div class="viewvar-example"/>',
+            ),
+
+            'viewvar-example' => array(
+                'query'  => '.viewvar-example',
+                'helper' => 'drawElement',
+                'value'  => '{$viewvar} {$depthvar}',
+                'var'    => array(
+                    'fetch' => array(
+                        'depthvar' => 'value.in.the.depth',
+                    ),
+                ),
+            ),
+
+            'filter-example-prepare' => array(
+                'query'  => '.hero-unit',
+                'helper' => 'drawElement',
+                'html'   => '{$html}<p class="filter-example">-this should be upper case-</p>',
+            ),
+
+            'filter-example' => array(
+                'query'  => '.filter-example',
+                'helper' => 'drawElement',
+                'value'  => '{$nodeValue}',
+                'var'    => array(
+                    'filter' => array(
+                        'pre' => array(
+                            'nodeValue' => array(
+                                'stringToUpper' => array(
+                                    '{$nodeValue}'
+                                ),
+                                'trim' => array(
+                                    '{$nodeValue}', '-'
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+
+            'loop-example-prepare' => array(
+                'query'  => '.hero-unit',
+                'helper' => 'drawElement',
+                'html'   => '{$html}<ul class="loop-example"><li>BEFORE</li><li/><li>AFTER</li></ul>',
+            ),
+
+            'loop-example' => array(
+                'query'  => '.loop-example li[2]',
+                'helper' => 'drawElement',
+                'html'   => '<strong/> <span/>',
+                'loop'   => array(
+                    'base'    => 'depth.items',
+                    'index'   => '0',
+                    'onEmpty' => array(
+                        'replace' => array(
+                            '..' => '<p>YOU HAVE NO ITEMS</p>',
+                        ),
+                    ),
+                    'instructions' => array(
+                        'loop-example-strong-node' => array(
+                            'query'  => 'strong',
+                            'helper' => 'drawElement',
+                            'value'  => '{$key} {$index} {$property0} {$test}',
+                            'var'  => array(
+                                'fetch' => array(
+                                    'test' => 'childs.item00.property0'
+                                ),
+                            ),
+                        ),
+                        'loop-example-span-node' => array(
+                            'query'  => 'span',
+                            'helper' => 'drawElement',
+                            'value'  => 'TADA',
+                        ),
+                    ),
+                ),
+                'attribs' => array(
+                    'title' => '{$property1}',
+                ),
+            ),
+
+        ),
+    ),
+);

@@ -3,32 +3,13 @@ return array(
     'di' => array(
         'instance' => array(
             'alias' => array(
-                'ViewDrawStrategy' => 'Webino\View\Strategy\DrawStrategy',
-
-                /**
-                 * Default draw helpers
-                 */
-                'DrawElement' => 'Webino\Draw\Helper\Element',
+                'drawElement' => 'WebinoDraw\View\Helper\DrawElement',
             ),
-
-            /**
-             * DrawElement
-             */
-            'Webino\Draw\Helper\Element' => array(
-                'parameters' => array(
-                    'varTranslator' => 'Webino\View\Helper\VarTranslator',
-                ),
-            ),
-
-            /**
-             * ViewDrawStrategy
-             */
-            'Webino\View\Strategy\DrawStrategy' => array(
-                'parameters' => array(
-                    'renderer' => 'Zend\View\Renderer\PhpRenderer',
-                ),
-            ),
-           
+        ),
+    ),
+    'service_manager' => array(
+        'factories' => array(
+            'ViewDrawStrategy' => 'WebinoDraw\Mvc\Service\ViewDrawStrategyFactory',
         ),
     ),
     'view_manager' => array(
