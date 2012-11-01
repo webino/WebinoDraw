@@ -11,6 +11,9 @@
 namespace WebinoDraw\Stdlib;
 
 use WebinoDraw\Exception;
+use WebinoDraw\Dom\NodeList;
+use WebinoDraw\Dom\XpathUtils;
+use Zend\View\Renderer\PhpRenderer;
 
 /**
  * Draw instructions utilities.
@@ -93,5 +96,97 @@ abstract class DrawInstructions
             );
         }
         return $_instructions;
+    }
+
+    /**
+     * Return value in depth from multidimensional array.
+     *
+     * @param  array $subject Multidimensional array.
+     * @param  string $base Something like: value.in.the.depth
+     * @return array Result value.
+     */
+    public static function &toBase(array $subject, $base)
+    {
+        $value = $subject;
+        $frags = explode('.', $base);
+
+        foreach ($frags as $key) {
+            // undefined
+            if (empty($value[$key])) {
+                $value = null;
+                break;
+            }
+            $value = &$value[$key];
+        }
+        return $value;
+    }
+
+    /**
+     * Render DOMElement ownerDocument.
+     *
+     * @param  \DOMElement $node DOMDocument element.
+     * @param  \Zend\View\Renderer\PhpRenderer $renderer Provider of view helpers.
+     * @param  array $instructions Draw instructions array.
+     * @param  array $vars Variables to render.
+     * @throws Exception\InvalidArgumentException
+     * @throws Exception\InvalidInstructionException
+     */
+    public static function render(\DOMElement $node, PhpRenderer $renderer, array $instructions, array $vars)
+    {
+        if (empty($node->ownerDocument->xpath)) {
+            throw new Exception\InvalidArgumentException(
+                'Expects document with XPATH'
+            );
+        }
+
+        foreach ($instructions as $key => $spec) {
+            $xpath = array();
+
+            is_string($key) or $spec = current($spec);
+
+            // skip unmapped instructions
+            if (empty($spec['xpath']) && empty($spec['query'])) {
+                continue;
+            }
+
+            empty($spec['xpath']) or
+                $xpath = array_merge(
+                    $xpath,
+                    XpathUtils::arrayXpath($spec['xpath'])
+                );
+
+            // transform css query to xpath
+            empty($spec['query']) or
+                $xpath = array_merge(
+                    $xpath,
+                    XpathUtils::arrayCss2Xpath($spec['query'])
+                );
+
+            if (empty($xpath)) {
+                throw new Exception\InvalidInstructionException(
+                    sprintf("Option `xpath` expected '%s'", print_r($spec, 1))
+                );
+            }
+
+            $nodes = $node->ownerDocument->xpath->query(
+                join('|', $xpath),
+                $node
+            );
+
+            // skip missing node
+            if (empty($nodes->length)) {
+                continue;
+            }
+
+            if (empty($spec['helper'])) {
+                throw new Exception\InvalidInstructionException(
+                    sprintf("Option `helper` expected in '%s'", print_r($spec, 1))
+                );
+            }
+
+            $renderer->plugin($spec['helper'])
+                     ->setVars($vars)
+                     ->drawNodes(new NodeList($nodes), $spec);
+        }
     }
 }

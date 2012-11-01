@@ -10,6 +10,7 @@
 
 namespace WebinoDraw\Stdlib;
 
+use WebinoDraw\Stdlib\DrawInstructions;
 use Zend\ServiceManager\AbstractPluginManager;
 
 /**
@@ -178,20 +179,8 @@ class VarTranslator
     public function translationFetch(array &$translation, array $options)
     {
         foreach ($options as $varName => $varBase) {
-
-            $value = $translation;
-            $frags = explode('.', $varBase);
-
-            foreach ($frags as $baseKey) {
-                // undefined
-                if (empty($value[$baseKey])) {
-                    $value = null;
-                    break;
-                }
-
-                $value = &$value[$baseKey];
-            }
-            $translation[$varName] = &$value;
+            
+            $translation[$varName] = DrawInstructions::toBase($translation, $varBase);
         }
         return $this;
     }

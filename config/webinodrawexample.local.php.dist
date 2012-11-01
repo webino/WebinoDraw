@@ -100,23 +100,35 @@ return array(
             'loop-example-prepare' => array(
                 'query'  => '.hero-unit',
                 'helper' => 'drawElement',
-                'html'   => '{$html}<ul class="loop-example"><li>BEFORE</li><li>ITEM</li><li>AFTER</li></ul>',
+                'html'   => '{$html}<ul class="loop-example"><li>BEFORE</li><li/><li>AFTER</li></ul>',
             ),
 
             'loop-example' => array(
                 'query'  => '.loop-example li[2]',
                 'helper' => 'drawElement',
-                'value'  => '{$index} {$property0}',
+                'html'   => '<strong/> <span/>',
                 'loop'   => array(
-                    'base'    => 'items',
+                    'base'    => 'depth.items',
                     'index'   => '0',
                     'onEmpty' => array(
                         'replace' => array(
                             '..' => '<p>YOU HAVE NO ITEMS</p>',
                         ),
                     ),
+                    'instructions' => array(
+                        'loop-example-strong-node' => array(
+                            'query'  => 'strong',
+                            'helper' => 'drawElement',
+                            'value'  => '{$key} {$index} {$property0}',
+                        ),
+                        'loop-example-span-node' => array(
+                            'query'  => 'span',
+                            'helper' => 'drawElement',
+                            'value'  => 'TADA',
+                        ),
+                    ),
                 ),
-                'attribs'   => array(
+                'attribs' => array(
                     'title' => '{$property1}',
                 ),
             ),

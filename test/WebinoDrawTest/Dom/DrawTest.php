@@ -69,7 +69,11 @@ class DrawTest extends TestCase
     public function testDrawDomExpectsXpath()
     {
         $this->setExpectedException('WebinoDraw\Exception\InvalidArgumentException');
-        $this->draw->drawDom(new \DOMDocument, array(), array());
+
+        $doc = new \DOMDocument;
+        $doc->loadXML('<dummy/>');
+
+        $this->draw->drawDom($doc, array(), array());
     }
 
     public function testDrawDomSingleNode()
@@ -92,7 +96,9 @@ class DrawTest extends TestCase
         $drawHelperMock = $this->getMock('WebinoDraw\View\Helper\DrawElement', array(), array(), '', null);
         $drawHelperMock->expects($this->once())
             ->method('setVars')
-            ->with($vars);
+            ->with($vars)
+            ->will($this->returnValue($drawHelperMock));
+        
         $drawHelperMock->expects($this->once())
             ->method('drawNodes')
             ->with(
@@ -134,7 +140,9 @@ class DrawTest extends TestCase
         $drawHelperMock = $this->getMock('WebinoDraw\View\Helper\DrawElement', array(), array(), '', null);
         $drawHelperMock->expects($this->exactly(2))
             ->method('setVars')
-            ->with($vars);
+            ->with($vars)
+            ->will($this->returnValue($drawHelperMock));
+
         $drawHelperMock->expects($this->exactly(2))
             ->method('drawNodes')
             ->with(

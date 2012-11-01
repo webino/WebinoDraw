@@ -23,7 +23,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
      * @param  array $spec
      * @return type
      */
-    protected function getValuePreSet(array $spec)
+    protected function valuePreSet(array $spec)
     {
         $translation   = array();
         $varTranslator = $this->getVarTranslator();
@@ -59,7 +59,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
      * @param  array $spec
      * @return type
      */
-    protected function getHtmlPreSet($subject, array $spec)
+    protected function htmlPreSet($subject, array $spec)
     {
         $varTranslator = $this->getVarTranslator();
         $translation   = array();
@@ -102,7 +102,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
      * @param  array $spec
      * @return type
      */
-    protected function getAttribsPreSet(array $spec)
+    protected function attribsPreSet(array $spec)
     {
         $translation   = array();
         $varTranslator = $this->getVarTranslator();

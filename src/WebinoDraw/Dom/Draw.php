@@ -11,8 +11,7 @@
 namespace WebinoDraw\Dom;
 
 use WebinoDraw\Exception;
-use WebinoDraw\Dom\NodeList;
-use Zend\Dom\Css2Xpath;
+use WebinoDraw\Stdlib\DrawInstructions;
 use Zend\View\Renderer\PhpRenderer;
 
 /**
@@ -77,49 +76,12 @@ class Draw
      */
     public function drawDom(\DOMDocument $doc, array $instructions, array $vars)
     {
-        if (empty($doc->xpath)) {
-            throw new Exception\InvalidArgumentException(
-                'Expects document with XPATH'
-            );
-        }
-
-        foreach ($instructions as $node) {
-            $spec  = current($node);
-            $xpath = array();
-
-            // skip unmapped instructions
-            if (empty($spec['xpath']) && empty($spec['query'])) continue;
-
-            if (!empty($spec['xpath'])) {
-                if (!is_array($spec['xpath'])) $xpath[] = $spec['xpath'];
-                else $xpath = array_merge($xpath, $spec['xpath']);
-            };
-            // transform css query to xpath
-            if (!empty($spec['query'])) {
-                if (!is_array($spec['query'])) $xpath[] = Css2Xpath::transform($spec['query']);
-                else $xpath = array_merge($xpath, array_map(function($value){
-                    return Css2Xpath::transform($value);
-                }, $spec['query']));
-            }
-
-            if (empty($xpath)) throw new Exception\InvalidInstructionException(
-                sprintf("Option `xpath` expected '%s'", print_r($spec, 1))
-            );
-
-            $xpath = join('|', $xpath);
-            $nodes = $doc->xpath->query($xpath);
-
-            // skip missing node
-            if (!$nodes || !$nodes->length) continue;
-
-            if (empty($spec['helper'])) throw new Exception\InvalidInstructionException(
-                sprintf("Option `helper` expected '%s'", print_r($spec, 1))
-            );
-
-            $plugin = $this->renderer->plugin($spec['helper']);
-            $plugin->setVars($vars);
-            $plugin->drawNodes(new NodeList($nodes), $spec);
-        }
+        DrawInstructions::render(
+            $doc->documentElement,
+            $this->renderer,
+            $instructions,
+            $vars
+        );
         return $this;
     }
 }

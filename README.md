@@ -90,7 +90,7 @@
 
   - Use **view variables**:
 
-    Assume that controller action return view model with multi-dimensional array.
+    Assume that controller action return view model with multidimensional array.
 
         'draw-node-example' => array(
             'query'  => 'body',
@@ -158,6 +158,26 @@
             ),
         ),
 
+  - Loop by view array:
+
+        'draw-node-example' => array(
+            'query'  => 'ul li',
+            'helper' => 'drawElement',
+            'value'  => '{$key} {$index} {$property}',
+            'loop'   => array(
+                'base'    => 'array.in.the.depth',
+                'index'   => '0',
+                'onEmpty' => array(
+                    'replace' => array(
+                        '..' => '<p>You have no items.</p>',
+                    ),
+                ),
+            ),
+            'attribs' => array(
+                'title' => '{$property}',
+            ),
+        ),
+
   - Set instructions **from controller**:
 
         $this->getServiceLocator()->get('ViewDrawStrategy')->setInstructions(array(
@@ -217,10 +237,18 @@
         ),
         'remove'  => '.',                                // XPath, removes target node
         'replace' => '<strong/>',                        // XHTML, replaces node
-        'onEmpty' => array(
-
-            // Custom options if node is empty:
-            'value' => 'Empty node example',             // use same options
+        'onEmpty' => array(                              // custom options if node is empty
+            'value' => 'Empty node example',             // use same options as normal
+        ),
+        'loop' => array(                                 // loop node by view array items
+            'base'    => 'depth.items',                  // path to view array
+            'index'   => '0',                            // index start point (not required)
+            'onEmpty' => array(                          // custom options if items array is empty
+                                                         // use same options as normal
+            ),
+            'instructions' => array(                     // instructions to draw looped element nodes
+                                                         // add same instructions as normal
+            ),
         ),
     ),
 
@@ -243,7 +271,6 @@
   - The "remove": Add multiple xpath or query option.
   - Variable case support.
   - Draw helper trigger event.
-  - Draw loop.
   - Ajax.
   - Cache.
 

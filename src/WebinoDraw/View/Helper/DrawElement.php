@@ -10,7 +10,9 @@
 
 namespace WebinoDraw\View\Helper;
 
+use WebinoDraw\Stdlib\DrawInstructions;
 use WebinoDraw\Dom\NodeList;
+use WebinoDraw\Exception;
 
 /**
  * Draw helper used for DOMElement modifications.
@@ -127,7 +129,7 @@ class DrawElement extends AbstractDrawElement
      */
     public function setValue(NodeList $nodes, array $spec)
     {
-        $preSet = $this->getValuePreSet($spec);
+        $preSet = $this->valuePreSet($spec);
         $nodes->setValue($spec['value'], $preSet);
     }
 
@@ -139,7 +141,7 @@ class DrawElement extends AbstractDrawElement
      */
     public function setHtml(NodeList $nodes, array $spec)
     {
-        $preSet = $this->getHtmlPreSet($spec['html'], $spec);
+        $preSet = $this->htmlPreSet($spec['html'], $spec);
         $nodes->setHtml($spec['html'], $preSet);
     }
 
@@ -151,7 +153,7 @@ class DrawElement extends AbstractDrawElement
      */
     public function setAttribs(NodeList $nodes, array $spec)
     {
-        $preSet = $this->getAttribsPreSet($spec);
+        $preSet = $this->attribsPreSet($spec);
         $nodes->setAttribs($spec['attribs'], $preSet);
     }
 
@@ -187,7 +189,7 @@ class DrawElement extends AbstractDrawElement
                     $newNodes = $nodes->createNodeList(
                         $node->ownerDocument->xpath->query($xpath, $node)
                     );
-                    $preSet   = $this->getHtmlPreSet($html, $spec);
+                    $preSet   = $this->htmlPreSet($html, $spec);
                     $newNodes->replace($html, $preSet);
                     $subspec  = $spec;
                     unset($subspec['replace']);
@@ -195,9 +197,9 @@ class DrawElement extends AbstractDrawElement
                 }
                 continue;
             }
-            
+
             $newNodes = $nodes->createNodeList(array($node));
-            $preSet   = $this->getHtmlPreSet($spec['replace'], $spec);
+            $preSet   = $this->htmlPreSet($spec['replace'], $spec);
             $newNodes->replace($spec['replace'], $preSet);
             $subspec  = $spec;
             unset($subspec['replace']);
@@ -230,16 +232,21 @@ class DrawElement extends AbstractDrawElement
     {
         $varTranslator = $this->getVarTranslator();
 
-        // todo
-        if (empty($translation['items'])) {
+        if (empty($spec['loop']['base'])) {
+            throw new Exception\MissingPropertyException(
+                sprintf('Loop base expected in: %s', print_r($spec, 1))
+            );
+        }
 
-            // onEmpty
-            !array_key_exists('onEmpty', $spec['loop']) or
+        $items = DrawInstructions::toBase($translation, $spec['loop']['base']);
+
+        if (empty($items)) {
+
+            if (array_key_exists('onEmpty', $spec['loop'])) {
                 $this->doWork($nodes, $spec['loop']['onEmpty'], $translation);
-
+            }
             return;
         }
-        $items = $translation['items'];
 
         foreach ($nodes as $node) {
 
@@ -274,6 +281,14 @@ class DrawElement extends AbstractDrawElement
                 );
 
                 $this->doWork($newNodeList, $spec, $translation);
+
+                empty($spec['loop']['instructions']) or
+                    DrawInstructions::render(
+                        $newNode,
+                        $this->view,
+                        $spec['loop']['instructions'],
+                        $translation
+                    );
 
                 if ($insertBefore) {
                     $parentNode->insertBefore($newNode, $insertBefore);
