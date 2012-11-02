@@ -225,9 +225,9 @@ class VarTranslator
                                 array($plugin, $fc),
                                 $params
                             );
-                            $translation[$key].= (string) $plugin;
                         }
                     }
+                    $translation[$key].= (string) $plugin;
                 }
             }
         }
