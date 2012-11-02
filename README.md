@@ -299,6 +299,8 @@
   6. Paste it to application: `src/Application/Controller/IndexController.php`
   7. Check your ZF2 Application welcome page for changes.
 
+[Check out wiki for more examples](https://github.com/webino/WebinoDraw/wiki)
+
 ## Todo
 
   - The "remove": Add multiple xpath or query option.
@@ -311,5 +313,5 @@
 
   Please, if you are interested in this Zend Framework module report any issues and don't hesitate to contribute.
 
-  [Report a bug](https://github.com/webino/WebinoDraw/issues) | [Fork me](https://github.com/webino/WebinoDraw)
+[Report a bug](https://github.com/webino/WebinoDraw/issues) | [Fork me](https://github.com/webino/WebinoDraw)
 
