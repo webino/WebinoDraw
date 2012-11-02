@@ -312,6 +312,7 @@
   - Ajax.
   - Cache.
   - DrawHelper how to.
+  - Add DrawResized to resize images.
 
 ## Addendum
 
