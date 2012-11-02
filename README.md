@@ -12,6 +12,7 @@
   - Configurable layout.
   - Decoupled logic from template.
   - Uses PHP functions, ZF2 view variables, helpers and filters.
+  - Auto escape data.
   - Works with pure XHTML5.
   - You can still use phtml, but why!
 
@@ -158,7 +159,7 @@
                 'filter' => array(
                     'pre' => array(
                         'customvar' => array(
-                            'stringToUpper' => array(),
+                            'customfilter'   => array(),
                             'customfunction' => array(),
                         ),
                     ),
@@ -250,10 +251,10 @@
             'value' => 'Empty node example',             // use same options as normal
         ),
         'var' => array(
-            'helper' => array(                           // use helpers on vriables
+            'helper' => array(                           // use helpers on variables
                 'customvar' => array(
                     'customhelper' => array(             // zend helper
-                        '__invoke' => array(array()),    // zend helper methods with aprams
+                        '__invoke' => array(array()),    // zend helper methods with params
                     ),
                     'customfunction' => array(array()),  // use php function with params
                 ),
@@ -262,7 +263,7 @@
                 'pre' => array(                          // filter called before helpers
                     'customvar' => array(
                         'customfilter'   => array(),     // use zend filter with params
-                        'customfinction' => array(),     // use php function with params
+                        'customfunction' => array(),     // use php function with params
                     ),
                 ),
                 'post' => array(
@@ -294,7 +295,9 @@
   2. Setup WebinoDraw module.
   3. Copy: `vendor/webino/webino-draw/config/webinodrawexample.local.php.dist`
   4. Paste it to application: `config/autoload/webinodrawexample.local.php`
-  5. Check your ZF2 Application welcome page for changes.
+  5. Copy: `vendor/webino/webino-draw/test/resources/IndexController.php`
+  6. Paste it to application: `src/Application/Controller/IndexController.php`
+  7. Check your ZF2 Application welcome page for changes.
 
 ## Todo
 
