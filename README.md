@@ -146,7 +146,7 @@
 
   - Use **functions**, **view helpers** and **filters**:
 
-    Modify variable values, helper definition accepts in function/method parameters: `{$var}`
+    Modify variable values, helper/filter definition accepts in function/method parameters: `{$var}`
 
         'draw-node-example' => array(
             'query'  => 'body',
