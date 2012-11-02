@@ -231,8 +231,6 @@
   Modularity of draw is provided by custom classes which consumes DOM nodes, options and data
   to make operations over DOM nodes.
 
-  *Copy code, paste it to your module config, change ".customclass" and play.*
-
 **drawElement**
 
   Use it to modify element of page.
