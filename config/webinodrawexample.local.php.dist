@@ -4,7 +4,7 @@ return array(
         'instructions' => array(
 
             // todo render example
-            // todo content example
+            // todo translate example
             // todo trigger event example
             // todo xpath example
             // todo table example
