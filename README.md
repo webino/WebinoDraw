@@ -311,6 +311,7 @@
   - Instruction option to trigger event.
   - Ajax.
   - Cache.
+  - DrawHelper how to.
 
 ## Addendum
 
