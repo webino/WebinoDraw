@@ -292,7 +292,7 @@
   Look for more examples in: `config/webinodrawexample.local.php.dist`
 
   1. Install ZendSkeletonApplication.
-  2. Setup WebinoDraw module.
+  2. Set up WebinoDraw module.
   3. Copy: `vendor/webino/webino-draw/config/webinodrawexample.local.php.dist`
   4. Paste it to application: `config/autoload/webinodrawexample.local.php`
   5. Copy: `vendor/webino/webino-draw/test/resources/IndexController.php`
