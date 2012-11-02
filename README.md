@@ -18,7 +18,7 @@
 
 ## Setup
 
-  Following steps are necessary to get this module working (considering a zf2-skeleton or very similar application).
+  Following steps are necessary to get this module working, considering a zf2-skeleton or very similar application:
 
   1. Add `"minimum-stability": "dev"` to your composer.json, because this module is under development.
   2. Run: `php composer.phar require webino/webino-draw:1.*`
