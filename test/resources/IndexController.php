@@ -10,14 +10,34 @@
 namespace Application\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\I18n\Translator\Loader\RemoteLoaderInterface;
 
 /**
  * WebinoDraw  test application controller.
  */
-class IndexController extends AbstractActionController
+class IndexController extends AbstractActionController implements RemoteLoaderInterface
 {
+    /**
+     * Test translation
+     *
+     * @param  string $locale
+     * @param  string $textDomain
+     * @return \Zend\I18n\Translator\TextDomain|null
+     */
+    public function load($locale, $textDomain)
+    {
+        return array(
+            'this should be translated' => 'toto by malo byť preložené',
+        );
+    }
+
     public function indexAction()
     {
+        // set up test translator
+        $translator = $this->getServiceLocator()->get('translator');
+        $translator->getPluginManager()->setService('testTranslation', $this);
+        $translator->addRemoteTranslations('testTranslation');
+
         return array(
 
             'viewvar' => 'TESTVIEWVAR',
