@@ -199,6 +199,7 @@ class VarTranslator
      */
     public function applyHelper(array &$translation, array $spec, AbstractPluginManager $pluginManager)
     {
+        $results = array();
         foreach ($spec as $key => $value) {
             // skip undefined
             if (!array_key_exists($key, $translation)) {
@@ -219,7 +220,7 @@ class VarTranslator
                         foreach ($calls as $params) {
                             $this->translate(
                                 $params,
-                                $this->array2translation($translation)
+                                $this->array2translation(array_merge($translation, $results))
                             );
                             $plugin = call_user_func_array(
                                 array($plugin, $fc),
@@ -227,10 +228,14 @@ class VarTranslator
                             );
                         }
                     }
-                    $translation[$key].= (string) $plugin;
+                    if (empty($results[$key])) {
+                        $results[$key] = null;
+                    }
+                    $results[$key].= (string) $plugin;
                 }
             }
         }
+        $translation = array_merge($translation, $results);
         return $this;
     }
 
