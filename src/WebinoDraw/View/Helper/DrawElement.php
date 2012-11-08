@@ -47,12 +47,6 @@ class DrawElement extends AbstractDrawElement
                 $spec['var']['fetch']
             );
 
-        empty($spec['var']['default']) or
-            $varTranslator->translationDefaults(
-                $translation,
-                $spec['var']['default']
-            );
-
         empty($spec['render']) or
             $this->render($translation, $spec['render']);
 
