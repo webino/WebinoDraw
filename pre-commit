@@ -1,6 +1,6 @@
 # pre-commit
 git stash -q --keep-index
-cd phing classmap
+phing classmap
 git add autoload_classmap.php
 cd test && phpunit
 RESULT=$?
