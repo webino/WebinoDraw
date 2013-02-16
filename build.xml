@@ -30,9 +30,13 @@
         <exec command="git clone ${test.appgit} ${test.appdir}" checkreturn="true" logoutput="true"/>
         <exec command="cd ${test.appdir} &amp;&amp; php composer.phar install" checkreturn="true" logoutput="true"/>
 
-        <copy file="${test.apptestcfg}"        tofile="${test.appcfg}"        overwrite="true"/>
-        <copy file="${test.apptestcontroller}" tofile="${test.appcontroller}" overwrite="true"/>
-        <copy file="${test.modulecfg}"         tofile="${test.moduletestcfg}" overwrite="true"/>
+        <delete file="${test.appcfg}"/>
+        <exec command="ln -s ${test.apptestcfg} ${test.appcfg}" checkreturn="true" logoutput="true"/>
+
+        <delete file="${test.appcontroller}"/>
+        <exec command="ln -s ${test.apptestcontroller} ${test.appcontroller}" checkreturn="true" logoutput="true"/>
+        
+        <exec command="ln -s ${test.modulecfg} ${test.moduletestcfg}" checkreturn="true" logoutput="true"/>
 
     </target>
 

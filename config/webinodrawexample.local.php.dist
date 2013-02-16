@@ -1,5 +1,4 @@
 <?php
-//return array();
 return array(
     'webino_draw' => array(
         'instructions' => array(

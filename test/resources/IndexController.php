@@ -9,8 +9,9 @@
 
 namespace Application\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
 use Zend\I18n\Translator\Loader\RemoteLoaderInterface;
+use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Stdlib;
 
 /**
  * WebinoDraw  test application controller.
@@ -26,8 +27,8 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
      */
     public function load($locale, $textDomain)
     {
-        return array(
-            'this should be translated' => 'toto by malo byť preložené',
+        return new Stdlib\ArrayObject(
+            array('this should be translated' => 'toto by malo byť preložené')
         );
     }
 
