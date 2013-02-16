@@ -1,11 +1,11 @@
 <?php
 /**
- * Webino (https://github.com/webino/)
+ * Webino (http://webino.sk/)
  *
  * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
- * @copyright   Copyright (c) 2012 Peter Bačinský <peter@bacinsky.sk>
+ * @copyright   Copyright (c) 2013 Webino, s. r. o. (http://webino.sk/)
  * @license     New BSD License
- * @package     WebinoDraw_Mvc
+ * @package     WebinoDraw\Mvc
  */
 
 namespace WebinoDraw\Mvc\Service;
@@ -17,8 +17,9 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * @category    Webino
- * @package     WebinoDraw_Mvc
+ * @package     WebinoDraw\Mvc
  * @subpackage  Service
+ * @author      Peter Bačinský <peter@bacinsky.sk>
  */
 class ViewDrawStrategyFactory implements FactoryInterface
 {

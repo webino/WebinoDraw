@@ -1,18 +1,19 @@
 <?php
 /**
- * Webino (https://github.com/webino/)
+ * Webino (http://webino.sk/)
  *
  * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
- * @copyright   Copyright (c) 2012 Peter Bačinský <peter@bacinsky.sk>
+ * @copyright   Copyright (c) 2013 Webino, s. r. o. (http://webino.sk/)
  * @license     New BSD License
- * @package     WebinoDraw_Exception
+ * @package     WebinoDraw\Exception
  */
 
 namespace WebinoDraw\Exception;
 
 /**
  * @category    Webino
- * @package     WebinoDraw_Exception
+ * @package     WebinoDraw\Exception
+ * @author      Peter Bačinský <peter@bacinsky.sk>
  */
 class InvalidArgumentException extends \InvalidArgumentException implements ExceptionInterface
 {

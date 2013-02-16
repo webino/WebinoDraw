@@ -1,27 +1,26 @@
 <?php
 /**
- * Webino (https://github.com/webino/)
+ * Webino (http://webino.sk/)
  *
  * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
- * @copyright   Copyright (c) 2012 Peter Bačinský <peter@bacinsky.sk>
+ * @copyright   Copyright (c) 2013 Webino, s. r. o. (http://webino.sk/)
  * @license     New BSD License
- * @package     WebinoDraw_Dom
+ * @package     WebinoDraw\Dom
  */
 
-namespace WebinoDrawTest\Dom;
-
-use WebinoDraw\Dom\Draw;
-use WebinoDrawTest\TestCase;
+namespace WebinoDraw\Dom;
 
 /**
  * Test class for WebinoDraw\Dom\Draw.
  *
  * @category    Webino
- * @package     WebinoDraw_Dom
+ * @package     WebinoDraw\Dom
  * @subpackage  UnitTests
- * @group       WebinoDraw_Dom
+ * @group       WebinoDraw\Dom
+ * @author      Peter Bačinský <peter@bacinsky.sk>
  */
-class DrawTest extends TestCase
+class DrawTest
+    extends \PHPUnit_Framework_TestCase
 {
     protected $rendererMock;
     protected $draw;
@@ -98,7 +97,7 @@ class DrawTest extends TestCase
             ->method('setVars')
             ->with($vars)
             ->will($this->returnValue($drawHelperMock));
-        
+
         $drawHelperMock->expects($this->once())
             ->method('drawNodes')
             ->with(

@@ -1,11 +1,11 @@
 <?php
 /**
- * Webino (https://github.com/webino/)
+ * Webino (http://webino.sk/)
  *
  * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
- * @copyright   Copyright (c) 2012 Peter Bačinský <peter@bacinsky.sk>
+ * @copyright   Copyright (c) 2013 Webino, s. r. o. (http://webino.sk/)
  * @license     New BSD License
- * @package     WebinoDraw_View
+ * @package     WebinoDraw\View
  */
 
 namespace WebinoDraw\View\Strategy;
@@ -20,8 +20,9 @@ use Zend\View\ViewEvent;
  * Draw XHTML with this view strategy.
  *
  * @category    Webino
- * @package     WebinoDraw_View
+ * @package     WebinoDraw\View
  * @subpackage  Strategy
+ * @author      Peter Bačinský <peter@bacinsky.sk>
  */
 class DrawStrategy extends PhpRendererStrategy
 {

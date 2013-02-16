@@ -1,27 +1,26 @@
 <?php
 /**
- * Webino (https://github.com/webino/)
+ * Webino (http://webino.sk/)
  *
  * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
- * @copyright   Copyright (c) 2012 Peter Bačinský <peter@bacinsky.sk>
+ * @copyright   Copyright (c) 2013 Webino, s. r. o. (http://webino.sk/)
  * @license     New BSD License
- * @package     WebinoDraw_View
+ * @package     WebinoDraw\View
  */
 
-namespace WebinoDrawTest\View\Helper;
-
-use WebinoDraw\View\Helper\DrawElement;
-use WebinoDrawTest\TestCase;
+namespace WebinoDraw\View\Helper;
 
 /**
  * Test class for WebinoDraw\View\Helper\DrawElement.
  *
  * @category    Webino
- * @package     WebinoDraw_View
+ * @package     WebinoDraw\View
  * @subpackage  UnitTests
- * @group       WebinoDraw_View
+ * @group       WebinoDraw\View
+ * @author      Peter Bačinský <peter@bacinsky.sk>
  */
-class DrawElementTest extends TestCase
+class DrawElementTest
+    extends \PHPUnit_Framework_TestCase
 {
     protected $drawElement;
     protected $nodeListMock;

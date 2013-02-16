@@ -1,11 +1,11 @@
 <?php
 /**
- * Webino (https://github.com/webino/)
+ * Webino (http://webino.sk/)
  *
  * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
- * @copyright   Copyright (c) 2012 Peter Bačinský <peter@bacinsky.sk>
+ * @copyright   Copyright (c) 2013 Webino, s. r. o. (http://webino.sk/)
  * @license     New BSD License
- * @package     WebinoDraw_Stdlib
+ * @package     WebinoDraw\Stdlib
  */
 
 namespace WebinoDraw\Stdlib;
@@ -24,7 +24,8 @@ use Zend\Filter\FilterPluginManager;
  * keys. Those {$variable} will be substituted with data.
  *
  * @category    Webino
- * @package     WebinoDraw_Stdlib
+ * @package     WebinoDraw\Stdlib
+ * @author      Peter Bačinský <peter@bacinsky.sk>
  */
 class VarTranslator
 {

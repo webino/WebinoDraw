@@ -1,33 +1,32 @@
 <?php
 /**
- * Webino (https://github.com/webino/)
+ * Webino (http://webino.sk/)
  *
  * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
- * @copyright   Copyright (c) 2012 Peter Bačinský <peter@bacinsky.sk>
+ * @copyright   Copyright (c) 2013 Webino, s. r. o. (http://webino.sk/)
  * @license     New BSD License
- * @package     WebinoDraw_Dom
+ * @package     WebinoDraw\Dom
  */
 
-namespace WebinoDrawTest\Dom;
-
-use WebinoDraw\Dom\NodeList;
-use WebinoDrawTest\TestCase;
+namespace WebinoDraw\Dom;
 
 /**
  * Test class for WebinoDraw\Dom\Draw.
  *
  * @category    Webino
- * @package     WebinoDraw_Dom
+ * @package     WebinoDraw\Dom
  * @subpackage  UnitTests
- * @group       WebinoDraw_Dom
+ * @group       WebinoDraw\Dom
+ * @author      Peter Bačinský <peter@bacinsky.sk>
  */
-class NodeListTest extends TestCase
+class NodeListTest
+    extends \PHPUnit_Framework_TestCase
 {
     public function testConstructWithInvalidNodeList()
     {
         $this->setExpectedException('\WebinoDraw\Exception\InvalidArgumentException');
 
-        $nodeList = new NodeList(null);
+        new NodeList(null);
     }
 
     public function testCreateNodeList()

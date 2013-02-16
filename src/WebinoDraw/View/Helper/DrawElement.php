@@ -1,11 +1,11 @@
 <?php
 /**
- * Webino (https://github.com/webino/)
+ * Webino (http://webino.sk/)
  *
  * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
- * @copyright   Copyright (c) 2012 Peter Bačinský <peter@bacinsky.sk>
+ * @copyright   Copyright (c) 2013 Webino, s. r. o. (http://webino.sk/)
  * @license     New BSD License
- * @package     WebinoDraw_View
+ * @package     WebinoDraw\View
  */
 
 namespace WebinoDraw\View\Helper;
@@ -13,14 +13,14 @@ namespace WebinoDraw\View\Helper;
 use WebinoDraw\Stdlib\DrawInstructions;
 use WebinoDraw\Dom\NodeList;
 use WebinoDraw\Exception;
-use Zend\Filter\StaticFilter;
 
 /**
  * Draw helper used for DOMElement modifications.
  *
  * @category    Webino
- * @package     WebinoDraw_View
+ * @package     WebinoDraw\View
  * @subpackage  Helper
+ * @author      Peter Bačinský <peter@bacinsky.sk>
  */
 class DrawElement extends AbstractDrawElement
 {

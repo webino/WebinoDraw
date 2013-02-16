@@ -1,27 +1,26 @@
 <?php
 /**
- * Webino (https://github.com/webino/)
+ * Webino (http://webino.sk/)
  *
  * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
- * @copyright   Copyright (c) 2012 Peter Bačinský <peter@bacinsky.sk>
+ * @copyright   Copyright (c) 2013 Webino, s. r. o. (http://webino.sk/)
  * @license     New BSD License
- * @package     WebinoDraw_View
+ * @package     WebinoDraw\View
  */
 
-namespace WebinoDrawTest\View\Strategy;
-
-use WebinoDraw\View\Strategy\DrawStrategy;
-use WebinoDrawTest\TestCase;
+namespace WebinoDraw\View\Strategy;
 
 /**
  * Test class for WebinoDraw\Stdlib\VarTranslator.
  *
  * @category    Webino
- * @package     WebinoDraw_View
+ * @package     WebinoDraw\View
  * @subpackage  UnitTests
- * @group       WebinoDraw_View
+ * @group       WebinoDraw\View
+ * @author      Peter Bačinský <peter@bacinsky.sk>
  */
-class DrawStrategyTest extends TestCase
+class DrawStrategyTest
+    extends \PHPUnit_Framework_TestCase
 {
     protected $draw;
     protected $drawMock;
