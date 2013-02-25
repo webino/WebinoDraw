@@ -5,8 +5,7 @@ return array(
 
             // todo render example
             // todo content example
-            // todo trigger event example
-            // todo xpath example
+            // todo complex xpath example
             // todo table example
 
             'set-value-example' => array(
