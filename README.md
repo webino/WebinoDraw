@@ -5,7 +5,7 @@
 
   Provides ability to configure rendering of the layout. **Still under development, use it for play.**
 
-  **Supports easy [form rendering](#drawform) with translations.**
+  **Supports easy [form rendering](#drawform) with translator support.**
 
   <br />
 
@@ -401,20 +401,20 @@
     ),
 
 
-  *NOTE: Magic form is just like an ordinary zend form, but it could be instantiated via DI
-  and fixes some issues with an element translation.*
+  *NOTE: Magic form is just like an ordinary zend form, but it could be instantiated via DI.*
 
-  *NOTE: If you don't want to use Draw's MagicForm, just inject one into ServiceManager. But there can be potential
-  problems with the translation. But watch translations!*
+  *NOTE: If you don't want to use Draw's MagicForm, just inject one into ServiceManager.*
 
 ## Pitfalls
 
   - Use `<![CDATA[ ]]>` with entities, like `&amp;` to: `<![CDATA[&amp;]]>`
 
-  - To draw the form the Draw's MagicForm is used. It solves some temporary issues with translation when
-    Zend's FormElement view helper is used, because it does not allow to pass translator text domain to its elements.
-    Next issue it solves is feature, it allows to instantiate the object of type FormInterface via DI directly. However
-    any valid form available via ServiceManager can be used.
+  - To create the form the Draw's MagicForm is used. It allows to instantiate the object of type FormInterface
+    via DI directly. However any valid form available via ServiceManager can be used.
+
+  - To draw the form the Draw's MagicFormElement and MagicFormRow view helper is used. It solves some  issues
+    with the translator when Zend's FormElement view helper is used, because it does not allow to pass translator
+    text domain to its elements.
 
 ## Examples
 
@@ -476,7 +476,7 @@
   - Run `phpunit` in test directory.
   - Run `phing test` in module directory to run test and code insights.
 
-    *NOTE: To run code insights there are some tools requirements.*
+    *NOTE: To run the code insights there are some tool requirements.*
 
 ## Todo
 
