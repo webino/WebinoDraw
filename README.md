@@ -5,7 +5,7 @@
 
   Provides ability to configure rendering of the layout. **Still under development, use it for play.**
 
-  **Supports easy [form rendering](#drawForm) with translations.**
+  **Supports easy [form rendering](#drawform) with translations.**
 
   <br />
 
@@ -331,7 +331,7 @@
         ),
     ),
 
-### <a id="drawForm"></a>drawForm
+### drawForm
 
   Use it to render the form. If `<form/>` template is empty use the default render else try to match
   form elements by name attribute.
