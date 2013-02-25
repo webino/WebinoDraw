@@ -428,15 +428,15 @@
 
   3. Set up module test configuration:
     - Copy: `vendor/webino/webino-draw/test/resources/config.local.php`
-    - Paste it to application: `config/autoload/config.local.php`
+    - Paste it to application: `config/autoload/config.local.php` <br /><br />
 
   3. Set up module example configuration:
     - Copy: `vendor/webino/webino-draw/config/webinodrawexample.local.php.dist`
-    - Paste it to application: `config/autoload/webinodrawexample.local.php`
+    - Paste it to application: `config/autoload/webinodrawexample.local.php` <br /><br />
 
   4. Set up module example controller:
     - Copy: `vendor/webino/webino-draw/test/resources/IndexController.php`
-    - Paste it to application: `src/Application/Controller/IndexController.php`
+    - Paste it to application: `src/Application/Controller/IndexController.php` <br /><br />
 
   7. Check your ZF2 Application welcome page for changes.
 
