@@ -195,8 +195,8 @@ class DrawForm extends AbstractDrawElement implements ServiceLocatorAwareInterfa
                 $this->matchTemplate($childNodes, $form->getElements());
             }
 
-            foreach ($childNodes as $childNode) {
-                if (!empty($spec['instructions'])) {
+            if (!empty($spec['instructions'])) {
+                foreach ($childNodes as $childNode) {
                     DrawInstructions::render(
                        $childNode,
                        $this->view,
