@@ -103,8 +103,7 @@ class DrawForm extends AbstractDrawElement implements ServiceLocatorAwareInterfa
     {
         if (empty($this->formElementHelper)) {
 
-            $formElement = $this->view->plugin('magicFormElement')
-                            ->setView($this->getView());
+            $formElement = $this->view->plugin('magicFormElement');
 
             $this->setFormElementHelper($formElement);
         }
