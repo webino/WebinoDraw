@@ -229,8 +229,8 @@
             }
         );
 
-  `NOTE: Events are good for conditional data fetching, because when element is not available in the layout
-  event is not fired thus skipping data load.`
+  *NOTE: Events are good for conditional data fetching, because when element is not available in the layout
+  event is not fired thus skipping data load.*
 
   - Set instructions **from controller**:
 
@@ -401,11 +401,11 @@
     ),
 
 
-  `NOTE: Magic form is just like an ordinary zend form, but it could be instantiated via DI
-  and fixes some issues with an element translation.`
+  *NOTE: Magic form is just like an ordinary zend form, but it could be instantiated via DI
+  and fixes some issues with an element translation.*
 
-  `NOTE: If you don't want to use Draw's MagicForm, just inject one into ServiceManager. But there can be potential
-  problems with the translation. But watch translations!`
+  *NOTE: If you don't want to use Draw's MagicForm, just inject one into ServiceManager. But there can be potential
+  problems with the translation. But watch translations!*
 
 ## Pitfalls
 
@@ -469,14 +469,14 @@
 
   4. Integration test resources are in directory: `test/resources`
 
-     `NOTE: Module example config is also used for integration testing.`
+     *NOTE: Module example config is also used for integration testing.*
 
 **Testing**
 
   - Run `phpunit` in test directory.
   - Run `phing test` in module directory to run test and code insights.
 
-    `NOTE: To run code insights there are some tools requirements.`
+    *NOTE: To run code insights there are some tools requirements.*
 
 ## Todo
 
