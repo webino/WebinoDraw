@@ -427,14 +427,17 @@
   2. Set up WebinoDraw module.
 
   3. Set up module test configuration:
+
     - Copy: `vendor/webino/webino-draw/test/resources/config.local.php`
     - Paste it to application: `config/autoload/config.local.php`
 
   3. Set up module example configuration:
+
     - Copy: `vendor/webino/webino-draw/config/webinodrawexample.local.php.dist`
     - Paste it to application: `config/autoload/webinodrawexample.local.php`
 
   4. Set up module example controller:
+
     - Copy: `vendor/webino/webino-draw/test/resources/IndexController.php`
     - Paste it to application: `src/Application/Controller/IndexController.php`
 
@@ -476,7 +479,7 @@
   - Run `phpunit` in test directory.
   - Run `phing test` in module directory to run test and code insights.
 
-    NOTE: To run code insights there are some tools requirements.
+        NOTE: To run code insights there are some tools requirements.
 
 ## Todo
 
