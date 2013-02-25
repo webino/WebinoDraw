@@ -1,9 +1,11 @@
 <?php
+
 return array(
     'di' => array(
-        'instance' => array(
-            'alias' => array(
-                'drawElement' => 'WebinoDraw\View\Helper\DrawElement',
+        'definition' => array(
+            'compiler' => array(
+                __DIR__ . '/../data/di/definition.php',
+                __DIR__ . '/../data/di/MagicForm.definition.php',
             ),
         ),
     ),
@@ -12,8 +14,16 @@ return array(
             'ViewDrawStrategy' => 'WebinoDraw\Mvc\Service\ViewDrawStrategyFactory',
         ),
     ),
+    'view_helpers' => array(
+        'invokables' => array(
+            'MagicFormRow' => 'WebinoDraw\Form\View\Helper\MagicFormRow',
+            'MagicFormElement' => 'WebinoDraw\Form\View\Helper\MagicFormElement',
+            'DrawElement' => 'WebinoDraw\View\Helper\DrawElement',
+            'DrawForm' => 'WebinoDraw\View\Helper\DrawForm',
+        ),
+    ),
     'view_manager' => array(
-        'doctype'    => 'XHTML5', // !!!XML REQUIRED
+        'doctype' => 'XHTML5', // !!!XML REQUIRED
         'strategies' => array('ViewDrawStrategy'),
     ),
 );

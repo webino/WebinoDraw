@@ -10,7 +10,12 @@
 
 namespace WebinoDraw\View\Helper;
 
+use WebinoDraw\DrawEvent;
 use WebinoDraw\Stdlib\VarTranslator;
+use Zend\EventManager\EventManager;
+use Zend\EventManager\EventManagerAwareInterface;
+use Zend\EventManager\EventManagerInterface;
+use Zend\EventManager\EventsCapableInterface;
 use Zend\View\Helper\AbstractHelper;
 
 /**
@@ -19,8 +24,21 @@ use Zend\View\Helper\AbstractHelper;
  * @subpackage  Helper
  * @author      Peter Bačinský <peter@bacinsky.sk>
  */
-abstract class AbstractDrawHelper extends AbstractHelper implements DrawHelperInterface
+abstract class AbstractDrawHelper extends AbstractHelper implements
+    DrawHelperInterface,
+    EventsCapableInterface,
+    EventManagerAwareInterface
 {
+
+    protected $eventManager;
+
+    /**
+     * @var string
+     */
+    protected $eventIdentifier;
+
+    protected $event;
+
     /**
      * @var array
      */
@@ -30,6 +48,58 @@ abstract class AbstractDrawHelper extends AbstractHelper implements DrawHelperIn
      * @var WebinoDraw\View\Helper\VarTranslator
      */
     private $varTranslator;
+
+    public function setEventManager(EventManagerInterface $eventManager)
+    {
+        $eventManager->setIdentifiers(array(
+            'WebinoDraw\View\Helper\DrawHelperInterface',
+            __CLASS__,
+            get_called_class(),
+            $this->eventIdentifier,
+            'WebinoDraw'
+        ));
+
+        $this->eventManager = $eventManager;
+        return $this;
+    }
+
+    public function getEventManager()
+    {
+        if (empty($this->eventManager)) {
+            $this->setEventManager(new EventManager);
+        }
+        return $this->eventManager;
+    }
+
+
+    /**
+     * Set an event to use during dispatch
+     *
+     * By default, will re-cast to MvcEvent if another event type is provided.
+     *
+     * @param  DrawEvent $event
+     * @return void
+     */
+    public function setEvent(DrawEvent $event)
+    {
+        $this->event = $event;
+        return $this;
+    }
+
+    /**
+     * Get the attached event
+     *
+     * Will create a new Event if none provided.
+     *
+     * @return Event
+     */
+    public function getEvent()
+    {
+        if (empty($this->event)) {
+            $this->setEvent(new DrawEvent);
+        }
+        return $this->event;
+    }
 
     /**
      * @return array

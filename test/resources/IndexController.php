@@ -12,6 +12,7 @@ namespace Application\Controller;
 use Zend\I18n\Translator\TextDomain;
 use Zend\I18n\Translator\Loader\RemoteLoaderInterface;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Validator\AbstractValidator;
 
 /**
  * WebinoDraw  test application controller.
@@ -28,16 +29,76 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
     public function load($locale, $textDomain)
     {
         return new TextDomain(
-            array('this should be translated' => 'toto by malo byť preložené')
+            array(
+                'this should be translated' => 'toto by malo byť preložené',
+                'Label example' => 'Ukážka popisky',
+            )
         );
     }
 
     public function indexAction()
     {
-        // set up test translator
+        // Set instructions into the draw strategy
+        $this->getServiceLocator()->get('ViewDrawStrategy')->setInstructions(array(
+            'direct-example' => array(
+                'value' => '{$nodeValue} VALUE',
+            ),
+        ));
+
+        // Attach example-event listener to the draw element custom event
+        $this->getEventManager()->getSharedManager()->attach(
+            'WebinoDraw',
+            'event-example.test',
+            function($event) {
+                $event->setSpec(
+                    array(
+                        'value'   => '{$nodeValue} VALUE',
+                        'attribs' => array(
+                            'title' => 'Hello from Controller!',
+                        ),
+                    )
+                );
+            }
+        );
+
+        // Attach form-example.event listener to the draw form custom event
+        $this->getEventManager()->getSharedManager()->attach(
+            'WebinoDraw',
+            'form-example.event',
+            function($event) {
+
+                $event->getParam('form')
+                    ->setData(array('example_text_element' => 'TEST VALUE FROM CONTROLLER'));
+
+                $event->setSpec(
+                    array(
+                        'instructions' => array(
+                            'instruction-from-controller' => array(
+                                'query' => 'input',
+                                'helper' => 'drawElement',
+                                'attribs' => array(
+                                    'title' => 'Form sub-instruction title from controller',
+                                ),
+                            ),
+                        ),
+                    )
+                );
+            }
+        );
+
+        // Set up test translator
+        /* @var $translator \Zend\I18n\Translator\Translator */
         $translator = $this->getServiceLocator()->get('translator');
         $translator->getPluginManager()->setService('testTranslation', $this);
-        $translator->addRemoteTranslations('testTranslation');
+        $translator->addRemoteTranslations('testTranslation', 'test');
+
+        $translator->setLocale('sk_SK');
+
+        AbstractValidator::setDefaultTranslator($translator);
+
+        $form = $this->getServiceLocator()->get('exampleForm');
+        $form->setData(array('test'));
+        $form->isValid();
 
         return array(
 
@@ -78,5 +139,10 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
                 ),
             ),
         );
+    }
+
+    public function saveAction()
+    {
+        $this->redirect()->toUrl($this->request->getBaseUrl());
     }
 }

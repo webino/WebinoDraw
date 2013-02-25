@@ -2,6 +2,7 @@
 git stash -q --keep-index
 phing classmap
 git add autoload_classmap.php
+php bin/definition_generator.php
 cd test && phpunit
 RESULT=$?
 git stash pop -q

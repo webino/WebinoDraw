@@ -21,14 +21,11 @@
         "zendframework/zendframework": "2.*"
     },
     "suggest": {
-        "webino/ZF2NetteDebug": "User friendly Exception and Error handler ported from Nette Framework."
+        "webino/zf2nette-debug": "User friendly Exception and Error handler ported from Nette Framework."
     },
     "autoload": {
         "psr-0": {
-            "Webino": "src/"
-        },
-        "classmap": [
-            "Module.php"
-        ]
+            "WebinoDraw": "src/"
+        }
     }
 }

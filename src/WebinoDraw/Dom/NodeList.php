@@ -11,7 +11,6 @@
 namespace WebinoDraw\Dom;
 
 use WebinoDraw\Exception;
-use Zend\Dom\Css2Xpath;
 use Zend\View\Helper\EscapeHtml;
 
 /**

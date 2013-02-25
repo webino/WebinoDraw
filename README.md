@@ -5,15 +5,21 @@
 
   Provides ability to configure rendering of the layout. **Still under development, use it for play.**
 
+  **Supports easy [form rendering](#drawForm) with translations.**
+
+  <br />
+
   ![WebinoDraw principle](http://static.webino.org/documentation/webino_draw_principle.png)
 
 ## Features
 
+  - Auto escape.
   - Configurable layout.
   - Decoupled logic from template.
-  - Uses PHP functions, ZF2 view variables, helpers and filters.
-  - Auto escape data.
   - Works with pure XHTML5.
+  - Trigger events.
+  - Draw forms, collection and map to HTML.
+  - Uses PHP functions, ZF2 view variables, helpers and filters.
   - You can still use phtml, but why!
 
 ## Setup
@@ -21,7 +27,9 @@
   Following steps are necessary to get this module working, considering a zf2-skeleton or very similar application:
 
   1. Add `"minimum-stability": "dev"` to your composer.json, because this module is under development.
-  2. Run: `php composer.phar require webino/webino-draw:1.*`
+
+  2. Run `php composer.phar require webino/webino-draw:1.*`
+
   3. Add `WebinoDraw` to the enabled modules list.
 
 ## Requirements
@@ -44,7 +52,7 @@
             ),
         ),
 
-    Reload your browser and you should see "Hello Webino!" as body content.
+    Reload your browser and you should see "Hello Webino!" as a body content.
 
   - Rendering is based on instructions mapped to DOM nodes like this:
 
@@ -173,7 +181,7 @@
             ),
         ),
 
-  - Loop by view array:
+  - **Loop** by view array:
 
         'draw-node-example' => array(
             'query'  => 'ul li',
@@ -192,6 +200,37 @@
                 'title' => '{$property}',
             ),
         ),
+
+  - Trigger **events**
+
+        'event-example' => array(
+            'query'   => 'body',
+            'helper'  => 'drawElement',
+            'trigger' => array(
+                'event-example.test',
+            ),
+        ),
+
+    Then attach listener:
+
+        $this->getEventManager()->getSharedManager()->attach(
+            'WebinoDraw',
+            'event-example.test',
+            function($event) {
+                $event->setSpec(
+                    array(
+                        // Draw instructions:
+                        'value'   => '{$nodeValue} VALUE',
+                        'attribs' => array(
+                            'title' => 'Hello from Controller!',
+                        ),
+                    )
+                );
+            }
+        );
+
+        NOTE: Events are good for conditional data fetching, because when element is not available in the layout
+        event is not fired thus skipping data load.
 
   - Set instructions **from controller**:
 
@@ -231,15 +270,15 @@
   Modularity of draw is provided by custom classes which consumes DOM nodes, options and data
   to make operations over DOM nodes.
 
-**drawElement**
+### drawElement
 
-  Use it to modify element of page.
+  Use it to modify the element of the page.
 
     'draw-element-example' => array(
         'query'  => '.customclass',
         'helper' => 'drawElement',
 
-        // Custom options:
+        // Helper options:
         'value'   => 'Draw element example value',       // set node value
         'render'  => array(
             'script' => 'script/path'                    // render view script to variable
@@ -274,6 +313,12 @@
                 ),
             ),
         ),
+        'instructions' => array(                         // sub-instructions to draw over nodes
+                                                         // add different helper instructions
+        ),
+        'trigger' => array(
+            'event-example.test',                        // event name per item, identificator = WebinoDraw
+        ),
         'loop' => array(                                 // loop node by view array items
             'base'    => 'depth.items',                  // path to view array
             'index'   => '0',                            // index start point (not required)
@@ -286,33 +331,163 @@
         ),
     ),
 
+### <a id="drawForm"></a>drawForm
+
+  Use it to render the form. If `<form/>` template is empty use the default render else try to match
+  form elements by name attribute.
+
+    'draw-form-example' => array(
+        'query'  => 'form.form-example',
+        'helper' => 'drawForm',
+
+        // Helper options:
+        'form'  => 'exampleForm',                   // form available via ServiceManager
+        'route' => 'example_route',                 // available route
+        'text_domain' => __NAMESPACE__,             // form translator text domain
+        'instructions' => array(                    // sub-instructions to decorate the form
+                                                    // add different helper instructions
+        ),
+    ),
+
+  Assume form template:
+
+    <form class="form-example">
+        <input name="example_text_element"/>        <!-- form elements are mapped by name attribute -->
+        <input name="send"/>
+    </form>
+
+  If you do not have any form you can create one easily:
+
+    'di' => array(
+        'instance' => array(
+            'alias' => array(
+                'exampleForm' => 'WebinoDraw\Form\MagicForm',
+            ),
+            'exampleForm' => array(
+                'parameters' => array(
+                    'config' => array(
+                        'hydrator' => 'Zend\Stdlib\Hydrator\ArraySerializable',
+                        'attributes' => array(
+                            'method' => 'post',
+                            'class' => 'example-form',
+                        ),
+                        'elements' => array(
+                            array(
+                                'spec' => array(
+                                    'name'    => 'example_text_element',
+                                    'options' => array(
+                                        'label' => 'Label example',
+                                    ),
+                                    'attributes' => array(
+                                        'type'        => 'text',
+                                        'placeholder' => 'Type something ...',
+                                    ),
+                                ),
+                            ),
+                        ),
+                        'input_filter' => array(
+                            'example_text_element' => array(
+                                'name'       => 'example_text_element',
+                                'required'   => true,
+                                'validators' => array(
+
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+    ),
+
+
+    NOTE: Magic form is just like an ordinary zend form, but it could be instantiated via DI
+    and fixes some issues with an element translation.
+
+    NOTE: If you don't want to use Draw's MagicForm, just inject one into ServiceManager. But there can be potential
+    problems with the translation. But watch translations!
+
 ## Pitfalls
 
   - Use `<![CDATA[ ]]>` with entities, like `&amp;` to: `<![CDATA[&amp;]]>`
+
+  - To draw the form the Draw's MagicForm is used. It solves some temporary issues with translation when
+    Zend's FormElement view helper is used, because it does not allow to pass translator text domain to its elements.
+    Next issue it solves is feature, it allows to instantiate the object of type FormInterface via DI directly. However
+    any valid form available via ServiceManager can be used.
 
 ## Examples
 
   Look for more examples in: `config/webinodrawexample.local.php.dist`
 
+**Manual setup**
+
   1. Install ZendSkeletonApplication.
+
   2. Set up WebinoDraw module.
-  3. Copy: `vendor/webino/webino-draw/config/webinodrawexample.local.php.dist`
-  4. Paste it to application: `config/autoload/webinodrawexample.local.php`
-  5. Copy: `vendor/webino/webino-draw/test/resources/IndexController.php`
-  6. Paste it to application: `src/Application/Controller/IndexController.php`
+
+  3. Set up module test configuration:
+    - Copy: `vendor/webino/webino-draw/test/resources/config.local.php`
+    - Paste it to application: `config/autoload/config.local.php`
+
+  3. Set up module example configuration:
+    - Copy: `vendor/webino/webino-draw/config/webinodrawexample.local.php.dist`
+    - Paste it to application: `config/autoload/webinodrawexample.local.php`
+
+  4. Set up module example controller:
+    - Copy: `vendor/webino/webino-draw/test/resources/IndexController.php`
+    - Paste it to application: `src/Application/Controller/IndexController.php`
+
   7. Check your ZF2 Application welcome page for changes.
 
 [Check out wiki for more examples](https://github.com/webino/WebinoDraw/wiki)
 
+## Develop
+
+**Requirements**
+
+  - Linux (recommended)
+  - NetBeans (optional)
+  - Phing
+  - PHPUnit
+  - Selenium
+  - Web browser
+
+**Setup**
+
+  1. Clone this repository and run: `phing update`
+
+     Now your development environment is set.
+
+  2. Open project in (NetBeans) IDE
+
+  3. To check module integration with the skeleton application open following directory via web browser:
+
+  `._test/ZendSkeletonApplication/public/`
+
+     e.g. [http://localhost/WebinoDraw/._test/ZendSkeletonApplication/public/](http://localhost/WebinoDraw/._test/ZendSkeletonApplication/public/)
+
+  4. Integration test resources are in directory: `test/resources`
+
+        NOTE: Module example config is also used for integration testing.
+
+**Testing**
+
+  - Run `phpunit` in test directory.
+  - Run `phing test` in module directory to run test and code insights.
+
+    NOTE: To run code insights there are some tools requirements.
+
 ## Todo
 
   - The "remove": Add multiple xpath or query option.
-  - Variable case support.
-  - Instruction option to trigger event.
+  - Variable switch/case support, maybe.
   - Ajax.
   - Cache.
   - DrawHelper how to.
   - Add DrawResized to resize images.
+  - Add debug profiler.
+  - Write tests for draw form and new features (events + sub-instructions).
 
 ## Addendum
 

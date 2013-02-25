@@ -173,13 +173,20 @@ class DrawStrategy extends PhpRendererStrategy
             $vars = array_replace($vars, $childVars);
         }
 
-        // draw response body to content
-        $response->setContent(
-            $this->draw(
+        try {
+
+            $content = $this->draw(
                 $responseBody,
                 $this->getInstructions(),
                 $vars
-            )
-        );
+            );
+
+        } catch (\Exception $e) {
+
+            throw new Exception\DrawException($e->getMessage(), $e->getCode(), $e);
+
+        }
+
+        $response->setContent($content);
     }
 }

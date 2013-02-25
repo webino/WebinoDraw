@@ -19,23 +19,34 @@
 
     </target>
 
-    <target name="update" depends="prepare">
-        <echo>Updating ...</echo>
+    <target name="pull">
+        <echo>Pulling sources ...</echo>
 
         <exec command="git submodule init" checkreturn="true" logoutput="true"/>
         <exec command="git submodule update" checkreturn="true" logoutput="true"/>
         <exec command="git pull ${project.remote} ${project.branch}" checkreturn="true" logoutput="true"/>
 
+        <phingCall target="update"/>
+    </target>
+
+    <target name="update" depends="prepare">
+        <echo>Updating ...</echo>
+
         <echo msg="Getting latest ${test.appname}" />
         <exec command="git clone ${test.appgit} ${test.appdir}" checkreturn="true" logoutput="true"/>
-        <exec command="cd ${test.appdir} &amp;&amp; php composer.phar install" checkreturn="true" logoutput="true"/>
+
+        <delete file="${test.appcfg}"/>
+        <exec command="cp ${project.basedir}/composer.json ${test.appdir}/composer.json" checkreturn="true" logoutput="true"/>
+
+        <exec command="cd ${test.appdir} &amp;&amp; php composer.phar self-update" checkreturn="true" logoutput="true"/>
+        <exec command="cd ${test.appdir} &amp;&amp; php composer.phar update --dev" checkreturn="true" logoutput="true"/>
 
         <delete file="${test.appcfg}"/>
         <exec command="ln -s ${test.apptestcfg} ${test.appcfg}" checkreturn="true" logoutput="true"/>
 
         <delete file="${test.appcontroller}"/>
         <exec command="ln -s ${test.apptestcontroller} ${test.appcontroller}" checkreturn="true" logoutput="true"/>
-        
+
         <exec command="ln -s ${test.modulecfg} ${test.moduletestcfg}" checkreturn="true" logoutput="true"/>
 
     </target>

@@ -131,7 +131,7 @@ return array(
                 'value'  => '{$nodeValue}',
                 'var'    => array(
                     'default' => array(
-                        'data-textdomain' => 'default',
+                        'data-textdomain' => 'test',
                     ),
                     'helper' => array(
                         'nodeValue' => array(
@@ -148,6 +148,7 @@ return array(
                 'helper' => 'drawElement',
                 'html'   => '{$html}<ul class="loop-example"><li>BEFORE</li><li/><li>AFTER</li></ul>',
             ),
+
             'loop-example' => array(
                 'query'  => '.loop-example li[2]',
                 'helper' => 'drawElement',
@@ -183,6 +184,168 @@ return array(
                 ),
             ),
 
+            'form-example-prepare' => array(
+                'query'  => '.hero-unit',
+                'helper' => 'drawElement',
+                'html'   => '{$html}<form class="form-example"/>',
+            ),
+            'form-example' => array(
+                'query'  => '.form-example',
+                'helper' => 'drawForm',
+                'form'   => 'exampleForm',
+                'route'  => 'example_form_route',
+                'text_domain' => 'test',
+                'trigger' => array(
+                    'form-example.event',
+                ),
+            ),
+
+            'form-template-example-prepare' => array(
+                'query'  => '.hero-unit',
+                'helper' => 'drawElement',
+                'html'   => '{$html}<form class="form-template-example"><ul><li><input name="example_text_element"/></li><li><input name="example_text_element2"/></li></ul><input name="send"/></form>',
+            ),
+            'form-template-example' => array(
+                'query'  => '.form-template-example',
+                'helper' => 'drawForm',
+                'form'   => 'exampleForm',
+                'instructions' => array(
+                    'form-decorator1' => array(
+                        'xpath' => './/li//input/..',
+                        'helper' => 'drawElement',
+                        'html' => 'LABEL {$html}',
+                    ),
+                ),
+            ),
+
+            'direct-example-prepare' => array(
+                'query'  => '.hero-unit',
+                'helper' => 'drawElement',
+                'html'   => '{$html}<div class="direct-example">DIRECT EXAMPLE</div>',
+            ),
+            'direct-example' => array(
+                'query'   => '.direct-example',
+                'helper'  => 'drawElement'
+            ),
+
+            'event-example-prepare' => array(
+                'query'  => '.hero-unit',
+                'helper' => 'drawElement',
+                'html'   => '{$html}<div class="event-example">EVENT EXAMPLE</div>',
+            ),
+            'event-example' => array(
+                'query'   => '.event-example',
+                'helper'  => 'drawElement',
+                'trigger' => array(
+                    'event-example.test',
+                ),
+            ),
+
+            'subinstructions-example-prepare' => array(
+                'query'  => '.hero-unit',
+                'helper' => 'drawElement',
+                'html'   => '{$html}<div class="subinstructions-example"><span>SUB-INSTRUCTIONS</span> <strong>EXAMPLE</strong> <form/></div>',
+            ),
+            'subinstructions-example' => array(
+                'query'   => '.subinstructions-example',
+                'helper'  => 'drawElement',
+                'instructions' => array(
+                    'subtest1' => array(
+                        'query' => 'span',
+                        'helper' => 'drawElement',
+                        'value' => '{$nodeValue}(TEST)',
+                    ),
+                    'subtest2' => array(
+                        'xpath' => './/strong',
+                        'helper' => 'drawElement',
+                        'value' => '{$nodeValue} VALUE',
+                    ),
+                    'subtest-form' => array(
+                        'query'  => 'form',
+                        'helper' => 'drawForm',
+                        'form'   => 'exampleForm',
+                        'route'  => 'example_form_route',
+                        'text_domain' => 'test',
+                        'instructions' => array(
+                            'form-decorator1' => array(
+                                'query' => 'label span',
+                                'helper' => 'drawElement',
+                                'value' => '{$nodeValue}*',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+
+        ),
+    ),
+
+    'di' => array(
+        'instance' => array(
+            'alias' => array(
+                'exampleForm' => 'WebinoDraw\Form\MagicForm',
+            ),
+            'exampleForm' => array(
+                'parameters' => array(
+                    'config' => array(
+                        'hydrator' => 'Zend\Stdlib\Hydrator\ArraySerializable',
+                        'attributes' => array(
+                            'method' => 'post',
+                            'class' => 'example-form',
+                        ),
+                        'elements' => array(
+                            array(
+                                'spec' => array(
+                                    'name' => 'example_text_element',
+                                    'options' => array(
+                                        'label' => 'Label example',
+                                    ),
+                                    'attributes' => array(
+                                        'type'        => 'text',
+                                        'placeholder' => 'Type something ...',
+                                    ),
+                                ),
+                            ),
+                            array(
+                                'spec' => array(
+                                    'name' => 'example_text_element2',
+                                    'options' => array(
+                                        'label' => 'Label example2',
+                                    ),
+                                    'attributes' => array(
+                                        'type'        => 'text',
+                                        'placeholder' => 'Type something2 ...',
+                                    ),
+                                ),
+                            ),
+                            array(
+                                'spec' => array(
+                                    'type' => 'Zend\Form\Element\Csrf',
+                                    'name' => 'security',
+                                ),
+                            ),
+                            array(
+                                'spec' => array(
+                                    'name' => 'send',
+                                    'attributes' => array(
+                                        'type'  => 'submit',
+                                        'value' => 'Submit',
+                                    ),
+                                ),
+                            ),
+                        ),
+                        'input_filter' => array(
+                            'example_text_element' => array(
+                                'name'       => 'example_text_element',
+                                'required'   => true,
+                                'validators' => array(
+
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
         ),
     ),
 );

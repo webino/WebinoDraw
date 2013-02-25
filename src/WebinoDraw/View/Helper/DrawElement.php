@@ -25,13 +25,18 @@ use WebinoDraw\Exception;
 class DrawElement extends AbstractDrawElement
 {
     /**
+     * @var string
+     */
+    protected $eventIdentifier = __CLASS__;
+
+    /**
      * Return translated $spec by values in $translation.
      *
      * @param  array $spec
      * @param  array $translation
      * @return array
      */
-    private function translateSpec(array $spec, array $translation)
+    protected function translateSpec(array $spec, array $translation)
     {
         $varTranslator = $this->getVarTranslator();
 
@@ -68,8 +73,11 @@ class DrawElement extends AbstractDrawElement
      * @param  array $translation
      * @return \WebinoDraw\View\Helper\DrawElement
      */
-    private function doWork(NodeList $nodes, array $spec, array $translation)
+    protected function manipulateNodes(NodeList $nodes, array $spec, array $translation)
     {
+        !array_key_exists('trigger', $spec) or
+            $spec = $this->trigger($nodes, $spec);
+
         $spec = $this->translateSpec($spec, $translation);
         unset($translation);
 
@@ -105,10 +113,42 @@ class DrawElement extends AbstractDrawElement
         $translation = $this->getVars();
 
         if (empty($spec['loop'])) {
-            $this->doWork($nodes, $spec, $translation);
+
+            $this->manipulateNodes($nodes, $spec, $translation);
+
+            if (!empty($spec['instructions'])) {
+                foreach ($nodes as $node) {
+                     DrawInstructions::render(
+                        $node,
+                        $this->view,
+                        $spec['instructions'],
+                        $translation
+                    );
+
+                }
+            }
+
         } else {
             $this->loop($nodes, $spec, $translation);
         }
+    }
+
+    public function trigger(NodeList $nodes, array $spec)
+    {
+        $event = $this->getEvent();
+
+        $event->setSpec($spec);
+
+        foreach ($nodes as $node) {
+
+            $event->setNode($node);
+
+            foreach ($spec['trigger'] as $eventName) {
+                $this->getEventManager()->trigger($eventName, $event);
+            }
+        }
+
+        return $event->getSpec();
     }
 
     /**
@@ -218,7 +258,7 @@ class DrawElement extends AbstractDrawElement
      * @param  array $localTranslation
      * @return type
      */
-    private function loop(NodeList $nodes, array $spec, array $translation)
+    protected function loop(NodeList $nodes, array $spec, array $translation)
     {
         $varTranslator = $this->getVarTranslator();
 
@@ -233,7 +273,7 @@ class DrawElement extends AbstractDrawElement
         if (empty($items)) {
 
             if (array_key_exists('onEmpty', $spec['loop'])) {
-                $this->doWork($nodes, $spec['loop']['onEmpty'], $translation);
+                $this->manipulateNodes($nodes, $spec['loop']['onEmpty'], $translation);
             }
             return;
         }
@@ -272,7 +312,7 @@ class DrawElement extends AbstractDrawElement
                     $item
                 );
 
-                $this->doWork($newNodeList, $spec, $localTranslation);
+                $this->manipulateNodes($newNodeList, $spec, $localTranslation);
 
                 empty($spec['loop']['instructions']) or
                     DrawInstructions::render(
