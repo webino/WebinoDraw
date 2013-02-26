@@ -347,6 +347,9 @@
         'instructions' => array(                    // sub-instructions to decorate the form
                                                     // add different helper instructions
         ),
+        'trigger' => array(                         // trigger event passes form to the event parameters
+            'form-example.event',                   // event name per item, identificator = WebinoDraw
+        ),
     ),
 
   Assume form template:
