@@ -33,4 +33,10 @@ class DrawEvent extends Event
         );
         return $this;
     }
+
+    public function clearSpec()
+    {
+        $this->setParam('spec', array());
+        return $this;
+    }
 }

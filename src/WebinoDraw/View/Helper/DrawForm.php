@@ -286,7 +286,7 @@ class DrawForm extends AbstractDrawElement implements ServiceLocatorAwareInterfa
     {
         $event = $this->getEvent();
 
-        $event->setSpec($spec);
+        $event->clearSpec()->setSpec($spec);
         $event->setParam('form', $form);
 
         foreach ($nodes as $node) {

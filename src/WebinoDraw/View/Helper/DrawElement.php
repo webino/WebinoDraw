@@ -137,7 +137,7 @@ class DrawElement extends AbstractDrawElement
     {
         $event = $this->getEvent();
 
-        $event->setSpec($spec);
+        $event->clearSpec()->setSpec($spec);
 
         foreach ($nodes as $node) {
 
