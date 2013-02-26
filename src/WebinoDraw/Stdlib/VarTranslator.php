@@ -100,15 +100,15 @@ class VarTranslator
         foreach ($match[0] as $key) {
             if (array_key_exists($key, $translation)) {
 
-                if (!is_string($translation[$key])) {
-                    // Return early for non-strings
+                if (is_object($translation[$key])) {
+                    // Return early for objects
                     return $translation[$key];
                 }
 
                 $string = str_replace($key, $translation[$key], $string);
             }
         }
-        
+
         return $string;
     }
 
