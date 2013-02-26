@@ -80,10 +80,15 @@ class VarTranslator
      *
      * @param  string $string
      * @param  array $translation
-     * @return string
+     * @return string|mixed
      */
     public function translateString($string, array $translation)
     {
+        if (!is_string($string)) {
+            // Return early for non-strings
+            return $string;
+        }
+
         $pattern = str_replace('%s', '[^\}]+', preg_quote(self::VAR_PATTERN));
         $match   = array();
 
@@ -91,11 +96,19 @@ class VarTranslator
         if (empty($match[0])) {
             return $string;
         }
+
         foreach ($match[0] as $key) {
             if (array_key_exists($key, $translation)) {
+
+                if (!is_string($translation[$key])) {
+                    // Return early for non-strings
+                    return $translation[$key];
+                }
+
                 $string = str_replace($key, $translation[$key], $string);
             }
         }
+        
         return $string;
     }
 
@@ -108,10 +121,16 @@ class VarTranslator
      */
     public function translate(&$subject, array $translation)
     {
+        if (!is_array($subject)) {
+            // Skip objects
+            return;
+        }
+
         if (is_string($subject)) {
             $subject = $this->translateString($subject, $translation);
             return;
         }
+
         foreach ($subject as &$param) {
             if (is_array($param)) {
                 $this->translate($param, $translation);
