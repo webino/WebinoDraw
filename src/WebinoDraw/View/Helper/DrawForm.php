@@ -117,49 +117,12 @@ class DrawForm extends AbstractDrawElement implements ServiceLocatorAwareInterfa
         return $this;
     }
 
-    public function createForm(array $spec)
+    public function setTranslatorTextDomain($textDomain = 'default')
     {
-        if (empty($spec['form'])) {
+        $this->getFormRowHelper()->setTranslatorTextDomain($textDomain);
+        $this->getFormElementHelper()->setTranslatorTextDomain($textDomain);
 
-            throw new Exception\RuntimeException(
-                sprintf('Expected form option in: %s', print_r($spec, 1))
-            );
-        }
-
-        try {
-
-            $form = $this->serviceLocator->getServiceLocator()->get($spec['form']);
-
-        } catch (\Exception $e) {
-
-            throw new Exception\RuntimeException(
-                sprintf('Expected form in: %s; ' . $e->getMessage(), print_r($spec, 1)),
-                $e->getCode(), $e
-            );
-        }
-
-        if (isset($spec['route'])) {
-            try {
-
-                $form->setAttribute('action', $this->view->url($spec['route']));
-
-            } catch (\Exception $e) {
-
-                throw new Exception\RuntimeException(
-                    sprintf(
-                        'Expected route `%s` for %s',
-                        $spec['route'],
-                        print_r($spec, 1)
-                    ),
-                    $e->getCode(),
-                    $e
-                );
-            }
-        } else {
-            $form->setAttribute('action', null);
-        }
-
-        return $form;
+        return $this;
     }
 
     /**
@@ -208,12 +171,49 @@ class DrawForm extends AbstractDrawElement implements ServiceLocatorAwareInterfa
         }
     }
 
-    protected function setTranslatorTextDomain($textDomain = 'default')
+    protected function createForm(array $spec)
     {
-        $this->getFormRowHelper()->setTranslatorTextDomain($textDomain);
-        $this->getFormElementHelper()->setTranslatorTextDomain($textDomain);
+        if (empty($spec['form'])) {
 
-        return $this;
+            throw new Exception\RuntimeException(
+                sprintf('Expected form option in: %s', print_r($spec, 1))
+            );
+        }
+
+        try {
+
+            $form = $this->serviceLocator->getServiceLocator()->get($spec['form']);
+
+        } catch (\Exception $e) {
+
+            throw new Exception\RuntimeException(
+                sprintf('Expected form in: %s; ' . $e->getMessage(), print_r($spec, 1)),
+                $e->getCode(), $e
+            );
+        }
+
+        if (isset($spec['route'])) {
+            try {
+
+                $form->setAttribute('action', $this->view->url($spec['route']));
+
+            } catch (\Exception $e) {
+
+                throw new Exception\RuntimeException(
+                    sprintf(
+                        'Expected route `%s` for %s',
+                        $spec['route'],
+                        print_r($spec, 1)
+                    ),
+                    $e->getCode(),
+                    $e
+                );
+            }
+        } else {
+            $form->setAttribute('action', null);
+        }
+
+        return $form;
     }
 
     /**
@@ -282,7 +282,7 @@ class DrawForm extends AbstractDrawElement implements ServiceLocatorAwareInterfa
         }
     }
 
-    public function trigger(NodeList $nodes, array $spec, FormInterface $form)
+    protected function trigger(NodeList $nodes, array $spec, FormInterface $form)
     {
         $event = $this->getEvent();
 
