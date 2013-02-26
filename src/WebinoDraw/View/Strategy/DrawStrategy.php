@@ -184,7 +184,6 @@ class DrawStrategy extends PhpRendererStrategy
         } catch (\Exception $e) {
 
             throw new Exception\DrawException($e->getMessage(), $e->getCode(), $e);
-
         }
 
         $response->setContent($content);
