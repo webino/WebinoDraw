@@ -30,6 +30,20 @@ class DrawElement extends AbstractDrawElement
     protected $eventIdentifier = __CLASS__;
 
     /**
+     * Draw nodes in list.
+     *
+     * @param \WebinoDraw\Dom\NodeList $nodes
+     * @param array $spec
+     */
+    public function drawNodes(NodeList $nodes, array $spec)
+    {
+        !array_key_exists('trigger', $spec) or
+            $spec = $this->trigger($nodes, $spec);
+
+        $this->doWork($nodes, $spec);
+    }
+
+    /**
      * Return translated $spec by values in $translation.
      *
      * @param  array $spec
@@ -75,9 +89,6 @@ class DrawElement extends AbstractDrawElement
      */
     protected function manipulateNodes(NodeList $nodes, array $spec, array $translation)
     {
-        !array_key_exists('trigger', $spec) or
-            $spec = $this->trigger($nodes, $spec);
-
         $spec = $this->translateSpec($spec, $translation);
         unset($translation);
 
@@ -102,13 +113,7 @@ class DrawElement extends AbstractDrawElement
         return $this;
     }
 
-    /**
-     * Draw nodes in list.
-     *
-     * @param \WebinoDraw\Dom\NodeList $nodes
-     * @param array $spec
-     */
-    public function drawNodes(NodeList $nodes, array $spec)
+    protected function doWork(NodeList $nodes, array $spec)
     {
         $translation = $this->getVars();
 
@@ -131,9 +136,11 @@ class DrawElement extends AbstractDrawElement
         } else {
             $this->loop($nodes, $spec, $translation);
         }
+
+        return $this;
     }
 
-    public function trigger(NodeList $nodes, array $spec)
+    protected function trigger(NodeList $nodes, array $spec)
     {
         $event = $this->getEvent();
 
@@ -157,7 +164,7 @@ class DrawElement extends AbstractDrawElement
      * @param \WebinoDraw\Dom\NodeList $nodes
      * @param array $spec
      */
-    public function setValue(NodeList $nodes, array $spec)
+    protected function setValue(NodeList $nodes, array $spec)
     {
         $preSet = $this->valuePreSet($spec);
         $nodes->setValue($spec['value'], $preSet);
@@ -169,7 +176,7 @@ class DrawElement extends AbstractDrawElement
      * @param \WebinoDraw\Dom\NodeList $nodes
      * @param array $spec
      */
-    public function setHtml(NodeList $nodes, array $spec)
+    protected function setHtml(NodeList $nodes, array $spec)
     {
         $preSet = $this->htmlPreSet($spec['html'], $spec);
         $nodes->setHtml($spec['html'], $preSet);
@@ -181,7 +188,7 @@ class DrawElement extends AbstractDrawElement
      * @param \WebinoDraw\Dom\NodeList $nodes
      * @param array $spec
      */
-    public function setAttribs(NodeList $nodes, array $spec)
+    protected function setAttribs(NodeList $nodes, array $spec)
     {
         $preSet = $this->attribsPreSet($spec);
         $nodes->setAttribs($spec['attribs'], $preSet);
@@ -193,7 +200,7 @@ class DrawElement extends AbstractDrawElement
      * @param \WebinoDraw\Dom\NodeList $nodes
      * @param array $spec
      */
-    public function onEmpty(NodeList $nodes, array $spec)
+    protected function onEmpty(NodeList $nodes, array $spec)
     {
         foreach ($nodes as $node) {
             if (!empty($node->nodeValue)
@@ -201,7 +208,7 @@ class DrawElement extends AbstractDrawElement
             ) {
                 continue;
             }
-            $this->drawNodes($nodes->createNodeList(array($node)), $spec);
+            $this->doWork($nodes->createNodeList(array($node)), $spec);
         }
     }
 
@@ -211,7 +218,7 @@ class DrawElement extends AbstractDrawElement
      * @param \WebinoDraw\Dom\NodeList $nodes
      * @param array $spec
      */
-    public function replace(NodeList $nodes, array $spec)
+    protected function replace(NodeList $nodes, array $spec)
     {
         foreach ($nodes as $node) {
             if (is_array($spec['replace'])) {
@@ -223,7 +230,7 @@ class DrawElement extends AbstractDrawElement
                     $newNodes->replace($html, $preSet);
                     $subspec  = $spec;
                     unset($subspec['replace']);
-                    $this->drawNodes($newNodes, $subspec);
+                    $this->doWork($newNodes, $subspec);
                 }
                 continue;
             }
@@ -233,7 +240,7 @@ class DrawElement extends AbstractDrawElement
             $newNodes->replace($spec['replace'], $preSet);
             $subspec  = $spec;
             unset($subspec['replace']);
-            $this->drawNodes($newNodes, $subspec);
+            $this->doWork($newNodes, $subspec);
         }
     }
 
@@ -243,7 +250,7 @@ class DrawElement extends AbstractDrawElement
      * @param array $translation
      * @param array $options
      */
-    public function render(array &$translation, array $options)
+    protected function render(array &$translation, array $options)
     {
         foreach ($options as $key => $value) {
             $translation[$key] = $this->view->render($value);
