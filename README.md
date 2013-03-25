@@ -454,7 +454,7 @@
     'di' => array(
         'instance' => array(
             'alias' => array(
-                'exampleForm' => 'WebinoDraw\Form\MagicForm',
+                'exampleForm' => 'WebinoDraw\Form\DiForm',
             ),
             'exampleForm' => array(
                 'parameters' => array(
@@ -494,18 +494,18 @@
     ),
 
 
-  *NOTE: Magic form is just like an ordinary Zend Form, but it could be instantiated via DI.*
+  *NOTE: DiForm form is just like an ordinary Zend Form, but it could be instantiated via DI.*
 
-  *NOTE: If you don't want to use Draw's MagicForm just inject one into ServiceManager.*
+  *NOTE: If you don't want to use DiForm just inject one into ServiceManager.*
 
 ## Pitfalls
 
   - In case of troubles use `<![CDATA[ ]]>` with entities, like `&amp;` to: `<![CDATA[&amp;]]>`
 
-  - To create the form the Draw's MagicForm is used. It allows to instantiate the object of type FormInterface
+  - To create the form the DiForm is used. It allows to instantiate the object of type FormInterface
     via DI directly. However any valid form available via ServiceManager can be used.
 
-  - To draw the form collection the Draw's MagicFormElement and MagicFormRow view helper is used. It solves some issues
+  - To draw the form collection the WebinoDraw FormElement and FormRow view helper is used. It solves some issues
     with the translator when the Zend FormElement view helper is used, because it does not allow to pass translator
     text domain to its elements.
 
