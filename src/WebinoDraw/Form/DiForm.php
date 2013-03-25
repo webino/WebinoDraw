@@ -1,11 +1,11 @@
 <?php
 /**
- * Webino (https://github.com/webino/)
+ * Webino (http://webino.sk)
  *
- * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
- * @copyright   Copyright (c) 2012 Peter Bačinský <peter@bacinsky.sk>
+ * @link        https://github.com/webino/WebinoDraw for the canonical source repository
+ * @copyright   Copyright (c) 2013 Webino, s. r. o. (http://webino.sk)
+ * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     New BSD License
- * @package     WebinoDraw_Form
  */
 
 namespace WebinoDraw\Form;
@@ -19,16 +19,8 @@ use Zend\Stdlib\Hydrator\HydratorInterface;
 
 /**
  * Create form via DI
- *
- * NOTE: Implementing FormInterface which implements ElementPrepareAwareInterface
- * breaks the form because DI tries to inject FormInterface but this is not possible
- * cos is interface
- *
- * @category    Webino
- * @package     WebinoDraw_Form
- * @subpackage  Helper
  */
-class MagicForm implements FormInterface
+class DiForm implements FormInterface
 {
     /**
      * @var array
@@ -77,7 +69,7 @@ class MagicForm implements FormInterface
      */
     public function getForm()
     {
-        if (!($this->form instanceof FormInterface)) {
+        if (null === $this->form) {
             $this->setForm($this->getFormFactory()->createForm($this->config));
         }
         return $this->form;

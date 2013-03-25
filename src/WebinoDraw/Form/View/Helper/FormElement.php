@@ -1,12 +1,23 @@
 <?php
+/**
+ * Webino (http://webino.sk)
+ *
+ * @link        https://github.com/webino/WebinoDraw for the canonical source repository
+ * @copyright   Copyright (c) 2013 Webino, s. r. o. (http://webino.sk)
+ * @author      Peter Bačinský <peter@bacinsky.sk>
+ * @license     New BSD License
+ */
 
 namespace WebinoDraw\Form\View\Helper;
 
 use Zend\Form\Element;
 use Zend\Form\ElementInterface;
-use Zend\I18n\View\Helper\AbstractTranslatorHelper as BaseAbstractHelper;
+use Zend\I18n\View\Helper\AbstractTranslatorHelper;
 
-class MagicFormElement extends BaseAbstractHelper
+/**
+ *
+ */
+class FormElement extends AbstractTranslatorHelper
 {
     /**
      * Render an element
@@ -14,7 +25,7 @@ class MagicFormElement extends BaseAbstractHelper
      * Introspects the element type and attributes to determine which
      * helper to utilize when rendering.
      *
-     * @param  ElementInterface $element
+     * @param ElementInterface $element
      * @return string
      */
     public function resolveHelper(ElementInterface $element)
@@ -88,9 +99,13 @@ class MagicFormElement extends BaseAbstractHelper
                 return $renderer->plugin('form_' . $type);
         }
 
-        return $helper;
+        throw new \OutOfRangeException('Unknown type of ' . get_class($element));
     }
 
+    /**
+     * @param ElementInterface $element
+     * @return string
+     */
     public function render(ElementInterface $element)
     {
         $helper = $this->resolveHelper($element);
