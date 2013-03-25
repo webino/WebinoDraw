@@ -10,15 +10,13 @@
 namespace WebinoDraw\Ajax;
 
 use ArrayObject;
-use JsonSerializable;
 use WebinoDraw\Stdlib\ArrayMergeInterface;
 
 /**
  *
  */
 class Json extends ArrayObject implements
-    ArrayMergeInterface,
-    JsonSerializable
+    ArrayMergeInterface
 {
     /**
      * @param array $array
