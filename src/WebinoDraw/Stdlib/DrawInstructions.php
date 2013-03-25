@@ -1,36 +1,126 @@
 <?php
 /**
- * Webino (http://webino.sk/)
+ * Webino (http://webino.sk)
  *
- * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
- * @copyright   Copyright (c) 2013 Webino, s. r. o. (http://webino.sk/)
+ * @link        https://github.com/webino/WebinoDraw for the canonical source repository
+ * @copyright   Copyright (c) 2013 Webino, s. r. o. (http://webino.sk)
+ * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     New BSD License
- * @package     WebinoDraw\Stdlib
  */
 
 namespace WebinoDraw\Stdlib;
 
-use WebinoDraw\Exception;
+use ArrayObject;
+use DOMElement;
+use DOMNodeList;
+use WebinoDraw\Exception\InvalidArgumentException;
+use WebinoDraw\Exception\InvalidInstructionException;
+use WebinoDraw\Dom\Locator;
 use WebinoDraw\Dom\NodeList;
-use WebinoDraw\Dom\XpathUtils;
 use Zend\View\Renderer\PhpRenderer;
 
 /**
- * Draw instructions utilities.
- *
- * @category    Webino
- * @package     WebinoDraw\Stdlib
- * @author      Peter Bačinský <peter@bacinsky.sk>
+ * Draw instructions utilities
  */
-abstract class DrawInstructions
+class DrawInstructions extends ArrayObject implements
+    DrawInstructionsInterface
 {
     /**
-     * Stack space before instruction without index.
+     * Makes the helper setting optional for common use cases
+     */
+    const DEFAULT_DRAW_HELPER = 'WebinoDrawElement';
+
+    /**
+     * Stack space before instruction without index
      */
     const STACK_SPACER = 10;
 
     /**
-     * Merge draw instructions.
+     * @var Locator
+     */
+    protected $locator;
+
+    /**
+     * @var NodeList
+     */
+    protected $nodeListPrototype;
+
+    /**
+     * @param array $array
+     */
+    public function __construct(array $array = null)
+    {
+        if (null !== $array) {
+            $this->merge($array);
+        }
+    }
+
+    /**
+     * @param array $array
+     */
+    public function exchangeArray(array $array)
+    {
+        parent::exchangeArray(array());
+        $this->merge($array);
+
+        return $this;
+    }
+
+    /**
+     * @return Locator
+     */
+    public function getLocator()
+    {
+        if (null === $this->locator) {
+            $this->setLocator(new Locator);
+        }
+        return $this->locator;
+    }
+
+    /**
+     * @param Locator $locator
+     * @return DrawInstructions
+     */
+    public function setLocator(Locator $locator)
+    {
+        $this->locator = $locator;
+        return $this;
+    }
+
+    /**
+     * @return NodeList
+     */
+    public function getNodeListPrototype()
+    {
+        if (null === $this->nodeListPrototype) {
+            $this->setNodeListPrototype(new NodeList);
+        }
+        return $this->nodeListPrototype;
+    }
+
+    /**
+     * @param NodeList $nodeListPrototype
+     * @return DrawInstructions
+     */
+    public function setNodeListPrototype(NodeList $nodeListPrototype)
+    {
+        $this->nodeListPrototype = $nodeListPrototype;
+        return $this;
+    }
+
+    /**
+     * @param DOMNodeList $nodes
+     * @return NodeList
+     */
+    public function cloneNodeListPrototype(DOMNodeList $nodes)
+    {
+        $nodeList = clone $this->getNodeListPrototype();
+        $nodeList->setNodes($nodes);
+        return $nodeList;
+    }
+
+    /**
+     * Merge draw instructions
      *
      * If node with name exists merge else add,
      * or if same stackIndex throws exception.
@@ -49,128 +139,104 @@ abstract class DrawInstructions
      * If no stackIndex is defined add as last with
      * space before.
      *
-     * @param  array $_instructions Merge with.
-     * @param  array $instructions Merge from.
-     * @return array Merged instructions.
-     * @throws WebinoDraw\Exception\InvalidInstructionException
+     * @param array $instructions Merge from
+     * @return DrawInstructions
+     * @throws InvalidInstructionException
      */
-    public static function merge(array $_instructions, array $instructions)
+    public function merge(array $instructions)
     {
-        $instructionsN = count($_instructions) * self::STACK_SPACER;
+        $mergeWith     = $this->getArrayCopy();
+        $mergeFrom     = $instructions;
+        $instructionsN = count($mergeWith) * self::STACK_SPACER;
 
-        foreach ($_instructions as &$spec) {
-            foreach ($instructions as $iKey => $iSpec) {
+        foreach ($mergeWith as &$spec) {
+
+            foreach ($mergeFrom as $iKey => $iSpec) {
+
                 if (key($spec) != $iKey) {
                     continue;
                 }
+
                 // merge existing spec
-                unset($instructions[$iKey]);
+                unset($mergeFrom[$iKey]);
                 $spec = array_replace_recursive($spec, array($iKey => $iSpec));
             }
         }
+
         unset($spec);
-        foreach ($instructions as $index => $spec) {
+
+        foreach ($mergeFrom as $index => $spec) {
 
             if (!is_array($spec)) {
-                throw new Exception\InvalidInstructionException(
+                throw new InvalidInstructionException(
                     sprintf('Instruction node spec expect array', print_r($spec, 1))
                 );
             }
 
             if (!isset($spec['stackIndex']) ) {
+
                 // add without stack index
                 $stackIndex = $instructionsN + self::STACK_SPACER;
-                if (!isset($_instructions[$stackIndex])) {
+
+                if (!isset($mergeWith[$stackIndex])) {
+
                     $instructionsN = $stackIndex;
-                    $_instructions[$stackIndex][$index] = $spec;
+                    $mergeWith[$stackIndex][$index] = $spec;
                     continue;
                 }
+
                 unset($stackIndex);
 
-            } elseif (!isset($_instructions[$spec['stackIndex']])) {
+            } elseif (!isset($mergeWith[$spec['stackIndex']])) {
+
                 // add with stackindex
-                $_instructions[$spec['stackIndex']][$index] = $spec;
+                $mergeWith[$spec['stackIndex']][$index] = $spec;
                 continue;
             }
-            throw new Exception\InvalidInstructionException(
+
+            throw new InvalidInstructionException(
                 sprintf('Stack index already exists `%s`', print_r($spec, 1))
             );
         }
-        return $_instructions;
+
+        parent::exchangeArray($mergeWith);
+
+        return $this;
     }
 
     /**
-     * Return value in depth from multidimensional array.
+     * Render the DOMElement ownerDocument
      *
-     * @param  array $subject Multidimensional array.
-     * @param  string $base Something like: value.in.the.depth
-     * @return array Result value.
+     * @param DOMElement $node DOMDocument element.
+     * @param PhpRenderer $renderer Provider of view helpers.
+     * @param array $vars Variables to render.
+     * @throws InvalidArgumentException
+     * @throws InvalidInstructionException
      */
-    public static function &toBase(array $subject, $base)
-    {
-        $value = $subject;
-        $frags = explode('.', $base);
-
-        foreach ($frags as $key) {
-            // undefined
-            if (empty($value[$key])) {
-                $value = null;
-                break;
-            }
-            $value = &$value[$key];
-        }
-        return $value;
-    }
-
-    /**
-     * Render DOMElement ownerDocument.
-     *
-     * @param  \DOMElement $node DOMDocument element.
-     * @param  \Zend\View\Renderer\PhpRenderer $renderer Provider of view helpers.
-     * @param  array $instructions Draw instructions array.
-     * @param  array $vars Variables to render.
-     * @throws Exception\InvalidArgumentException
-     * @throws Exception\InvalidInstructionException
-     */
-    public static function render(\DOMElement $node, PhpRenderer $renderer, array $instructions, array $vars)
+    public function render(DOMElement $node, PhpRenderer $renderer, array $vars)
     {
         if (empty($node->ownerDocument->xpath)) {
-            throw new Exception\InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Expects document with XPATH'
             );
         }
 
-        foreach ($instructions as $key => $spec) {
-            $xpath = array();
+        $instructions = $this->getArrayCopy();
 
-            is_string($key) or $spec = current($spec);
+        // sort by stackIndex
+        ksort($instructions);
 
-            // skip unmapped instructions
-            if (empty($spec['xpath']) && empty($spec['query'])) {
+        foreach ($instructions as $specNode) {
+
+            // one node per stackIndex
+            $spec = current($specNode);
+
+            if (empty($spec['locator'])) {
                 continue;
             }
 
-            empty($spec['xpath']) or
-                $xpath = array_merge(
-                    $xpath,
-                    XpathUtils::arrayXpath($spec['xpath'])
-                );
-
-            // transform css query to xpath
-            empty($spec['query']) or
-                $xpath = array_merge(
-                    $xpath,
-                    XpathUtils::arrayCss2Xpath($spec['query'])
-                );
-
-            if (empty($xpath)) {
-                throw new Exception\InvalidInstructionException(
-                    sprintf("Option `xpath` expected '%s'", print_r($spec, 1))
-                );
-            }
-
             $nodes = $node->ownerDocument->xpath->query(
-                join('|', $xpath),
+                $this->getLocator()->set($spec['locator'])->xpathMatchAny(),
                 $node
             );
 
@@ -179,15 +245,15 @@ abstract class DrawInstructions
                 continue;
             }
 
-            if (empty($spec['helper'])) {
-                throw new Exception\InvalidInstructionException(
-                    sprintf("Option `helper` expected in '%s'", print_r($spec, 1))
-                );
-            }
+            !empty($spec['helper']) or
+                $spec['helper'] = self::DEFAULT_DRAW_HELPER;
 
             $renderer->plugin($spec['helper'])
-                     ->setVars($vars)
-                     ->drawNodes(new NodeList($nodes), $spec);
+                ->setVars($vars)
+                ->drawNodes(
+                    $this->cloneNodeListPrototype($nodes),
+                    $spec
+                );
         }
     }
 }
