@@ -1,35 +1,38 @@
 <?php
 /**
- * Webino (http://webino.sk/)
+ * Webino (http://webino.sk)
  *
- * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
- * @copyright   Copyright (c) 2013 Webino, s. r. o. (http://webino.sk/)
+ * @link        https://github.com/webino/WebinoDraw for the canonical source repository
+ * @copyright   Copyright (c) 2013 Webino, s. r. o. (http://webino.sk)
+ * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     New BSD License
- * @package     WebinoDraw\View
  */
 
 namespace WebinoDraw\View\Helper;
 
+use ArrayAccess;
+use DOMElement;
 use WebinoDraw\DrawEvent;
+use WebinoDraw\Stdlib\DrawInstructions;
+use WebinoDraw\Stdlib\DrawTranslation;
 use WebinoDraw\Stdlib\VarTranslator;
 use Zend\EventManager\EventManager;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerInterface;
-use Zend\EventManager\EventsCapableInterface;
+use Zend\Filter\FilterPluginManager;
+use Zend\Filter\StaticFilter;
 use Zend\View\Helper\AbstractHelper;
 
 /**
- * @category    Webino
- * @package     WebinoDraw\View
- * @subpackage  Helper
- * @author      Peter Bačinský <peter@bacinsky.sk>
+ *
  */
 abstract class AbstractDrawHelper extends AbstractHelper implements
     DrawHelperInterface,
-    EventsCapableInterface,
     EventManagerAwareInterface
 {
-
+    /**
+     * @var EventManagerInterface
+     */
     protected $eventManager;
 
     /**
@@ -37,18 +40,80 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
      */
     protected $eventIdentifier;
 
+    /**
+     *
+     * @var DrawEvent
+     */
     protected $event;
+
+    /**
+     * @var FilterPluginManager
+     */
+    protected $filterPluginManager;
 
     /**
      * @var array
      */
-    private $vars = array();
+    protected $vars = array();
 
     /**
-     * @var WebinoDraw\View\Helper\VarTranslator
+     * @var VarTranslator
      */
-    private $varTranslator;
+    protected $varTranslator;
 
+    /**
+     * @var DrawTranslation
+     */
+    protected $translationPrototype;
+
+    /**
+     * @var DrawInstructions
+     */
+    protected $instructionsPrototype;
+
+    /**
+     * Get the attached event
+     *
+     * Will create a new Event if none provided.
+     *
+     * @return DrawEvent
+     */
+    public function getEvent()
+    {
+        if (null === $this->event) {
+            $this->setEvent(new DrawEvent);
+        }
+        return $this->event;
+    }
+
+    /**
+     * Set an event to use
+     *
+     * @param  DrawEvent $event
+     * @return void
+     */
+    public function setEvent(DrawEvent $event)
+    {
+        $this->event = $event;
+        return $this;
+    }
+
+    /**
+     * @return EventManagerInterface
+     */
+    public function getEventManager()
+    {
+        if (null === $this->eventManager) {
+            $this->setEventManager(new EventManager);
+        }
+
+        return $this->eventManager;
+    }
+
+    /**
+     * @param EventManagerInterface $eventManager
+     * @return AbstractDrawHelper
+     */
     public function setEventManager(EventManagerInterface $eventManager)
     {
         $eventManager->setIdentifiers(array(
@@ -63,42 +128,26 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
         return $this;
     }
 
-    public function getEventManager()
+    /**
+     * @return FilterPluginManager
+     */
+    public function getFilterPluginManager()
     {
-        if (empty($this->eventManager)) {
-            $this->setEventManager(new EventManager);
+        if (null === $this->filterPluginManager) {
+            $this->setFilterPluginManager(StaticFilter::getPluginManager());
         }
-        return $this->eventManager;
+
+        return $this->filterPluginManager;
     }
 
-
     /**
-     * Set an event to use during dispatch
-     *
-     * By default, will re-cast to MvcEvent if another event type is provided.
-     *
-     * @param  DrawEvent $event
-     * @return void
+     * @param FilterPluginManager $filterManager
+     * @return AbstractDrawHelper
      */
-    public function setEvent(DrawEvent $event)
+    public function setFilterPluginManager(FilterPluginManager $filterManager)
     {
-        $this->event = $event;
+        $this->filterPluginManager = $filterManager;
         return $this;
-    }
-
-    /**
-     * Get the attached event
-     *
-     * Will create a new Event if none provided.
-     *
-     * @return Event
-     */
-    public function getEvent()
-    {
-        if (empty($this->event)) {
-            $this->setEvent(new DrawEvent);
-        }
-        return $this->event;
     }
 
     /**
@@ -111,7 +160,7 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
 
     /**
      * @param  array $vars
-     * @return \WebinoDraw\View\Helper\AbstractDrawHelper
+     * @return AbstractDrawHelper
      */
     public function setVars(array $vars)
     {
@@ -120,8 +169,8 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     }
 
     /**
-     * @param  \WebinoDraw\Stdlib\VarTranslator $varTranslator
-     * @return \WebinoDraw\View\Helper\AbstractDrawHelper
+     * @param  VarTranslator $varTranslator
+     * @return AbstractDrawHelper
      */
     public function setVarTranslator(VarTranslator $varTranslator)
     {
@@ -130,7 +179,7 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     }
 
     /**
-     * @return WebinoDraw\Stdlib\VarTranslator
+     * @return VarTranslators
      */
     public function getVarTranslator()
     {
@@ -141,14 +190,82 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     }
 
     /**
+     * @return DrawTranslation
+     */
+    public function getTranslationPrototype()
+    {
+        if (null === $this->translationPrototype) {
+            $this->setTranslationPrototype(new DrawTranslation);
+        }
+
+        return $this->translationPrototype;
+    }
+
+    /**
+     * @param DrawTranslation $translationPrototype
+     * @return AbstractDrawHelper
+     */
+    public function setTranslationPrototype($translationPrototype)
+    {
+        $this->translationPrototype = $translationPrototype;
+        return $this;
+    }
+
+    /**
+     * @param array $input
+     * @return DrawTranslation
+     */
+    public function cloneTranslationPrototype(array $input = null)
+    {
+        $translation = clone $this->getTranslationPrototype();
+        $translation->exchangeArray($input);
+
+        return $translation;
+    }
+
+    /**
+     * @return DrawInstructions
+     */
+    public function getInstructionsPrototype()
+    {
+        if (null === $this->instructionsPrototype) {
+            $this->setInstructionsPrototype(new DrawInstructions);
+        }
+
+        return $this->instructionsPrototype;
+    }
+
+    /**
+     * @param DrawInstructions $instructionsPrototype
+     * @return AbstractDrawHelper
+     */
+    public function setInstructionsPrototype(DrawInstructions $instructionsPrototype)
+    {
+        $this->instructionsPrototype = $instructionsPrototype;
+        return $this;
+    }
+
+    /**
+     * @param array $input
+     * @return DrawInstructions
+     */
+    public function cloneInstructionsPrototype(array $input = null)
+    {
+        $instructions = clone $this->getInstructionsPrototype();
+        $instructions->exchangeArray($input);
+
+        return $instructions;
+    }
+
+    /**
      * Get array translation from DOM node.
      *
-     * @param  \DOMElement $node
+     * @param DOMElement $node
      * @return array
      */
-    public function nodeTranslation(\DOMElement $node)
+    public function nodeTranslation(DOMElement $node)
     {
-        $translation = array();
+        $translation = clone $this->getTranslationPrototype();
 
         if (!empty($node->nodeValue)) {
             $translation['nodeValue'] = $node->nodeValue;
@@ -159,5 +276,56 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
         }
 
         return $translation;
+    }
+
+    /**
+     * Apply varTranslator on translation.
+     *
+     * @param ArrayAccess $translation
+     * @param array $spec
+     * @return AbstractDrawHelper
+     */
+    public function applyVarTranslator(ArrayAccess $translation, array $spec)
+    {
+        $varTranslator = $this->getVarTranslator();
+
+        empty($spec['var']['filter']['pre']) or
+            $varTranslator->applyFilter(
+                $translation,
+                $spec['var']['filter']['pre'],
+                $this->getFilterPluginManager()
+            );
+
+        empty($spec['var']['helper']) or
+            $varTranslator->applyHelper(
+                $translation,
+                $spec['var']['helper'],
+                $this->view->getHelperPluginManager()
+            );
+
+        empty($spec['var']['filter']['post']) or
+            $varTranslator->applyFilter(
+                $translation,
+                $spec['var']['filter']['post'],
+                $this->getFilterPluginManager()
+            );
+
+        return $this;
+    }
+
+    /**
+     * @param array $triggers
+     * @return AbstractDrawHelper
+     */
+    protected function trigger(array $triggers)
+    {
+        $event  = $this->getEvent();
+        $events = $this->getEventManager();
+
+        foreach ($triggers as $eventName) {
+            $events->trigger($eventName, $event);
+        }
+
+        return $this;
     }
 }

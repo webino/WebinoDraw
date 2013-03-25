@@ -1,39 +1,36 @@
 <?php
 /**
- * Webino (http://webino.sk/)
+ * Webino (http://webino.sk)
  *
- * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
- * @copyright   Copyright (c) 2013 Webino, s. r. o. (http://webino.sk/)
+ * @link        https://github.com/webino/WebinoDraw for the canonical source repository
+ * @copyright   Copyright (c) 2013 Webino, s. r. o. (http://webino.sk)
+ * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     New BSD License
- * @package     WebinoDraw\View
  */
 
 namespace WebinoDraw\View\Helper;
 
-use Zend\Filter\StaticFilter;
+use DOMElement;
 
 /**
- * @category    Webino
- * @package     WebinoDraw\View
- * @subpackage  Helper
- * @author      Peter Bačinský <peter@bacinsky.sk>
+ *
  */
 abstract class AbstractDrawElement extends AbstractDrawHelper
 {
     /**
-     * Return callable to set node value.
+     * Return callable to set node value
      *
-     * @param  array $spec
-     * @return type
+     * @param array $spec
+     * @return Closure
      */
-    protected function valuePreSet(array $spec)
+    public function createValuePreSet(array $spec)
     {
-        $translation   = array();
+        $translation   = clone $this->getTranslationPrototype();
         $varTranslator = $this->getVarTranslator();
         $helper        = $this;
 
         return function (
-            \DOMElement $node,
+            DOMElement $node,
             $value
         ) use (
             $helper,
@@ -52,9 +49,10 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
 
             $helper->applyVarTranslator($nodeTranslation, $spec);
 
-            $translation = array_merge(
-                $translation,
-                $varTranslator->array2translation($nodeTranslation)
+            $translation->merge(
+                $varTranslator
+                    ->makeVarKeys($nodeTranslation)
+                    ->getArrayCopy()
             );
 
             return $varTranslator->translateString($value, $translation);
@@ -62,20 +60,20 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
     }
 
     /**
-     * Return callable to set node HTML value.
+     * Return callable to set node HTML value
      *
-     * @param  type $subject
-     * @param  array $spec
-     * @return type
+     * @param string $subject
+     * @param array $spec
+     * @return Closure
      */
-    protected function htmlPreSet($subject, array $spec)
+    public function createHtmlPreSet($subject, array $spec)
     {
-        $translation   = array();
+        $translation   = clone $this->getTranslationPrototype();
         $varTranslator = $this->getVarTranslator();
         $helper        = $this;
 
         return function (
-            \DOMElement $node,
+            DOMElement $node,
             $value
         ) use (
             $helper,
@@ -106,9 +104,10 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
 
             $helper->applyVarTranslator($nodeTranslation, $spec);
 
-            $translation = array_merge(
-                $translation,
-                $varTranslator->array2translation($nodeTranslation)
+            $translation->merge(
+                $varTranslator
+                    ->makeVarKeys($nodeTranslation)
+                    ->getArrayCopy()
             );
 
             return $varTranslator->translateString($value, $translation);
@@ -116,19 +115,19 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
     }
 
     /**
-     * Return callable to set node attributes.
+     * Return callable to set node attributes
      *
-     * @param  array $spec
-     * @return type
+     * @param array $spec
+     * @return Closure
      */
-    protected function attribsPreSet(array $spec)
+    public function createAttribsPreSet(array $spec)
     {
-        $translation   = array();
+        $translation   = clone $this->getTranslationPrototype();
         $varTranslator = $this->getVarTranslator();
         $helper        = $this;
 
         return function (
-            \DOMElement $node,
+            DOMElement $node,
             $value
         ) use (
             $helper,
@@ -146,49 +145,18 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
 
             $helper->applyVarTranslator($nodeTranslation, $spec);
 
-            $translation = array_merge(
-                $translation,
-                $varTranslator->array2translation($nodeTranslation)
+            $translation->merge(
+                $varTranslator
+                    ->makeVarKeys($nodeTranslation)
+                    ->getArrayCopy()
             );
 
             $value = $varTranslator->translateString($value, $translation);
 
-            if ($varTranslator->stringHasVar($value)) {
+            if ($varTranslator->containsVar($value)) {
                 $value = null;
             }
             return $value;
         };
-    }
-
-    /**
-     * Apply varTranslator on translation.
-     *
-     * @param array $translation
-     * @param array $spec
-     */
-    public function applyVarTranslator(array &$translation, array $spec)
-    {
-        $varTranslator = $this->getVarTranslator();
-
-        empty($spec['var']['filter']['pre']) or
-            $varTranslator->applyFilter(
-                $translation,
-                $spec['var']['filter']['pre'],
-                StaticFilter::getPluginManager()
-            );
-
-        empty($spec['var']['helper']) or
-            $varTranslator->applyHelper(
-                $translation,
-                $spec['var']['helper'],
-                $this->view->getHelperPluginManager()
-            );
-
-        empty($spec['var']['filter']['post']) or
-            $varTranslator->applyFilter(
-                $translation,
-                $spec['var']['filter']['post'],
-                StaticFilter::getPluginManager()
-            );
     }
 }
