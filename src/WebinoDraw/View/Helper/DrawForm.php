@@ -1,32 +1,29 @@
 <?php
 /**
- * Webino (https://github.com/webino/)
+ * Webino (http://webino.sk)
  *
- * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
- * @copyright   Copyright (c) 2012 Peter Bačinský <peter@bacinsky.sk>
+ * @link        https://github.com/webino/WebinoDraw for the canonical source repository
+ * @copyright   Copyright (c) 2013 Webino, s. r. o. (http://webino.sk)
+ * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     New BSD License
- * @package     WebinoDraw_View
  */
 
 namespace WebinoDraw\View\Helper;
 
-use WebinoDraw\Exception;
+use WebinoDraw\DrawEvent;
+use WebinoDraw\DrawFormEvent;
 use WebinoDraw\Dom\NodeList;
-use WebinoDraw\Stdlib\DrawInstructions;
+use WebinoDraw\Exception\RuntimeException;
 use WebinoDraw\View\Helper\AbstractDrawElement;
 use Zend\Form\FormInterface;
 use Zend\Form\View\Helper\FormCollection;
 use Zend\Form\View\Helper\FormRow;
-use Zend\I18n\View\Helper\AbstractTranslatorHelper as BaseAbstractHelper;
+use Zend\I18n\View\Helper\AbstractTranslatorHelper;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**
- * Draw helper used to render form.
- *
- * @category    Webino
- * @package     WebinoDraw_View
- * @subpackage  Helper
+ * Draw helper used to render the form
  */
 class DrawForm extends AbstractDrawElement implements ServiceLocatorAwareInterface
 {
@@ -35,15 +32,55 @@ class DrawForm extends AbstractDrawElement implements ServiceLocatorAwareInterfa
      */
     protected $serviceLocator;
 
+    /**
+     * @var FormCollection
+     */
     protected $formCollectionHelper;
 
+    /**
+     * @var FormRow
+     */
     protected $formRowHelper;
 
+    /**
+     * @var AbstractTranslatorHelper
+     */
     protected $formElementHelper;
 
     /**
-     * Set service locator
+     * Get the attached event
      *
+     * Will create a new Event if none provided.
+     *
+     * @return DrawFormEvent
+     */
+    public function getEvent()
+    {
+        if (null === $this->event) {
+            $this->setEvent(new DrawFormEvent);
+        }
+        return $this->event;
+    }
+
+    /**
+     * Set an event to use
+     *
+     * @param  DrawFormEvent $event
+     * @return void
+     */
+    public function setEvent(DrawEvent $event)
+    {
+        if (!($event instanceof DrawFormEvent)) {
+            throw new \UnexpectedValueException(
+                'Expect DrawFormEvent but provided ' . get_class($event)
+            );
+        }
+
+        $this->event = $event;
+        return $this;
+    }
+
+    /**
      * @param ServiceLocatorInterface $serviceLocator
      */
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
@@ -52,8 +89,6 @@ class DrawForm extends AbstractDrawElement implements ServiceLocatorAwareInterfa
     }
 
     /**
-     * Get service locator
-     *
      * @return ServiceLocatorInterface
      */
     public function getServiceLocator()
@@ -61,6 +96,9 @@ class DrawForm extends AbstractDrawElement implements ServiceLocatorAwareInterfa
         return $this->serviceLocator;
     }
 
+    /**
+     * @return FormCollection
+     */
     public function getFormCollectionHelper()
     {
         if (empty($this->formCollectionHelper)) {
@@ -74,17 +112,24 @@ class DrawForm extends AbstractDrawElement implements ServiceLocatorAwareInterfa
         return $this->formCollectionHelper;
     }
 
-    public function setFormCollectionHelper(FormCollection $formCollection)
+    /**
+     * @param FormCollection $helper
+     * @return DrawForm
+     */
+    public function setFormCollectionHelper(FormCollection $helper)
     {
-        $this->formCollectionHelper = $formCollection;
+        $this->formCollectionHelper = $helper;
         return $this;
     }
 
+    /**
+     * @return FormRow
+     */
     public function getFormRowHelper()
     {
         if (empty($this->formRowHelper)) {
 
-            $formRow = $this->view->plugin('magicFormRow')
+            $formRow = $this->view->plugin('WebinoDrawFormRow')
                         ->setElementHelper($this->getFormElementHelper());
 
             $this->setFormRowHelper($formRow);
@@ -93,89 +138,61 @@ class DrawForm extends AbstractDrawElement implements ServiceLocatorAwareInterfa
         return $this->formRowHelper;
     }
 
-    public function setFormRowHelper(FormRow $formRow)
+    /**
+     * @param FormRow $helper
+     * @return DrawForm
+     */
+    public function setFormRowHelper(FormRow $helper)
     {
-        $this->formRowHelper = $formRow;
+        $this->formRowHelper = $helper;
         return $this;
     }
 
+    /**
+     * @return AbstractTranslatorHelper
+     */
     public function getFormElementHelper()
     {
         if (empty($this->formElementHelper)) {
-
             $this->setFormElementHelper(
-                $this->view->plugin('magicFormElement')
+                $this->view->plugin('WebinoDrawFormElement')
             );
         }
 
         return $this->formElementHelper;
     }
 
-    public function setFormElementHelper(BaseAbstractHelper $formElement)
+    /**
+     * @param AbstractTranslatorHelper $helper
+     * @return DrawForm
+     */
+    public function setFormElementHelper(AbstractTranslatorHelper $helper)
     {
-        $this->formElementHelper = $formElement;
-        return $this;
-    }
-
-    public function setTranslatorTextDomain($textDomain = 'default')
-    {
-        $this->getFormRowHelper()->setTranslatorTextDomain($textDomain);
-        $this->getFormElementHelper()->setTranslatorTextDomain($textDomain);
-
+        $this->formElementHelper = $helper;
         return $this;
     }
 
     /**
-     * Draw nodes in list.
-     *
-     * @param \WebinoDraw\Dom\NodeList $nodes
-     * @param array $spec
+     * @param string $textDomain
+     * @return DrawForm
      */
-    public function drawNodes(NodeList $nodes, array $spec)
+    public function setTranslatorTextDomain($textDomain = 'default')
     {
-        $form = $this->createForm($spec);
-        $translation = $this->getVars();
-
-        !array_key_exists('trigger', $spec) or
-            $spec = $this->trigger($nodes, $spec, $form);
-
-        $nodes->setAttribs($form->getAttributes());
-
-        isset($spec['text_domain']) or $spec['text_domain'] = 'default';
-        $this->setTranslatorTextDomain($spec['text_domain']);
-
-        foreach ($nodes as $node) {
-
-            $childNodes = $nodes->createNodeList(array($node));
-
-            if (empty($node->childNodes->length)) {
-                // easy render
-                $formCollection = $this->getFormCollectionHelper();
-
-                $childNodes->setHtml($formCollection($form));
-
-            } else {
-                $this->matchTemplate($childNodes, $form->getElements());
-            }
-
-            if (!empty($spec['instructions'])) {
-                foreach ($childNodes as $childNode) {
-                    DrawInstructions::render(
-                       $childNode,
-                       $this->view,
-                       $spec['instructions'],
-                       $translation
-                   );
-                }
-            }
-        }
+        $this->getFormRowHelper()->setTranslatorTextDomain($textDomain);
+        $this->getFormElementHelper()->setTranslatorTextDomain($textDomain);
+        return $this;
     }
 
+    /**
+     * @param array $spec
+     * @return FormInterface
+     * @throws RuntimeException
+     */
     protected function createForm(array $spec)
     {
         if (empty($spec['form'])) {
 
-            throw new Exception\RuntimeException(
+            throw new RuntimeException(
                 sprintf('Expected form option in: %s', print_r($spec, 1))
             );
         }
@@ -186,7 +203,7 @@ class DrawForm extends AbstractDrawElement implements ServiceLocatorAwareInterfa
 
         } catch (\Exception $e) {
 
-            throw new Exception\RuntimeException(
+            throw new RuntimeException(
                 sprintf('Expected form in: %s; ' . $e->getMessage(), print_r($spec, 1)),
                 $e->getCode(), $e
             );
@@ -199,7 +216,7 @@ class DrawForm extends AbstractDrawElement implements ServiceLocatorAwareInterfa
 
             } catch (\Exception $e) {
 
-                throw new Exception\RuntimeException(
+                throw new RuntimeException(
                     sprintf(
                         'Expected route `%s` for %s',
                         $spec['route'],
@@ -217,14 +234,82 @@ class DrawForm extends AbstractDrawElement implements ServiceLocatorAwareInterfa
     }
 
     /**
+     * @param NodeList $nodes
+     * @param array $spec
+     */
+    public function drawNodes(NodeList $nodes, array $spec)
+    {
+        $form  = $this->createForm($spec);
+        $event = $this->getEvent();
+
+        $event->clearSpec()
+            ->setSpec($spec)
+            ->setNodes($nodes)
+            ->setForm($form);
+
+        !array_key_exists('trigger', $spec) or
+            $this->trigger($spec['trigger']);
+
+        $this->doWork($nodes, $form, $event->getSpec()->getArrayCopy());
+    }
+
+    /**
+     * @param NodeList $nodes
+     * @param FormInterface $form
+     * @param array $spec
+     * @return DrawForm
+     */
+    protected function doWork(NodeList $nodes, FormInterface $form, array $spec)
+    {
+        $nodes->setAttribs($form->getAttributes());
+
+        isset($spec['text_domain']) or $spec['text_domain'] = 'default';
+        $this->setTranslatorTextDomain($spec['text_domain']);
+
+        $translation = $this->cloneTranslationPrototype($this->getVars());
+
+        foreach ($nodes as $node) {
+
+            $childNodes = $nodes->createNodeList(array($node));
+
+            if (empty($node->childNodes->length)) {
+                // easy render
+                $formCollection = $this->getFormCollectionHelper();
+
+                $childNodes->setHtml($formCollection($form));
+
+            } else {
+                $this->matchTemplate($childNodes, $form->getElements());
+            }
+
+            if (!empty($spec['instructions'])) {
+
+                foreach ($childNodes as $childNode) {
+
+                    $this
+                        ->cloneInstructionsPrototype($spec['instructions'])
+                        ->render(
+                            $childNode,
+                            $this->view,
+                            $translation->getArrayCopy()
+                        );
+                }
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * Try to match form elements to template
      *
-     * @param \WebinoDraw\Dom\NodeList $nodes
+     * @param NodeList $nodes
      * @param array $elements
      */
     protected function matchTemplate(NodeList $nodes, array $elements)
     {
         foreach ($nodes as $node) {
+
             /* @var $element \Zend\Form\Element */
             foreach ($elements as $element) {
 
@@ -280,24 +365,5 @@ class DrawForm extends AbstractDrawElement implements ServiceLocatorAwareInterfa
                 }
             }
         }
-    }
-
-    protected function trigger(NodeList $nodes, array $spec, FormInterface $form)
-    {
-        $event = $this->getEvent();
-
-        $event->clearSpec()->setSpec($spec);
-        $event->setParam('form', $form);
-
-        foreach ($nodes as $node) {
-
-            $event->setNode($node);
-
-            foreach ($spec['trigger'] as $eventName) {
-                $this->getEventManager()->trigger($eventName, $event);
-            }
-        }
-
-        return $event->getSpec();
     }
 }
