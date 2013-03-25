@@ -74,4 +74,11 @@
 
     </target>
 
+    <target name="didef" description="Generates the DI definition">
+        <echo>Generating DI definition ...</echo>
+
+        <exec command="php ${module.bindir}/definition_generator.php"/>
+
+    </target>
+
 </project>
