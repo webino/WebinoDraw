@@ -1,26 +1,22 @@
 <?php
 /**
- * Webino (http://webino.sk/)
+ * Webino (http://webino.sk)
  *
- * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
- * @copyright   Copyright (c) 2013 Webino, s. r. o. (http://webino.sk/)
+ * @link        https://github.com/webino/WebinoDraw for the canonical source repository
+ * @copyright   Copyright (c) 2013 Webino, s. r. o. (http://webino.sk)
+ * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     New BSD License
- * @package     WebinoDraw\View
  */
 
 namespace WebinoDraw\View\Helper;
 
-use WebinoDraw\Stdlib\DrawInstructions;
+use ArrayAccess;
+use WebinoDraw\Stdlib\ArrayFetchInterface;
 use WebinoDraw\Dom\NodeList;
 use WebinoDraw\Exception;
 
 /**
  * Draw helper used for DOMElement modifications.
- *
- * @category    Webino
- * @package     WebinoDraw\View
- * @subpackage  Helper
- * @author      Peter Bačinský <peter@bacinsky.sk>
  */
 class DrawElement extends AbstractDrawElement
 {
@@ -30,106 +26,49 @@ class DrawElement extends AbstractDrawElement
     protected $eventIdentifier = __CLASS__;
 
     /**
-     * Draw nodes in list.
+     * Draw nodes in list
      *
-     * @param \WebinoDraw\Dom\NodeList $nodes
+     * @param NodeList $nodes
      * @param array $spec
      */
     public function drawNodes(NodeList $nodes, array $spec)
     {
+        $event = $this->getEvent();
+
+        $event->clearSpec()
+            ->setSpec($spec)
+            ->setNodes($nodes);
+
         !array_key_exists('trigger', $spec) or
-            $spec = $this->trigger($nodes, $spec);
+            $this->trigger($spec['trigger']);
 
-        $this->doWork($nodes, $spec);
+        $this->doWork($nodes, $event->getSpec()->getArrayCopy());
     }
 
     /**
-     * Return translated $spec by values in $translation.
-     *
-     * @param  array $spec
-     * @param  array $translation
-     * @return array
+     * @param NodeList $nodes
+     * @param array $spec
+     * @return DrawElement
      */
-    protected function translateSpec(array $spec, array $translation)
-    {
-        $varTranslator = $this->getVarTranslator();
-
-        empty($spec['var']['set']) or
-            $varTranslator->translationMerge(
-                $translation,
-                $spec['var']['set']
-            );
-
-        empty($spec['var']['fetch']) or
-            $varTranslator->translationFetch(
-                $translation,
-                $spec['var']['fetch']
-            );
-
-        empty($spec['render']) or
-            $this->render($translation, $spec['render']);
-
-        $this->applyVarTranslator($translation, $spec);
-
-        $varTranslator->translate(
-            $spec,
-            $varTranslator->array2translation($translation)
-        );
-
-        return $spec;
-    }
-
-    /**
-     * Manipulate nodes.
-     *
-     * @param  \WebinoDraw\Dom\NodeList $nodes
-     * @param  array $spec
-     * @param  array $translation
-     * @return \WebinoDraw\View\Helper\DrawElement
-     */
-    protected function manipulateNodes(NodeList $nodes, array $spec, array $translation)
-    {
-        $spec = $this->translateSpec($spec, $translation);
-        unset($translation);
-
-        !array_key_exists('remove', $spec) or
-            $nodes->remove($spec['remove']);
-
-        !array_key_exists('replace', $spec) or
-            $this->replace($nodes, $spec);
-
-        !array_key_exists('attribs', $spec) or
-            $this->setAttribs($nodes, $spec);
-
-        !array_key_exists('value', $spec) or
-            $this->setValue($nodes, $spec);
-
-        !array_key_exists('html', $spec) or
-            $this->setHtml($nodes, $spec);
-
-        !array_key_exists('onEmpty', $spec) or
-            $this->onEmpty($nodes, $spec['onEmpty']);
-
-        return $this;
-    }
-
     protected function doWork(NodeList $nodes, array $spec)
     {
-        $translation = $this->getVars();
+        $translation = $this->cloneTranslationPrototype($this->getVars());
 
         if (empty($spec['loop'])) {
 
             $this->manipulateNodes($nodes, $spec, $translation);
 
             if (!empty($spec['instructions'])) {
-                foreach ($nodes as $node) {
-                     DrawInstructions::render(
-                        $node,
-                        $this->view,
-                        $spec['instructions'],
-                        $translation
-                    );
 
+                foreach ($nodes as $node) {
+
+                    $this
+                        ->cloneInstructionsPrototype($spec['instructions'])
+                        ->render(
+                           $node,
+                           $this->view,
+                           $translation->getArrayCopy()
+                       );
                 }
             }
 
@@ -140,132 +79,48 @@ class DrawElement extends AbstractDrawElement
         return $this;
     }
 
-    protected function trigger(NodeList $nodes, array $spec)
-    {
-        $event = $this->getEvent();
-
-        $event->clearSpec()->setSpec($spec);
-
-        foreach ($nodes as $node) {
-
-            $event->setNode($node);
-
-            foreach ($spec['trigger'] as $eventName) {
-                $this->getEventManager()->trigger($eventName, $event);
-            }
-        }
-
-        return $event->getSpec();
-    }
-
     /**
-     * Set nodes text value.
+     * Manipulate nodes
      *
-     * @param \WebinoDraw\Dom\NodeList $nodes
+     * @param NodeList $nodes
      * @param array $spec
+     * @param ArrayAccess $translation
+     * @return DrawElement
      */
-    protected function setValue(NodeList $nodes, array $spec)
+    protected function manipulateNodes(NodeList $nodes, array $spec, ArrayAccess $translation)
     {
-        $preSet = $this->valuePreSet($spec);
-        $nodes->setValue($spec['value'], $preSet);
-    }
+        $_spec = $this->translateSpec($spec, $translation);
 
-    /**
-     * Set nodes XHTML value.
-     *
-     * @param \WebinoDraw\Dom\NodeList $nodes
-     * @param array $spec
-     */
-    protected function setHtml(NodeList $nodes, array $spec)
-    {
-        $preSet = $this->htmlPreSet($spec['html'], $spec);
-        $nodes->setHtml($spec['html'], $preSet);
-    }
+        !array_key_exists('remove', $_spec) or
+            $nodes->remove($_spec['remove']);
 
-    /**
-     * Set nodes attributes.
-     *
-     * @param \WebinoDraw\Dom\NodeList $nodes
-     * @param array $spec
-     */
-    protected function setAttribs(NodeList $nodes, array $spec)
-    {
-        $preSet = $this->attribsPreSet($spec);
-        $nodes->setAttribs($spec['attribs'], $preSet);
-    }
+        !array_key_exists('replace', $_spec) or
+            $this->replace($nodes, $_spec);
 
-    /**
-     * If node has no text value, draw it with onEmpty options.
-     *
-     * @param \WebinoDraw\Dom\NodeList $nodes
-     * @param array $spec
-     */
-    protected function onEmpty(NodeList $nodes, array $spec)
-    {
-        foreach ($nodes as $node) {
-            if (!empty($node->nodeValue)
-                || is_numeric($node->nodeValue)
-            ) {
-                continue;
-            }
-            $this->doWork($nodes->createNodeList(array($node)), $spec);
-        }
-    }
+        !array_key_exists('attribs', $_spec) or
+            $this->setAttribs($nodes, $_spec);
 
-    /**
-     * Replace nodes with HTML.
-     *
-     * @param \WebinoDraw\Dom\NodeList $nodes
-     * @param array $spec
-     */
-    protected function replace(NodeList $nodes, array $spec)
-    {
-        foreach ($nodes as $node) {
-            if (is_array($spec['replace'])) {
-                foreach ($spec['replace'] as $xpath => $html) {
-                    $newNodes = $nodes->createNodeList(
-                        $node->ownerDocument->xpath->query($xpath, $node)
-                    );
-                    $preSet   = $this->htmlPreSet($html, $spec);
-                    $newNodes->replace($html, $preSet);
-                    $subspec  = $spec;
-                    unset($subspec['replace']);
-                    $this->doWork($newNodes, $subspec);
-                }
-                continue;
-            }
+        !array_key_exists('value', $_spec) or
+            $this->setValue($nodes, $_spec);
 
-            $newNodes = $nodes->createNodeList(array($node));
-            $preSet   = $this->htmlPreSet($spec['replace'], $spec);
-            $newNodes->replace($spec['replace'], $preSet);
-            $subspec  = $spec;
-            unset($subspec['replace']);
-            $this->doWork($newNodes, $subspec);
-        }
-    }
+        !array_key_exists('html', $_spec) or
+            $this->setHtml($nodes, $_spec);
 
-    /**
-     * Render view script to {$var}.
-     *
-     * @param array $translation
-     * @param array $options
-     */
-    protected function render(array &$translation, array $options)
-    {
-        foreach ($options as $key => $value) {
-            $translation[$key] = $this->view->render($value);
-        }
+        !array_key_exists('onEmpty', $_spec) or
+            $this->onEmpty($nodes, $_spec['onEmpty']);
+
+        return $this;
     }
 
     /**
      * Loop target nodes by data.
      *
-     * @param  \WebinoDraw\Dom\NodeList $nodes
-     * @param  array $spec
-     * @param  array $localTranslation
-     * @return type
+     * @param NodeList $nodes
+     * @param array $spec
+     * @param array $translation
+     * @return DrawElement
      */
-    protected function loop(NodeList $nodes, array $spec, array $translation)
+    protected function loop(NodeList $nodes, array $spec, ArrayFetchInterface $translation)
     {
         $varTranslator = $this->getVarTranslator();
 
@@ -275,14 +130,14 @@ class DrawElement extends AbstractDrawElement
             );
         }
 
-        $items = DrawInstructions::toBase($translation, $spec['loop']['base']);
+        $items = $translation->fetch($spec['loop']['base']);
 
         if (empty($items)) {
 
             if (array_key_exists('onEmpty', $spec['loop'])) {
                 $this->manipulateNodes($nodes, $spec['loop']['onEmpty'], $translation);
             }
-            return;
+            return $this;
         }
 
         foreach ($nodes as $node) {
@@ -311,7 +166,7 @@ class DrawElement extends AbstractDrawElement
                 $item['index']    = (string) $index;
                 $newNode          = clone $nodeClone;
                 $newNodeList      = $nodes->createNodeList(array($newNode));
-                $localTranslation = $translation;
+                $localTranslation = clone $translation;
 
 
                 $varTranslator->translationMerge(
@@ -321,13 +176,16 @@ class DrawElement extends AbstractDrawElement
 
                 $this->manipulateNodes($newNodeList, $spec, $localTranslation);
 
-                empty($spec['loop']['instructions']) or
-                    DrawInstructions::render(
-                        $newNode,
-                        $this->view,
-                        $spec['loop']['instructions'],
-                        $localTranslation
-                    );
+                if (!empty($spec['loop']['instructions'])) {
+
+                    $this
+                        ->cloneInstructionsPrototype($spec['loop']['instructions'])
+                        ->render(
+                           $newNode,
+                           $this->view,
+                           $localTranslation->getArrayCopy()
+                       );
+                }
 
                 if ($insertBefore) {
                     $parentNode->insertBefore($newNode, $insertBefore);
@@ -336,5 +194,181 @@ class DrawElement extends AbstractDrawElement
                 }
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * Set text value for each node in the list
+     *
+     * @param NodeList $nodes
+     * @param array $spec
+     * @return DrawElement
+     */
+    protected function setValue(NodeList $nodes, array $spec)
+    {
+        $nodes->setValue(
+            $spec['value'],
+            $this->createValuePreSet($spec)
+        );
+        return $this;
+    }
+
+    /**
+     * Set XHTML for each node in the list
+     *
+     * @param NodeList $nodes
+     * @param array $spec
+     * @return DrawElement
+     */
+    protected function setHtml(NodeList $nodes, array $spec)
+    {
+        $nodes->setHtml(
+            $spec['html'],
+            $this->createHtmlPreSet($spec['html'], $spec)
+        );
+        return $this;
+    }
+
+    /**
+     * Set attributes for each node in the list
+     *
+     * @param NodeList $nodes
+     * @param array $spec
+     * @return DrawElement
+     */
+    protected function setAttribs(NodeList $nodes, array $spec)
+    {
+        $nodes->setAttribs(
+            $spec['attribs'],
+            $this->createAttribsPreSet($spec)
+        );
+        return $this;
+    }
+
+    /**
+     * If node has no text value, draw it with onEmpty options
+     *
+     * @param NodeList $nodes
+     * @param array $spec
+     * @return DrawElement
+     */
+    protected function onEmpty(NodeList $nodes, array $spec)
+    {
+        foreach ($nodes as $node) {
+
+            if (!empty($node->nodeValue)
+                || is_numeric($node->nodeValue)
+            ) {
+                continue;
+            }
+
+            $this->doWork($nodes->createNodeList(array($node)), $spec);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Replace nodes with XHTML
+     *
+     * @param NodeList $nodes
+     * @param array $spec
+     * @return DrawElement
+     */
+    protected function replace(NodeList $nodes, array $spec)
+    {
+        //TODO XPath + CSS
+
+        foreach ($nodes as $node) {
+
+            if (is_array($spec['replace'])) {
+
+                foreach ($spec['replace'] as $xpath => $html) {
+
+                    $newNodes = $nodes->createNodeList(
+                        $node->ownerDocument->xpath->query($xpath, $node)
+                    );
+
+                    $newNodes->replace(
+                        $html,
+                        $this->createHtmlPreSet($html, $spec)
+                    );
+
+                    $subspec = $spec;
+                    unset($subspec['replace']);
+
+                    $this->doWork($newNodes, $subspec);
+                }
+
+                continue;
+            }
+
+            $newNodes = $nodes->createNodeList(array($node));
+
+            $newNodes->replace(
+                $spec['replace'],
+                $this->createHtmlPreSet($spec['replace'], $spec)
+            );
+
+            $subspec = $spec;
+            unset($subspec['replace']);
+
+            $this->doWork($newNodes, $subspec);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Render view script to {$var}
+     *
+     * @param ArrayAccess $translation
+     * @param array $options
+     * @return DrawElement
+     */
+    protected function render(ArrayAccess $translation, array $options)
+    {
+        foreach ($options as $key => $value) {
+            $translation[$key] = $this->view->render($value);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Return translated $spec by values in $translation
+     *
+     * @param array $spec
+     * @param ArrayAccess $translation
+     * @return array
+     */
+    protected function translateSpec(array $spec, ArrayAccess $translation)
+    {
+        $varTranslator = $this->getVarTranslator();
+
+        empty($spec['var']['set']) or
+            $varTranslator->translationMerge(
+                $translation,
+                $spec['var']['set']
+            );
+
+        empty($spec['var']['fetch']) or
+            $varTranslator->translationFetch(
+                $translation,
+                $spec['var']['fetch']
+            );
+
+        empty($spec['render']) or
+            $this->render($translation, $spec['render']);
+
+        $this->applyVarTranslator($translation, $spec);
+
+        $varTranslator->translate(
+            $spec,
+            $varTranslator->makeVarKeys($translation)
+        );
+
+        return $spec;
     }
 }
