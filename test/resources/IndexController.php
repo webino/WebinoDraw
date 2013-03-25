@@ -9,6 +9,9 @@
 
 namespace Application\Controller;
 
+use WebinoDraw\AjaxEvent;
+use WebinoDraw\DrawEvent;
+use WebinoDraw\DrawFormEvent;
 use Zend\I18n\Translator\TextDomain;
 use Zend\I18n\Translator\Loader\RemoteLoaderInterface;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -24,7 +27,7 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
      *
      * @param  string $locale
      * @param  string $textDomain
-     * @return \Zend\I18n\Translator\TextDomain|null
+     * @return TextDomain|null
      */
     public function load($locale, $textDomain)
     {
@@ -36,20 +39,45 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
         );
     }
 
+    /**
+     * Use case examples
+     *
+     * @return array
+     */
     public function indexAction()
     {
-        // Set instructions into the draw strategy
-        $this->getServiceLocator()->get('ViewDrawStrategy')->setInstructions(array(
-            'direct-example' => array(
-                'value' => '{$nodeValue} VALUE',
-            ),
-        ));
+        // setup test translator
+        /* @var $translator \Zend\I18n\Translator\Translator */
+        $translator = $this->getServiceLocator()->get('translator');
+        $translator->getPluginManager()->setService('testTranslation', $this);
+        $translator->addRemoteTranslations('testTranslation', 'test');
+        $translator->setLocale('sk_SK');
+        AbstractValidator::setDefaultTranslator($translator);
+        // /setup test translator
 
-        // Attach example-event listener to the draw element custom event
+        // trigger form errors
+        $form = $this->getServiceLocator()->get('exampleForm');
+        $form->setData(array('test'));
+        $form->isValid();
+
+        // 1) set instructions into the draw strategy
+        $this->getServiceLocator()->get('WebinoDraw')->setInstructions(
+            array(
+                'direct-example' => array(
+                    'value' => '{$nodeValue} VALUE',
+                ),
+            )
+        );
+
+        // 2) attach example-event listener to the draw element custom event
         $this->getEventManager()->getSharedManager()->attach(
             'WebinoDraw',
             'event-example.test',
-            function($event) {
+            function(DrawEvent $event) {
+
+                $event->getNodes()
+                    ->setAttribs(array('style' => 'border: 1px solid #ee0000;'));
+
                 $event->setSpec(
                     array(
                         'value'   => '{$nodeValue} VALUE',
@@ -61,22 +89,35 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
             }
         );
 
-        // Attach form-example.event listener to the draw form custom event
+        // 3) attach form-example.event listener to the draw form custom event
         $this->getEventManager()->getSharedManager()->attach(
             'WebinoDraw',
             'form-example.event',
-            function($event) {
+            function(DrawFormEvent $event) {
 
-                $event->getParam('form')
+                $event->getNodes()
+                    ->setAttribs(array('style' => 'border: 1px solid #0000ee;'));
+
+                $event->getForm()->add(
+                    array(
+                        'name' => 'element_from_controller',
+                        'attributes' => array(
+                            'type'  => 'submit',
+                            'value' => 'Button from controller',
+                        ),
+                    )
+                );
+
+                $event->getForm()
                     ->setData(array('example_text_element' => 'TEST VALUE FROM CONTROLLER'));
 
                 $event->setSpec(
                     array(
                         'instructions' => array(
                             'instruction-from-controller' => array(
-                                'query' => 'input',
-                                'helper' => 'drawElement',
+                                'locator' => 'input',
                                 'attribs' => array(
+                                    'disabled' => 'disabled',
                                     'title' => 'Form sub-instruction title from controller',
                                 ),
                             ),
@@ -86,20 +127,26 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
             }
         );
 
-        // Set up test translator
-        /* @var $translator \Zend\I18n\Translator\Translator */
-        $translator = $this->getServiceLocator()->get('translator');
-        $translator->getPluginManager()->setService('testTranslation', $this);
-        $translator->addRemoteTranslations('testTranslation', 'test');
+        // 4) attach listener to the ajax event
+        $request = $this->request;
+        $this->getEventManager()->getSharedManager()->attach(
+            'WebinoDraw',
+            AjaxEvent::EVENT_AJAX,
+            function(AjaxEvent $event) use ($request) {
 
-        $translator->setLocale('sk_SK');
+                !$request->getQuery()->offsetExists('ajaxExtra') or
+                    $event->setJson(array('extraTest' => 'ajax extra random ' . rand()));
 
-        AbstractValidator::setDefaultTranslator($translator);
+                $id = $request->getQuery()->fragmentId;
+                if (empty($id)) {
+                    return;
+                }
 
-        $form = $this->getServiceLocator()->get('exampleForm');
-        $form->setData(array('test'));
-        $form->isValid();
+                $event->setFragmentXpath('//*[@id="' . $id . '"]');
+            }
+        );
 
+        // test view variables
         return array(
 
             'viewvar' => 'TESTVIEWVAR',
@@ -141,6 +188,9 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
         );
     }
 
+    /**
+     *
+     */
     public function saveAction()
     {
         $this->redirect()->toUrl($this->request->getBaseUrl());
