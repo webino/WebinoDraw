@@ -13,28 +13,29 @@
 
 ## Features
 
-  - Auto escape.
-  - Configurable layout.
-  - Decoupled logic from template.
-  - Works with pure XHTML5.
-  - Trigger events.
-  - Draw forms, collection and map to HTML.
-  - Uses PHP functions, ZF2 view variables, helpers and filters.
+  - Auto escape
+  - Ajax support
+  - Configurable layout
+  - Decoupled logic from template
+  - Works with pure XHTML5
+  - Trigger events
+  - Draw forms (collection or map to HTML)
+  - Uses PHP functions, ZF2 view variables, helpers and filters
   - You can still use phtml, but why!
 
 ## Setup
 
   Following steps are necessary to get this module working, considering a zf2-skeleton or very similar application:
 
-  1. Add `"minimum-stability": "dev"` to your composer.json, because this module is under development.
+  1. Add `"minimum-stability": "dev"` to your composer.json, because this module is under development
 
   2. Run `php composer.phar require webino/webino-draw:dev-develop`
 
-  3. Add `WebinoDraw` to the enabled modules list.
+  3. Add `WebinoDraw` to the enabled modules list
 
 ## Requirements
 
-  - XHTML(5) doctype.
+  - XHTML(5) doctype
 
 ## QuickStart
 
@@ -45,9 +46,9 @@
 
                 // Add draw instructions here
                 'draw-node-example' => array(
-                    'query'  => 'body',
-                    'helper' => 'drawElement',
-                    'value'  => 'Hello Webino!',
+                    'locator' => 'body',
+                    'helper'  => 'drawElement',
+                    'value'   => 'Hello Webino!',
                 ),
             ),
         ),
@@ -56,25 +57,22 @@
 
   - Rendering is based on instructions mapped to DOM nodes like this:
 
-        'draw-node-example' => array(        // custom name
-            'query'  => 'body',              // css selector
-            'xpath'  => '//footer',          // DOM XPath
-            'helper' => 'drawElement',       // draw helper
-            'value'  => 'Hello Webino!',     // helper options
+        'draw-node-example' => array(         // custom name
+            'locator' => 'body',              // node locator
+            'helper'  => 'drawElement',       // draw helper
+            'value'   => 'Hello Webino!',     // helper options
         ),
 
-  - As you see you can use **css selector** or **xpath** even combine them together to map dom nodes to draw instruction.
+  - You can use **CSS selector** or **XPath** even combine them together to map dom nodes to draw instruction.
 
-    It is possible to set many selectors and XPath:
+    It is possible to set many CSS or/and XPath locators:
 
         'draw-node-example' => array(
-            'xpath' => array(
-                '//title',
-                '//footer',
-            ),
-            'query' => array(
+            'locator' => array(
                 'body a',
                 '.customclass',
+                'xpath=//title',
+                'xpath=//footer',
             ),
             'helper' => 'drawElement',
             'value'  => 'Hello Webino!',
@@ -84,7 +82,7 @@
 
         'draw-node-example' => array(
             'stackIndex' => '9',
-            'query'      => 'body',
+            'locator'    => 'body',
             'helper'     => 'drawElement',
             'value'      => 'Hello Webino!',
         ),
@@ -92,10 +90,10 @@
   - Use **node variables**:
 
         'draw-node-example' => array(
-            'query'  => 'a',
-            'helper' => 'drawElement',
-            'value'  => 'customprefix {$nodeValue} customsuffix',
-            'html'   => '<custom>{$html}</custom>',
+            'locator' => 'a',
+            'helper'  => 'drawElement',
+            'value'   => 'customprefix {$nodeValue} customsuffix',
+            'html'    => '<custom>{$html}</custom>',
             'attribs' => array(
                 'title' => '{$nodeValue} {$href}',
                 'href'  => '{$href}#customfragment',
@@ -107,18 +105,18 @@
     Assume that controller action return view model with multidimensional array.
 
         'draw-node-example' => array(
-            'query'  => 'body',
-            'helper' => 'drawElement',
-            'value'  => '{$viewvar}',
+            'locator' => 'body',
+            'helper'  => 'drawElement',
+            'value'   => '{$viewvar}',
         ),
 
     Set and override:
 
         'draw-node-example' => array(
-            'query'  => 'body',
-            'helper' => 'drawElement',
-            'value'  => '{$viewvar}',
-            'var'    => array(
+            'locator' => 'body',
+            'helper'  => 'drawElement',
+            'value'   => '{$viewvar}',
+            'var'     => array(
                 'set' => array(
                     'viewvar' => 'customval',
                 ),
@@ -128,10 +126,10 @@
     Fetch variables:
 
         'draw-node-example' => array(
-            'query'  => 'body',
-            'helper' => 'drawElement',
-            'value'  => '{$depthvar}',
-            'var'    => array(
+            'locator' => 'body',
+            'helper'  => 'drawElement',
+            'value'   => '{$depthvar}',
+            'var'     => array(
                 'fetch' => array(
                     'depthvar' => 'value.in.the.depth',
                 ),
@@ -142,10 +140,10 @@
     Set default variables:
 
         'draw-node-example' => array(
-            'query'  => 'body',
-            'helper' => 'drawElement',
-            'value'  => '{$viewvar}',
-            'var'    => array(
+            'locator' => 'body',
+            'helper'  => 'drawElement',
+            'value'   => '{$viewvar}',
+            'var'     => array(
                 'default' => array(
                     'viewvar' => 'defaultval',
                 ),
@@ -157,10 +155,10 @@
     Modify variable values, helper/filter definition accepts in function/method parameters: `{$var}`
 
         'draw-node-example' => array(
-            'query'  => 'body',
-            'helper' => 'drawElement',
-            'value'  => '{$customvar}',
-            'var'    => array(
+            'locator' => 'body',
+            'helper'  => 'drawElement',
+            'value'   => '{$customvar}',
+            'var'     => array(
                 'helper' => array(
                     'customvar' => array(
                         'customhelper' => array(
@@ -184,10 +182,10 @@
   - **Loop** by view array:
 
         'draw-node-example' => array(
-            'query'  => 'ul li',
-            'helper' => 'drawElement',
-            'value'  => '{$key} {$index} {$property}',
-            'loop'   => array(
+            'locator' => 'ul li',
+            'helper'  => 'drawElement',
+            'value'   => '{$key} {$index} {$property}',
+            'loop'    => array(
                 'base'    => 'array.in.the.depth',
                 'index'   => '0',
                 'onEmpty' => array(
@@ -204,7 +202,7 @@
   - Trigger **events**
 
         'event-example' => array(
-            'query'   => 'body',
+            'locator' => 'body',
             'helper'  => 'drawElement',
             'trigger' => array(
                 'event-example.test',
@@ -216,10 +214,15 @@
         $this->getEventManager()->getSharedManager()->attach(
             'WebinoDraw',
             'event-example.test',
-            function($event) {
+            function(DrawEvent $event) {
+
+                // do something with the nodes
+                $this->getNodes()->setValue("my node value");
+
+                // change instruction node
                 $event->setSpec(
                     array(
-                        // Draw instructions:
+                        // draw instructions
                         'value'   => '{$nodeValue} VALUE',
                         'attribs' => array(
                             'title' => 'Hello from Controller!',
@@ -229,22 +232,19 @@
             }
         );
 
-  *NOTE: Events are good for conditional data fetching, because when element is not available in the layout
-  event is not fired thus skipping data load.*
-
   - Set instructions **from controller**:
 
-        $this->getServiceLocator()->get('ViewDrawStrategy')->setInstructions(array(
+        $this->getServiceLocator()->get('WebinoDraw')->setInstructions(array(
             'custom' => array(
-                'query'  => '.customclass',
-                'helper' => 'drawElement',
-                'value'  => 'Custom value',
+                'locator' => '.customclass',
+                'helper'  => 'drawElement',
+                'value'   => 'Custom value',
             ),
         ));
 
     Set instructions always merge so in some cases it is useful to clear them:
 
-        $this->getServiceLocator()->get('ViewDrawStrategy')->clearInstructions();
+        $this->getServiceLocator()->get('WebinoDraw')->clearInstructions();
 
 ## Instruction Set
 
@@ -258,25 +258,115 @@
             ),
         ),
 
-  - Later you can get those instructions and set them to the draw strategy:
+  - Later you can get those instructions and set them to the WebinoDraw service:
 
-        $drawStrategy = $this->getServiceLocator()->get('ViewDrawStrategy');
-        $drawStrategy->setInstructions(
-            $drawStrategy->getInstructionsFromSet('customname')
+        $draw = $this->getServiceLocator()->get('WebinoDraw');
+        $draw->setInstructions(
+            $draw->instructionsFromSet('customname')
         );
+
+## Ajax
+
+  WebinoDraw supports Ajax, that means you can request any fragments of the layout body from the web server
+  and update the elements via Javascript in the DOM of the web page.
+
+  Assume Ajax as a process of sending / receiving data to the server on the web page background.
+  The JSON format is used for that purpose.
+
+  1. Set up the Ajax handler. Use the following jQuery script:
+
+        jQuery(document).ready(function($){
+
+            $(document).on("click", ".ajax-link", function() {
+
+                $.get($(this).attr("href"), function(data) {
+
+                    // replace element HTML with each received fragment
+                    $.each(data.fragment, function(selector, html) {
+                        $(selector).replaceWith(html);
+                    });
+
+                    // custom data whatever
+                    if (data.extraExample) {
+                        $(".my-ajax-data").html(data.extraExample);
+                    }
+
+                }, "json");
+
+                return false;
+            });
+        });
+
+    *NOTE: Above script makes every element with a class name "ajax-link" Ajax-able.
+           It is required that element has the "href" attribute.*
+
+    *NOTE: The JSON `data.fragment` contains the `selector => XHTML` pairs.*
+
+    *NOTE: We can receive custom parameters and do whatever we want with them.*
+
+  2. Add an id and the class name "ajax-fragment" to the every element you want to change via Ajax.
+
+     Assume following element somewhere in the layout body tag:
+
+        <div id="my-ajax-area" class="ajax-fragment">Ajax-able content</div>
+
+  3. Now when you click Ajax-able element, every Ajax-able fragment will be updated.
+
+### AjaxEvent
+
+  The Ajax request triggers the Ajax event, then you can add custom JSON data and change the XPath of fragments to render.
+
+        $this->getEventManager()->getSharedManager()->attach(
+            'WebinoDraw',
+            AjaxEvent::EVENT_AJAX,
+            function(AjaxEvent $event) {
+
+                // add custom JSON data
+                $event->setJson(array('extraExample' => 'my extra ajax'));
+
+                // change XPath of fragments to render
+                $event->setFragmentXpath('//*[contains(@class, "my-ajax-fragment"])');
+            }
+        );
+
+  *NOTE: AjaxEvent will not be triggered if you use JsonModel as a MvcEvent response.*
+
+### Ajax Settings
+
+  There are default settings to configure the Ajax support:
+
+        'webino_draw' => array(
+
+            // container is the area to render (in the layout)
+            'ajax_container_xpath' => '//body',
+
+            // fragment is the part of the container to receive
+            'ajax_fragment_xpath' => '//*[contains(@class, "ajax-fragment") and @id]',
+        ),
+
+  *NOTE: Only elements matched with container XPath will be rendered.*
+
+  Override those settings to be more specific to the layout, if you want.
+
+  The layout may contain many Ajax containers with many fragments.
+  It's up to you how you match them with the XPath via Ajax settings.
+  Maybe you want to render only the nav and the content e.g. `'ajax_container_xpath' => '//nav|//content'`
+  then also receive them as fragments `'ajax_fragment_xpath' => '//nav|//content'`. So only the required parts
+  will be rendered and received, thus saving resources by skipping rendering of the header, footer and the other waste
+  surrounding the ajax containers in the layout body.
 
 ## Helpers
 
-  Modularity of draw is provided by custom classes which consumes DOM nodes, options and data
+  Modularity of the draw is provided by custom classes which consumes DOM nodes, options and data
   to make operations over DOM nodes.
 
 ### drawElement
 
-  Use it to modify the element of the page.
+  Use it to modify the element of the page. Many options, very powerful.
 
     'draw-element-example' => array(
-        'query'  => '.customclass',
-        'helper' => 'drawElement',
+        'locator' => '.customclass',
+        'helper'  => 'drawElement',
 
         // Helper options:
         'value'   => 'Draw element example value',       // set node value
@@ -337,13 +427,13 @@
   form elements by name attribute.
 
     'draw-form-example' => array(
-        'query'  => 'form.form-example',
-        'helper' => 'drawForm',
+        'localtor' => 'form.form-example',
+        'helper'   => 'drawForm',
 
         // Helper options:
-        'form'  => 'exampleForm',                   // form available via ServiceManager
-        'route' => 'example_route',                 // available route
-        'text_domain' => __NAMESPACE__,             // form translator text domain
+        'form'         => 'exampleForm',            // form available via ServiceManager
+        'route'        => 'example_route',          // available route
+        'text_domain'  => __NAMESPACE__,            // form translator text domain
         'instructions' => array(                    // sub-instructions to decorate the form
                                                     // add different helper instructions
         ),
@@ -404,19 +494,19 @@
     ),
 
 
-  *NOTE: Magic form is just like an ordinary zend form, but it could be instantiated via DI.*
+  *NOTE: Magic form is just like an ordinary Zend Form, but it could be instantiated via DI.*
 
-  *NOTE: If you don't want to use Draw's MagicForm, just inject one into ServiceManager.*
+  *NOTE: If you don't want to use Draw's MagicForm just inject one into ServiceManager.*
 
 ## Pitfalls
 
-  - Use `<![CDATA[ ]]>` with entities, like `&amp;` to: `<![CDATA[&amp;]]>`
+  - In case of troubles use `<![CDATA[ ]]>` with entities, like `&amp;` to: `<![CDATA[&amp;]]>`
 
   - To create the form the Draw's MagicForm is used. It allows to instantiate the object of type FormInterface
     via DI directly. However any valid form available via ServiceManager can be used.
 
-  - To draw the form the Draw's MagicFormElement and MagicFormRow view helper is used. It solves some  issues
-    with the translator when Zend's FormElement view helper is used, because it does not allow to pass translator
+  - To draw the form collection the Draw's MagicFormElement and MagicFormRow view helper is used. It solves some issues
+    with the translator when the Zend FormElement view helper is used, because it does not allow to pass translator
     text domain to its elements.
 
 ## Examples
@@ -425,9 +515,9 @@
 
 **Manual setup**
 
-  1. Install ZendSkeletonApplication.
+  1. Install ZendSkeletonApplication
 
-  2. Set up WebinoDraw module.
+  2. Set up WebinoDraw module
 
   3. Set up module test configuration:
     - Copy: `vendor/webino/webino-draw/test/resources/config.local.php`
@@ -441,7 +531,7 @@
     - Copy: `vendor/webino/webino-draw/test/resources/IndexController.php`
     - Paste it to application: `src/Application/Controller/IndexController.php` <br /><br />
 
-  7. Check your ZF2 Application welcome page for changes.
+  7. Check your ZF2 Application welcome page for changes
 
 [Check out wiki for more examples](https://github.com/webino/WebinoDraw/wiki)
 
@@ -476,21 +566,21 @@
 
 **Testing**
 
-  - Run `phpunit` in test directory.
-  - Run `phing test` in module directory to run test and code insights.
+  - Run `phpunit` in the test directory
+  - Run `phing test` in the module directory to run the tests and code insights
 
     *NOTE: To run the code insights there are some tool requirements.*
 
 ## Todo
 
-  - The "remove": Add multiple xpath or query option.
-  - Variable switch/case support, maybe.
-  - Ajax.
-  - Cache.
-  - DrawHelper how to.
-  - Add DrawResized to resize images.
-  - Add debug profiler.
-  - Write tests for draw form and new features (events + sub-instructions).
+  - The "remove": Add multiple XPath or CSS selector option
+  - Variable switch/case support, maybe
+  - Cache
+  - DrawElement loop offset
+  - DrawHelper how to
+  - Add DrawResized to resize images
+  - Add debug profiler
+  - Write tests for draw form and new features (events + sub-instructions)
 
 ## Addendum
 
