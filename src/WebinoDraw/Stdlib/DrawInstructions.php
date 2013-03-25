@@ -58,7 +58,7 @@ class DrawInstructions extends ArrayObject implements
     /**
      * @param array $array
      */
-    public function exchangeArray(array $array)
+    public function exchangeArray($array)
     {
         parent::exchangeArray(array());
         $this->merge($array);
