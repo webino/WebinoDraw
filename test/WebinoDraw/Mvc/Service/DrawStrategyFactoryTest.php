@@ -37,12 +37,13 @@ class DrawStrategyFactoryTest
 
         $testCase = $this;
         $draw     = $this->getMock('WebinoDraw\WebinoDraw', array(), array(), '', false);
+        $request  = $this->request;
 
         $this->services->expects($this->exactly(2))
             ->method('get')
             ->will(
                 $this->returnCallback(
-                    function ($name) use ($draw, $testCase) {
+                    function ($name) use ($draw, $request, $testCase) {
 
                         switch ($name) {
                             case 'WebinoDraw':
@@ -50,7 +51,7 @@ class DrawStrategyFactoryTest
                                 break;
 
                             case 'Request':
-                                return $testCase->request;
+                                return $request;
                                 break;
                         }
 
