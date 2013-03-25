@@ -1,7 +1,7 @@
 <?php
 
 return array(
-    'WebinoDraw\Form\MagicForm' =>
+    'WebinoDraw\Form\DiForm' =>
     array(
         'supertypes' =>
         array(
@@ -38,7 +38,7 @@ return array(
         array(
             '__construct' =>
             array(
-                'WebinoDraw\Form\MagicForm::__construct:0' =>
+                'WebinoDraw\Form\DiForm::__construct:0' =>
                 array(
                     0 => 'config',
                     1 => NULL,
@@ -48,7 +48,7 @@ return array(
             ),
             'setFormFactory' =>
             array(
-                'WebinoDraw\Form\MagicForm::setFormFactory:0' =>
+                'WebinoDraw\Form\DiForm::setFormFactory:0' =>
                 array(
                     0 => 'factory',
                     1 => 'Zend\Form\Factory',
@@ -58,7 +58,7 @@ return array(
             ),
             'setForm' =>
             array(
-                'WebinoDraw\Form\MagicForm::setForm:0' =>
+                'WebinoDraw\Form\DiForm::setForm:0' =>
                 array(
                     0 => 'form',
                     1 => 'Zend\Form\FormInterface',
@@ -68,7 +68,7 @@ return array(
             ),
             'setData' =>
             array(
-                'WebinoDraw\Form\MagicForm::setData:0' =>
+                'WebinoDraw\Form\DiForm::setData:0' =>
                 array(
                     0 => 'data',
                     1 => NULL,
@@ -78,7 +78,7 @@ return array(
             ),
             'setBindOnValidate' =>
             array(
-                'WebinoDraw\Form\MagicForm::setBindOnValidate:0' =>
+                'WebinoDraw\Form\DiForm::setBindOnValidate:0' =>
                 array(
                     0 => 'bindOnValidateFlag',
                     1 => NULL,
@@ -88,7 +88,7 @@ return array(
             ),
             'setInputFilter' =>
             array(
-                'WebinoDraw\Form\MagicForm::setInputFilter:0' =>
+                'WebinoDraw\Form\DiForm::setInputFilter:0' =>
                 array(
                     0 => 'inputFilter',
                     1 => 'Zend\InputFilter\InputFilterInterface',
@@ -98,14 +98,14 @@ return array(
             ),
             'setPriority' =>
             array(
-                'WebinoDraw\Form\MagicForm::setPriority:0' =>
+                'WebinoDraw\Form\DiForm::setPriority:0' =>
                 array(
                     0 => 'elementOrFieldset',
                     1 => NULL,
                     2 => true,
                     3 => NULL,
                 ),
-                'WebinoDraw\Form\MagicForm::setPriority:1' =>
+                'WebinoDraw\Form\DiForm::setPriority:1' =>
                 array(
                     0 => 'priority',
                     1 => NULL,
@@ -115,7 +115,7 @@ return array(
             ),
             'setObject' =>
             array(
-                'WebinoDraw\Form\MagicForm::setObject:0' =>
+                'WebinoDraw\Form\DiForm::setObject:0' =>
                 array(
                     0 => 'object',
                     1 => NULL,
@@ -125,7 +125,7 @@ return array(
             ),
             'setHydrator' =>
             array(
-                'WebinoDraw\Form\MagicForm::setHydrator:0' =>
+                'WebinoDraw\Form\DiForm::setHydrator:0' =>
                 array(
                     0 => 'hydrator',
                     1 => 'Zend\Stdlib\Hydrator\HydratorInterface',
@@ -135,7 +135,7 @@ return array(
             ),
             'setName' =>
             array(
-                'WebinoDraw\Form\MagicForm::setName:0' =>
+                'WebinoDraw\Form\DiForm::setName:0' =>
                 array(
                     0 => 'name',
                     1 => NULL,
@@ -145,7 +145,7 @@ return array(
             ),
             'setOptions' =>
             array(
-                'WebinoDraw\Form\MagicForm::setOptions:0' =>
+                'WebinoDraw\Form\DiForm::setOptions:0' =>
                 array(
                     0 => 'options',
                     1 => NULL,
@@ -155,14 +155,14 @@ return array(
             ),
             'setAttribute' =>
             array(
-                'WebinoDraw\Form\MagicForm::setAttribute:0' =>
+                'WebinoDraw\Form\DiForm::setAttribute:0' =>
                 array(
                     0 => 'key',
                     1 => NULL,
                     2 => true,
                     3 => NULL,
                 ),
-                'WebinoDraw\Form\MagicForm::setAttribute:1' =>
+                'WebinoDraw\Form\DiForm::setAttribute:1' =>
                 array(
                     0 => 'value',
                     1 => NULL,
@@ -172,7 +172,7 @@ return array(
             ),
             'setAttributes' =>
             array(
-                'WebinoDraw\Form\MagicForm::setAttributes:0' =>
+                'WebinoDraw\Form\DiForm::setAttributes:0' =>
                 array(
                     0 => 'arrayOrTraversable',
                     1 => NULL,
@@ -182,7 +182,7 @@ return array(
             ),
             'setValue' =>
             array(
-                'WebinoDraw\Form\MagicForm::setValue:0' =>
+                'WebinoDraw\Form\DiForm::setValue:0' =>
                 array(
                     0 => 'value',
                     1 => NULL,
@@ -192,7 +192,7 @@ return array(
             ),
             'setLabel' =>
             array(
-                'WebinoDraw\Form\MagicForm::setLabel:0' =>
+                'WebinoDraw\Form\DiForm::setLabel:0' =>
                 array(
                     0 => 'label',
                     1 => NULL,
@@ -202,7 +202,7 @@ return array(
             ),
             'setMessages' =>
             array(
-                'WebinoDraw\Form\MagicForm::setMessages:0' =>
+                'WebinoDraw\Form\DiForm::setMessages:0' =>
                 array(
                     0 => 'messages',
                     1 => NULL,
@@ -212,7 +212,7 @@ return array(
             ),
             'prepareElement' =>
             array(
-                'WebinoDraw\Form\MagicForm::prepareElement:0' =>
+                'WebinoDraw\Form\DiForm::prepareElement:0' =>
                 array(
                     0 => 'form',
                     1 => 'Zend\Form\FormInterface',
