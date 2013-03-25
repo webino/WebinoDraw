@@ -169,7 +169,7 @@ class DrawAjaxStrategy extends AbstractDrawStrategy implements
     /**
      * @param DOMDocument $dom
      * @param string $xpath
-     * @return string JSON
+     * @return \WebinoDraw\Ajax\Json
      */
     protected function respond(DOMDocument $dom, $xpath)
     {
