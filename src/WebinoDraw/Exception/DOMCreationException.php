@@ -13,7 +13,7 @@ namespace WebinoDraw\Exception;
 /**
  *
  */
-class MissingPropertyException extends \InvalidArgumentException implements
+class DOMCreationException extends \RuntimeException implements
     ExceptionInterface
 {
 
