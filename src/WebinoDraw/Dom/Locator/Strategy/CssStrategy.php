@@ -10,13 +10,13 @@
 
 namespace WebinoDraw\Dom\Locator\Strategy;
 
-use WebinoDraw\Dom\Locator\AbstractStrategy;
+use WebinoDraw\Dom\Locator\TransformatorInterface;
 use Zend\Dom\Css2Xpath;
 
 /**
  *
  */
-class CssStrategy extends AbstractStrategy
+class CssStrategy implements TransformatorInterface
 {
     /**
      * @param string $locator

@@ -10,12 +10,12 @@
 
 namespace WebinoDraw\Dom\Locator\Strategy;
 
-use WebinoDraw\Dom\Locator\AbstractStrategy;
+use WebinoDraw\Dom\Locator\TransformatorInterface;
 
 /**
  *
  */
-class XpathStrategy extends AbstractStrategy
+class XpathStrategy implements TransformatorInterface
 {
     /**
      * @param string $locator

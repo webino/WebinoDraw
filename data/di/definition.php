@@ -2310,20 +2310,6 @@ return array (
     array (
     ),
   ),
-  'WebinoDraw\\Dom\\Locator\\AbstractStrategy' => 
-  array (
-    'supertypes' => 
-    array (
-      0 => 'WebinoDraw\\Dom\\Locator\\TransformatorInterface',
-    ),
-    'instantiator' => NULL,
-    'methods' => 
-    array (
-    ),
-    'parameters' => 
-    array (
-    ),
-  ),
   'WebinoDraw\\Dom\\Locator\\TransformatorInterface' => 
   array (
     'supertypes' => 
@@ -2342,8 +2328,6 @@ return array (
     'supertypes' => 
     array (
       0 => 'WebinoDraw\\Dom\\Locator\\TransformatorInterface',
-      1 => 'WebinoDraw\\Dom\\Locator\\AbstractStrategy',
-      2 => 'WebinoDraw\\Dom\\Locator\\TransformatorInterface',
     ),
     'instantiator' => '__construct',
     'methods' => 
@@ -2358,8 +2342,6 @@ return array (
     'supertypes' => 
     array (
       0 => 'WebinoDraw\\Dom\\Locator\\TransformatorInterface',
-      1 => 'WebinoDraw\\Dom\\Locator\\AbstractStrategy',
-      2 => 'WebinoDraw\\Dom\\Locator\\TransformatorInterface',
     ),
     'instantiator' => '__construct',
     'methods' => 
