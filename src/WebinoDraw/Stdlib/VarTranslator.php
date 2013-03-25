@@ -1,16 +1,18 @@
 <?php
 /**
- * Webino (http://webino.sk/)
+ * Webino (http://webino.sk)
  *
- * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
- * @copyright   Copyright (c) 2013 Webino, s. r. o. (http://webino.sk/)
+ * @link        https://github.com/webino/WebinoDraw for the canonical source repository
+ * @copyright   Copyright (c) 2013 Webino, s. r. o. (http://webino.sk)
+ * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     New BSD License
- * @package     WebinoDraw\Stdlib
  */
 
 namespace WebinoDraw\Stdlib;
 
-use WebinoDraw\Stdlib\DrawInstructions;
+use ArrayAccess;
+use ArrayObject;
+use WebinoDraw\Stdlib\ArrayFetchInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\Filter\FilterPluginManager;
 
@@ -22,10 +24,6 @@ use Zend\Filter\FilterPluginManager;
  *
  * The second array contains data by variable names like
  * keys. Those {$variable} will be substituted with data.
- *
- * @category    Webino
- * @package     WebinoDraw\Stdlib
- * @author      Peter Bačinský <peter@bacinsky.sk>
  */
 class VarTranslator
 {
@@ -37,55 +35,59 @@ class VarTranslator
     /**
      * Transform varname into {$varname}.
      *
-     * @param  string $key
+     * @param string $key
      * @return string
      */
-    public function key2var($key)
+    public function makeVar($key)
     {
         return sprintf(self::VAR_PATTERN, $key);
     }
 
     /**
-     * Return true if {$var} is in the string.
+     * Return true if {$var} is in the string
      *
-     * @param  string $string
+     * @param string $string
      * @return bool
      */
-    public function stringHasVar($string)
+    public function containsVar($string)
     {
         $pattern = str_replace('%s', '[^\}]+', preg_quote(self::VAR_PATTERN));
+
         return (bool) preg_match('~' . $pattern . '~', $string);
     }
 
     /**
-     * Transform simple array keys to {$var} like.
+     * Transform subject keys to {$var} like
      *
-     * @param  array $array
-     * @return array
+     * @param ArrayAccess $subject
+     * @return ArrayAccess
      */
-    public function array2translation(array $array)
+    public function makeVarKeys(ArrayAccess $subject)
     {
-        foreach ($array as $key => $value) {
-            $array[$this->key2var($key)] = $value;
-            unset($array[$key]);
+        $_subject = clone $subject;
+
+        foreach ($subject as $key => $value) {
+
+            $_subject->offsetSet($this->makeVar($key), $value);
+            $_subject->offsetUnset($key);
         }
-        return $array;
+
+        return $_subject;
     }
 
     /**
-     * Replace {$var} in string with data from translation.
+     * Replace {$var} in string with data from translation
      *
      * If $str = {$var} and translation has item with key {$var} = array,
      * immediately return this array.
      *
-     * @param  string $string
-     * @param  array $translation
-     * @return string|mixed
+     * @param string $string
+     * @param ArrayAccess $translation
+     * @return mixed
      */
-    public function translateString($string, array $translation)
+    public function translateString($string, ArrayAccess $translation)
     {
         if (!is_string($string)) {
-            // Return early for non-strings
             return $string;
         }
 
@@ -93,15 +95,17 @@ class VarTranslator
         $match   = array();
 
         preg_match_all('~' . $pattern . '~', $string, $match);
+
         if (empty($match[0])) {
             return $string;
         }
 
         foreach ($match[0] as $key) {
+
             if (array_key_exists($key, $translation)) {
 
                 if (is_object($translation[$key])) {
-                    // Return early for objects
+                    // return early for objects
                     return $translation[$key];
                 }
 
@@ -113,16 +117,15 @@ class VarTranslator
     }
 
     /**
-     * Replace {$var} in $subject with data from $translation.
+     * Replace {$var} in $subject with data from $translation
      *
-     * @param  string|array $subject
-     * @param  array $translation
-     * @return void
+     * @param string|array $subject
+     * @param ArrayAcess $translation
+     * @return VarTranslator
      */
-    public function translate(&$subject, array $translation)
+    public function translate(&$subject, ArrayAccess $translation)
     {
-        if (!is_array($subject)) {
-            // Skip objects
+        if (is_object($subject)) {
             return;
         }
 
@@ -132,44 +135,55 @@ class VarTranslator
         }
 
         foreach ($subject as &$param) {
+
             if (is_array($param)) {
+
                 $this->translate($param, $translation);
                 continue;
             }
+
             $param = $this->translateString($param, $translation);
         }
-    }
 
-    /**
-     *
-     * @param  array $translation
-     * @param  array $values
-     * @return \WebinoDraw\Stdlib\VarTranslator
-     */
-    public function translationMerge(array &$translation, array $values)
-    {
-        foreach ($values as $key => $value) {
-            $this->translate($value, $translation);
-            $translation[$key] = $value;
-        }
         return $this;
     }
 
     /**
-     * Set defaults into translation.
+     * @param ArrayAccess $translation
+     * @param array $values
+     * @return VarTranslator
+     */
+    public function translationMerge(ArrayAccess $translation, array $values)
+    {
+        foreach ($values as $key => $value) {
+
+            $this->translate($value, $translation);
+
+            $translation[$key] = $value;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Set translated defaults into translation
      *
-     * @param  array $translation
-     * @param  array $defaults
+     * @param ArrayAccess $translation
+     * @param array $defaults
      * @return array
      */
-    public function translationDefaults(array &$translation, array $defaults)
+    public function translationDefaults(ArrayAccess $translation, array $defaults)
     {
         foreach ($defaults as $key => $value) {
+
             if (empty($translation[$key])) {
+
                 $this->translate($value, $translation);
+
                 $translation[$key] = $value;
             }
         }
+
         return $this;
     }
 
@@ -196,66 +210,86 @@ class VarTranslator
      *
      * @param array $translation
      * @param array $options
-     *
-     * @return Webino_ViewHelper_VarTranslator
+     * @return VarTranslator
      */
-    public function translationFetch(array &$translation, array $options)
+    public function translationFetch(ArrayFetchInterface $translation, array $options)
     {
-        foreach ($options as $varName => $varBase) {
-            $translation[$varName] = DrawInstructions::toBase($translation, $varBase);
+        foreach ($options as $key => $basepath) {
+            $translation[$key] = $translation->fetch($basepath);
         }
+
         return $this;
     }
 
     /**
-     * Apply view helpers and functions on variables.
+     * Apply view helpers and functions on variables
      *
-     * Call user function if exists else call helper.
+     * Call user function if exists else call helper
      *
-     * @param  array $translation Variables with values to modify.
-     * @param  array $spec Helper options.
-     * @param  \Zend\ServiceManager\AbstractPluginManager $pluginManager Helper loader.
-     * @return \WebinoDraw\Stdlib\VarTranslator
+     * @param ArrayAccess $translation Variables with values to modify
+     * @param array $spec Helper options
+     * @param AbstractPluginManager $pluginManager Helper loader
+     * @return VarTranslator
      */
-    public function applyHelper(array &$translation, array $spec, AbstractPluginManager $pluginManager)
+    public function applyHelper(ArrayAccess $translation, array $spec, AbstractPluginManager $pluginManager)
     {
-        $results = array();
+        $results = new ArrayObject;
+
         foreach ($spec as $key => $value) {
+
             // skip undefined
             if (!array_key_exists($key, $translation)) {
                 continue;
             }
+
             foreach ($value as $helper => $options) {
-                // we can use functions first
+
                 if (function_exists($helper)) {
+
+                    // php functions first
+
                     $this->translate(
                         $options,
-                        $this->array2translation($translation)
+                        $this->makeVarKeys($translation)
                     );
+
                     $translation[$key] = call_user_func_array($helper, $options);
+
                 } else {
-                    // use helper from plugin manager
+
+                    // zf helpers
+
                     $plugin = $pluginManager->get($helper);
-                    foreach ($options as $fc => $calls) {
+
+                    foreach ($options as $func => $calls) {
+
                         foreach ($calls as $params) {
+
+                            $translation->merge($results->getArrayCopy());
+
                             $this->translate(
                                 $params,
-                                $this->array2translation(array_merge($translation, $results))
+                                $this->makeVarKeys($translation)
                             );
+
                             $plugin = call_user_func_array(
-                                array($plugin, $fc),
+                                array($plugin, $func),
                                 $params
                             );
                         }
                     }
-                    if (empty($results[$key])) {
+
+                    !empty($results[$key]) or
                         $results[$key] = null;
-                    }
+
+                    // join helper result
                     $results[$key].= (string) $plugin;
                 }
             }
         }
-        $translation = array_merge($translation, $results);
+
+        $translation->merge($results->getArrayCopy());
+
         return $this;
     }
 
@@ -264,41 +298,53 @@ class VarTranslator
      *
      * Call user function if exists else call filter.
      *
-     * @param  array $translation Variables with values to modify.
+     * @param  ArrayAccess $translation Variables with values to modify.
      * @param  array $spec Filter options.
-     * @param  \Zend\Filter\FilterPluginManager $pluginManager Filter loader.
-     * @return \WebinoDraw\Stdlib\VarTranslator
+     * @param  FilterPluginManager $pluginManager Filter loader.
+     * @return VarTranslator
      */
-    public function applyFilter(array &$translation, array $spec, FilterPluginManager $pluginManager)
+    public function applyFilter(ArrayAccess $translation, array $spec, FilterPluginManager $pluginManager)
     {
         foreach ($spec as $key => $value) {
+
             // skip undefined
             if (!array_key_exists($key, $translation)) {
                 continue;
             }
+
             foreach ($value as $helper => $options) {
-                // we can use functions first
+
                 if (function_exists($helper)) {
+
+                    // php functions first
+
                     $this->translate(
                         $options,
-                        $this->array2translation($translation)
+                        $this->makeVarKeys($translation)
                     );
+
                     $translation[$key] = call_user_func_array($helper, $options);
+
                 } else {
+
+                    // zf filter
+
                     $this->translate(
                         $options,
-                        $this->array2translation($translation)
+                        $this->makeVarKeys($translation)
                     );
 
                     if (empty($options[1])) {
                         $options[1] = array();
                     }
 
-                    $filter = $pluginManager->get($helper, $options[1]);
-                    $translation[$key] = $filter->filter($options[0]);
+                    $translation[$key] = $pluginManager
+                                            ->get($helper, $options[1])
+                                            ->filter($options[0]);
                 }
             }
         }
+
         return $this;
     }
 }
