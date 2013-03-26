@@ -5,7 +5,7 @@
 
   Provides ability to configure rendering of the layout. **Still under development, use it for play.**
 
-  **Supports easy [form rendering](#drawform) with translator support.**
+  **Supports easy [form rendering](#webinodrawform) with translator support.**
 
   <br />
 
@@ -14,7 +14,7 @@
 ## Features
 
   - Auto escape
-  - Ajax support
+  - [Ajax support](#ajax)
   - Configurable layout
   - Decoupled logic from template
   - Works with pure XHTML5
@@ -410,7 +410,7 @@
         ),
     ),
 
-### drawForm
+### WebinoDrawForm
 
   Use it to render the form. If `<form/>` template is empty use the default render else try to match
   form elements by name attribute.

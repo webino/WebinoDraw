@@ -2208,6 +2208,7 @@ return array (
       '__construct' => true,
       'setNodes' => false,
       'setEscapeHtml' => false,
+      'setLocator' => false,
       'setValue' => false,
       'setHtml' => false,
       'setAttribs' => false,
@@ -2240,6 +2241,16 @@ return array (
         array (
           0 => 'escapeHtml',
           1 => 'Zend\\View\\Helper\\EscapeHtml',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setLocator' => 
+      array (
+        'WebinoDraw\\Dom\\NodeList::setLocator:0' => 
+        array (
+          0 => 'locator',
+          1 => 'WebinoDraw\\Dom\\Locator',
           2 => true,
           3 => NULL,
         ),
