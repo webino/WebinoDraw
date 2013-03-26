@@ -47,7 +47,6 @@
                 // Add draw instructions here
                 'draw-node-example' => array(
                     'locator' => 'body',
-                    'helper'  => 'drawElement',
                     'value'   => 'Hello Webino!',
                 ),
             ),
@@ -59,7 +58,7 @@
 
         'draw-node-example' => array(         // custom name
             'locator' => 'body',              // node locator
-            'helper'  => 'drawElement',       // draw helper
+            'helper'  => 'WebinoDrawElement', // draw helper
             'value'   => 'Hello Webino!',     // helper options
         ),
 
@@ -74,7 +73,6 @@
                 'xpath=//title',
                 'xpath=//footer',
             ),
-            'helper' => 'drawElement',
             'value'  => 'Hello Webino!',
         ),
 
@@ -83,7 +81,6 @@
         'draw-node-example' => array(
             'stackIndex' => '9',
             'locator'    => 'body',
-            'helper'     => 'drawElement',
             'value'      => 'Hello Webino!',
         ),
 
@@ -91,7 +88,6 @@
 
         'draw-node-example' => array(
             'locator' => 'a',
-            'helper'  => 'drawElement',
             'value'   => 'customprefix {$nodeValue} customsuffix',
             'html'    => '<custom>{$html}</custom>',
             'attribs' => array(
@@ -106,7 +102,6 @@
 
         'draw-node-example' => array(
             'locator' => 'body',
-            'helper'  => 'drawElement',
             'value'   => '{$viewvar}',
         ),
 
@@ -114,7 +109,6 @@
 
         'draw-node-example' => array(
             'locator' => 'body',
-            'helper'  => 'drawElement',
             'value'   => '{$viewvar}',
             'var'     => array(
                 'set' => array(
@@ -127,7 +121,6 @@
 
         'draw-node-example' => array(
             'locator' => 'body',
-            'helper'  => 'drawElement',
             'value'   => '{$depthvar}',
             'var'     => array(
                 'fetch' => array(
@@ -141,7 +134,6 @@
 
         'draw-node-example' => array(
             'locator' => 'body',
-            'helper'  => 'drawElement',
             'value'   => '{$viewvar}',
             'var'     => array(
                 'default' => array(
@@ -156,7 +148,6 @@
 
         'draw-node-example' => array(
             'locator' => 'body',
-            'helper'  => 'drawElement',
             'value'   => '{$customvar}',
             'var'     => array(
                 'helper' => array(
@@ -183,7 +174,6 @@
 
         'draw-node-example' => array(
             'locator' => 'ul li',
-            'helper'  => 'drawElement',
             'value'   => '{$key} {$index} {$property}',
             'loop'    => array(
                 'base'    => 'array.in.the.depth',
@@ -202,7 +192,6 @@
 
         'event-example' => array(
             'locator' => 'body',
-            'helper'  => 'drawElement',
             'trigger' => array(
                 'event-example.test',
             ),
@@ -236,7 +225,6 @@
         $this->getServiceLocator()->get('WebinoDraw')->setInstructions(array(
             'custom' => array(
                 'locator' => '.customclass',
-                'helper'  => 'drawElement',
                 'value'   => 'Custom value',
             ),
         ));
@@ -359,13 +347,13 @@
   Modularity of the draw is provided by custom classes which consumes DOM nodes, options and data
   to make operations over DOM nodes.
 
-### drawElement
+### WebinoDrawElement
 
   Use it to modify the element of the page. Many options, very powerful.
 
     'draw-element-example' => array(
         'locator' => '.customclass',
-        'helper'  => 'drawElement',
+        'helper'  => 'WebinoDrawElement',                // default (not required to set)
 
         // Helper options:
         'value'   => 'Draw element example value',       // set node value
@@ -429,7 +417,7 @@
 
     'draw-form-example' => array(
         'localtor' => 'form.form-example',
-        'helper'   => 'drawForm',
+        'helper'   => 'WebinoDrawForm',
 
         // Helper options:
         'form'         => 'exampleForm',            // form available via ServiceManager
