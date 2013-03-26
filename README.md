@@ -377,7 +377,7 @@
         'attribs' => array(                              // set attributes
             'title' => 'Attribute example'
         ),
-        'remove'  => '.',                                // XPath, removes target node
+        'remove'  => 'xpath=.',                          // locator|array, removes target node
         'replace' => '<strong/>',                        // XHTML, replaces node
         'onEmpty' => array(                              // custom options if node is empty
             'value' => 'Empty node example',             // use same options as normal
@@ -573,7 +573,6 @@
 
 ## Todo
 
-  - The "remove": Add multiple XPath or CSS selector option
   - Variable switch/case support, maybe
   - Cache
   - DrawElement loop offset

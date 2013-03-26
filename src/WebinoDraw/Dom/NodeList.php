@@ -14,6 +14,7 @@ use ArrayObject;
 use DOMNodeList;
 use IteratorAggregate;
 use IteratorIterator;
+use WebinoDraw\Dom\Locator;
 use WebinoDraw\Exception\InvalidArgumentException;
 use WebinoDraw\Exception\RuntimeException;
 use Zend\View\Helper\EscapeHtml;
@@ -32,6 +33,11 @@ class NodeList implements IteratorAggregate
      * @var EscapeHtml
      */
     protected $escapeHtml;
+
+    /**
+     * @var Locator
+     */
+    protected $locator;
 
     /**
      * @param array|DOMNodeList $nodes DOMNodes in array or DOMNodelist
@@ -117,6 +123,27 @@ class NodeList implements IteratorAggregate
     public function setEscapeHtml(EscapeHtml $escapeHtml)
     {
         $this->escapeHtml = $escapeHtml;
+        return $this;
+    }
+
+    /**
+     * @return Locator
+     */
+    public function getLocator()
+    {
+        if (null === $this->locator) {
+            $this->setLocator(new Locator);
+        }
+        return $this->locator;
+    }
+
+    /**
+     * @param Locator $locator
+     * @return DrawInstructions
+     */
+    public function setLocator(Locator $locator)
+    {
+        $this->locator = $locator;
         return $this;
     }
 
@@ -254,12 +281,17 @@ class NodeList implements IteratorAggregate
     /**
      * Remove target nodes
      *
-     * @param string $xpath
+     * @param string $targetLocator CSS selector or XPath (xpath=)
      * @return NodeList
      * @throws RuntimeException
      */
-    public function remove($xpath = '.')
+    public function remove($targetLocator = 'xpath=.')
     {
+        if (empty($targetLocator)) {
+            return $this;
+        }
+
+        $xpath  = $this->getLocator()->set($targetLocator)->xpathMatchAny();
         $remove = array();
 
         foreach ($this as $node) {

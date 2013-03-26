@@ -47,13 +47,24 @@ return array(
                 'locator' => '.hero-unit',
                 'html' => '<span>TEST ADD BEFORE</span>{$html}',
             ),
+            'remove-single-example-prepare' => array(
+                'locator' => '.hero-unit',
+                'html' => '{$html}<p class="remove-me-single">THIS SHOULD BE REMOVED SINGLE</p>',
+            ),
+            'remove-single-example' => array(
+                'locator' => '.remove-me-single',
+                'remove' => 'xpath=.',
+            ),
             'remove-example-prepare' => array(
                 'locator' => '.hero-unit',
-                'html' => '{$html}<p class="remove-me">THIS SHOULD BE REMOVED</p>',
+                'html' => '{$html}<p class="remove-me">THIS SHOULD BE REMOVED</p><p class="remove-me-xpath">THIS SHOULD BE REMOVED BY XPATH</p>',
             ),
             'remove-example' => array(
-                'locator' => '.remove-me',
-                'remove' => '.',
+                'locator' => 'body',
+                'remove' => array(
+                    '.remove-me',
+                    'xpath=//*[@class="remove-me-xpath"]'
+                ),
             ),
             'nodevar-example-prepare' => array(
                 'locator' => '.hero-unit',

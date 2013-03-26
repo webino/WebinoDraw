@@ -368,6 +368,19 @@ class NodeListTest
         $expected   = '<box/>';
         $dom->xpath = new \DOMXpath($dom);
         $nodeList   = new NodeList($dom->firstChild->childNodes);
+        $locator    = $this->getMock('WebinoDraw\Dom\Locator');
+        $nodeList->setLocator($locator);
+        $xpath       = '.';
+        $target      = 'xpath=' . $xpath;
+
+        $locator->expects($this->once())
+            ->method('set')
+            ->with($this->equalTo($target))
+            ->will($this->returnValue($locator));
+
+        $locator->expects($this->once())
+            ->method('xpathMatchAny')
+            ->will($this->returnValue($xpath));
 
         $nodeList->remove();
 
@@ -387,15 +400,28 @@ class NodeListTest
         $expected   = '<box><dummyOne/></box>';
         $dom->xpath = new \DOMXpath($dom);
         $nodeList   = new NodeList(array($dom->firstChild->firstChild));
+        $locator    = $this->getMock('WebinoDraw\Dom\Locator');
+        $nodeList->setLocator($locator);
+        $xpath       = '//dummyTwo';
+        $target      = 'xpath=' . $xpath;
 
-        $nodeList->remove('//dummyTwo');
+        $locator->expects($this->once())
+            ->method('set')
+            ->with($this->equalTo($target))
+            ->will($this->returnValue($locator));
+
+        $locator->expects($this->once())
+            ->method('xpathMatchAny')
+            ->will($this->returnValue($xpath));
+
+        $nodeList->remove($target);
 
         $this->assertSame(
             '<?xml version="1.0"?>' . PHP_EOL . $expected . PHP_EOL,
             $dom->saveXML()
         );
     }
-    
+
     /**
      * @covers WebinoDraw\Dom\NodeList::remove
      */
