@@ -410,7 +410,9 @@
         ),
         'loop' => array(                                 // loop node by view array items
             'base'    => 'depth.items',                  // path to view array
-            'index'   => '0',                            // index start point (not required)
+            'index'   => '0',                            // index start point (optional)
+            'offset'  => '0',                            // items offset (optional)
+            'length'  => '0',                            // items length (optional)
             'onEmpty' => array(                          // custom options if items array is empty
                                                          // use same options as normal
             ),
@@ -574,7 +576,6 @@
 
   - Variable switch/case support, maybe
   - Cache
-  - DrawElement loop offset
   - DrawHelper how to
   - Add DrawResized to resize images
   - Add debug profiler

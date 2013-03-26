@@ -148,6 +148,8 @@ return array(
                 'loop' => array(
                     'base' => 'depth.items',
                     'index' => '0',
+                    'offset' => '1',
+                    'length' => '3',
                     'onEmpty' => array(
                         'locator' => '.loop-example',
                         'replace' => '<p>YOU HAVE NO ITEMS</p>',

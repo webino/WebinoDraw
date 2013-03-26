@@ -122,23 +122,34 @@ class DrawElement extends AbstractDrawElement
      */
     protected function loop(NodeList $nodes, array $spec, ArrayFetchInterface $translation)
     {
-        $varTranslator = $this->getVarTranslator();
-
         if (empty($spec['loop']['base'])) {
             throw new Exception\MissingPropertyException(
                 sprintf('Loop base expected in: %s', print_r($spec, 1))
             );
         }
 
-        $items = $translation->fetch($spec['loop']['base']);
+        !empty($spec['loop']['offset']) or
+            $spec['loop']['offset'] = 0;
+
+        !empty($spec['loop']['length']) or
+            $spec['loop']['length'] = null;
+
+        $items = array_slice(
+            (array) $translation->fetch($spec['loop']['base']),
+            $spec['loop']['offset'],
+            $spec['loop']['length'],
+            true
+        );
 
         if (empty($items)) {
-
+            // nothing to loop
             if (array_key_exists('onEmpty', $spec['loop'])) {
                 $this->manipulateNodes($nodes, $spec['loop']['onEmpty'], $translation);
             }
             return $this;
         }
+
+        $varTranslator = $this->getVarTranslator();
 
         foreach ($nodes as $node) {
 

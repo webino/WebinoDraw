@@ -106,6 +106,8 @@ class VarTranslator
 
                 if (is_object($translation[$key])) {
                     // return early for objects
+                    // this is usefull to pass objects
+                    // to functions, helpers and filters
                     return $translation[$key];
                 }
 

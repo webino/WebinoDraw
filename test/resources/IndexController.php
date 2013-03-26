@@ -161,6 +161,10 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
 
             'depth' => array(
                 'items' => array(
+                    'itemToOffset' => array(
+                        'property0' => 'value0ToOffset',
+                        'property1' => 'value1ToOffset',
+                    ),
                     'item0' => array(
                         'property0' => 'value00',
                         'property1' => 'value01',
@@ -182,6 +186,10 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
                     'item3' => array(
                         'property0' => 'value30',
                         'property1' => 'value31',
+                    ),
+                    'itemTooMuch' => array(
+                        'property0' => 'value0TooMuch',
+                        'property1' => 'value1TooMuch',
                     ),
                 ),
             ),

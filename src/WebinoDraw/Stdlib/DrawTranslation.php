@@ -23,7 +23,7 @@ class DrawTranslation extends ArrayObject implements
      * Return value in depth from multidimensional array
      *
      * @param string $basepath Something like: value.in.the.depth
-     * @return array Result value
+     * @return mixed Result value
      */
     public function fetch($basepath)
     {
