@@ -189,9 +189,8 @@
                 'base'    => 'array.in.the.depth',
                 'index'   => '0',
                 'onEmpty' => array(
-                    'replace' => array(
-                        '..' => '<p>You have no items.</p>',
-                    ),
+                    'locator' => 'ul',
+                    'replace' => '<p>You have no items.</p>',
                 ),
             ),
             'attribs' => array(

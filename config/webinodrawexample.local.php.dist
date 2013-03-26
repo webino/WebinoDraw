@@ -149,9 +149,8 @@ return array(
                     'base' => 'depth.items',
                     'index' => '0',
                     'onEmpty' => array(
-                        'replace' => array(
-                            '..' => '<p>YOU HAVE NO ITEMS</p>',
-                        ),
+                        'locator' => '.loop-example',
+                        'replace' => '<p>YOU HAVE NO ITEMS</p>',
                     ),
                     'instructions' => array(
                         'loop-example-strong-node' => array(
@@ -171,6 +170,21 @@ return array(
                 ),
                 'attribs' => array(
                     'title' => '{$property1}',
+                ),
+            ),
+            'loop-empty-example-prepare' => array(
+                'locator' => '.hero-unit',
+                'html' => '{$html}<ul class="loop-empty-example"><li>BEFORE</li><li/><li>AFTER</li></ul>',
+            ),
+            'loop-empty-example' => array(
+                'locator' => '.loop-empty-example li[2]',
+                'loop' => array(
+                    'base' => 'depth.items-empty',
+                    'onEmpty' => array(
+                        'locator' => '.loop-empty-example',
+                        'replace' => '<p>YOU HAVE NO ITEMS</p>',
+                    ),
+                    'instructions' => array(),
                 ),
             ),
             'form-example-prepare' => array(

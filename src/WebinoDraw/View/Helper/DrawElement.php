@@ -278,33 +278,24 @@ class DrawElement extends AbstractDrawElement
      */
     protected function replace(NodeList $nodes, array $spec)
     {
-        //TODO XPath + CSS
+        if (empty($spec['replace'])) {
+            throw new \UnexpectedValueException('Expected $spec[replace]');
+        }
+
+        empty($spec['locator']) or
+            $xpath = $nodes->getLocator()->set($spec['locator'])->xpathMatchAny();
 
         foreach ($nodes as $node) {
 
-            if (is_array($spec['replace'])) {
+            if (!empty($xpath)) {
 
-                foreach ($spec['replace'] as $xpath => $html) {
+                $nodeList = $node->ownerDocument->xpath->query($xpath);
+            } else {
 
-                    $newNodes = $nodes->createNodeList(
-                        $node->ownerDocument->xpath->query($xpath, $node)
-                    );
-
-                    $newNodes->replace(
-                        $html,
-                        $this->createHtmlPreSet($html, $spec)
-                    );
-
-                    $subspec = $spec;
-                    unset($subspec['replace']);
-
-                    $this->doWork($newNodes, $subspec);
-                }
-
-                continue;
+                $nodeList = array($node);
             }
 
-            $newNodes = $nodes->createNodeList(array($node));
+            $newNodes = $nodes->createNodeList($nodeList);
 
             $newNodes->replace(
                 $spec['replace'],
