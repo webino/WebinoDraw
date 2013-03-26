@@ -5,8 +5,6 @@
 
   Provides ability to configure rendering of the layout. **Still under development, use it for play.**
 
-  **Supports easy [form rendering](#webinodrawform) with translator support.**
-
   <br />
 
   ![WebinoDraw principle](http://static.webino.org/documentation/webino_draw_principle.png)
@@ -19,7 +17,7 @@
   - Decoupled logic from template
   - Works with pure XHTML5
   - Trigger events
-  - Draw forms (collection or map to HTML)
+  - [Draw forms](#webinodrawform) (collection or map to HTML)
   - Uses PHP functions, ZF2 view variables, helpers and filters
   - You can still use phtml, but why!
 
