@@ -331,6 +331,26 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     }
 
     /**
+     * Get array translation from DOM node
+     *
+     * @param DOMElement $node
+     * @return array
+     */
+    public function nodeTranslation(DOMElement $node)
+    {
+        $translation = clone $this->getTranslationPrototype();
+
+        if (!empty($node->nodeValue)) {
+            $translation['nodeValue'] = $node->nodeValue;
+        }
+
+        foreach ($node->attributes as $attr) {
+            $translation[$attr->name] = $attr->value;
+        }
+
+        return $translation;
+    }
+    /**
      * Return the cache key
      *
      * @param array $node
@@ -398,27 +418,6 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
         }
 
         return $this;
-    }
-
-    /**
-     * Get array translation from DOM node.
-     *
-     * @param DOMElement $node
-     * @return array
-     */
-    protected function nodeTranslation(DOMElement $node)
-    {
-        $translation = clone $this->getTranslationPrototype();
-
-        if (!empty($node->nodeValue)) {
-            $translation['nodeValue'] = $node->nodeValue;
-        }
-
-        foreach ($node->attributes as $attr) {
-            $translation[$attr->name] = $attr->value;
-        }
-
-        return $translation;
     }
 
     /**
