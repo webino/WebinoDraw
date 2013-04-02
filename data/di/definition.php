@@ -576,6 +576,7 @@ return array (
     array (
       0 => 'Zend\\ModuleManager\\Feature\\AutoloaderProviderInterface',
       1 => 'Zend\\ModuleManager\\Feature\\ConfigProviderInterface',
+      2 => 'Zend\\ModuleManager\\Feature\\ViewHelperProviderInterface',
     ),
     'instantiator' => '__construct',
     'methods' => 
@@ -1465,6 +1466,7 @@ return array (
     'instantiator' => NULL,
     'methods' => 
     array (
+      'setCache' => false,
       'setEvent' => false,
       'setEventManager' => true,
       'setFilterPluginManager' => false,
@@ -1477,6 +1479,16 @@ return array (
     ),
     'parameters' => 
     array (
+      'setCache' => 
+      array (
+        'WebinoDraw\\View\\Helper\\AbstractDrawElement::setCache:0' => 
+        array (
+          0 => 'cache',
+          1 => 'Zend\\Cache\\Storage\\StorageInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
       'setEvent' => 
       array (
         'WebinoDraw\\View\\Helper\\AbstractDrawElement::setEvent:0' => 
@@ -1563,23 +1575,18 @@ return array (
   array (
     'supertypes' => 
     array (
-      0 => 'Zend\\View\\Helper\\HelperInterface',
-      1 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      2 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      3 => 'Zend\\EventManager\\EventsCapableInterface',
+      0 => 'Zend\\EventManager\\EventsCapableInterface',
+      1 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      2 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
+      3 => 'Zend\\View\\Helper\\HelperInterface',
       4 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
-      5 => 'WebinoDraw\\View\\Helper\\AbstractDrawElement',
-      6 => 'Zend\\EventManager\\EventsCapableInterface',
-      7 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      8 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      9 => 'Zend\\View\\Helper\\HelperInterface',
-      10 => 'WebinoDraw\\View\\Helper\\AbstractDrawHelper',
+      5 => 'WebinoDraw\\View\\Helper\\AbstractDrawHelper',
+      6 => 'Zend\\View\\Helper\\HelperInterface',
+      7 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
+      8 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      9 => 'Zend\\EventManager\\EventsCapableInterface',
+      10 => 'Zend\\View\\Helper\\AbstractHelper',
       11 => 'Zend\\View\\Helper\\HelperInterface',
-      12 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      13 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      14 => 'Zend\\EventManager\\EventsCapableInterface',
-      15 => 'Zend\\View\\Helper\\AbstractHelper',
-      16 => 'Zend\\View\\Helper\\HelperInterface',
     ),
     'instantiator' => '__construct',
     'methods' => 
@@ -1590,6 +1597,7 @@ return array (
       'setFormRowHelper' => false,
       'setFormElementHelper' => false,
       'setTranslatorTextDomain' => false,
+      'setCache' => false,
       'setEventManager' => true,
       'setFilterPluginManager' => false,
       'setVars' => false,
@@ -1660,6 +1668,16 @@ return array (
           1 => NULL,
           2 => false,
           3 => 'default',
+        ),
+      ),
+      'setCache' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawForm::setCache:0' => 
+        array (
+          0 => 'cache',
+          1 => 'Zend\\Cache\\Storage\\StorageInterface',
+          2 => true,
+          3 => NULL,
         ),
       ),
       'setEventManager' => 
@@ -1782,6 +1800,7 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
+      'setCache' => false,
       'setEvent' => false,
       'setEventManager' => true,
       'setFilterPluginManager' => false,
@@ -1794,6 +1813,16 @@ return array (
     ),
     'parameters' => 
     array (
+      'setCache' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawElement::setCache:0' => 
+        array (
+          0 => 'cache',
+          1 => 'Zend\\Cache\\Storage\\StorageInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
       'setEvent' => 
       array (
         'WebinoDraw\\View\\Helper\\DrawElement::setEvent:0' => 
@@ -1890,6 +1919,7 @@ return array (
     'instantiator' => NULL,
     'methods' => 
     array (
+      'setCache' => false,
       'setEvent' => false,
       'setEventManager' => true,
       'setFilterPluginManager' => false,
@@ -1902,6 +1932,16 @@ return array (
     ),
     'parameters' => 
     array (
+      'setCache' => 
+      array (
+        'WebinoDraw\\View\\Helper\\AbstractDrawHelper::setCache:0' => 
+        array (
+          0 => 'cache',
+          1 => 'Zend\\Cache\\Storage\\StorageInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
       'setEvent' => 
       array (
         'WebinoDraw\\View\\Helper\\AbstractDrawHelper::setEvent:0' => 

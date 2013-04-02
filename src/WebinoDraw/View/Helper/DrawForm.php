@@ -14,7 +14,6 @@ use WebinoDraw\DrawEvent;
 use WebinoDraw\DrawFormEvent;
 use WebinoDraw\Dom\NodeList;
 use WebinoDraw\Exception\RuntimeException;
-use WebinoDraw\View\Helper\AbstractDrawElement;
 use Zend\Form\FormInterface;
 use Zend\Form\View\Helper\FormCollection;
 use Zend\Form\View\Helper\FormRow;
@@ -25,7 +24,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 /**
  * Draw helper used to render the form
  */
-class DrawForm extends AbstractDrawElement implements ServiceLocatorAwareInterface
+class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterface
 {
     /**
      * @var ServiceLocatorInterface
@@ -239,6 +238,10 @@ class DrawForm extends AbstractDrawElement implements ServiceLocatorAwareInterfa
      */
     public function drawNodes(NodeList $nodes, array $spec)
     {
+        if ($this->cacheLoad($nodes, $spec)) {
+            return;
+        }
+
         $form  = $this->createForm($spec);
         $event = $this->getEvent();
 
@@ -251,6 +254,8 @@ class DrawForm extends AbstractDrawElement implements ServiceLocatorAwareInterfa
             $this->trigger($spec['trigger']);
 
         $this->doWork($nodes, $form, $event->getSpec()->getArrayCopy());
+
+        $this->cacheSave($nodes, $spec);
     }
 
     /**
@@ -263,7 +268,9 @@ class DrawForm extends AbstractDrawElement implements ServiceLocatorAwareInterfa
     {
         $nodes->setAttribs($form->getAttributes());
 
-        isset($spec['text_domain']) or $spec['text_domain'] = 'default';
+        isset($spec['text_domain'])
+            or $spec['text_domain'] = 'default';
+        
         $this->setTranslatorTextDomain($spec['text_domain']);
 
         $translation = $this->cloneTranslationPrototype($this->getVars());

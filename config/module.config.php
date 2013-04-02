@@ -8,6 +8,19 @@ return array(
                 __DIR__ . '/../data/di/DiForm.definition.php',
             ),
         ),
+        'instance' => array(
+            'alias' => array(
+                'WebinoDrawCache' => 'Zend\Cache\Storage\Adapter\Filesystem',
+            ),
+            'WebinoDrawCache' => array(
+                'parameters' => array(
+                    'options' => array(
+                        'namespace' => 'webinodraw',
+                        'cacheDir' => 'data/cache',
+                    ),
+                ),
+            ),
+        ),
     ),
     'service_manager' => array(
         'factories' => array(
@@ -19,8 +32,6 @@ return array(
         'invokables' => array(
             'WebinoDrawFormRow' => 'WebinoDraw\Form\View\Helper\FormRow',
             'WebinoDrawFormElement' => 'WebinoDraw\Form\View\Helper\FormElement',
-            'WebinoDrawElement' => 'WebinoDraw\View\Helper\DrawElement',
-            'WebinoDrawForm' => 'WebinoDraw\View\Helper\DrawForm',
         ),
     ),
     'view_manager' => array(

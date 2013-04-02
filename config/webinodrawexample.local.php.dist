@@ -197,6 +197,7 @@ return array(
                 'locator' => '.form-example',
                 'helper' => 'WebinoDrawForm',
                 'form' => 'exampleForm',
+                'cache' => 'exampleForm',
                 'route' => 'example_form_route',
                 'text_domain' => 'test',
                 'trigger' => array(
@@ -211,6 +212,7 @@ return array(
                 'locator' => '.form-template-example',
                 'helper' => 'WebinoDrawForm',
                 'form' => 'exampleForm',
+                'cache' => 'exampleFormTemplate',
                 'instructions' => array(
                     'form-decorator1' => array(
                         'locator' => 'xpath=.//li//input/..',
@@ -256,6 +258,7 @@ return array(
                         'locator' => 'form',
                         'helper' => 'WebinoDrawForm',
                         'form' => 'exampleForm',
+                        'cache' => 'exampleFormSubTest',
                         'route' => 'example_form_route',
                         'text_domain' => 'test',
                         'instructions' => array(
@@ -283,6 +286,26 @@ return array(
                         'time' => array(
                             'time' => array(),
                         ),
+                        'rand' => array(
+                            'rand' => array(),
+                        ),
+                    ),
+                ),
+            ),
+            'cache-example-prepare' => array(
+                'locator' => '.hero-unit',
+                'html' => '{$html}<div class="cache-example"></div>',
+            ),
+            'cache-example' => array(
+                'locator' => '.cache-example',
+                'value' => 'CACHED? {$rand}',
+                'cache' => 'example',
+                'sleep' => true,
+                'var' => array(
+                    'set' => array(
+                        'rand' => '',
+                    ),
+                    'helper' => array(
                         'rand' => array(
                             'rand' => array(),
                         ),

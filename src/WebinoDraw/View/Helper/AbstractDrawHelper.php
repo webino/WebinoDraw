@@ -12,6 +12,8 @@ namespace WebinoDraw\View\Helper;
 
 use ArrayAccess;
 use DOMElement;
+use DOMNode;
+use WebinoDraw\Dom\NodeList;
 use WebinoDraw\DrawEvent;
 use WebinoDraw\Stdlib\DrawInstructions;
 use WebinoDraw\Stdlib\DrawTranslation;
@@ -22,6 +24,8 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\Filter\FilterPluginManager;
 use Zend\Filter\StaticFilter;
 use Zend\View\Helper\AbstractHelper;
+use Zend\Cache\StorageFactory as CacheStorage;
+use Zend\Cache\Storage\StorageInterface as CacheStorageInterface;
 
 /**
  *
@@ -30,6 +34,11 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     DrawHelperInterface,
     EventManagerAwareInterface
 {
+    /**
+     * @var CacheStorageInterface
+     */
+    protected $cache;
+
     /**
      * @var EventManagerInterface
      */
@@ -70,6 +79,35 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
      * @var DrawInstructions
      */
     protected $instructionsPrototype;
+
+    /**
+     * @return CacheStorageInterface
+     */
+    public function getCache()
+    {
+        if (empty($this->cache)) {
+            $this->setCache(
+                CacheStorage::factory(
+                    array(
+                        'adapter' => 'filesystem',
+                        'options' => array('data/cache'),
+                    )
+                )
+            );
+        }
+
+        return $this->cache;
+    }
+
+    /**
+     * @param CacheStorageInterface $cache
+     * @return AbstractDrawHelper
+     */
+    public function setCache(CacheStorageInterface $cache)
+    {
+        $this->cache = $cache;
+        return $this;
+    }
 
     /**
      * Get the attached event
@@ -258,27 +296,6 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     }
 
     /**
-     * Get array translation from DOM node.
-     *
-     * @param DOMElement $node
-     * @return array
-     */
-    public function nodeTranslation(DOMElement $node)
-    {
-        $translation = clone $this->getTranslationPrototype();
-
-        if (!empty($node->nodeValue)) {
-            $translation['nodeValue'] = $node->nodeValue;
-        }
-
-        foreach ($node->attributes as $attr) {
-            $translation[$attr->name] = $attr->value;
-        }
-
-        return $translation;
-    }
-
-    /**
      * Apply varTranslator on translation.
      *
      * @param ArrayAccess $translation
@@ -311,6 +328,97 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
             );
 
         return $this;
+    }
+
+    /**
+     * Return the cache key
+     *
+     * @param array $node
+     * @return string
+     */
+    protected function cacheKey(DOMNode $node)
+    {
+        return md5($node->getNodePath());
+    }
+
+    /**
+     * Load nodes XHTML from the cache
+     *
+     * @param NodeList $nodes
+     * @param array $spec
+     * @return bool True = loaded
+     */
+    protected function cacheLoad(NodeList $nodes, array $spec)
+    {
+        if (empty($spec['cache'])) {
+            return false;
+        }
+
+        $cache = $this->getCache();
+
+        foreach ($nodes as $index => $node) {
+
+            $html = $cache->getItem($this->cacheKey($node));
+
+            if (empty($html)) {
+                return false;
+            }
+
+            $frag = $node->ownerDocument->createDocumentFragment();
+
+            $frag->appendXml($html);
+            $node->parentNode->replaceChild($frag, $node);
+        }
+
+        return true;
+    }
+
+    /**
+     * Save nodes XHTML to the cache
+     *
+     * @param NodeList $nodes
+     * @param array $spec
+     * @return AbstractDrawHelper
+     */
+    protected function cacheSave(NodeList $nodes, array $spec)
+    {
+        if (empty($spec['cache'])) {
+            return $this;
+        }
+
+        $cache = $this->getCache();
+
+        foreach ($nodes as $index => $node) {
+
+            $key  = $this->cacheKey($node);
+            $html = $node->ownerDocument->saveXml($node);
+
+            $cache->setItem($key, $html);
+            $cache->setTags($key, (array) $spec['cache']);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get array translation from DOM node.
+     *
+     * @param DOMElement $node
+     * @return array
+     */
+    protected function nodeTranslation(DOMElement $node)
+    {
+        $translation = clone $this->getTranslationPrototype();
+
+        if (!empty($node->nodeValue)) {
+            $translation['nodeValue'] = $node->nodeValue;
+        }
+
+        foreach ($node->attributes as $attr) {
+            $translation[$attr->name] = $attr->value;
+        }
+
+        return $translation;
     }
 
     /**

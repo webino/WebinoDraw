@@ -146,6 +146,10 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
             }
         );
 
+        // 5) clear the draw cache example
+        !isset($this->request->getQuery()->clearcache) or
+            $this->getServiceLocator()->get('WebinoDrawCache')->clearByTags(array('example'));
+
         // test view variables
         return array(
 

@@ -33,6 +33,10 @@ class DrawElement extends AbstractDrawElement
      */
     public function drawNodes(NodeList $nodes, array $spec)
     {
+        if ($this->cacheLoad($nodes, $spec)) {
+            return;
+        }
+
         $event = $this->getEvent();
 
         $event->clearSpec()
@@ -43,6 +47,8 @@ class DrawElement extends AbstractDrawElement
             $this->trigger($spec['trigger']);
 
         $this->doWork($nodes, $event->getSpec()->getArrayCopy());
+
+        $this->cacheSave($nodes, $spec);
     }
 
     /**

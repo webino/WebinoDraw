@@ -18,6 +18,7 @@
   - Works with pure XHTML5
   - Trigger events
   - [Draw forms](#webinodrawform) (collection or map to HTML)
+  - Cache
   - Uses PHP functions, ZF2 view variables, helpers and filters
   - You can still use phtml, but why!
 
@@ -231,6 +232,19 @@
 
         $this->getServiceLocator()->get('WebinoDraw')->clearInstructions();
 
+  - **Cache**
+
+        'cache-example' => array(
+            'locator' => 'body',
+            'cache'   => 'exampleCacheTag',
+        ),
+
+    Clear the cache:
+
+        $this->getServiceLocator()->get('WebinoDrawCache')->clearByTags(array('exampleCacheTag'));
+
+    *NOTE: When cached data are loaded, the draw helper manipulation is skipped, nor AjaxEvent is fired.*
+
 ## Instruction Set
 
   - The instruction set allows you to configure group of draw instructions under custom name:
@@ -406,6 +420,7 @@
                                                          // add same instructions as normal
             ),
         ),
+        'cache' => '',                                   // string|array cache tags
     ),
 
 ### WebinoDrawForm
@@ -427,6 +442,7 @@
         'trigger' => array(                         // trigger event passes form to the event parameters
             'form-example.event',                   // event name per item, identificator = WebinoDraw
         ),
+        'cache' => '',                              // string|array cache tags
     ),
 
   Assume form template:
@@ -561,11 +577,10 @@
 ## Todo
 
   - Variable switch/case support, maybe
-  - Cache
   - DrawHelper how to
   - Add DrawResized to resize images
   - Add debug profiler
-  - Write tests for draw form and new features (events + sub-instructions)
+  - Write tests for draw form and new features (events + sub-instructions + ajax + cache)
 
 ## Addendum
 
