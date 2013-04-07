@@ -204,7 +204,7 @@
             function(DrawEvent $event) {
 
                 // do something with the nodes
-                $this->getNodes()->setValue("my node value");
+                $event->getNodes()->setValue("my node value");
 
                 // change instruction node
                 $event->setSpec(
