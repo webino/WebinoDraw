@@ -155,8 +155,8 @@ class WebinoDraw
                 $vars
             );
 
-        } catch (\Exception $e) {
-            throw new DrawException($e->getMessage(), $e->getCode(), $e);
+        } catch (\Exception $exc) {
+            throw new DrawException($exc->getMessage(), $exc->getCode(), $exc);
         }
 
         return $this;
