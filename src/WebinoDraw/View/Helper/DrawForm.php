@@ -246,6 +246,7 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
         $event = $this->getEvent();
 
         $event->clearSpec()
+            ->setHelper($this)
             ->setSpec($spec)
             ->setNodes($nodes)
             ->setForm($form);
@@ -270,7 +271,7 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
 
         isset($spec['text_domain'])
             or $spec['text_domain'] = 'default';
-        
+
         $this->setTranslatorTextDomain($spec['text_domain']);
 
         $translation = $this->cloneTranslationPrototype($this->getVars());

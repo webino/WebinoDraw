@@ -12,6 +12,7 @@ namespace WebinoDraw;
 
 use ArrayObject;
 use WebinoDraw\Dom\NodeList;
+use WebinoDraw\View\Helper\DrawHelperInterface;
 use Zend\EventManager\Event;
 
 /**
@@ -19,6 +20,11 @@ use Zend\EventManager\Event;
  */
 class DrawEvent extends Event
 {
+    /**
+     * @var DrawHelperInterface
+     */
+    protected $helper;
+
     /**
      * @var NodeList
      */
@@ -28,6 +34,24 @@ class DrawEvent extends Event
      * @var ArrayObject
      */
     protected $spec;
+
+    /**
+     * @return DrawHelperInterface
+     */
+    public function getHelper()
+    {
+        return $this->helper;
+    }
+
+    /**
+     * @param DrawHelperInterface $helper
+     * @return DrawEvent
+     */
+    public function setHelper(DrawHelperInterface $helper)
+    {
+        $this->helper = $helper;
+        return $this;
+    }
 
     /**
      * @return NodeList

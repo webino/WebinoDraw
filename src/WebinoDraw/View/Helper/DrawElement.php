@@ -40,6 +40,7 @@ class DrawElement extends AbstractDrawElement
         $event = $this->getEvent();
 
         $event->clearSpec()
+            ->setHelper($this)
             ->setSpec($spec)
             ->setNodes($nodes);
 
@@ -176,8 +177,10 @@ class DrawElement extends AbstractDrawElement
                 $index = $spec['loop']['index'];
             }
 
-            foreach ($items as $key => $item) {
+            foreach ($items as $key => $itemSubject) {
                 $index++;
+
+                $item = $varTranslator->subjectToArray($itemSubject);
 
                 $item['key']      = (string) $key;
                 $item['index']    = (string) $index;
@@ -240,6 +243,10 @@ class DrawElement extends AbstractDrawElement
      */
     protected function setHtml(NodeList $nodes, array $spec)
     {
+        if (empty($spec['html'])) {
+            return $this;
+        }
+
         $nodes->setHtml(
             $spec['html'],
             $this->createHtmlPreSet($spec['html'], $spec)
