@@ -127,13 +127,17 @@ class VarTranslator
      */
     public function translate(&$subject, ArrayAccess $translation)
     {
-        if (is_object($subject)) {
-            return;
+        if (empty($subject)) {
+            return $this;
         }
 
         if (is_string($subject)) {
             $subject = $this->translateString($subject, $translation);
-            return;
+            return $this;
+        }
+
+        if (!is_array($subject)) {
+            return $this;
         }
 
         foreach ($subject as &$param) {
@@ -348,5 +352,30 @@ class VarTranslator
         }
 
         return $this;
+    }
+
+    /**
+     * @param mixed $subject
+     * @return array
+     */
+    public function subjectToArray($subject)
+    {
+        if (is_array($subject)) {
+            return $subject;
+        }
+
+        if (!is_object($subject)) {
+            throw new \InvalidArgumentException(
+                'Expected array|object, but provided ' . gettype($subject)
+            );
+        }
+
+        if (method_exists($subject, 'toArray')) {
+            return $subject->toArray();
+        }
+
+        if (method_exists($subject, 'getArrayCopy')) {
+            return $subject->getArrayCopy();
+        }
     }
 }

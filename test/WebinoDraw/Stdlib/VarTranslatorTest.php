@@ -90,14 +90,79 @@ class VarTranslatorTest
 
     /**
      * @covers WebinoDraw\Stdlib\VarTranslator::translate
-     * @todo Implement testTranslate().
      */
     public function testTranslate()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
+        $string = 'before2 {$var2} after2';
+        $subject = array(
+            $string,
         );
+        $expected = array(
+            'before2 value2 after2'
+        );
+        $translation = new \ArrayObject(array('{$var2}' => 'value2'));
+
+        // test fluent
+        $this->assertSame(
+            $this->object,
+            $this->object->translate($subject, $translation)
+        );
+
+        $this->assertEquals($expected, $subject);
+    }
+
+    /**
+     * @covers WebinoDraw\Stdlib\VarTranslator::translate
+     */
+    public function testTranslateStringSubject()
+    {
+        $subject = 'before2 {$var2} after2';
+        $expected = 'before2 value2 after2';
+        $translation = new \ArrayObject(array('{$var2}' => 'value2'));
+
+        // test fluent
+        $this->assertSame(
+            $this->object,
+            $this->object->translate($subject, $translation)
+        );
+
+        $this->assertEquals($expected, $subject);
+    }
+
+    /**
+     * @covers WebinoDraw\Stdlib\VarTranslator::translate
+     */
+    public function testTranslateEmptySubject()
+    {
+        $subject = null;
+        $expected = $subject;
+        $translation = new \ArrayObject(array('{$var2}' => 'value2'));
+
+        // test fluent
+        $this->assertSame(
+            $this->object,
+            $this->object->translate($subject, $translation)
+        );
+
+        $this->assertEquals($expected, $subject);
+    }
+
+    /**
+     * @covers WebinoDraw\Stdlib\VarTranslator::translate
+     */
+    public function testTranslateUnknownSubject()
+    {
+        $subject = new \stdClass();
+        $expected = $subject;
+        $translation = new \ArrayObject(array('{$var2}' => 'value2'));
+
+        // test fluent
+        $this->assertSame(
+            $this->object,
+            $this->object->translate($subject, $translation)
+        );
+
+        $this->assertEquals($expected, $subject);
     }
 
     /**

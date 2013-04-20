@@ -468,6 +468,7 @@ return array (
     'methods' => 
     array (
       '__construct' => true,
+      'setHelper' => false,
       'setNodes' => false,
       'setSpec' => false,
       'setParams' => false,
@@ -498,6 +499,16 @@ return array (
           0 => 'params',
           1 => NULL,
           2 => false,
+          3 => NULL,
+        ),
+      ),
+      'setHelper' => 
+      array (
+        'WebinoDraw\\DrawEvent::setHelper:0' => 
+        array (
+          0 => 'helper',
+          1 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
+          2 => true,
           3 => NULL,
         ),
       ),
@@ -1142,6 +1153,7 @@ return array (
     array (
       '__construct' => true,
       'setForm' => false,
+      'setHelper' => false,
       'setNodes' => false,
       'setSpec' => false,
       'setParams' => false,
@@ -1181,6 +1193,16 @@ return array (
         array (
           0 => 'form',
           1 => 'Zend\\Form\\FormInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setHelper' => 
+      array (
+        'WebinoDraw\\DrawFormEvent::setHelper:0' => 
+        array (
+          0 => 'helper',
+          1 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
           2 => true,
           3 => NULL,
         ),
