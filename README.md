@@ -203,6 +203,9 @@
             'event-example.test',
             function(DrawEvent $event) {
 
+                // set custom variables
+                $event->getHelper()->setVars(array());
+
                 // do something with the nodes
                 $event->getNodes()->setValue("my node value");
 
