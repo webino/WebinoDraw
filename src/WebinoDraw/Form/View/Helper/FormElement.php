@@ -36,6 +36,13 @@ class FormElement extends AbstractTranslatorHelper
             return null;
         }
 
+        // View helper option
+        $viewHelper = $element->getOption('view_helper');
+        if ($viewHelper) {
+            return $renderer->plugin($viewHelper);
+        }
+
+        // Determine the view helper
         if ($element instanceof Element\Button) {
             return $renderer->plugin('form_button');
         }
@@ -124,7 +131,7 @@ class FormElement extends AbstractTranslatorHelper
      *
      * Proxies to {@link render()}.
      *
-     * @param  ElementInterface|null $element
+     * @param ElementInterface|null $element
      * @return string|FormElement
      */
     public function __invoke(ElementInterface $element = null)

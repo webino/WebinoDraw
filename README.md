@@ -515,6 +515,8 @@
     with the translator when the Zend FormElement view helper is used, because it does not allow to pass translator
     text domain to its elements.
 
+  - To specify the view helper to render the form element set its view_helper option.
+
 ## Examples
 
   Look for more examples in: `config/webinodrawexample.local.php.dist`
