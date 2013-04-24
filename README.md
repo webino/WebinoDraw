@@ -519,7 +519,7 @@
 
     'absolutize' => array(
         'locator' => array(
-            'action' => 'xpath=//@my-attr' . \WebinoDraw\View\Helper\DrawAbsolutize::LOCATOR_CONDITION,
+            'my-attr' => 'xpath=//@my-attr' . \WebinoDraw\View\Helper\DrawAbsolutize::LOCATOR_CONDITION,
         ),
     ),
 
