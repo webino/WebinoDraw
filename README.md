@@ -15,7 +15,7 @@
   - [Ajax support](#ajax)
   - Configurable layout
   - Decoupled logic from template
-  - Works with pure XHTML5
+  - Works with pure XHTML5 (no extra markup required)
   - Trigger events
   - [Draw forms](#webinodrawform) (collection or map to HTML)
   - [Absolutize](#webinodrawabsolutize) the URLs
