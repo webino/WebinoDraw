@@ -509,19 +509,19 @@
 
   Absolutize the relative URLs (default attributes: src, href, action).
 
-        'absolutize' => array(
-            'stackIndex' => '9999998',
-            'helper' => 'WebinoDrawAbsolutize',
-            'locator' => \WebinoDraw\View\Helper\DrawAbsolutize::getDefaultLocator(),
-        ),
+    'absolutize' => array(
+        'stackIndex' => '9999998',
+        'helper' => 'WebinoDrawAbsolutize',
+        'locator' => \WebinoDraw\View\Helper\DrawAbsolutize::getDefaultLocator(),
+    ),
 
   Extend locator with the *my-attr* attribute:
 
-        'absolutize' => array(
-            'locator' => array(
-                'action' => 'xpath=//@my-attr' . \WebinoDraw\View\Helper\DrawAbsolutize::LOCATOR_CONDITION,
-            ),
+    'absolutize' => array(
+        'locator' => array(
+            'action' => 'xpath=//@my-attr' . \WebinoDraw\View\Helper\DrawAbsolutize::LOCATOR_CONDITION,
         ),
+    ),
 
   *NOTE: Now you do not have to prepend URLs with a `$this->view->basePath()`.*
 
