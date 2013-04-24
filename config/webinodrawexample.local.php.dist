@@ -16,6 +16,23 @@ return array(
             // todo complex xpath example
             // todo table example
 
+            'absolutize-example-prepare' => array(
+                'stackIndex' => '9999997',
+                'locator' => 'head',
+                'html' => '{$html}<script src="./test-script-relative.js"></script><link href="test-link-relative.css"/>',
+                'instructions' => array(
+                    'form-preapare' => array(
+                        'locator' => 'xpath=//body',
+                        'html' => '<form action="../../test-action-relative"/>{$html}'
+                    ),
+                ),
+            ),
+            'absolutize-example' => array(
+                'stackIndex' => '9999998',
+                'helper' => 'WebinoDrawAbsolutize',
+                'locator' => \WebinoDraw\View\Helper\DrawAbsolutize::getDefaultLocator(),
+            ),
+
             'set-value-example' => array(
                 'locator' => '.hero-unit .btn-success',
                 'value' => 'Fork WebinoDraw on GitHub »',

@@ -30,6 +30,7 @@ return array(
     ),
     'view_helpers' => array(
         'invokables' => array(
+            'WebinoDrawAbsolutize' => 'WebinoDraw\View\Helper\DrawAbsolutize',
             'WebinoDrawFormRow' => 'WebinoDraw\Form\View\Helper\FormRow',
             'WebinoDrawFormElement' => 'WebinoDraw\Form\View\Helper\FormElement',
         ),

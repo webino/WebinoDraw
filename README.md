@@ -18,6 +18,7 @@
   - Works with pure XHTML5
   - Trigger events
   - [Draw forms](#webinodrawform) (collection or map to HTML)
+  - [Absolutize](#webinodrawabsolutize) the URLs
   - Cache
   - Uses PHP functions, ZF2 view variables, helpers and filters
   - You can still use phtml, but why!
@@ -503,6 +504,26 @@
   *NOTE: DiForm form is just like an ordinary Zend Form, but it could be instantiated via DI.*
 
   *NOTE: If you don't want to use DiForm just inject one into ServiceManager.*
+
+### WebinoDrawAbsolutize
+
+  Absolutize the relative URLs (default attributes: src, href, action).
+
+        'absolutize' => array(
+            'stackIndex' => '9999998',
+            'helper' => 'WebinoDrawAbsolutize',
+            'locator' => \WebinoDraw\View\Helper\DrawAbsolutize::getDefaultLocator(),
+        ),
+
+  Extend locator with the *my-attr* attribute:
+
+        'absolutize' => array(
+            'locator' => array(
+                'action' => 'xpath=//@my-attr' . \WebinoDraw\View\Helper\DrawAbsolutize::LOCATOR_CONDITION,
+            ),
+        ),
+
+  *NOTE: Now you do not have to prepend URLs with a `$this->view->basePath()`.*
 
 ## Pitfalls
 

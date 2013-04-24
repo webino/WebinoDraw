@@ -1798,6 +1798,135 @@ return array (
       ),
     ),
   ),
+  'WebinoDraw\\View\\Helper\\DrawAbsolutize' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'Zend\\View\\Helper\\HelperInterface',
+      1 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
+      2 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      3 => 'Zend\\EventManager\\EventsCapableInterface',
+      4 => 'WebinoDraw\\View\\Helper\\AbstractDrawElement',
+      5 => 'Zend\\EventManager\\EventsCapableInterface',
+      6 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      7 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
+      8 => 'Zend\\View\\Helper\\HelperInterface',
+      9 => 'WebinoDraw\\View\\Helper\\AbstractDrawHelper',
+      10 => 'Zend\\View\\Helper\\HelperInterface',
+      11 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
+      12 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      13 => 'Zend\\EventManager\\EventsCapableInterface',
+      14 => 'Zend\\View\\Helper\\AbstractHelper',
+      15 => 'Zend\\View\\Helper\\HelperInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      'setCache' => false,
+      'setEvent' => false,
+      'setEventManager' => true,
+      'setFilterPluginManager' => false,
+      'setVars' => false,
+      'setVarTranslator' => false,
+      'setTranslationPrototype' => false,
+      'setInstructionsPrototype' => false,
+      'setView' => false,
+      'getEventManager' => true,
+    ),
+    'parameters' => 
+    array (
+      'setCache' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawAbsolutize::setCache:0' => 
+        array (
+          0 => 'cache',
+          1 => 'Zend\\Cache\\Storage\\StorageInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEvent' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawAbsolutize::setEvent:0' => 
+        array (
+          0 => 'event',
+          1 => 'WebinoDraw\\DrawEvent',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEventManager' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawAbsolutize::setEventManager:0' => 
+        array (
+          0 => 'eventManager',
+          1 => 'Zend\\EventManager\\EventManagerInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setFilterPluginManager' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawAbsolutize::setFilterPluginManager:0' => 
+        array (
+          0 => 'filterManager',
+          1 => 'Zend\\Filter\\FilterPluginManager',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setVars' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawAbsolutize::setVars:0' => 
+        array (
+          0 => 'vars',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setVarTranslator' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawAbsolutize::setVarTranslator:0' => 
+        array (
+          0 => 'varTranslator',
+          1 => 'WebinoDraw\\Stdlib\\VarTranslator',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setTranslationPrototype' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawAbsolutize::setTranslationPrototype:0' => 
+        array (
+          0 => 'translationPrototype',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setInstructionsPrototype' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawAbsolutize::setInstructionsPrototype:0' => 
+        array (
+          0 => 'instructionsPrototype',
+          1 => 'WebinoDraw\\Stdlib\\DrawInstructions',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setView' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawAbsolutize::setView:0' => 
+        array (
+          0 => 'view',
+          1 => 'Zend\\View\\Renderer\\RendererInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
   'WebinoDraw\\View\\Helper\\DrawElement' => 
   array (
     'supertypes' => 

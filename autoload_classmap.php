@@ -29,6 +29,7 @@ return array(
     'WebinoDraw\View\Helper\AbstractDrawElement'       => __DIR__ . '/src/WebinoDraw/View/Helper/AbstractDrawElement.php',
     'WebinoDraw\View\Helper\DrawForm'                  => __DIR__ . '/src/WebinoDraw/View/Helper/DrawForm.php',
     'WebinoDraw\View\Helper\DrawHelperInterface'       => __DIR__ . '/src/WebinoDraw/View/Helper/DrawHelperInterface.php',
+    'WebinoDraw\View\Helper\DrawAbsolutize'            => __DIR__ . '/src/WebinoDraw/View/Helper/DrawAbsolutize.php',
     'WebinoDraw\View\Helper\DrawElement'               => __DIR__ . '/src/WebinoDraw/View/Helper/DrawElement.php',
     'WebinoDraw\View\Helper\AbstractDrawHelper'        => __DIR__ . '/src/WebinoDraw/View/Helper/AbstractDrawHelper.php',
     'WebinoDraw\View\Strategy\AbstractDrawStrategy'    => __DIR__ . '/src/WebinoDraw/View/Strategy/AbstractDrawStrategy.php',
