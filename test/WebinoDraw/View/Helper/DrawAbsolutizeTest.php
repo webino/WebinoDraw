@@ -52,7 +52,7 @@ class DrawAbsolutizeTest
             'action' => 'xpath=//@action' . DrawAbsolutize::LOCATOR_CONDITION,
         );
 
-        $result = $this->object->getDefaultLocator();
+        $result = DrawAbsolutize::getDefaultLocator();
 
         $this->assertSame($expected, $result);
     }
