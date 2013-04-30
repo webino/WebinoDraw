@@ -41,7 +41,6 @@ class DrawElementTest
 
     /**
      * @covers WebinoDraw\View\Helper\DrawElement::drawNodes
-     * @covers WebinoDraw\View\Helper\DrawElement::doWork
      * @covers WebinoDraw\View\Helper\DrawElement::manipulateNodes
      * @covers WebinoDraw\View\Helper\DrawElement::setValue
      * @covers WebinoDraw\View\Helper\DrawElement::translateSpec

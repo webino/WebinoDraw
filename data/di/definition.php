@@ -1397,20 +1397,7 @@ return array (
     array (
     ),
   ),
-  'WebinoDraw\\Stdlib\\VarTranslator' => 
-  array (
-    'supertypes' => 
-    array (
-    ),
-    'instantiator' => '__construct',
-    'methods' => 
-    array (
-    ),
-    'parameters' => 
-    array (
-    ),
-  ),
-  'WebinoDraw\\Stdlib\\DrawTranslation' => 
+  'WebinoDraw\\Stdlib\\Translation' => 
   array (
     'supertypes' => 
     array (
@@ -1439,7 +1426,7 @@ return array (
     array (
       '__construct' => 
       array (
-        'WebinoDraw\\Stdlib\\DrawTranslation::__construct:0' => 
+        'WebinoDraw\\Stdlib\\Translation::__construct:0' => 
         array (
           0 => 'array',
           1 => NULL,
@@ -1449,7 +1436,7 @@ return array (
       ),
       'setFlags' => 
       array (
-        'WebinoDraw\\Stdlib\\DrawTranslation::setFlags:0' => 
+        'WebinoDraw\\Stdlib\\Translation::setFlags:0' => 
         array (
           0 => 'flags',
           1 => NULL,
@@ -1459,7 +1446,7 @@ return array (
       ),
       'setIteratorClass' => 
       array (
-        'WebinoDraw\\Stdlib\\DrawTranslation::setIteratorClass:0' => 
+        'WebinoDraw\\Stdlib\\Translation::setIteratorClass:0' => 
         array (
           0 => 'iteratorClass',
           1 => NULL,
@@ -1467,6 +1454,19 @@ return array (
           3 => NULL,
         ),
       ),
+    ),
+  ),
+  'WebinoDraw\\Stdlib\\VarTranslator' => 
+  array (
+    'supertypes' => 
+    array (
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+    ),
+    'parameters' => 
+    array (
     ),
   ),
   'WebinoDraw\\View\\Helper\\AbstractDrawElement' => 
