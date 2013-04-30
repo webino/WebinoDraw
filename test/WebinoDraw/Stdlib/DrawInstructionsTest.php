@@ -233,7 +233,7 @@ class DrawInstructionsTest
 
         $plugin
             ->expects($this->once())
-            ->method('drawNodes')
+            ->method('__invoke')
             ->with($this->anything(), $this->equalTo($spec));
 
         $this->object->render($dom->documentElement, $renderer, $vars);
@@ -362,7 +362,7 @@ class DrawInstructionsTest
 
         $plugin
             ->expects($this->exactly(3))
-            ->method('drawNodes')
+            ->method('__invoke')
             ->with(
                 $this->anything(),
                 $this->logicalOr(

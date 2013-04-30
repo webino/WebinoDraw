@@ -248,12 +248,12 @@ class DrawInstructions extends ArrayObject implements
             !empty($spec['helper']) or
                 $spec['helper'] = self::DEFAULT_DRAW_HELPER;
 
-            $renderer->plugin($spec['helper'])
-                ->setVars($vars)
-                ->drawNodes(
-                    $this->cloneNodeListPrototype($nodes),
-                    $spec
-                );
+            $plugin = $renderer->plugin($spec['helper']);
+            $plugin->setVars($vars);
+            $plugin(
+                $this->cloneNodeListPrototype($nodes),
+                $spec
+            );
         }
     }
 }
