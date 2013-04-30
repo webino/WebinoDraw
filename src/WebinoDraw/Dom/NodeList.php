@@ -163,9 +163,7 @@ class NodeList implements IteratorAggregate
             if (is_callable($preSet)) {
 
                 $nodeValue = $preSet($node, $value);
-
             } else {
-
                 $nodeValue = $value;
             }
 
@@ -189,9 +187,7 @@ class NodeList implements IteratorAggregate
             if (is_callable($preSet)) {
 
                 $nodeXhtml = $preSet($node, $xhtml);
-
             } else {
-
                 $nodeXhtml = $xhtml;
             }
 
@@ -204,6 +200,31 @@ class NodeList implements IteratorAggregate
         }
 
         return $this;
+    }
+
+    /**
+     * Append XHTML to nodes
+     *
+     * @param string $xhtml Valid XHTML
+     * @return NodeList Newly created nodes
+     */
+    public function appendHtml($xhtml)
+    {
+        $nodes = array();
+        $childNode = null;
+
+        foreach ($this as $node) {
+
+            if (empty($childNode)) {
+
+                $childNode = $node->ownerDocument->createDocumentFragment();
+                $childNode->appendXml($xhtml);
+            }
+
+            $nodes[] = $node->appendChild(clone $childNode);
+        }
+
+        return $this->createNodeList($nodes);
     }
 
     /**
@@ -228,9 +249,7 @@ class NodeList implements IteratorAggregate
                 if (empty($value) && !is_numeric($value)) {
 
                     $node->removeAttribute($name);
-
                 } else {
-
                     $node->setAttribute($name, trim($value));
                 }
             }
@@ -256,9 +275,7 @@ class NodeList implements IteratorAggregate
             if (is_callable($preSet)) {
 
                 $nodeXhtml = $preSet($node, $xhtml);
-
             } else {
-
                 $nodeXhtml = $xhtml;
             }
 
@@ -281,18 +298,50 @@ class NodeList implements IteratorAggregate
     /**
      * Remove target nodes
      *
-     * @param string $targetLocator CSS selector or XPath (xpath=)
+     * @param string $locator CSS selector or XPath (xpath=)
      * @return NodeList
-     * @throws RuntimeException
      */
-    public function remove($targetLocator = 'xpath=.')
+    public function remove($locator = 'xpath=.')
     {
-        if (empty($targetLocator)) {
+        if (empty($locator)) {
             return $this;
         }
 
-        $xpath  = $this->getLocator()->set($targetLocator)->xpathMatchAny();
         $remove = array();
+
+        $this->each(
+            $locator,
+            function(NodeList $nodes) use (& $remove) {
+
+                $remove = array_merge(
+                    $remove,
+                    $nodes->getNodes()->getArrayCopy()
+                );
+            }
+        );
+
+        foreach ($remove as $node) {
+            $node->parentNode->removeChild($node);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Perform callback on each node that match the locator
+     *
+     * @param string $locator
+     * @param Callable $callback The NodeList parameter is passed
+     * @return NodeList
+     * @throws RuntimeException
+     */
+    public function each($locator, $callback)
+    {
+        if (empty($locator)) {
+            return $this;
+        }
+
+        $xpath = $this->getLocator()->set($locator)->xpathMatchAny();
 
         foreach ($this as $node) {
 
@@ -305,12 +354,9 @@ class NodeList implements IteratorAggregate
             $nodes = $node->ownerDocument->xpath->query($xpath, $node);
 
             foreach ($nodes as $subnode) {
-                $remove[] = $subnode;
-            }
-        }
 
-        foreach ($remove as $node) {
-            $node->parentNode->removeChild($node);
+                $callback($this->createNodeList(array($subnode)));
+            }
         }
 
         return $this;
