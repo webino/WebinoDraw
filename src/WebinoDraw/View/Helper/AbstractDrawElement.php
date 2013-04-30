@@ -91,11 +91,13 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                 );
 
             if (false !== strpos($subject, 'html')) {
+
                 if ($node->childNodes->length
                   || !array_key_exists('html', $translation)
                 ) {
                     $nodeTranslation['html'] = null;
                 }
+
                 foreach ($node->childNodes as $child) {
                     $html = trim($child->ownerDocument->saveXML($child));
                     empty($html) or $nodeTranslation['html'].= $html;
@@ -156,6 +158,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
             if ($varTranslator->containsVar($value)) {
                 $value = null;
             }
+
             return $value;
         };
     }
