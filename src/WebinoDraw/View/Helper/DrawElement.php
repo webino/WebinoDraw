@@ -26,12 +26,10 @@ class DrawElement extends AbstractDrawElement
     protected $eventIdentifier = __CLASS__;
 
     /**
-     * Draw nodes in list
-     *
      * @param NodeList $nodes
      * @param array $spec
      */
-    public function drawNodes(NodeList $nodes, array $spec)
+    public function __invoke(NodeList $nodes, array $spec)
     {
         if ($this->cacheLoad($nodes, $spec)) {
             return;
@@ -47,7 +45,7 @@ class DrawElement extends AbstractDrawElement
         !array_key_exists('trigger', $spec) or
             $this->trigger($spec['trigger']);
 
-        $this->doWork($nodes, $event->getSpec()->getArrayCopy());
+        $this->drawNodes($nodes, $event->getSpec()->getArrayCopy());
 
         $this->cacheSave($nodes, $spec);
     }
@@ -57,30 +55,29 @@ class DrawElement extends AbstractDrawElement
      * @param array $spec
      * @return DrawElement
      */
-    protected function doWork(NodeList $nodes, array $spec)
+    public function drawNodes(NodeList $nodes, array $spec)
     {
         $translation = $this->cloneTranslationPrototype($this->getVars());
 
-        if (empty($spec['loop'])) {
-
-            $this->manipulateNodes($nodes, $spec, $translation);
-
-            if (!empty($spec['instructions'])) {
-
-                foreach ($nodes as $node) {
-
-                    $this
-                        ->cloneInstructionsPrototype($spec['instructions'])
-                        ->render(
-                           $node,
-                           $this->view,
-                           $translation->getArrayCopy()
-                       );
-                }
-            }
-
-        } else {
+        if (!empty($spec['loop'])) {
             $this->loop($nodes, $spec, $translation);
+            return $this;
+        }
+
+        $this->manipulateNodes($nodes, $spec, $translation);
+
+        if (!empty($spec['instructions'])) {
+
+            foreach ($nodes as $node) {
+
+                $this
+                    ->cloneInstructionsPrototype($spec['instructions'])
+                    ->render(
+                       $node,
+                       $this->view,
+                       $translation->getArrayCopy()
+                   );
+            }
         }
 
         return $this;
@@ -287,7 +284,7 @@ class DrawElement extends AbstractDrawElement
                 continue;
             }
 
-            $this->doWork($nodes->createNodeList(array($node)), $spec);
+            self::drawNodes($nodes->createNodeList(array($node)), $spec);
         }
 
         return $this;
@@ -314,8 +311,8 @@ class DrawElement extends AbstractDrawElement
             if (!empty($xpath)) {
 
                 $nodeList = $node->ownerDocument->xpath->query($xpath);
-            } else {
 
+            } else {
                 $nodeList = array($node);
             }
 
@@ -329,7 +326,7 @@ class DrawElement extends AbstractDrawElement
             $subspec = $spec;
             unset($subspec['replace']);
 
-            $this->doWork($newNodes, $subspec);
+            self::drawNodes($newNodes, $subspec);
         }
 
         return $this;
@@ -361,18 +358,6 @@ class DrawElement extends AbstractDrawElement
     protected function translateSpec(array $spec, ArrayAccess $translation)
     {
         $varTranslator = $this->getVarTranslator();
-
-        empty($spec['var']['set']) or
-            $varTranslator->translationMerge(
-                $translation,
-                $spec['var']['set']
-            );
-
-        empty($spec['var']['fetch']) or
-            $varTranslator->translationFetch(
-                $translation,
-                $spec['var']['fetch']
-            );
 
         empty($spec['render']) or
             $this->render($translation, $spec['render']);

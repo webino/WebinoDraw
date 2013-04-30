@@ -15,7 +15,7 @@ use ArrayObject;
 /**
  *
  */
-class DrawTranslation extends ArrayObject implements
+class Translation extends ArrayObject implements
     ArrayFetchInterface,
     ArrayMergeInterface
 {
@@ -47,7 +47,7 @@ class DrawTranslation extends ArrayObject implements
 
     /**
      * @param array $array
-     * @return DrawTranslation
+     * @return Translation
      */
     public function merge(array $array)
     {

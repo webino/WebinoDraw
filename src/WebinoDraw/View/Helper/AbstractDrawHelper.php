@@ -16,7 +16,7 @@ use DOMNode;
 use WebinoDraw\Dom\NodeList;
 use WebinoDraw\DrawEvent;
 use WebinoDraw\Stdlib\DrawInstructions;
-use WebinoDraw\Stdlib\DrawTranslation;
+use WebinoDraw\Stdlib\Translation;
 use WebinoDraw\Stdlib\VarTranslator;
 use Zend\EventManager\EventManager;
 use Zend\EventManager\EventManagerAwareInterface;
@@ -71,7 +71,7 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     protected $varTranslator;
 
     /**
-     * @var DrawTranslation
+     * @var Translation
      */
     protected $translationPrototype;
 
@@ -110,10 +110,6 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     }
 
     /**
-     * Get the attached event
-     *
-     * Will create a new Event if none provided.
-     *
      * @return DrawEvent
      */
     public function getEvent()
@@ -125,9 +121,7 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     }
 
     /**
-     * Set an event to use
-     *
-     * @param  DrawEvent $event
+     * @param DrawEvent $event
      * @return void
      */
     public function setEvent(DrawEvent $event)
@@ -197,7 +191,7 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     }
 
     /**
-     * @param  array $vars
+     * @param array $vars
      * @return AbstractDrawHelper
      */
     public function setVars(array $vars)
@@ -207,7 +201,7 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     }
 
     /**
-     * @param  VarTranslator $varTranslator
+     * @param VarTranslator $varTranslator
      * @return AbstractDrawHelper
      */
     public function setVarTranslator(VarTranslator $varTranslator)
@@ -228,19 +222,19 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     }
 
     /**
-     * @return DrawTranslation
+     * @return Translation
      */
     public function getTranslationPrototype()
     {
         if (null === $this->translationPrototype) {
-            $this->setTranslationPrototype(new DrawTranslation);
+            $this->setTranslationPrototype(new Translation);
         }
 
         return $this->translationPrototype;
     }
 
     /**
-     * @param DrawTranslation $translationPrototype
+     * @param Translation $translationPrototype
      * @return AbstractDrawHelper
      */
     public function setTranslationPrototype($translationPrototype)
@@ -251,7 +245,7 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
 
     /**
      * @param array $input
-     * @return DrawTranslation
+     * @return Translation
      */
     public function cloneTranslationPrototype(array $input = null)
     {
@@ -305,6 +299,18 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     public function applyVarTranslator(ArrayAccess $translation, array $spec)
     {
         $varTranslator = $this->getVarTranslator();
+
+        empty($spec['var']['set']) or
+            $varTranslator->translationMerge(
+                $translation,
+                $spec['var']['set']
+            );
+
+        empty($spec['var']['fetch']) or
+            $varTranslator->translationFetch(
+                $translation,
+                $spec['var']['fetch']
+            );
 
         empty($spec['var']['filter']['pre']) or
             $varTranslator->applyFilter(
@@ -434,5 +440,15 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
         }
 
         return $this;
+    }
+
+    /**
+     * @param NodeList $nodes
+     * @param array $spec
+     * @return void
+     */
+    public function __invoke(NodeList $nodes, array $spec)
+    {
+        $this->drawNodes($nodes, $spec);
     }
 }

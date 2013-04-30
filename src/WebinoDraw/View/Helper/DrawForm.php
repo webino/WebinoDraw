@@ -236,25 +236,23 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
      * @param NodeList $nodes
      * @param array $spec
      */
-    public function drawNodes(NodeList $nodes, array $spec)
+    public function __invoke(NodeList $nodes, array $spec)
     {
         if ($this->cacheLoad($nodes, $spec)) {
             return;
         }
 
-        $form  = $this->createForm($spec);
         $event = $this->getEvent();
 
         $event->clearSpec()
             ->setHelper($this)
             ->setSpec($spec)
-            ->setNodes($nodes)
-            ->setForm($form);
+            ->setNodes($nodes);
 
         !array_key_exists('trigger', $spec) or
             $this->trigger($spec['trigger']);
 
-        $this->doWork($nodes, $form, $event->getSpec()->getArrayCopy());
+        $this->drawNodes($nodes, $event->getSpec()->getArrayCopy());
 
         $this->cacheSave($nodes, $spec);
     }
@@ -265,8 +263,11 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
      * @param array $spec
      * @return DrawForm
      */
-    protected function doWork(NodeList $nodes, FormInterface $form, array $spec)
+    public function drawNodes(NodeList $nodes, array $spec)
     {
+        $form = $this->createForm($spec);
+
+        $this->getEvent()->setForm($form);
         $nodes->setAttribs($form->getAttributes());
 
         isset($spec['text_domain'])
