@@ -320,10 +320,11 @@ return array (
     'methods' => 
     array (
       'setElementHelper' => false,
+      'setInputErrorClass' => false,
+      'setLabelAttributes' => false,
       'setLabelPosition' => false,
       'setRenderErrors' => false,
-      'setLabelAttributes' => false,
-      'setInputErrorClass' => false,
+      'setPartial' => false,
       'setDoctype' => false,
       'setEncoding' => false,
       'setTranslator' => true,
@@ -343,6 +344,26 @@ return array (
         array (
           0 => 'elementHelper',
           1 => 'Zend\\View\\Helper\\AbstractHelper',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setInputErrorClass' => 
+      array (
+        'WebinoDraw\\Form\\View\\Helper\\FormRow::setInputErrorClass:0' => 
+        array (
+          0 => 'inputErrorClass',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setLabelAttributes' => 
+      array (
+        'WebinoDraw\\Form\\View\\Helper\\FormRow::setLabelAttributes:0' => 
+        array (
+          0 => 'labelAttributes',
+          1 => NULL,
           2 => true,
           3 => NULL,
         ),
@@ -367,21 +388,11 @@ return array (
           3 => NULL,
         ),
       ),
-      'setLabelAttributes' => 
+      'setPartial' => 
       array (
-        'WebinoDraw\\Form\\View\\Helper\\FormRow::setLabelAttributes:0' => 
+        'WebinoDraw\\Form\\View\\Helper\\FormRow::setPartial:0' => 
         array (
-          0 => 'labelAttributes',
-          1 => NULL,
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setInputErrorClass' => 
-      array (
-        'WebinoDraw\\Form\\View\\Helper\\FormRow::setInputErrorClass:0' => 
-        array (
-          0 => 'inputErrorClass',
+          0 => 'partial',
           1 => NULL,
           2 => true,
           3 => NULL,
@@ -2182,6 +2193,8 @@ return array (
       0 => 'Zend\\EventManager\\ListenerAggregateInterface',
       1 => 'Zend\\View\\Strategy\\PhpRendererStrategy',
       2 => 'Zend\\EventManager\\ListenerAggregateInterface',
+      3 => 'Zend\\EventManager\\AbstractListenerAggregate',
+      4 => 'Zend\\EventManager\\ListenerAggregateInterface',
     ),
     'instantiator' => NULL,
     'methods' => 
@@ -2224,6 +2237,8 @@ return array (
       4 => 'Zend\\EventManager\\ListenerAggregateInterface',
       5 => 'Zend\\View\\Strategy\\PhpRendererStrategy',
       6 => 'Zend\\EventManager\\ListenerAggregateInterface',
+      7 => 'Zend\\EventManager\\AbstractListenerAggregate',
+      8 => 'Zend\\EventManager\\ListenerAggregateInterface',
     ),
     'instantiator' => '__construct',
     'methods' => 
@@ -2287,6 +2302,8 @@ return array (
       2 => 'Zend\\EventManager\\ListenerAggregateInterface',
       3 => 'Zend\\View\\Strategy\\PhpRendererStrategy',
       4 => 'Zend\\EventManager\\ListenerAggregateInterface',
+      5 => 'Zend\\EventManager\\AbstractListenerAggregate',
+      6 => 'Zend\\EventManager\\ListenerAggregateInterface',
     ),
     'instantiator' => '__construct',
     'methods' => 
