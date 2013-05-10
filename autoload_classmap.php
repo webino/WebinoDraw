@@ -37,6 +37,7 @@ return array(
     'WebinoDraw\View\Strategy\DrawStrategy'            => __DIR__ . '/src/WebinoDraw/View/Strategy/DrawStrategy.php',
     'WebinoDraw\Dom\Locator'                           => __DIR__ . '/src/WebinoDraw/Dom/Locator.php',
     'WebinoDraw\Dom\NodeList'                          => __DIR__ . '/src/WebinoDraw/Dom/NodeList.php',
+    'WebinoDraw\Dom\Element'                           => __DIR__ . '/src/WebinoDraw/Dom/Element.php',
     'WebinoDraw\Dom\Locator\StrategyFactory'           => __DIR__ . '/src/WebinoDraw/Dom/Locator/StrategyFactory.php',
     'WebinoDraw\Dom\Locator\TransformatorInterface'    => __DIR__ . '/src/WebinoDraw/Dom/Locator/TransformatorInterface.php',
     'WebinoDraw\Dom\Locator\Strategy\CssStrategy'      => __DIR__ . '/src/WebinoDraw/Dom/Locator/Strategy/CssStrategy.php',

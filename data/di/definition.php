@@ -2516,6 +2516,197 @@ return array (
       ),
     ),
   ),
+  'WebinoDraw\\Dom\\Element' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'DOMElement',
+      1 => 'DOMNode',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => true,
+      'setAttribute' => false,
+      'setAttributeNode' => false,
+      'setAttributeNS' => false,
+      'setAttributeNodeNS' => false,
+      'setIdAttribute' => false,
+      'setIdAttributeNS' => false,
+      'setIdAttributeNode' => false,
+      'setUserData' => false,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\Dom\\Element::__construct:0' => 
+        array (
+          0 => 'name',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Dom\\Element::__construct:1' => 
+        array (
+          0 => 'value',
+          1 => NULL,
+          2 => false,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Dom\\Element::__construct:2' => 
+        array (
+          0 => 'uri',
+          1 => NULL,
+          2 => false,
+          3 => NULL,
+        ),
+      ),
+      'setAttribute' => 
+      array (
+        'WebinoDraw\\Dom\\Element::setAttribute:0' => 
+        array (
+          0 => 'name',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Dom\\Element::setAttribute:1' => 
+        array (
+          0 => 'value',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setAttributeNode' => 
+      array (
+        'WebinoDraw\\Dom\\Element::setAttributeNode:0' => 
+        array (
+          0 => 'newAttr',
+          1 => 'DOMAttr',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setAttributeNS' => 
+      array (
+        'WebinoDraw\\Dom\\Element::setAttributeNS:0' => 
+        array (
+          0 => 'namespaceURI',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Dom\\Element::setAttributeNS:1' => 
+        array (
+          0 => 'qualifiedName',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Dom\\Element::setAttributeNS:2' => 
+        array (
+          0 => 'value',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setAttributeNodeNS' => 
+      array (
+        'WebinoDraw\\Dom\\Element::setAttributeNodeNS:0' => 
+        array (
+          0 => 'newAttr',
+          1 => 'DOMAttr',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setIdAttribute' => 
+      array (
+        'WebinoDraw\\Dom\\Element::setIdAttribute:0' => 
+        array (
+          0 => 'name',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Dom\\Element::setIdAttribute:1' => 
+        array (
+          0 => 'isId',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setIdAttributeNS' => 
+      array (
+        'WebinoDraw\\Dom\\Element::setIdAttributeNS:0' => 
+        array (
+          0 => 'namespaceURI',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Dom\\Element::setIdAttributeNS:1' => 
+        array (
+          0 => 'localName',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Dom\\Element::setIdAttributeNS:2' => 
+        array (
+          0 => 'isId',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setIdAttributeNode' => 
+      array (
+        'WebinoDraw\\Dom\\Element::setIdAttributeNode:0' => 
+        array (
+          0 => 'attr',
+          1 => 'DOMAttr',
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Dom\\Element::setIdAttributeNode:1' => 
+        array (
+          0 => 'isId',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setUserData' => 
+      array (
+        'WebinoDraw\\Dom\\Element::setUserData:0' => 
+        array (
+          0 => 'key',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Dom\\Element::setUserData:1' => 
+        array (
+          0 => 'data',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Dom\\Element::setUserData:2' => 
+        array (
+          0 => 'handler',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
   'WebinoDraw\\Dom\\Locator\\StrategyFactory' => 
   array (
     'supertypes' => 

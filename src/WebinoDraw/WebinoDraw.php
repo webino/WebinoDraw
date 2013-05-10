@@ -131,6 +131,7 @@ class WebinoDraw
 
         $dom = new DOMDocument;
 
+        $dom->registerNodeClass('DOMElement', 'WebinoDraw\Dom\Element');
         $dom->loadHtml($xhtml);
 
         $dom->xpath = new DOMXPath($dom);

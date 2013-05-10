@@ -88,13 +88,15 @@
 
         'draw-node-example' => array(
             'locator' => 'a',
-            'value'   => 'customprefix {$nodeValue} customsuffix',
-            'html'    => '<custom>{$html}</custom>',
+            'value'   => 'customprefix {$_value} customsuffix',
+            'html'    => '<custom>{$_html}</custom>',
             'attribs' => array(
-                'title' => '{$nodeValue} {$href}',
-                'href'  => '{$href}#customfragment',
+                'title' => '{$_value} {$_href}',
+                'href'  => '{$_href}#customfragment',
              ),
         ),
+
+    *NOTE: Node variables are prefixed with the underscore to avoid conflicts.*
 
   - Use **view variables**:
 
@@ -174,7 +176,7 @@
 
         'draw-node-example' => array(
             'locator' => 'ul li',
-            'value'   => '{$key} {$index} {$property}',
+            'value'   => '{$_key} {$_index} {$property}',
             'loop'    => array(
                 'base'    => 'array.in.the.depth',
                 'index'   => '0',
@@ -187,6 +189,8 @@
                 'title' => '{$property}',
             ),
         ),
+
+    *NOTE: Extra variables are prefixed with the underscore to avoid conflicts.*
 
   - Trigger **events**
 
@@ -214,7 +218,7 @@
                 $event->setSpec(
                     array(
                         // draw instructions
-                        'value'   => '{$nodeValue} VALUE',
+                        'value'   => '{$_value} VALUE',
                         'attribs' => array(
                             'title' => 'Hello from Controller!',
                         ),

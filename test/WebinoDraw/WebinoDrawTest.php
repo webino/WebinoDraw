@@ -190,7 +190,7 @@ class WebinoDrawTest
         $instructions->expects($this->once())
             ->method('render')
             ->with(
-                $this->equalTo($element),
+                $this->isInstanceOf('DOMElement'),
                 $this->equalTo($this->renderer),
                 $this->equalTo($vars)
             );

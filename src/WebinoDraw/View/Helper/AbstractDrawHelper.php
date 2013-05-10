@@ -11,8 +11,8 @@
 namespace WebinoDraw\View\Helper;
 
 use ArrayAccess;
-use DOMElement;
 use DOMNode;
+use WebinoDraw\Dom\Element;
 use WebinoDraw\Dom\NodeList;
 use WebinoDraw\DrawEvent;
 use WebinoDraw\Stdlib\DrawInstructions;
@@ -34,6 +34,11 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     DrawHelperInterface,
     EventManagerAwareInterface
 {
+    /**
+     * Prefix of the extra variables to avoid conflicts
+     */
+    const EXTRA_VAR_PREFIX = '_';
+
     /**
      * @var CacheStorageInterface
      */
@@ -290,7 +295,7 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     }
 
     /**
-     * Apply varTranslator on translation.
+     * Apply varTranslator on translation
      *
      * @param ArrayAccess $translation
      * @param array $spec
@@ -337,25 +342,22 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     }
 
     /**
-     * Get array translation from DOM node
+     * Returns array translation of the node
      *
-     * @param DOMElement $node
+     * @param Element $node
      * @return array
      */
-    public function nodeTranslation(DOMElement $node)
+    public function nodeTranslation(Element $node)
     {
         $translation = clone $this->getTranslationPrototype();
 
-        if (!empty($node->nodeValue)) {
-            $translation['nodeValue'] = $node->nodeValue;
-        }
-
-        foreach ($node->attributes as $attr) {
-            $translation[$attr->name] = $attr->value;
-        }
+        $translation->exchangeArray(
+            $node->getProperties(self::EXTRA_VAR_PREFIX)
+        );
 
         return $translation;
     }
+
     /**
      * Return the cache key
      *

@@ -10,7 +10,7 @@
 
 namespace WebinoDraw\View\Helper;
 
-use DOMElement;
+use WebinoDraw\Dom\Element;
 
 /**
  *
@@ -30,7 +30,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
         $helper        = $this;
 
         return function (
-            DOMElement $node,
+            Element $node,
             $value
         ) use (
             $helper,
@@ -71,16 +71,18 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
         $translation   = clone $this->getTranslationPrototype();
         $varTranslator = $this->getVarTranslator();
         $helper        = $this;
+        $nodeHtmlKey   = self::EXTRA_VAR_PREFIX . 'html';
 
         return function (
-            DOMElement $node,
+            Element $node,
             $value
         ) use (
             $helper,
             $subject,
             $spec,
             $varTranslator,
-            $translation
+            $translation,
+            $nodeHtmlKey
         ) {
             $nodeTranslation = $helper->nodeTranslation($node);
 
@@ -90,19 +92,9 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                     $spec['var']['default']
                 );
 
-            if (false !== strpos($subject, 'html')) {
-
-                if ($node->childNodes->length
-                  || !array_key_exists('html', $translation)
-                ) {
-                    $nodeTranslation['html'] = null;
-                }
-
-                foreach ($node->childNodes as $child) {
-                    $html = trim($child->ownerDocument->saveXML($child));
-                    empty($html) or $nodeTranslation['html'].= $html;
-                }
-            }
+            // include node innerHTML to the translation
+            (false === strpos($subject, $nodeHtmlKey)) or
+                $nodeTranslation[$nodeHtmlKey] = $node->getInnerHtml();
 
             $helper->applyVarTranslator($nodeTranslation, $spec);
 
@@ -129,7 +121,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
         $helper        = $this;
 
         return function (
-            DOMElement $node,
+            Element $node,
             $value
         ) use (
             $helper,

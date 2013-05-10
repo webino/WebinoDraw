@@ -64,7 +64,7 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
         $this->getServiceLocator()->get('WebinoDraw')->setInstructions(
             array(
                 'direct-example' => array(
-                    'value' => '{$nodeValue} VALUE',
+                    'value' => '{$_value} VALUE',
                 ),
             )
         );
@@ -80,7 +80,7 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
 
                 $event->setSpec(
                     array(
-                        'value'   => '{$nodeValue} VALUE',
+                        'value'   => '{$_value} VALUE',
                         'attribs' => array(
                             'title' => 'Hello from Controller!',
                         ),

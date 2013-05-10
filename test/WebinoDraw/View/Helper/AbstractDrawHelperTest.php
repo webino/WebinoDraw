@@ -279,8 +279,10 @@ class AbstractDrawHelperTest
             'attr1' => 'testAttr1',
             'attr2' => 'testAttr2',
         );
+        $prefix = '_';
 
         $dom = new \DOMDocument();
+        $dom->registerNodeClass('DOMElement', 'WebinoDraw\Dom\Element');
         $dom->loadXML('<dummy/>');
         $node = $dom->documentElement;
 
@@ -292,14 +294,14 @@ class AbstractDrawHelperTest
 
         $translation = $this->object->nodeTranslation($node);
 
-        $this->assertEquals($value, $translation['nodeValue']);
+        $this->assertEquals($value, $translation[$prefix . 'value']);
 
         reset($attribs);
 
         $key = key($attribs);
-        $this->assertEquals($attribs[$key], $translation[$key]);
+        $this->assertEquals($attribs[$key], $translation[$prefix . $key]);
 
         $key = key($attribs);
-        $this->assertEquals($attribs[$key], $translation[$key]);
+        $this->assertEquals($attribs[$key], $translation[$prefix . $key]);
     }
 }

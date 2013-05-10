@@ -19,11 +19,11 @@ return array(
             'absolutize-example-prepare' => array(
                 'stackIndex' => '9999997',
                 'locator' => 'head',
-                'html' => '{$html}<script src="./test-script-relative.js"></script><link href="test-link-relative.css"/>',
+                'html' => '{$_html}<script src="./test-script-relative.js"></script><link href="test-link-relative.css"/>',
                 'instructions' => array(
                     'form-preapare' => array(
                         'locator' => 'xpath=//body',
-                        'html' => '<form action="../../test-action-relative"/>{$html}'
+                        'html' => '<form action="../../test-action-relative"/>{$_html}'
                     ),
                 ),
             ),
@@ -62,11 +62,11 @@ return array(
             ),
             'add-element-example' => array(
                 'locator' => '.hero-unit',
-                'html' => '<span>TEST ADD BEFORE</span>{$html}',
+                'html' => '<span>TEST ADD BEFORE</span>{$_html}',
             ),
             'remove-single-example-prepare' => array(
                 'locator' => '.hero-unit',
-                'html' => '{$html}<p class="remove-me-single">THIS SHOULD BE REMOVED SINGLE</p>',
+                'html' => '{$_html}<p class="remove-me-single">THIS SHOULD BE REMOVED SINGLE</p>',
             ),
             'remove-single-example' => array(
                 'locator' => '.remove-me-single',
@@ -74,7 +74,7 @@ return array(
             ),
             'remove-example-prepare' => array(
                 'locator' => '.hero-unit',
-                'html' => '{$html}<p class="remove-me">THIS SHOULD BE REMOVED</p><p class="remove-me-xpath">THIS SHOULD BE REMOVED BY XPATH</p>',
+                'html' => '{$_html}<p class="remove-me">THIS SHOULD BE REMOVED</p><p class="remove-me-xpath">THIS SHOULD BE REMOVED BY XPATH</p>',
             ),
             'remove-example' => array(
                 'locator' => 'body',
@@ -85,15 +85,15 @@ return array(
             ),
             'nodevar-example-prepare' => array(
                 'locator' => '.hero-unit',
-                'html' => '{$html}<h2 data-webino-test="ORIGATTRIB">ORIGCONTENT</h2>',
+                'html' => '{$_html}<h2 data-webino-test="ORIGATTRIB">ORIGCONTENT</h2>',
             ),
             'nodevar-example' => array(
                 'locator' => '.hero-unit h2',
                 'value' => '{$value}',
                 'var' => array(
                     'set' => array(
-                        'value' => '{$nodeValue} NODEVARTEST {$data-webino-test}',
-                        'title' => '{$nodeValue} NODEVARATTRIBTEST {$data-webino-test}',
+                        'value' => '{$_value} NODEVARTEST {$_data-webino-test}',
+                        'title' => '{$_value} NODEVARATTRIBTEST {$_data-webino-test}',
                     ),
                 ),
                 'attribs' => array(
@@ -102,7 +102,7 @@ return array(
             ),
             'viewvar-example-prepare' => array(
                 'locator' => '.hero-unit',
-                'html' => '{$html}<div class="viewvar-example"/>',
+                'html' => '{$_html}<div class="viewvar-example"/>',
             ),
             'viewvar-example' => array(
                 'locator' => '.viewvar-example',
@@ -115,20 +115,20 @@ return array(
             ),
             'filter-example-prepare' => array(
                 'locator' => '.hero-unit',
-                'html' => '{$html}<p class="filter-example">-this should be upper case-</p>',
+                'html' => '{$_html}<p class="filter-example">-this should be upper case-</p>',
             ),
             'filter-example' => array(
                 'locator' => '.filter-example',
-                'value' => '{$nodeValue}',
+                'value' => '{$_value}',
                 'var' => array(
                     'filter' => array(
                         'pre' => array(
-                            'nodeValue' => array(
+                            '_value' => array(
                                 'stringToUpper' => array(
-                                    '{$nodeValue}'
+                                    '{$_value}'
                                 ),
                                 'trim' => array(
-                                    '{$nodeValue}', '-'
+                                    '{$_value}', '-'
                                 ),
                             ),
                         ),
@@ -137,19 +137,19 @@ return array(
             ),
             'translate-example-prepare' => array(
                 'locator' => '.hero-unit',
-                'html' => '{$html}<p class="translate-example">this should be translated</p>',
+                'html' => '{$_html}<p class="translate-example">this should be translated</p>',
             ),
             'translate-example' => array(
                 'locator' => '.translate-example',
-                'value' => '{$nodeValue}',
+                'value' => '{$_value}',
                 'var' => array(
                     'default' => array(
                         'data-textdomain' => 'test',
                     ),
                     'helper' => array(
-                        'nodeValue' => array(
+                        '_value' => array(
                             'translate' => array(
-                                '__invoke' => array(array('{$nodeValue}', '{$data-textdomain}')),
+                                '__invoke' => array(array('{$_value}', '{$data-textdomain}')),
                             ),
                         ),
                     ),
@@ -157,7 +157,7 @@ return array(
             ),
             'loop-example-prepare' => array(
                 'locator' => '.hero-unit',
-                'html' => '{$html}<ul class="loop-example"><li>BEFORE</li><li/><li>AFTER</li></ul>',
+                'html' => '{$_html}<ul class="loop-example"><li>BEFORE</li><li/><li>AFTER</li></ul>',
             ),
             'loop-example' => array(
                 'locator' => '.loop-example li[2]',
@@ -174,7 +174,7 @@ return array(
                     'instructions' => array(
                         'loop-example-strong-node' => array(
                             'locator' => 'strong',
-                            'value' => '{$key} {$index} {$property0} {$test}',
+                            'value' => '{$_key} {$_index} {$property0} {$test}',
                             'var' => array(
                                 'fetch' => array(
                                     'test' => 'childs.item00.property0'
@@ -193,7 +193,7 @@ return array(
             ),
             'loop-empty-example-prepare' => array(
                 'locator' => '.hero-unit',
-                'html' => '{$html}<ul class="loop-empty-example"><li>BEFORE</li><li/><li>AFTER</li></ul>',
+                'html' => '{$_html}<ul class="loop-empty-example"><li>BEFORE</li><li/><li>AFTER</li></ul>',
             ),
             'loop-empty-example' => array(
                 'locator' => '.loop-empty-example li[2]',
@@ -208,7 +208,7 @@ return array(
             ),
             'form-example-prepare' => array(
                 'locator' => '.hero-unit',
-                'html' => '{$html}<form class="form-example"/>',
+                'html' => '{$_html}<form class="form-example"/>',
             ),
             'form-example' => array(
                 'locator' => '.form-example',
@@ -223,7 +223,7 @@ return array(
             ),
             'form-template-example-prepare' => array(
                 'locator' => '.hero-unit',
-                'html' => '{$html}<form class="form-template-example"><ul><li><input name="example_text_element"/></li><li><input name="example_text_element2"/></li></ul><input name="send"/></form>',
+                'html' => '{$_html}<form class="form-template-example"><ul><li><input name="example_text_element"/></li><li><input name="example_text_element2"/></li></ul><input name="send"/></form>',
             ),
             'form-template-example' => array(
                 'locator' => '.form-template-example',
@@ -233,13 +233,13 @@ return array(
                 'instructions' => array(
                     'form-decorator1' => array(
                         'locator' => 'xpath=.//li//input/..',
-                        'html' => 'LABEL {$html}',
+                        'html' => 'LABEL {$_html}',
                     ),
                 ),
             ),
             'direct-example-prepare' => array(
                 'locator' => '.hero-unit',
-                'html' => '{$html}<div class="direct-example">DIRECT EXAMPLE</div>',
+                'html' => '{$_html}<div class="direct-example">DIRECT EXAMPLE</div>',
             ),
             'direct-example' => array(
                 'locator' => '.direct-example',
@@ -247,7 +247,7 @@ return array(
             ),
             'event-example-prepare' => array(
                 'locator' => '.hero-unit',
-                'html' => '{$html}<div class="event-example">EVENT EXAMPLE</div>',
+                'html' => '{$_html}<div class="event-example">EVENT EXAMPLE</div>',
             ),
             'event-example' => array(
                 'locator' => '.event-example',
@@ -257,7 +257,7 @@ return array(
             ),
             'subinstructions-example-prepare' => array(
                 'locator' => '.hero-unit',
-                'html' => '{$html}<div class="subinstructions-example"><span>SUB-INSTRUCTIONS</span> <strong>EXAMPLE</strong> <form/></div>',
+                'html' => '{$_html}<div class="subinstructions-example"><span>SUB-INSTRUCTIONS</span> <strong>EXAMPLE</strong> <form/></div>',
             ),
             'subinstructions-example' => array(
                 'locator' => '.subinstructions-example',
@@ -265,11 +265,11 @@ return array(
                     'subtest1' => array(
                         'stackIndex' => '99',
                         'locator' => 'span',
-                        'value' => '{$nodeValue}(TEST)',
+                        'value' => '{$_value}(TEST)',
                     ),
                     'subtest2' => array(
                         'locator' => 'xpath=.//strong',
-                        'value' => '{$nodeValue} VALUE',
+                        'value' => '{$_value} VALUE',
                     ),
                     'subtest-form' => array(
                         'locator' => 'form',
@@ -281,7 +281,7 @@ return array(
                         'instructions' => array(
                             'form-decorator1' => array(
                                 'locator' => 'label span',
-                                'value' => '{$nodeValue}*',
+                                'value' => '{$_value}*',
                             ),
                         ),
                     ),
@@ -289,11 +289,11 @@ return array(
             ),
             'ajax-example-prepare' => array(
                 'locator' => 'head',
-                'html' => '{$html}<script>jQuery(document).on("click", ".ajax-example a", function(){ jQuery.get($(this).attr("href"), function(data) { jQuery.each(data.fragment, function(selector, html) { jQuery(selector).replaceWith(html); }); if (data.extraTest) { $(".ajax-log").html(data.extraTest); } }, "json"); return false; });</script>',
+                'html' => '{$_html}<script>jQuery(document).on("click", ".ajax-example a", function(){ jQuery.get($(this).attr("href"), function(data) { jQuery.each(data.fragment, function(selector, html) { jQuery(selector).replaceWith(html); }); if (data.extraTest) { $(".ajax-log").html(data.extraTest); } }, "json"); return false; });</script>',
             ),
             'ajax-example' => array(
                 'locator' => '.hero-unit',
-                'html' => '{$html}<div class="ajax-example"><a href=".">AJAX</a> | <a href="?fragmentId=ajax-rand">AJAX SINGLE</a> | <a href="?ajaxExtra">AJAX EXTRA</a> : <strong class="ajax-fragment" id="ajax-time">{$time}</strong> - <strong class="ajax-fragment" id="ajax-rand">{$rand}</strong><br /><p class="ajax-log"></p></div>',
+                'html' => '{$_html}<div class="ajax-example"><a href=".">AJAX</a> | <a href="?fragmentId=ajax-rand">AJAX SINGLE</a> | <a href="?ajaxExtra">AJAX EXTRA</a> : <strong class="ajax-fragment" id="ajax-time">{$time}</strong> - <strong class="ajax-fragment" id="ajax-rand">{$rand}</strong><br /><p class="ajax-log"></p></div>',
                 'var' => array(
                     'set' => array(
                         'time' => '',
@@ -311,7 +311,7 @@ return array(
             ),
             'cache-example-prepare' => array(
                 'locator' => '.hero-unit',
-                'html' => '{$html}<div class="cache-example"></div>',
+                'html' => '{$_html}<div class="cache-example"></div>',
             ),
             'cache-example' => array(
                 'locator' => '.cache-example',

@@ -179,8 +179,9 @@ class DrawElement extends AbstractDrawElement
 
                 $item = $varTranslator->subjectToArray($itemSubject);
 
-                $item['key']      = (string) $key;
-                $item['index']    = (string) $index;
+                $item[self::EXTRA_VAR_PREFIX . 'key']   = (string) $key;
+                $item[self::EXTRA_VAR_PREFIX . 'index'] = (string) $index;
+                
                 $newNode          = clone $nodeClone;
                 $newNodeList      = $nodes->createNodeList(array($newNode));
                 $localTranslation = clone $translation;
