@@ -21,9 +21,9 @@ class DrawStrategyFactoryTest
     protected $services;
 
     /**
-     * @var \Zend\Http\PhpEnvironment\Request
+     * @var \Zend\Http\Request
      */
-    protected $request;
+    public $request;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
@@ -33,26 +33,23 @@ class DrawStrategyFactoryTest
     {
         $this->object   = new DrawStrategyFactory;
         $this->services = $this->getMock('Zend\ServiceManager\ServiceManager');
-        $this->request  = $this->getMock('Zend\Http\PhpEnvironment\Request');
+        $this->request  = $this->getMock('Zend\Http\Request');
 
         $testCase = $this;
         $draw     = $this->getMock('WebinoDraw\WebinoDraw', array(), array(), '', false);
-        $request  = $this->request;
 
         $this->services->expects($this->exactly(2))
             ->method('get')
             ->will(
                 $this->returnCallback(
-                    function ($name) use ($draw, $request, $testCase) {
+                    function ($name) use ($draw, $testCase) {
 
                         switch ($name) {
                             case 'WebinoDraw':
                                 return $draw;
-                                break;
 
                             case 'Request':
-                                return $request;
-                                break;
+                                return $testCase->request;
                         }
 
                         $testCase->fail(sprintf('Unexpected service %s', $name));
@@ -106,6 +103,24 @@ class DrawStrategyFactoryTest
         $this->assertThat(
             $result,
             $this->isInstanceOf('WebinoDraw\View\Strategy\DrawAjaxStrategy')
+        );
+    }
+
+    /**
+     * @covers WebinoDraw\Mvc\Service\DrawStrategyFactory::createService
+     */
+    public function testCreateServiceConsoleRequest()
+    {
+        $this->request = $this->getMock('Zend\Console\Request', array(), array(), '', false);
+
+        $this->request->expects($this->never())
+            ->method('isXmlHttpRequest');
+
+        $result = $this->object->createService($this->services);
+
+        $this->assertThat(
+            $result,
+            $this->isInstanceOf('WebinoDraw\View\Strategy\DrawStrategy')
         );
     }
 }

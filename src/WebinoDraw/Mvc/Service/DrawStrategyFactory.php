@@ -12,6 +12,7 @@ namespace WebinoDraw\Mvc\Service;
 
 use WebinoDraw\View\Strategy\DrawAjaxStrategy;
 use WebinoDraw\View\Strategy\DrawStrategy;
+use Zend\Http\Request as HttpRequest;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -26,10 +27,12 @@ class DrawStrategyFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $services)
     {
+        $request = $services->get('Request');
         $service = $services->get('WebinoDraw');
-        $isAjax  = $services->get('Request')->isXmlHttpRequest();
 
-        if ($isAjax) {
+        if (($request instanceof HttpRequest)
+            && $request->isXmlHttpRequest()
+        ) {
             return new DrawAjaxStrategy($service);
         }
 
