@@ -207,4 +207,51 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
     {
         $this->redirect()->toUrl($this->request->getBaseUrl());
     }
+
+    /**
+     * Heavy testing action
+     *
+     * @return string
+     */
+    public function heavyAction()
+    {
+        $draw = $this->getServiceLocator()->get('WebinoDraw');
+
+        $draw->setInstructions(
+            array(
+                'long-list' => array(
+                    'locator' => '.long-list',
+                    'cache' => 'long-list',
+                    'instructions' => array(
+                        'item' => array(
+                            'locator' => 'li',
+                            'value' => '{$_index} {$text}',
+                            'loop' => array(
+                                'base' => 'long_list',
+                            ),
+                        ),
+                    ),
+                ),
+            )
+        );
+
+        // generate data
+        $data = array();
+
+        $text = 'Paš glouskůřenchlym niděk člobleď. Frc hrýš, tišlý pa chénizli tiškeš v fla děďmo choněr ' .
+                'nivrýtlutat flyhlaž z mláď, vlireměh lkusteněm niništ a dibu i tes břetěm tiz škázly, di vu ' .
+                'pypřouflel lápi hrgý kůn mymrůs niti k cháčnýzdleni a děslům. Glo tkesliti. Z těk těsak ' .
+                'třizra člihreskni? Ni mevoď deš dihly dir slamrá gluni, zlýmlýjžré zluza uhřižlyj žletiv z tiďa ' .
+                'v běchrou, mloj puzku ufluptoz nimi mipochroň slamu těbu, sech umepr o úbyl šlouží di tě mloumani. ' .
+                'Bedic tymo s dini šrur. Dipěv i diď. Mleva a ti, gloněť stůjni glysk nyplýklech jetrou nizkuj ' .
+                'a žragre. I ňorá tra dře paštaběn clys sini? Zoř žlůšké i bří šlicku, pyh úně glíhá a těvo kapeti.';
+
+        $data['long_list'] = array();
+
+        for ($i=0; $i < 500; $i++) {
+            $data['long_list'][] = array('text' => $text);
+        }
+
+        return $data;
+    }
 }

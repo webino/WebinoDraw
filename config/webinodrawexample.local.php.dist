@@ -215,7 +215,7 @@ return array(
                 'helper' => 'WebinoDrawForm',
                 'form' => 'exampleForm',
                 'cache' => 'exampleForm',
-                'route' => 'example_form_route',
+                'route' => 'example-form-route',
                 'text_domain' => 'test',
                 'trigger' => array(
                     'form-example.event',
@@ -276,7 +276,7 @@ return array(
                         'helper' => 'WebinoDrawForm',
                         'form' => 'exampleForm',
                         'cache' => 'exampleFormSubTest',
-                        'route' => 'example_form_route',
+                        'route' => 'example-form-route',
                         'text_domain' => 'test',
                         'instructions' => array(
                             'form-decorator1' => array(
