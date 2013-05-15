@@ -1,6 +1,8 @@
 <?php
 return array(
     'modules' => array(
+        'ZF2NetteDebug',
+        'ZendDeveloperTools',
         'Application',
         'WebinoDraw',
     ),
