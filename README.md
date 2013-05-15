@@ -533,6 +533,10 @@
 
   - In case of troubles use `<![CDATA[ ]]>` with entities, like `&amp;` to: `<![CDATA[&amp;]]>`
 
+  - You may experience result in garbage (encoded) text, replace the meta charset in the layout with following:
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+
   - To create the form the DiForm is used. It allows to instantiate the object of type FormInterface
     via DI directly. However any valid form available via ServiceManager can be used.
 
