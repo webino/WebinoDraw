@@ -4,11 +4,17 @@
     "type": "library",
     "keywords": [
         "xhtml", "html5", "render", "draw", "view",
-        "layout", "zf2", "zend", "framework"
+        "layout", "template", "webino", "zf2", "zend", "framework"
     ],
     "homepage": "http://github.com/webino/WebinoDraw",
     "license": "New BSD License",
     "authors": [
+        {
+            "name": "Webino, s. r. o.",
+            "email": "info@webino.sk",
+            "homepage": "http://www.webino.sk/",
+            "role": "Developer"
+        },
         {
             "name": "Peter Bačinský",
             "email": "peter@bacinsky.sk",
@@ -20,8 +26,9 @@
         "php": ">=5.3.3",
         "zendframework/zendframework": "2.2.0rc2"
     },
-    "suggest": {
-        "webino/zf2nette-debug": "User friendly Exception and Error handler ported from Nette Framework."
+    "require-dev": {
+        "webino/zf2nette-debug" : "1.*",
+        "zendframework/zend-developer-tools": "dev-master"
     },
     "autoload": {
         "psr-0": {
