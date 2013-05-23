@@ -23,6 +23,12 @@
   - Uses PHP functions, ZF2 view variables, helpers and filters
   - You can still use phtml, but why!
 
+## Why?
+
+  - Templates without logical markup mess
+  - Pretty fast with cache enabled
+  - Override configuration settings to change logical behavior of templates for modular projects
+
 ## Setup
 
   Following steps are necessary to get this module working, considering a zf2-skeleton or very similar application:
