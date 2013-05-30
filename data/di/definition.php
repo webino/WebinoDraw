@@ -16,24 +16,24 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
-      '__construct' => true,
-      'setFormFactory' => true,
-      'setForm' => false,
-      'setData' => false,
-      'setBindOnValidate' => false,
-      'setInputFilter' => false,
-      'setValidationGroup' => false,
-      'setPriority' => false,
-      'setObject' => false,
-      'setHydrator' => false,
-      'setName' => false,
-      'setOptions' => false,
-      'setAttribute' => false,
-      'setAttributes' => false,
-      'setValue' => false,
-      'setLabel' => false,
-      'setMessages' => false,
-      'prepareElement' => true,
+      '__construct' => 3,
+      'setFormFactory' => 3,
+      'setForm' => 0,
+      'setData' => 0,
+      'setBindOnValidate' => 0,
+      'setInputFilter' => 0,
+      'setValidationGroup' => 0,
+      'setPriority' => 0,
+      'setObject' => 0,
+      'setHydrator' => 0,
+      'setName' => 0,
+      'setOptions' => 0,
+      'setAttribute' => 0,
+      'setAttributes' => 0,
+      'setValue' => 0,
+      'setLabel' => 0,
+      'setMessages' => 0,
+      'prepareElement' => 3,
     ),
     'parameters' => 
     array (
@@ -238,14 +238,14 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
-      'setTranslator' => true,
-      'setTranslatorEnabled' => true,
-      'setTranslatorTextDomain' => true,
-      'setView' => false,
-      'getTranslator' => true,
-      'hasTranslator' => true,
-      'isTranslatorEnabled' => true,
-      'getTranslatorTextDomain' => true,
+      'setTranslator' => 3,
+      'setTranslatorEnabled' => 3,
+      'setTranslatorTextDomain' => 3,
+      'setView' => 0,
+      'getTranslator' => 3,
+      'hasTranslator' => 3,
+      'isTranslatorEnabled' => 3,
+      'getTranslatorTextDomain' => 3,
     ),
     'parameters' => 
     array (
@@ -319,22 +319,22 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
-      'setElementHelper' => false,
-      'setInputErrorClass' => false,
-      'setLabelAttributes' => false,
-      'setLabelPosition' => false,
-      'setRenderErrors' => false,
-      'setPartial' => false,
-      'setDoctype' => false,
-      'setEncoding' => false,
-      'setTranslator' => true,
-      'setTranslatorEnabled' => true,
-      'setTranslatorTextDomain' => true,
-      'setView' => false,
-      'getTranslator' => true,
-      'hasTranslator' => true,
-      'isTranslatorEnabled' => true,
-      'getTranslatorTextDomain' => true,
+      'setElementHelper' => 0,
+      'setInputErrorClass' => 0,
+      'setLabelAttributes' => 0,
+      'setLabelPosition' => 0,
+      'setRenderErrors' => 0,
+      'setPartial' => 0,
+      'setDoctype' => 0,
+      'setEncoding' => 0,
+      'setTranslator' => 3,
+      'setTranslatorEnabled' => 3,
+      'setTranslatorTextDomain' => 3,
+      'setView' => 0,
+      'getTranslator' => 3,
+      'hasTranslator' => 3,
+      'isTranslatorEnabled' => 3,
+      'getTranslatorTextDomain' => 3,
     ),
     'parameters' => 
     array (
@@ -478,14 +478,14 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
-      '__construct' => true,
-      'setHelper' => false,
-      'setNodes' => false,
-      'setSpec' => false,
-      'setParams' => false,
-      'setName' => false,
-      'setTarget' => false,
-      'setParam' => false,
+      '__construct' => 3,
+      'setHelper' => 0,
+      'setNodes' => 0,
+      'setSpec' => 0,
+      'setParams' => 0,
+      'setName' => 0,
+      'setTarget' => 0,
+      'setParam' => 0,
     ),
     'parameters' => 
     array (
@@ -619,13 +619,13 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
-      '__construct' => true,
-      'setJson' => false,
-      'setFragmentXpath' => false,
-      'setParams' => false,
-      'setName' => false,
-      'setTarget' => false,
-      'setParam' => false,
+      '__construct' => 3,
+      'setJson' => 0,
+      'setFragmentXpath' => 0,
+      'setParams' => 0,
+      'setName' => 0,
+      'setTarget' => 0,
+      'setParam' => 0,
     ),
     'parameters' => 
     array (
@@ -730,9 +730,9 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
-      '__construct' => true,
-      'setOptions' => false,
-      'setInstructions' => false,
+      '__construct' => 3,
+      'setOptions' => 0,
+      'setInstructions' => 0,
     ),
     'parameters' => 
     array (
@@ -800,7 +800,7 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
-      '__construct' => true,
+      '__construct' => 3,
     ),
     'parameters' => 
     array (
@@ -841,7 +841,7 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
-      '__construct' => true,
+      '__construct' => 3,
     ),
     'parameters' => 
     array (
@@ -883,7 +883,7 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
-      '__construct' => true,
+      '__construct' => 3,
     ),
     'parameters' => 
     array (
@@ -924,7 +924,7 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
-      '__construct' => true,
+      '__construct' => 3,
     ),
     'parameters' => 
     array (
@@ -965,7 +965,7 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
-      '__construct' => true,
+      '__construct' => 3,
     ),
     'parameters' => 
     array (
@@ -1009,7 +1009,7 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
-      '__construct' => true,
+      '__construct' => 3,
     ),
     'parameters' => 
     array (
@@ -1059,9 +1059,9 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
-      '__construct' => true,
-      'setFlags' => false,
-      'setIteratorClass' => false,
+      '__construct' => 3,
+      'setFlags' => 0,
+      'setIteratorClass' => 0,
     ),
     'parameters' => 
     array (
@@ -1105,7 +1105,7 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
-      '__construct' => true,
+      '__construct' => 3,
     ),
     'parameters' => 
     array (
@@ -1162,15 +1162,15 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
-      '__construct' => true,
-      'setForm' => false,
-      'setHelper' => false,
-      'setNodes' => false,
-      'setSpec' => false,
-      'setParams' => false,
-      'setName' => false,
-      'setTarget' => false,
-      'setParam' => false,
+      '__construct' => 3,
+      'setForm' => 0,
+      'setHelper' => 0,
+      'setNodes' => 0,
+      'setSpec' => 0,
+      'setParams' => 0,
+      'setName' => 0,
+      'setTarget' => 0,
+      'setParam' => 0,
     ),
     'parameters' => 
     array (
@@ -1334,11 +1334,11 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
-      '__construct' => true,
-      'setLocator' => false,
-      'setNodeListPrototype' => false,
-      'setFlags' => false,
-      'setIteratorClass' => false,
+      '__construct' => 3,
+      'setLocator' => 0,
+      'setNodeListPrototype' => 0,
+      'setFlags' => 0,
+      'setIteratorClass' => 0,
     ),
     'parameters' => 
     array (
@@ -1429,9 +1429,9 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
-      '__construct' => true,
-      'setFlags' => false,
-      'setIteratorClass' => false,
+      '__construct' => 3,
+      'setFlags' => 0,
+      'setIteratorClass' => 0,
     ),
     'parameters' => 
     array (
@@ -1499,16 +1499,16 @@ return array (
     'instantiator' => NULL,
     'methods' => 
     array (
-      'setCache' => false,
-      'setEvent' => false,
-      'setEventManager' => true,
-      'setFilterPluginManager' => false,
-      'setVars' => false,
-      'setVarTranslator' => false,
-      'setTranslationPrototype' => false,
-      'setInstructionsPrototype' => false,
-      'setView' => false,
-      'getEventManager' => true,
+      'setCache' => 0,
+      'setEvent' => 0,
+      'setEventManager' => 3,
+      'setFilterPluginManager' => 0,
+      'setVars' => 0,
+      'setVarTranslator' => 0,
+      'setTranslationPrototype' => 0,
+      'setInstructionsPrototype' => 0,
+      'setView' => 0,
+      'getEventManager' => 3,
     ),
     'parameters' => 
     array (
@@ -1624,22 +1624,22 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
-      'setEvent' => false,
-      'setServiceLocator' => true,
-      'setFormCollectionHelper' => false,
-      'setFormRowHelper' => false,
-      'setFormElementHelper' => false,
-      'setTranslatorTextDomain' => false,
-      'setCache' => false,
-      'setEventManager' => true,
-      'setFilterPluginManager' => false,
-      'setVars' => false,
-      'setVarTranslator' => false,
-      'setTranslationPrototype' => false,
-      'setInstructionsPrototype' => false,
-      'setView' => false,
-      'getEventManager' => true,
-      'getServiceLocator' => true,
+      'setEvent' => 0,
+      'setServiceLocator' => 3,
+      'setFormCollectionHelper' => 0,
+      'setFormRowHelper' => 0,
+      'setFormElementHelper' => 0,
+      'setTranslatorTextDomain' => 0,
+      'setCache' => 0,
+      'setEventManager' => 3,
+      'setFilterPluginManager' => 0,
+      'setVars' => 0,
+      'setVarTranslator' => 0,
+      'setTranslationPrototype' => 0,
+      'setInstructionsPrototype' => 0,
+      'setView' => 0,
+      'getEventManager' => 3,
+      'getServiceLocator' => 3,
     ),
     'parameters' => 
     array (
@@ -1793,7 +1793,7 @@ return array (
     'instantiator' => NULL,
     'methods' => 
     array (
-      'setVars' => false,
+      'setVars' => 0,
     ),
     'parameters' => 
     array (
@@ -1833,16 +1833,16 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
-      'setCache' => false,
-      'setEvent' => false,
-      'setEventManager' => true,
-      'setFilterPluginManager' => false,
-      'setVars' => false,
-      'setVarTranslator' => false,
-      'setTranslationPrototype' => false,
-      'setInstructionsPrototype' => false,
-      'setView' => false,
-      'getEventManager' => true,
+      'setCache' => 0,
+      'setEvent' => 0,
+      'setEventManager' => 3,
+      'setFilterPluginManager' => 0,
+      'setVars' => 0,
+      'setVarTranslator' => 0,
+      'setTranslationPrototype' => 0,
+      'setInstructionsPrototype' => 0,
+      'setView' => 0,
+      'getEventManager' => 3,
     ),
     'parameters' => 
     array (
@@ -1962,16 +1962,16 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
-      'setCache' => false,
-      'setEvent' => false,
-      'setEventManager' => true,
-      'setFilterPluginManager' => false,
-      'setVars' => false,
-      'setVarTranslator' => false,
-      'setTranslationPrototype' => false,
-      'setInstructionsPrototype' => false,
-      'setView' => false,
-      'getEventManager' => true,
+      'setCache' => 0,
+      'setEvent' => 0,
+      'setEventManager' => 3,
+      'setFilterPluginManager' => 0,
+      'setVars' => 0,
+      'setVarTranslator' => 0,
+      'setTranslationPrototype' => 0,
+      'setInstructionsPrototype' => 0,
+      'setView' => 0,
+      'getEventManager' => 3,
     ),
     'parameters' => 
     array (
@@ -2081,16 +2081,16 @@ return array (
     'instantiator' => NULL,
     'methods' => 
     array (
-      'setCache' => false,
-      'setEvent' => false,
-      'setEventManager' => true,
-      'setFilterPluginManager' => false,
-      'setVars' => false,
-      'setVarTranslator' => false,
-      'setTranslationPrototype' => false,
-      'setInstructionsPrototype' => false,
-      'setView' => false,
-      'getEventManager' => true,
+      'setCache' => 0,
+      'setEvent' => 0,
+      'setEventManager' => 3,
+      'setFilterPluginManager' => 0,
+      'setVars' => 0,
+      'setVarTranslator' => 0,
+      'setTranslationPrototype' => 0,
+      'setInstructionsPrototype' => 0,
+      'setView' => 0,
+      'getEventManager' => 3,
     ),
     'parameters' => 
     array (
@@ -2199,8 +2199,8 @@ return array (
     'instantiator' => NULL,
     'methods' => 
     array (
-      '__construct' => true,
-      'setContentPlaceholders' => false,
+      '__construct' => 3,
+      'setContentPlaceholders' => 0,
     ),
     'parameters' => 
     array (
@@ -2243,11 +2243,11 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
-      '__construct' => true,
-      'setEvent' => false,
-      'setEventManager' => true,
-      'setContentPlaceholders' => false,
-      'getEventManager' => true,
+      '__construct' => 3,
+      'setEvent' => 0,
+      'setEventManager' => 3,
+      'setContentPlaceholders' => 0,
+      'getEventManager' => 3,
     ),
     'parameters' => 
     array (
@@ -2308,8 +2308,8 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
-      '__construct' => true,
-      'setContentPlaceholders' => false,
+      '__construct' => 3,
+      'setContentPlaceholders' => 0,
     ),
     'parameters' => 
     array (
@@ -2354,10 +2354,10 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
-      '__construct' => true,
-      'setTransformator' => false,
-      'setFlags' => false,
-      'setIteratorClass' => false,
+      '__construct' => 3,
+      'setTransformator' => 0,
+      'setFlags' => 0,
+      'setIteratorClass' => 0,
     ),
     'parameters' => 
     array (
@@ -2413,13 +2413,13 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
-      '__construct' => true,
-      'setNodes' => false,
-      'setEscapeHtml' => false,
-      'setLocator' => false,
-      'setValue' => false,
-      'setHtml' => false,
-      'setAttribs' => false,
+      '__construct' => 3,
+      'setNodes' => 0,
+      'setEscapeHtml' => 0,
+      'setLocator' => 0,
+      'setValue' => 0,
+      'setHtml' => 0,
+      'setAttribs' => 0,
     ),
     'parameters' => 
     array (
@@ -2526,15 +2526,15 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
-      '__construct' => true,
-      'setAttribute' => false,
-      'setAttributeNode' => false,
-      'setAttributeNS' => false,
-      'setAttributeNodeNS' => false,
-      'setIdAttribute' => false,
-      'setIdAttributeNS' => false,
-      'setIdAttributeNode' => false,
-      'setUserData' => false,
+      '__construct' => 3,
+      'setAttribute' => 0,
+      'setAttributeNode' => 0,
+      'setAttributeNS' => 0,
+      'setAttributeNodeNS' => 0,
+      'setIdAttribute' => 0,
+      'setIdAttributeNS' => 0,
+      'setIdAttributeNode' => 0,
+      'setUserData' => 0,
     ),
     'parameters' => 
     array (
@@ -2781,10 +2781,10 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
-      '__construct' => true,
-      'setStrategyFactory' => false,
-      'setFlags' => false,
-      'setIteratorClass' => false,
+      '__construct' => 3,
+      'setStrategyFactory' => 0,
+      'setFlags' => 0,
+      'setIteratorClass' => 0,
     ),
     'parameters' => 
     array (
@@ -2841,12 +2841,12 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
-      '__construct' => true,
-      'setInstructions' => false,
-      'setInstructionSet' => false,
-      'setAjaxContainerXpath' => false,
-      'setAjaxFragmentXpath' => false,
-      'setFromArray' => false,
+      '__construct' => 3,
+      'setInstructions' => 0,
+      'setInstructionSet' => 0,
+      'setAjaxContainerXpath' => 0,
+      'setAjaxFragmentXpath' => 0,
+      'setFromArray' => 0,
     ),
     'parameters' => 
     array (

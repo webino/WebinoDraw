@@ -24,7 +24,7 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": "2.2.0rc2"
+        "zendframework/zendframework": "2.*"
     },
     "require-dev": {
         "webino/zf2nette-debug" : "1.*",
