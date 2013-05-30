@@ -289,7 +289,7 @@ class VarTranslator
                         $results[$key] = null;
 
                     // join helper result
-                    $results[$key].= (string) $plugin;
+                    $results[$key].= $plugin;
                 }
             }
         }
