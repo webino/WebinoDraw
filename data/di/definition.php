@@ -598,7 +598,6 @@ return array (
     array (
       0 => 'Zend\\ModuleManager\\Feature\\AutoloaderProviderInterface',
       1 => 'Zend\\ModuleManager\\Feature\\ConfigProviderInterface',
-      2 => 'Zend\\ModuleManager\\Feature\\ViewHelperProviderInterface',
     ),
     'instantiator' => '__construct',
     'methods' => 
@@ -1135,6 +1134,20 @@ return array (
     array (
     ),
   ),
+  'WebinoDraw\\Mvc\\Service\\ServiceViewHelperFactory' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'Zend\\ServiceManager\\FactoryInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+    ),
+    'parameters' => 
+    array (
+    ),
+  ),
   'WebinoDraw\\Mvc\\Service\\WebinoDrawFactory' => 
   array (
     'supertypes' => 
@@ -1595,6 +1608,153 @@ return array (
       'setView' => 
       array (
         'WebinoDraw\\View\\Helper\\AbstractDrawElement::setView:0' => 
+        array (
+          0 => 'view',
+          1 => 'Zend\\View\\Renderer\\RendererInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\View\\Helper\\DrawPagination' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'Zend\\EventManager\\EventsCapableInterface',
+      1 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      2 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
+      3 => 'Zend\\View\\Helper\\HelperInterface',
+      4 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
+      5 => 'WebinoDraw\\View\\Helper\\DrawElement',
+      6 => 'Zend\\View\\Helper\\HelperInterface',
+      7 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
+      8 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      9 => 'Zend\\EventManager\\EventsCapableInterface',
+      10 => 'WebinoDraw\\View\\Helper\\AbstractDrawElement',
+      11 => 'Zend\\EventManager\\EventsCapableInterface',
+      12 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      13 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
+      14 => 'Zend\\View\\Helper\\HelperInterface',
+      15 => 'WebinoDraw\\View\\Helper\\AbstractDrawHelper',
+      16 => 'Zend\\View\\Helper\\HelperInterface',
+      17 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
+      18 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      19 => 'Zend\\EventManager\\EventsCapableInterface',
+      20 => 'Zend\\View\\Helper\\AbstractHelper',
+      21 => 'Zend\\View\\Helper\\HelperInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      'setServiceLocator' => 3,
+      'setCache' => 0,
+      'setEvent' => 0,
+      'setEventManager' => 3,
+      'setFilterPluginManager' => 0,
+      'setVars' => 0,
+      'setVarTranslator' => 0,
+      'setTranslationPrototype' => 0,
+      'setInstructionsPrototype' => 0,
+      'setView' => 0,
+      'getEventManager' => 3,
+      'getServiceLocator' => 3,
+    ),
+    'parameters' => 
+    array (
+      'setServiceLocator' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawPagination::setServiceLocator:0' => 
+        array (
+          0 => 'serviceLocator',
+          1 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setCache' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawPagination::setCache:0' => 
+        array (
+          0 => 'cache',
+          1 => 'Zend\\Cache\\Storage\\StorageInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEvent' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawPagination::setEvent:0' => 
+        array (
+          0 => 'event',
+          1 => 'WebinoDraw\\DrawEvent',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEventManager' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawPagination::setEventManager:0' => 
+        array (
+          0 => 'eventManager',
+          1 => 'Zend\\EventManager\\EventManagerInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setFilterPluginManager' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawPagination::setFilterPluginManager:0' => 
+        array (
+          0 => 'filterManager',
+          1 => 'Zend\\Filter\\FilterPluginManager',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setVars' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawPagination::setVars:0' => 
+        array (
+          0 => 'vars',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setVarTranslator' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawPagination::setVarTranslator:0' => 
+        array (
+          0 => 'varTranslator',
+          1 => 'WebinoDraw\\Stdlib\\VarTranslator',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setTranslationPrototype' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawPagination::setTranslationPrototype:0' => 
+        array (
+          0 => 'translationPrototype',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setInstructionsPrototype' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawPagination::setInstructionsPrototype:0' => 
+        array (
+          0 => 'instructionsPrototype',
+          1 => 'WebinoDraw\\Stdlib\\DrawInstructions',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setView' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawPagination::setView:0' => 
         array (
           0 => 'view',
           1 => 'Zend\\View\\Renderer\\RendererInterface',

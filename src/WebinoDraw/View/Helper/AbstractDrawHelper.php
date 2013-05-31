@@ -171,7 +171,8 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     public function getFilterPluginManager()
     {
         if (null === $this->filterPluginManager) {
-            $this->setFilterPluginManager(StaticFilter::getPluginManager());
+            throw new \Exception('Expected filter plugin manager');
+//            $this->setFilterPluginManager(StaticFilter::getPluginManager());
         }
 
         return $this->filterPluginManager;

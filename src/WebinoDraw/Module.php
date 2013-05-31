@@ -10,20 +10,15 @@
 
 namespace WebinoDraw;
 
-use WebinoDraw\View\Helper\DrawElement;
-use WebinoDraw\View\Helper\DrawForm;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
-use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
-use Zend\View\HelperPluginManager;
 
 /**
  *
  */
 class Module implements
     AutoloaderProviderInterface,
-    ConfigProviderInterface,
-    ViewHelperProviderInterface
+    ConfigProviderInterface
 {
     /**
      * @return array
@@ -46,35 +41,6 @@ class Module implements
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__ . '/../../src/' . __NAMESPACE__,
                 ),
-            ),
-        );
-    }
-
-    /**
-     * @return array
-     */
-    public function getViewHelperConfig()
-    {
-        return array(
-            'factories' => array(
-
-                'WebinoDrawElement' => function(HelperPluginManager $pluginManager) {
-
-                    $helper = new DrawElement;
-                    $cache  = $pluginManager->getServiceLocator()->get('WebinoDrawCache');
-                    $helper->setCache($cache);
-
-                    return $helper;
-                },
-
-                'WebinoDrawForm' => function(HelperPluginManager $pluginManager) {
-
-                    $helper = new DrawForm;
-                    $cache  = $pluginManager->getServiceLocator()->get('WebinoDrawCache');
-                    $helper->setCache($cache);
-
-                    return $helper;
-                },
             ),
         );
     }

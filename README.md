@@ -621,6 +621,7 @@
   - Add DrawResized to resize images
   - Add debug profiler
   - Write tests for draw form and new features (events + sub-instructions + ajax + cache)
+  - Write tests + manual for DrawPagination
 
 ## Addendum
 

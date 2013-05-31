@@ -7,10 +7,40 @@ return array(
                 __DIR__ . '/../data/di/definition.php',
                 __DIR__ . '/../data/di/DiForm.definition.php',
             ),
+            'class' => array(
+                'WebinoDraw\View\Helper\DrawForm' => array(
+                    'methods' => array(
+                        'setTranslatorTextDomain' => array(
+                            'textDomain' => array('default' => null),
+                        ),
+                    ),
+                ),
+            ),
         ),
         'instance' => array(
             'alias' => array(
+                'WebinoDrawElement' => 'WebinoDraw\View\Helper\DrawElement',
+                'WebinoDrawForm' => 'WebinoDraw\View\Helper\DrawForm',
+                'WebinoDrawPagination' => 'WebinoDraw\View\Helper\DrawPagination',
                 'WebinoDrawCache' => 'Zend\Cache\Storage\Adapter\Filesystem',
+            ),
+            'WebinoDrawElement' => array(
+                'injections' => array(
+                    'FilterManager',
+                    'WebinoDrawCache',
+                ),
+            ),
+            'WebinoDrawForm' => array(
+                'injections' => array(
+                    'FilterManager',
+                    'WebinoDrawCache',
+                ),
+            ),
+            'WebinoDrawPagination' => array(
+                'injections' => array(
+                    'FilterManager',
+                    'WebinoDrawCache',
+                ),
             ),
             'WebinoDrawCache' => array(
                 'parameters' => array(
@@ -29,6 +59,11 @@ return array(
         ),
     ),
     'view_helpers' => array(
+        'factories' => array(
+            'WebinoDrawElement' => 'WebinoDraw\Mvc\Service\ServiceViewHelperFactory',
+            'WebinoDrawForm' => 'WebinoDraw\Mvc\Service\ServiceViewHelperFactory',
+            'WebinoDrawPagination' => 'WebinoDraw\Mvc\Service\ServiceViewHelperFactory',
+        ),
         'invokables' => array(
             'WebinoDrawAbsolutize' => 'WebinoDraw\View\Helper\DrawAbsolutize',
             'WebinoDrawFormRow' => 'WebinoDraw\Form\View\Helper\FormRow',
@@ -38,5 +73,8 @@ return array(
     'view_manager' => array(
         'doctype' => 'XHTML5', // !!!XML REQUIRED
         'strategies' => array('WebinoDrawStrategy'),
+        'template_map' => array(
+            'webino-draw/snippet/pagination' => __DIR__ . '/../view/webino-draw/snippet/pagination.html',
+        ),
     ),
 );
