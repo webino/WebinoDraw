@@ -13,6 +13,9 @@ return array(
                         'setTranslatorTextDomain' => array(
                             'textDomain' => array('default' => null),
                         ),
+                        'setRenderErrors' => array(
+                            'bool' => array('default' => null),
+                        ),
                     ),
                 ),
             ),

@@ -46,6 +46,14 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
      */
     protected $formElementHelper;
 
+    public function getView()
+    {
+        if (null === $this->view) {
+            throw new \RuntimeException('Expected view');
+        }
+        return $this->view;
+    }
+
     /**
      * Get the attached event
      *
