@@ -182,6 +182,12 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
         return $this;
     }
 
+    public function setRenderErrors($bool = true)
+    {
+        $this->getFormRowHelper()->setRenderErrors($bool);
+        return $this;
+    }
+
     /**
      * @param array $spec
      * @return FormInterface
@@ -274,6 +280,9 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
             or $spec['text_domain'] = 'default';
 
         $this->setTranslatorTextDomain($spec['text_domain']);
+
+        !array_key_exists('render_errors', $spec) or
+                $this->setRenderErrors($spec['render_errors']);
 
         $translation = $this->cloneTranslationPrototype($this->getVars());
 

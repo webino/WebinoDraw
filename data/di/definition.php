@@ -1790,6 +1790,7 @@ return array (
       'setFormRowHelper' => 0,
       'setFormElementHelper' => 0,
       'setTranslatorTextDomain' => 0,
+      'setRenderErrors' => 0,
       'setCache' => 0,
       'setEventManager' => 3,
       'setFilterPluginManager' => 0,
@@ -1861,6 +1862,16 @@ return array (
           1 => NULL,
           2 => false,
           3 => 'default',
+        ),
+      ),
+      'setRenderErrors' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawForm::setRenderErrors:0' => 
+        array (
+          0 => 'bool',
+          1 => NULL,
+          2 => false,
+          3 => true,
         ),
       ),
       'setCache' => 
