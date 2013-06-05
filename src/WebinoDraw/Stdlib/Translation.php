@@ -51,6 +51,10 @@ class Translation extends ArrayObject implements
      */
     public function merge(array $array)
     {
+        if (empty($array)) {
+            return $this;
+        }
+
         $this->exchangeArray(
             array_merge(
                 $this->getArrayCopy(),

@@ -10,6 +10,8 @@
 
 namespace WebinoDraw\View\Helper;
 
+use ArrayAccess;
+use DOMNode;
 use WebinoDraw\Dom\Element;
 
 /**
@@ -23,11 +25,9 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
      * @param array $spec
      * @return Closure
      */
-    public function createValuePreSet(array $spec)
+    public function createValuePreSet(array $spec, ArrayAccess $translation)
     {
-        $translation   = clone $this->getTranslationPrototype();
-        $varTranslator = $this->getVarTranslator();
-        $helper        = $this;
+        $helper = $this;
 
         return function (
             Element $node,
@@ -35,27 +35,9 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
         ) use (
             $helper,
             $spec,
-            $translation,
-            $varTranslator
+            $translation
         ) {
-
-            $nodeTranslation = $helper->nodeTranslation($node);
-
-            empty($spec['var']['default']) or
-                $varTranslator->translationDefaults(
-                    $nodeTranslation,
-                    $spec['var']['default']
-                );
-
-            $helper->applyVarTranslator($nodeTranslation, $spec);
-
-            $translation->merge(
-                $varTranslator
-                    ->makeVarKeys($nodeTranslation)
-                    ->getArrayCopy()
-            );
-
-            return $varTranslator->translateString($value, $translation);
+            return $helper->translatePreSet($node, $value, $spec, $translation);
         };
     }
 
@@ -66,9 +48,8 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
      * @param array $spec
      * @return Closure
      */
-    public function createHtmlPreSet($subject, array $spec)
+    public function createHtmlPreSet($subject, array $spec, ArrayAccess $translation)
     {
-        $translation   = clone $this->getTranslationPrototype();
         $varTranslator = $this->getVarTranslator();
         $helper        = $this;
         $nodeHtmlKey   = self::EXTRA_VAR_PREFIX . 'html';
@@ -96,15 +77,16 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
             (false === strpos($subject, $nodeHtmlKey)) or
                 $nodeTranslation[$nodeHtmlKey] = $node->getInnerHtml();
 
-            $helper->applyVarTranslator($nodeTranslation, $spec);
-
             $translation->merge(
-                $varTranslator
-                    ->makeVarKeys($nodeTranslation)
-                    ->getArrayCopy()
+                $nodeTranslation->getArrayCopy()
             );
 
-            return $varTranslator->translateString($value, $translation);
+            $translatedValue = $varTranslator->translateString(
+                $value,
+                $varTranslator->makeVarKeys($translation)
+            );
+
+            return $translatedValue;
         };
     }
 
@@ -114,9 +96,8 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
      * @param array $spec
      * @return Closure
      */
-    public function createAttribsPreSet(array $spec)
+    public function createAttribsPreSet(array $spec, ArrayAccess $translation)
     {
-        $translation   = clone $this->getTranslationPrototype();
         $varTranslator = $this->getVarTranslator();
         $helper        = $this;
 
@@ -129,29 +110,51 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
             $translation,
             $varTranslator
         ) {
-            $nodeTranslation = $helper->nodeTranslation($node);
+            $translatedValue = $helper->translatePreSet($node, $value, $spec, $translation);
 
-            empty($spec['var']['default']) or
-                $varTranslator->translationDefaults(
-                    $nodeTranslation,
-                    $spec['var']['default']
-                );
+            if (!$varTranslator->containsVar($translatedValue)) {
+                return $translatedValue;
+            }
+            return null;
+        };
+    }
 
-            $helper->applyVarTranslator($nodeTranslation, $spec);
+    /**
+     * @param DOMNode $node
+     * @param string $value
+     * @param array $spec
+     * @param ArrayAccess $translation
+     * @return type
+     */
+    public function translatePreSet(DOMNode $node, $value, array &$spec, ArrayAccess $translation)
+    {
+        $varTranslator   = $this->getVarTranslator();
+        $nodeTranslation = $this->nodeTranslation($node);
 
-            $translation->merge(
-                $varTranslator
-                    ->makeVarKeys($nodeTranslation)
-                    ->getArrayCopy()
+        empty($spec['var']['default']) or
+            $varTranslator->translationDefaults(
+                $nodeTranslation,
+                $spec['var']['default']
             );
 
-            $value = $varTranslator->translateString($value, $translation);
+        $this->applyVarTranslator($nodeTranslation, $spec);
 
-            if ($varTranslator->containsVar($value)) {
-                $value = null;
-            }
+        $translation->merge(
+            $nodeTranslation->getArrayCopy()
+        );
 
-            return $value;
-        };
+        $varTranslator->translate(
+            $spec,
+            $varTranslator->makeVarKeys($translation)
+        );
+
+        $this->applyVarTranslator($translation, $spec);
+
+        $translatedValue = $varTranslator->translateString(
+            $value,
+            $varTranslator->makeVarKeys($translation)
+        );
+
+        return $translatedValue;
     }
 }

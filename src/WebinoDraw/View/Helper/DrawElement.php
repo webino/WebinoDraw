@@ -93,25 +93,28 @@ class DrawElement extends AbstractDrawElement
      */
     protected function manipulateNodes(NodeList $nodes, array $spec, ArrayAccess $translation)
     {
-        $_spec = $this->translateSpec($spec, $translation);
+        $translatedSpec = $this->translateSpec($spec, $translation);
 
-        !array_key_exists('remove', $_spec) or
-            $nodes->remove($_spec['remove']);
+        empty($spec['render']) or
+            $this->render($translation, $spec['render']);
 
-        !array_key_exists('replace', $_spec) or
-            $this->replace($nodes, $_spec);
+        !array_key_exists('remove', $translatedSpec) or
+            $nodes->remove($translatedSpec['remove']);
 
-        !array_key_exists('attribs', $_spec) or
-            $this->setAttribs($nodes, $_spec);
+        !array_key_exists('replace', $spec) or
+            $this->replace($nodes, $spec, clone $translation);
 
-        !array_key_exists('value', $_spec) or
-            $this->setValue($nodes, $_spec);
+        !array_key_exists('attribs', $spec) or
+            $this->setAttribs($nodes, $spec, clone $translation);
 
-        !array_key_exists('html', $_spec) or
-            $this->setHtml($nodes, $_spec);
+        !array_key_exists('value', $spec) or
+            $this->setValue($nodes, $spec, clone $translation);
 
-        !array_key_exists('onEmpty', $_spec) or
-            $this->onEmpty($nodes, $_spec['onEmpty']);
+        !array_key_exists('html', $spec) or
+            $this->setHtml($nodes, $spec, clone $translation);
+
+        !array_key_exists('onEmpty', $translatedSpec) or
+            $this->onEmpty($nodes, $translatedSpec['onEmpty']);
 
         return $this;
     }
@@ -121,7 +124,7 @@ class DrawElement extends AbstractDrawElement
      *
      * @param NodeList $nodes
      * @param array $spec
-     * @param array $translation
+     * @param ArrayFetchInterface $translation
      * @return DrawElement
      */
     protected function loop(NodeList $nodes, array $spec, ArrayFetchInterface $translation)
@@ -181,7 +184,7 @@ class DrawElement extends AbstractDrawElement
 
                 $item[self::EXTRA_VAR_PREFIX . 'key']   = (string) $key;
                 $item[self::EXTRA_VAR_PREFIX . 'index'] = (string) $index;
-                
+
                 $newNode          = clone $nodeClone;
                 $newNodeList      = $nodes->createNodeList(array($newNode));
                 $localTranslation = clone $translation;
@@ -221,13 +224,14 @@ class DrawElement extends AbstractDrawElement
      *
      * @param NodeList $nodes
      * @param array $spec
+     * @param ArrayAccess $translation
      * @return DrawElement
      */
-    protected function setValue(NodeList $nodes, array $spec)
+    protected function setValue(NodeList $nodes, array $spec, ArrayAccess $translation)
     {
         $nodes->setValue(
             $spec['value'],
-            $this->createValuePreSet($spec)
+            $this->createValuePreSet($spec, $translation)
         );
         return $this;
     }
@@ -237,9 +241,10 @@ class DrawElement extends AbstractDrawElement
      *
      * @param NodeList $nodes
      * @param array $spec
+     * @param ArrayAccess $translation
      * @return DrawElement
      */
-    protected function setHtml(NodeList $nodes, array $spec)
+    protected function setHtml(NodeList $nodes, array $spec, ArrayAccess $translation)
     {
         if (empty($spec['html'])) {
             return $this;
@@ -247,7 +252,7 @@ class DrawElement extends AbstractDrawElement
 
         $nodes->setHtml(
             $spec['html'],
-            $this->createHtmlPreSet($spec['html'], $spec)
+            $this->createHtmlPreSet($spec['html'], $spec, $translation)
         );
         return $this;
     }
@@ -257,13 +262,14 @@ class DrawElement extends AbstractDrawElement
      *
      * @param NodeList $nodes
      * @param array $spec
+     * @param ArrayAccess $translation
      * @return DrawElement
      */
-    protected function setAttribs(NodeList $nodes, array $spec)
+    protected function setAttribs(NodeList $nodes, array $spec, ArrayAccess $translation)
     {
         $nodes->setAttribs(
             $spec['attribs'],
-            $this->createAttribsPreSet($spec)
+            $this->createAttribsPreSet($spec, $translation)
         );
         return $this;
     }
@@ -296,9 +302,10 @@ class DrawElement extends AbstractDrawElement
      *
      * @param NodeList $nodes
      * @param array $spec
+     * @param ArrayAccess $translation
      * @return DrawElement
      */
-    protected function replace(NodeList $nodes, array $spec)
+    protected function replace(NodeList $nodes, array $spec, ArrayAccess $translation)
     {
         if (empty($spec['replace'])) {
             throw new \UnexpectedValueException('Expected $spec[replace]');
@@ -321,7 +328,7 @@ class DrawElement extends AbstractDrawElement
 
             $newNodes->replace(
                 $spec['replace'],
-                $this->createHtmlPreSet($spec['replace'], $spec)
+                $this->createHtmlPreSet($spec['replace'], $spec, $translation)
             );
 
             $subspec = $spec;
@@ -358,13 +365,9 @@ class DrawElement extends AbstractDrawElement
      */
     protected function translateSpec(array $spec, ArrayAccess $translation)
     {
-        $varTranslator = $this->getVarTranslator();
-
-        empty($spec['render']) or
-            $this->render($translation, $spec['render']);
-
         $this->applyVarTranslator($translation, $spec);
 
+        $varTranslator = $this->getVarTranslator();
         $varTranslator->translate(
             $spec,
             $varTranslator->makeVarKeys($translation)

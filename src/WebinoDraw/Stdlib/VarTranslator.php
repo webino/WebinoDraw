@@ -81,23 +81,23 @@ class VarTranslator
      * If $str = {$var} and translation has item with key {$var} = array,
      * immediately return this array.
      *
-     * @param string $string
+     * @param string $str
      * @param ArrayAccess $translation
      * @return mixed
      */
-    public function translateString($string, ArrayAccess $translation)
+    public function translateString($str, ArrayAccess $translation)
     {
-        if (!is_string($string)) {
-            return $string;
+        if (!is_string($str)) {
+            return $str;
         }
 
         $pattern = str_replace('%s', '[^\}]+', preg_quote(self::VAR_PATTERN));
         $match   = array();
 
-        preg_match_all('~' . $pattern . '~', $string, $match);
+        preg_match_all('~' . $pattern . '~', $str, $match);
 
         if (empty($match[0])) {
-            return $string;
+            return $str;
         }
 
         foreach ($match[0] as $key) {
@@ -111,11 +111,11 @@ class VarTranslator
                     return $translation[$key];
                 }
 
-                $string = str_replace($key, $translation[$key], $string);
+                $str = str_replace($key, $translation[$key], $str);
             }
         }
 
-        return $string;
+        return $str;
     }
 
     /**
@@ -339,6 +339,11 @@ class VarTranslator
                         $options,
                         $this->makeVarKeys($translation)
                     );
+
+                    if (empty($options[0])) {
+                        $translation[$key] = '';
+                        continue;
+                    }
 
                     if (empty($options[1])) {
                         $options[1] = array();
