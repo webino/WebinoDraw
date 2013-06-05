@@ -77,16 +77,15 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
             (false === strpos($subject, $nodeHtmlKey)) or
                 $nodeTranslation[$nodeHtmlKey] = $node->getInnerHtml();
 
-            $translation->merge(
-                $nodeTranslation->getArrayCopy()
-            );
-
             $translatedValue = $varTranslator->translateString(
                 $value,
                 $varTranslator->makeVarKeys($translation)
             );
 
-            return $translatedValue;
+            return $varTranslator->translateString(
+                $translatedValue,
+                $varTranslator->makeVarKeys($nodeTranslation)
+            );
         };
     }
 
