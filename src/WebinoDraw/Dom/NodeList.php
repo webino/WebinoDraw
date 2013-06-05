@@ -193,6 +193,10 @@ class NodeList implements IteratorAggregate
 
             $node->nodeValue = '';
 
+            if (empty($nodeXhtml)) {
+                continue;
+            }
+
             $frag = $node->ownerDocument->createDocumentFragment();
             $frag->appendXml($nodeXhtml);
 
