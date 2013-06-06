@@ -111,10 +111,10 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
         ) {
             $translatedValue = $helper->translatePreSet($node, $value, $spec, $translation);
 
-            if (!$varTranslator->containsVar($translatedValue)) {
-                return $translatedValue;
+            if ($varTranslator->containsVar($translatedValue)) {
+                return $varTranslator->removeVars($translatedValue);
             }
-            return null;
+            return $translatedValue;
         };
     }
 
