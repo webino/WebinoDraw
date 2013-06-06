@@ -32,6 +32,18 @@ class VarTranslator
      */
     const VAR_PATTERN = '{$%s}';
 
+
+    /**
+     * Match {$var} regular pattern
+     *
+     * @return string
+     */
+    protected function createVarPregPattern()
+    {
+        $pattern = str_replace('%s', '[^\}]+', preg_quote(self::VAR_PATTERN));
+        return '~' . $pattern . '~';
+    }
+
     /**
      * Transform varname into {$varname}.
      *
@@ -51,9 +63,19 @@ class VarTranslator
      */
     public function containsVar($string)
     {
-        $pattern = str_replace('%s', '[^\}]+', preg_quote(self::VAR_PATTERN));
+        return (bool) preg_match($this->createVarPregPattern(), $string);
+    }
 
-        return (bool) preg_match('~' . $pattern . '~', $string);
+    /**
+     * Remove vars from string
+     *
+     * @param string $string
+     * @return bool
+     */
+    public function removeVars($string)
+    {
+        $sanitized = preg_replace($this->createVarPregPattern(), '', $string);
+        return trim($sanitized);
     }
 
     /**
@@ -91,10 +113,8 @@ class VarTranslator
             return $str;
         }
 
-        $pattern = str_replace('%s', '[^\}]+', preg_quote(self::VAR_PATTERN));
-        $match   = array();
-
-        preg_match_all('~' . $pattern . '~', $str, $match);
+        $match = array();
+        preg_match_all($this->createVarPregPattern(), $str, $match);
 
         if (empty($match[0])) {
             return $str;
