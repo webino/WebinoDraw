@@ -43,7 +43,7 @@ class DrawTranslate extends DrawElement
             if (empty($varValue)) {
                 return '';
             }
-            return $helper->view->translate($varValue, $textDomain);
+            return $helper->getView()->translate($varValue, $textDomain);
         };
     }
 
@@ -73,7 +73,7 @@ class DrawTranslate extends DrawElement
             if (empty($varValue)) {
                 return '';
             }
-            return $helper->view->translate($varValue, $textDomain);
+            return $helper->getView()->translate($varValue, $textDomain);
         };
     }
 
