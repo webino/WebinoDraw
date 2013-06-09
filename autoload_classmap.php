@@ -28,6 +28,7 @@ return array(
     'WebinoDraw\Stdlib\Translation'                    => __DIR__ . '/src/WebinoDraw/Stdlib/Translation.php',
     'WebinoDraw\Stdlib\VarTranslator'                  => __DIR__ . '/src/WebinoDraw/Stdlib/VarTranslator.php',
     'WebinoDraw\View\Helper\AbstractDrawElement'       => __DIR__ . '/src/WebinoDraw/View/Helper/AbstractDrawElement.php',
+    'WebinoDraw\View\Helper\DrawTranslate'             => __DIR__ . '/src/WebinoDraw/View/Helper/DrawTranslate.php',
     'WebinoDraw\View\Helper\DrawPagination'            => __DIR__ . '/src/WebinoDraw/View/Helper/DrawPagination.php',
     'WebinoDraw\View\Helper\DrawForm'                  => __DIR__ . '/src/WebinoDraw/View/Helper/DrawForm.php',
     'WebinoDraw\View\Helper\DrawHelperInterface'       => __DIR__ . '/src/WebinoDraw/View/Helper/DrawHelperInterface.php',

@@ -37,7 +37,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
             $spec,
             $translation
         ) {
-            return $helper->translatePreSet($node, $value, $spec, $translation);
+            return $helper->translatePreSet($node, $value, $spec, clone $translation);
         };
     }
 
@@ -109,12 +109,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
             $translation,
             $varTranslator
         ) {
-            $translatedValue = $helper->translatePreSet($node, $value, $spec, $translation);
-
-            if ($varTranslator->containsVar($translatedValue)) {
-                return $varTranslator->removeVars($translatedValue);
-            }
-            return $translatedValue;
+            return $helper->translatePreSet($node, $value, $spec, clone $translation);
         };
     }
 
@@ -154,6 +149,9 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
             $varTranslator->makeVarKeys($translation)
         );
 
+        if ($varTranslator->containsVar($translatedValue)) {
+            return $varTranslator->removeVars($translatedValue);
+        }
         return $translatedValue;
     }
 }

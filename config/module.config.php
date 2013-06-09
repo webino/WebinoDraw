@@ -69,6 +69,7 @@ return array(
         ),
         'invokables' => array(
             'WebinoDrawAbsolutize' => 'WebinoDraw\View\Helper\DrawAbsolutize',
+            'WebinoDrawTranslate' => 'WebinoDraw\View\Helper\DrawTranslate',
             'WebinoDrawFormRow' => 'WebinoDraw\Form\View\Helper\FormRow',
             'WebinoDrawFormElement' => 'WebinoDraw\Form\View\Helper\FormElement',
         ),

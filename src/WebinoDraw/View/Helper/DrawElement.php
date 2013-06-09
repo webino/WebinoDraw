@@ -102,16 +102,16 @@ class DrawElement extends AbstractDrawElement
             $nodes->remove($translatedSpec['remove']);
 
         !array_key_exists('replace', $spec) or
-            $this->replace($nodes, $spec, clone $translation);
+            $this->replace($nodes, $spec, $translation);
 
         !array_key_exists('attribs', $spec) or
-            $this->setAttribs($nodes, $spec, clone $translation);
+            $this->setAttribs($nodes, $spec, $translation);
 
         !array_key_exists('value', $spec) or
-            $this->setValue($nodes, $spec, clone $translation);
+            $this->setValue($nodes, $spec, $translation);
 
         !array_key_exists('html', $spec) or
-            $this->setHtml($nodes, $spec, clone $translation);
+            $this->setHtml($nodes, $spec, $translation);
 
         !array_key_exists('onEmpty', $translatedSpec) or
             $this->onEmpty($nodes, $translatedSpec['onEmpty']);

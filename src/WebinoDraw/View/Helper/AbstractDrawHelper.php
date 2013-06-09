@@ -22,7 +22,6 @@ use Zend\EventManager\EventManager;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Filter\FilterPluginManager;
-use Zend\Filter\StaticFilter;
 use Zend\View\Helper\AbstractHelper;
 use Zend\Cache\StorageFactory as CacheStorage;
 use Zend\Cache\Storage\StorageInterface as CacheStorageInterface;
@@ -171,10 +170,8 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     public function getFilterPluginManager()
     {
         if (null === $this->filterPluginManager) {
-            throw new \Exception('Expected filter plugin manager');
-//            $this->setFilterPluginManager(StaticFilter::getPluginManager());
+            throw new \RuntimeException('Expected filter plugin manager');
         }
-
         return $this->filterPluginManager;
     }
 

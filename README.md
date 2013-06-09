@@ -622,6 +622,7 @@
   - Add debug profiler
   - Write tests for draw form and new features (events + sub-instructions + ajax + cache)
   - Write tests + manual for DrawPagination
+  - Write tests + manual for DrawTranslate
 
 ## Addendum
 
