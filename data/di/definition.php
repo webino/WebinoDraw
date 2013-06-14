@@ -298,6 +298,153 @@ return array (
       ),
     ),
   ),
+  'WebinoDraw\\Form\\View\\Helper\\FormCollection' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'Zend\\I18n\\Translator\\TranslatorAwareInterface',
+      1 => 'Zend\\View\\Helper\\HelperInterface',
+      2 => 'Zend\\Form\\View\\Helper\\FormCollection',
+      3 => 'Zend\\View\\Helper\\HelperInterface',
+      4 => 'Zend\\I18n\\Translator\\TranslatorAwareInterface',
+      5 => 'Zend\\Form\\View\\Helper\\AbstractHelper',
+      6 => 'Zend\\I18n\\Translator\\TranslatorAwareInterface',
+      7 => 'Zend\\View\\Helper\\HelperInterface',
+      8 => 'Zend\\I18n\\View\\Helper\\AbstractTranslatorHelper',
+      9 => 'Zend\\View\\Helper\\HelperInterface',
+      10 => 'Zend\\I18n\\Translator\\TranslatorAwareInterface',
+      11 => 'Zend\\View\\Helper\\AbstractHelper',
+      12 => 'Zend\\View\\Helper\\HelperInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      'setShouldWrap' => 0,
+      'setDefaultElementHelper' => 0,
+      'setElementHelper' => 0,
+      'setFieldsetHelper' => 0,
+      'setDoctype' => 0,
+      'setEncoding' => 0,
+      'setTranslator' => 3,
+      'setTranslatorEnabled' => 3,
+      'setTranslatorTextDomain' => 3,
+      'setView' => 0,
+      'getTranslator' => 3,
+      'hasTranslator' => 3,
+      'isTranslatorEnabled' => 3,
+      'getTranslatorTextDomain' => 3,
+    ),
+    'parameters' => 
+    array (
+      'setShouldWrap' => 
+      array (
+        'WebinoDraw\\Form\\View\\Helper\\FormCollection::setShouldWrap:0' => 
+        array (
+          0 => 'wrap',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setDefaultElementHelper' => 
+      array (
+        'WebinoDraw\\Form\\View\\Helper\\FormCollection::setDefaultElementHelper:0' => 
+        array (
+          0 => 'defaultSubHelper',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setElementHelper' => 
+      array (
+        'WebinoDraw\\Form\\View\\Helper\\FormCollection::setElementHelper:0' => 
+        array (
+          0 => 'elementHelper',
+          1 => 'Zend\\Form\\View\\Helper\\AbstractHelper',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setFieldsetHelper' => 
+      array (
+        'WebinoDraw\\Form\\View\\Helper\\FormCollection::setFieldsetHelper:0' => 
+        array (
+          0 => 'fieldsetHelper',
+          1 => 'Zend\\Form\\View\\Helper\\AbstractHelper',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setDoctype' => 
+      array (
+        'WebinoDraw\\Form\\View\\Helper\\FormCollection::setDoctype:0' => 
+        array (
+          0 => 'doctype',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEncoding' => 
+      array (
+        'WebinoDraw\\Form\\View\\Helper\\FormCollection::setEncoding:0' => 
+        array (
+          0 => 'encoding',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setTranslator' => 
+      array (
+        'WebinoDraw\\Form\\View\\Helper\\FormCollection::setTranslator:0' => 
+        array (
+          0 => 'translator',
+          1 => 'Zend\\I18n\\Translator\\Translator',
+          2 => false,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Form\\View\\Helper\\FormCollection::setTranslator:1' => 
+        array (
+          0 => 'textDomain',
+          1 => NULL,
+          2 => false,
+          3 => NULL,
+        ),
+      ),
+      'setTranslatorEnabled' => 
+      array (
+        'WebinoDraw\\Form\\View\\Helper\\FormCollection::setTranslatorEnabled:0' => 
+        array (
+          0 => 'enabled',
+          1 => NULL,
+          2 => false,
+          3 => true,
+        ),
+      ),
+      'setTranslatorTextDomain' => 
+      array (
+        'WebinoDraw\\Form\\View\\Helper\\FormCollection::setTranslatorTextDomain:0' => 
+        array (
+          0 => 'textDomain',
+          1 => NULL,
+          2 => false,
+          3 => 'default',
+        ),
+      ),
+      'setView' => 
+      array (
+        'WebinoDraw\\Form\\View\\Helper\\FormCollection::setView:0' => 
+        array (
+          0 => 'view',
+          1 => 'Zend\\View\\Renderer\\RendererInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
   'WebinoDraw\\Form\\View\\Helper\\FormRow' => 
   array (
     'supertypes' => 

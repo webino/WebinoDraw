@@ -3,6 +3,7 @@
 return array(
     'WebinoDraw\Form\DiForm'                           => __DIR__ . '/src/WebinoDraw/Form/DiForm.php',
     'WebinoDraw\Form\View\Helper\FormElement'          => __DIR__ . '/src/WebinoDraw/Form/View/Helper/FormElement.php',
+    'WebinoDraw\Form\View\Helper\FormCollection'       => __DIR__ . '/src/WebinoDraw/Form/View/Helper/FormCollection.php',
     'WebinoDraw\Form\View\Helper\FormRow'              => __DIR__ . '/src/WebinoDraw/Form/View/Helper/FormRow.php',
     'WebinoDraw\DrawEvent'                             => __DIR__ . '/src/WebinoDraw/DrawEvent.php',
     'WebinoDraw\Module'                                => __DIR__ . '/src/WebinoDraw/Module.php',

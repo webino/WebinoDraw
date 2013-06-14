@@ -546,11 +546,13 @@
   - To create the form the DiForm is used. It allows to instantiate the object of type FormInterface
     via DI directly. However any valid form available via ServiceManager can be used.
 
-  - To draw the form collection the WebinoDraw FormElement and FormRow view helper is used. It solves some issues
-    with the translator when the Zend FormElement view helper is used, because it does not allow to pass translator
-    text domain to its elements.
+  - To draw the form collection the WebinoDraw FormElement and FormRow view helper is used. It solves
+    some issues with the translator when the Zend FormElement view helper is used, because it does not allow to pass
+    translator text domain to its elements. The WebinoDraw FormCollection supports elements sorted by order.
 
   - To specify the view helper to render the form element set its view_helper option.
+
+  - To sort elements rendered with FormCollection by order, set element order option.
 
 ## Examples
 

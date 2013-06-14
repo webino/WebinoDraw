@@ -110,7 +110,7 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
     {
         if (empty($this->formCollectionHelper)) {
 
-            $formCollection = $this->view->plugin('formCollection')
+            $formCollection = $this->view->plugin('WebinoDrawFormCollection')
                                 ->setElementHelper($this->getFormRowHelper());
 
             $this->setFormCollectionHelper($formCollection);
