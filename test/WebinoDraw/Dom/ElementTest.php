@@ -62,12 +62,12 @@ class ElementTest
     public function testGetProperties()
     {
         $input = array(
-            'value' => 'test node value',
+            'nodeValue' => 'test node value',
             'attr01' => 'attr01Val',
             'attr02' => 'attr02Val',
         );
 
-        $this->object->nodeValue = $input['value'];
+        $this->object->nodeValue = $input['nodeValue'];
 
         next($input);
         $this->object->setAttribute(key($input), current($input));
@@ -85,17 +85,17 @@ class ElementTest
     {
         $prefix = '___';
         $input = array(
-            'value' => 'test node value',
+            'nodeValue' => 'test node value',
             'attr01' => 'attr01Val',
             'attr02' => 'attr02Val',
         );
         $expected = array(
-            $prefix . 'value' => 'test node value',
+            $prefix . 'nodeValue' => 'test node value',
             $prefix . 'attr01' => 'attr01Val',
             $prefix . 'attr02' => 'attr02Val',
         );
 
-        $this->object->nodeValue = $input['value'];
+        $this->object->nodeValue = $input['nodeValue'];
 
         next($input);
         $this->object->setAttribute(key($input), current($input));

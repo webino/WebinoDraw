@@ -294,7 +294,7 @@ class AbstractDrawHelperTest
 
         $translation = $this->object->nodeTranslation($node);
 
-        $this->assertEquals($value, $translation[$prefix . 'value']);
+        $this->assertEquals($value, $translation[$prefix . 'nodeValue']);
 
         reset($attribs);
 

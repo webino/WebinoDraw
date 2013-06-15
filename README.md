@@ -94,10 +94,10 @@
 
         'draw-node-example' => array(
             'locator' => 'a',
-            'value'   => 'customprefix {$_value} customsuffix',
-            'html'    => '<custom>{$_html}</custom>',
+            'value'   => 'customprefix {$_nodeValue} customsuffix',
+            'html'    => '<custom>{$_innerHtml}</custom>',
             'attribs' => array(
-                'title' => '{$_value} {$_href}',
+                'title' => '{$_nodeValue} {$_href}',
                 'href'  => '{$_href}#customfragment',
              ),
         ),
@@ -224,7 +224,7 @@
                 $event->setSpec(
                     array(
                         // draw instructions
-                        'value'   => '{$_value} VALUE',
+                        'value'   => '{$_nodeValue} VALUE',
                         'attribs' => array(
                             'title' => 'Hello from Controller!',
                         ),

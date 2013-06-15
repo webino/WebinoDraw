@@ -31,7 +31,7 @@ return array(
 
             'heavy-test-link' => array(
                 'locator' => '.nav li[1]',
-                'html' => '{$_html}<li><a href="{$href}">HEAVY TEST</a></li>',
+                'html' => '{$_innerHtml}<li><a href="{$href}">HEAVY TEST</a></li>',
                 'var' => array(
                     'set' => array(
                         'href' => '',

@@ -52,7 +52,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
     {
         $varTranslator = $this->getVarTranslator();
         $helper        = $this;
-        $nodeHtmlKey   = self::EXTRA_VAR_PREFIX . 'html';
+        $nodeHtmlKey   = self::EXTRA_VAR_PREFIX . 'innerHtml';
 
         return function (
             Element $node,
@@ -97,8 +97,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
      */
     public function createAttribsPreSet(array $spec, ArrayAccess $translation)
     {
-        $varTranslator = $this->getVarTranslator();
-        $helper        = $this;
+        $helper = $this;
 
         return function (
             Element $node,
@@ -106,8 +105,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
         ) use (
             $helper,
             $spec,
-            $translation,
-            $varTranslator
+            $translation
         ) {
             return $helper->translatePreSet($node, $value, $spec, clone $translation);
         };
