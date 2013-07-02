@@ -22,6 +22,7 @@ return array(
         ),
         'instance' => array(
             'alias' => array(
+                'WebinoDraw' => 'WebinoDraw\WebinoDraw',
                 'WebinoDrawElement' => 'WebinoDraw\View\Helper\DrawElement',
                 'WebinoDrawForm' => 'WebinoDraw\View\Helper\DrawForm',
                 'WebinoDrawPagination' => 'WebinoDraw\View\Helper\DrawPagination',
