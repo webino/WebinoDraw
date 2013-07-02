@@ -96,6 +96,7 @@
             'locator' => 'a',
             'value'   => 'customprefix {$_nodeValue} customsuffix',
             'html'    => '<custom>{$_innerHtml}</custom>',
+            'replace' => '{$_outerHtml}<custom/>',
             'attribs' => array(
                 'title' => '{$_nodeValue} {$_href}',
                 'href'  => '{$_href}#customfragment',
@@ -625,10 +626,10 @@
   - Write tests for draw form and new features (events + sub-instructions + ajax + cache)
   - Write tests + manual for DrawPagination
   - Write tests + manual for DrawTranslate
+  - Write tests + examples for DrawElement {$_outerHtml}
 
 ## Addendum
 
   Please, if you are interested in this Zend Framework module report any issues and don't hesitate to contribute.
 
 [Report a bug](https://github.com/webino/WebinoDraw/issues) | [Fork me](https://github.com/webino/WebinoDraw)
-

@@ -52,7 +52,8 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
     {
         $varTranslator = $this->getVarTranslator();
         $helper        = $this;
-        $nodeHtmlKey   = self::EXTRA_VAR_PREFIX . 'innerHtml';
+        $innerHtmlKey  = self::EXTRA_VAR_PREFIX . 'innerHtml';
+        $outerHtmlKey  = self::EXTRA_VAR_PREFIX . 'outerHtml';
 
         return function (
             Element $node,
@@ -63,7 +64,8 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
             $spec,
             $varTranslator,
             $translation,
-            $nodeHtmlKey
+            $innerHtmlKey,
+            $outerHtmlKey
         ) {
             $nodeTranslation = $helper->nodeTranslation($node);
 
@@ -74,8 +76,12 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                 );
 
             // include node innerHTML to the translation
-            (false === strpos($subject, $nodeHtmlKey)) or
-                $nodeTranslation[$nodeHtmlKey] = $node->getInnerHtml();
+            (false === strpos($subject, $innerHtmlKey)) or
+                $nodeTranslation[$innerHtmlKey] = $node->getInnerHtml();
+
+            // include node outerHTML to the translation
+            (false === strpos($subject, $outerHtmlKey)) or
+                $nodeTranslation[$outerHtmlKey] = $node->getOuterHtml();
 
             $translatedValue = $varTranslator->translateString(
                 $value,

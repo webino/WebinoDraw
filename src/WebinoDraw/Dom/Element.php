@@ -36,6 +36,16 @@ class Element extends \DOMElement
     }
 
     /**
+     * Returns the node html
+     *
+     * @return string
+     */
+    public function getOuterHtml()
+    {
+        return trim($this->ownerDocument->saveXML($this));
+    }
+
+    /**
      * Returns the node text value and attributes in the array
      *
      * @return array
