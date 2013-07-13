@@ -43,6 +43,12 @@ class DrawAbsolutize extends AbstractDrawElement
      */
     public function drawNodes(NodeList $nodes, array $spec)
     {
+        $translation = $this->cloneTranslationPrototype($this->getVars());
+        $this->applyVarTranslator($translation, $spec);
+
+        $varTranslator   = $this->getVarTranslator();
+        $translationVars = $varTranslator->makeVarKeys($translation);
+
         foreach ($nodes as $node) {
 
             if (!($node instanceof \DOMAttr)) {
@@ -51,8 +57,14 @@ class DrawAbsolutize extends AbstractDrawElement
                 );
             }
 
+            $nodeValue = $node->nodeValue;
+            $varTranslator->translate(
+                $nodeValue,
+                $translationVars
+            );
+
             $node->nodeValue = $this->removeDotSegments(
-                $this->view->basePath() . '/' . $node->nodeValue
+                $this->view->basePath() . '/' . $nodeValue
             );
         }
     }
