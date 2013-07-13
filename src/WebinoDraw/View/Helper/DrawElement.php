@@ -64,7 +64,9 @@ class DrawElement extends AbstractDrawElement
             return $this;
         }
 
-        $this->manipulateNodes($nodes, $spec, $translation);
+        if (!$this->manipulateNodes($nodes, $spec, $translation)) {
+            return $this;
+        }
 
         if (!empty($spec['instructions'])) {
 
@@ -89,7 +91,7 @@ class DrawElement extends AbstractDrawElement
      * @param NodeList $nodes
      * @param array $spec
      * @param ArrayAccess $translation
-     * @return DrawElement
+     * @return bool
      */
     protected function manipulateNodes(NodeList $nodes, array $spec, ArrayAccess $translation)
     {
@@ -101,8 +103,10 @@ class DrawElement extends AbstractDrawElement
         !array_key_exists('remove', $translatedSpec) or
             $nodes->remove($translatedSpec['remove']);
 
-        !array_key_exists('replace', $spec) or
+        if (array_key_exists('replace', $spec)) {
             $this->replace($nodes, $spec, $translation);
+            return false;
+        }
 
         !array_key_exists('attribs', $spec) or
             $this->setAttribs($nodes, $spec, $translation);
@@ -116,7 +120,7 @@ class DrawElement extends AbstractDrawElement
         !array_key_exists('onEmpty', $translatedSpec) or
             $this->onEmpty($nodes, $translatedSpec['onEmpty']);
 
-        return $this;
+        return true;
     }
 
     /**
@@ -195,7 +199,9 @@ class DrawElement extends AbstractDrawElement
                     $item
                 );
 
-                $this->manipulateNodes($newNodeList, $spec, $localTranslation);
+                if (!$this->manipulateNodes($newNodeList, $spec, $localTranslation)) {
+                    continue;
+                }
 
                 if (!empty($spec['loop']['instructions'])) {
 
@@ -311,31 +317,37 @@ class DrawElement extends AbstractDrawElement
             throw new \UnexpectedValueException('Expected $spec[replace]');
         }
 
-        empty($spec['locator']) or
-            $xpath = $nodes->getLocator()->set($spec['locator'])->xpathMatchAny();
+        if (!empty($spec['locator'])) {
 
-        foreach ($nodes as $node) {
+            $locator = $nodes->getLocator();
 
-            if (!empty($xpath)) {
+            foreach ($nodes as $node) {
 
-                $nodeList = $node->ownerDocument->xpath->query($xpath);
+                $newNodes = $node->ownerDocument->xpath->query(
+                    $locator->set($spec['locator'])->xpathMatchAny()
+                );
 
-            } else {
-                $nodeList = array($node);
+                $subspec = $spec;
+                unset($subspec['locator']);
+                $this->replace(
+                    $nodes->createNodeList($newNodes),
+                    $subspec,
+                    $translation
+                );
             }
 
-            $newNodes = $nodes->createNodeList($nodeList);
-
-            $newNodes->replace(
-                $spec['replace'],
-                $this->createHtmlPreSet($spec['replace'], $spec, $translation)
-            );
-
-            $subspec = $spec;
-            unset($subspec['replace']);
-
-            self::drawNodes($newNodes, $subspec);
+            return $this;
         }
+
+        $nodes->replace(
+            $spec['replace'],
+            $this->createHtmlPreSet($spec['replace'], $spec, $translation)
+        );
+
+        // redraw
+        $subspec = $spec;
+        unset($subspec['replace']);
+        self::drawNodes($nodes, $subspec);
 
         return $this;
     }

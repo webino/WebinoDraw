@@ -110,23 +110,64 @@ class DrawElementTest
             'replace' => '<testhtml/>',
         );
 
+        $this->nodeList
+            ->expects($this->once())
+            ->method('replace')
+            ->with($this->equalTo($spec['replace']));
+
+        $this->object->drawNodes($this->nodeList, $spec);
+    }
+
+    /**
+     * @covers WebinoDraw\View\Helper\DrawElement::drawNodes
+     * @covers WebinoDraw\View\Helper\DrawElement::replace
+     */
+    public function testDrawNodesReplaceWithLocator()
+    {
+        $dom         = new \DOMDocument;
+        $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
+        $dom->xpath  = new \DOMXpath($dom);
+        $nodeList    = $this->getMock('WebinoDraw\Dom\NodeList', array(), array(), '', null);
+        $locator     = $this->getMock('WebinoDraw\Dom\Locator');
+        $xpath       = 'dummyOne';
+        $target      = 'xpath=' . $xpath;
+
+        $spec = array(
+            'locator' => $target,
+            'replace' => '<testhtml/>',
+        );
+
+        $locator->expects($this->exactly(2))
+            ->method('set')
+            ->with($this->equalTo($target))
+            ->will($this->returnValue($locator));
+
+        $locator->expects($this->exactly(2))
+            ->method('xpathMatchAny')
+            ->will($this->returnValue($xpath));
+
+        $nodeList
+            ->expects($this->once())
+            ->method('getLocator')
+            ->will($this->returnValue($locator));
+
+        $nodeList
+            ->expects($this->once())
+            ->method('getIterator')
+            ->will($this->returnValue(new \IteratorIterator($dom->firstChild->childNodes)));
+
         $subnodeList = $this->getMock('WebinoDraw\Dom\NodeList', array(), array(), '', null);
         $subnodeList
             ->expects($this->exactly(2))
             ->method('replace')
             ->with($this->equalTo($spec['replace']));
 
-        $this->nodeList
-            ->expects($this->once())
-            ->method('getIterator')
-            ->will($this->returnValue(new \ArrayIterator(array(null, null))));
-
-        $this->nodeList
+        $nodeList
             ->expects($this->exactly(2))
             ->method('createNodeList')
-            ->with($this->equalTo(array(null)))
+            ->with($this->isInstanceOf('DOMNodeList'))
             ->will($this->returnValue($subnodeList));
 
-        $this->object->drawNodes($this->nodeList, $spec);
+        $this->object->drawNodes($nodeList, $spec);
     }
 }
