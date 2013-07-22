@@ -10,7 +10,8 @@
 
 namespace WebinoDraw\Mvc\Service;
 
-use WebinoDraw\View\Strategy\DrawAjaxStrategy;
+use WebinoDraw\View\Strategy\DrawAjaxJsonStrategy;
+use WebinoDraw\View\Strategy\DrawAjaxHtmlStrategy;
 use WebinoDraw\View\Strategy\DrawStrategy;
 use Zend\Http\Request as HttpRequest;
 use Zend\ServiceManager\FactoryInterface;
@@ -33,7 +34,14 @@ class DrawStrategyFactory implements FactoryInterface
         if (($request instanceof HttpRequest)
             && $request->isXmlHttpRequest()
         ) {
-            return new DrawAjaxStrategy($service);
+
+            $acceptHeaders = $request->getHeader('accept')->getPrioritized();
+            
+            if ('application/json' === $acceptHeaders[0]->getRaw()) {
+                return new DrawAjaxJsonStrategy($service);
+            }
+
+            return new DrawAjaxHtmlStrategy($service);
         }
 
         return new DrawStrategy($service);

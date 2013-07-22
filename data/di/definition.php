@@ -2678,19 +2678,23 @@ return array (
       ),
     ),
   ),
-  'WebinoDraw\\View\\Strategy\\DrawAjaxStrategy' => 
+  'WebinoDraw\\View\\Strategy\\DrawAjaxJsonStrategy' => 
   array (
     'supertypes' => 
     array (
-      0 => 'Zend\\EventManager\\ListenerAggregateInterface',
+      0 => 'Zend\\EventManager\\EventsCapableInterface',
       1 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      2 => 'Zend\\EventManager\\EventsCapableInterface',
-      3 => 'WebinoDraw\\View\\Strategy\\AbstractDrawStrategy',
+      2 => 'Zend\\EventManager\\ListenerAggregateInterface',
+      3 => 'WebinoDraw\\View\\Strategy\\AbstractDrawAjaxStrategy',
       4 => 'Zend\\EventManager\\ListenerAggregateInterface',
-      5 => 'Zend\\View\\Strategy\\PhpRendererStrategy',
-      6 => 'Zend\\EventManager\\ListenerAggregateInterface',
-      7 => 'Zend\\EventManager\\AbstractListenerAggregate',
+      5 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      6 => 'Zend\\EventManager\\EventsCapableInterface',
+      7 => 'WebinoDraw\\View\\Strategy\\AbstractDrawStrategy',
       8 => 'Zend\\EventManager\\ListenerAggregateInterface',
+      9 => 'Zend\\View\\Strategy\\PhpRendererStrategy',
+      10 => 'Zend\\EventManager\\ListenerAggregateInterface',
+      11 => 'Zend\\EventManager\\AbstractListenerAggregate',
+      12 => 'Zend\\EventManager\\ListenerAggregateInterface',
     ),
     'instantiator' => '__construct',
     'methods' => 
@@ -2705,7 +2709,7 @@ return array (
     array (
       '__construct' => 
       array (
-        'WebinoDraw\\View\\Strategy\\DrawAjaxStrategy::__construct:0' => 
+        'WebinoDraw\\View\\Strategy\\DrawAjaxJsonStrategy::__construct:0' => 
         array (
           0 => 'service',
           1 => 'WebinoDraw\\WebinoDraw',
@@ -2715,7 +2719,7 @@ return array (
       ),
       'setEvent' => 
       array (
-        'WebinoDraw\\View\\Strategy\\DrawAjaxStrategy::setEvent:0' => 
+        'WebinoDraw\\View\\Strategy\\DrawAjaxJsonStrategy::setEvent:0' => 
         array (
           0 => 'event',
           1 => 'WebinoDraw\\AjaxEvent',
@@ -2725,7 +2729,7 @@ return array (
       ),
       'setEventManager' => 
       array (
-        'WebinoDraw\\View\\Strategy\\DrawAjaxStrategy::setEventManager:0' => 
+        'WebinoDraw\\View\\Strategy\\DrawAjaxJsonStrategy::setEventManager:0' => 
         array (
           0 => 'eventManager',
           1 => 'Zend\\EventManager\\EventManagerInterface',
@@ -2735,7 +2739,74 @@ return array (
       ),
       'setContentPlaceholders' => 
       array (
-        'WebinoDraw\\View\\Strategy\\DrawAjaxStrategy::setContentPlaceholders:0' => 
+        'WebinoDraw\\View\\Strategy\\DrawAjaxJsonStrategy::setContentPlaceholders:0' => 
+        array (
+          0 => 'contentPlaceholders',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\View\\Strategy\\AbstractDrawAjaxStrategy' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'Zend\\EventManager\\ListenerAggregateInterface',
+      1 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      2 => 'Zend\\EventManager\\EventsCapableInterface',
+      3 => 'WebinoDraw\\View\\Strategy\\AbstractDrawStrategy',
+      4 => 'Zend\\EventManager\\ListenerAggregateInterface',
+      5 => 'Zend\\View\\Strategy\\PhpRendererStrategy',
+      6 => 'Zend\\EventManager\\ListenerAggregateInterface',
+      7 => 'Zend\\EventManager\\AbstractListenerAggregate',
+      8 => 'Zend\\EventManager\\ListenerAggregateInterface',
+    ),
+    'instantiator' => NULL,
+    'methods' => 
+    array (
+      '__construct' => 3,
+      'setEvent' => 0,
+      'setEventManager' => 3,
+      'setContentPlaceholders' => 0,
+      'getEventManager' => 3,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\View\\Strategy\\AbstractDrawAjaxStrategy::__construct:0' => 
+        array (
+          0 => 'service',
+          1 => 'WebinoDraw\\WebinoDraw',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEvent' => 
+      array (
+        'WebinoDraw\\View\\Strategy\\AbstractDrawAjaxStrategy::setEvent:0' => 
+        array (
+          0 => 'event',
+          1 => 'WebinoDraw\\AjaxEvent',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEventManager' => 
+      array (
+        'WebinoDraw\\View\\Strategy\\AbstractDrawAjaxStrategy::setEventManager:0' => 
+        array (
+          0 => 'eventManager',
+          1 => 'Zend\\EventManager\\EventManagerInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setContentPlaceholders' => 
+      array (
+        'WebinoDraw\\View\\Strategy\\AbstractDrawAjaxStrategy::setContentPlaceholders:0' => 
         array (
           0 => 'contentPlaceholders',
           1 => NULL,
@@ -2778,6 +2849,77 @@ return array (
       'setContentPlaceholders' => 
       array (
         'WebinoDraw\\View\\Strategy\\DrawStrategy::setContentPlaceholders:0' => 
+        array (
+          0 => 'contentPlaceholders',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\View\\Strategy\\DrawAjaxHtmlStrategy' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'Zend\\EventManager\\EventsCapableInterface',
+      1 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      2 => 'Zend\\EventManager\\ListenerAggregateInterface',
+      3 => 'WebinoDraw\\View\\Strategy\\AbstractDrawAjaxStrategy',
+      4 => 'Zend\\EventManager\\ListenerAggregateInterface',
+      5 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      6 => 'Zend\\EventManager\\EventsCapableInterface',
+      7 => 'WebinoDraw\\View\\Strategy\\AbstractDrawStrategy',
+      8 => 'Zend\\EventManager\\ListenerAggregateInterface',
+      9 => 'Zend\\View\\Strategy\\PhpRendererStrategy',
+      10 => 'Zend\\EventManager\\ListenerAggregateInterface',
+      11 => 'Zend\\EventManager\\AbstractListenerAggregate',
+      12 => 'Zend\\EventManager\\ListenerAggregateInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+      'setEvent' => 0,
+      'setEventManager' => 3,
+      'setContentPlaceholders' => 0,
+      'getEventManager' => 3,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\View\\Strategy\\DrawAjaxHtmlStrategy::__construct:0' => 
+        array (
+          0 => 'service',
+          1 => 'WebinoDraw\\WebinoDraw',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEvent' => 
+      array (
+        'WebinoDraw\\View\\Strategy\\DrawAjaxHtmlStrategy::setEvent:0' => 
+        array (
+          0 => 'event',
+          1 => 'WebinoDraw\\AjaxEvent',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEventManager' => 
+      array (
+        'WebinoDraw\\View\\Strategy\\DrawAjaxHtmlStrategy::setEventManager:0' => 
+        array (
+          0 => 'eventManager',
+          1 => 'Zend\\EventManager\\EventManagerInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setContentPlaceholders' => 
+      array (
+        'WebinoDraw\\View\\Strategy\\DrawAjaxHtmlStrategy::setContentPlaceholders:0' => 
         array (
           0 => 'contentPlaceholders',
           1 => NULL,

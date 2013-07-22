@@ -85,7 +85,7 @@ class DrawStrategyFactoryTest
 
         $this->assertThat(
             $result,
-            $this->logicalNot($this->isInstanceOf('WebinoDraw\View\Strategy\DrawAjaxStrategy'))
+            $this->logicalNot($this->isInstanceOf('WebinoDraw\View\Strategy\DrawAjaxJsonStrategy'))
         );
     }
 
@@ -98,11 +98,28 @@ class DrawStrategyFactoryTest
             ->method('isXmlHttpRequest')
             ->will($this->returnValue(true));
 
+        $acceptHeader      = $this->getMock('Zend\Http\Header\Accept');
+        $acceptHeaderPart  = $this->getMock('Zend\Http\Header\Accept\FieldValuePart', array('getRaw'));
+        $acceptHeaderParts = array($acceptHeaderPart);
+
+        $acceptHeaderPart->expects($this->once())
+            ->method('getRaw')
+            ->will($this->returnValue('application/json'));
+
+        $acceptHeader->expects($this->once())
+            ->method('getPrioritized')
+            ->will($this->returnValue($acceptHeaderParts));
+
+        $this->request->expects($this->once())
+            ->method('getHeader')
+            ->with('accept')
+            ->will($this->returnValue($acceptHeader));
+
         $result = $this->object->createService($this->services);
 
         $this->assertThat(
             $result,
-            $this->isInstanceOf('WebinoDraw\View\Strategy\DrawAjaxStrategy')
+            $this->isInstanceOf('WebinoDraw\View\Strategy\DrawAjaxJsonStrategy')
         );
     }
 
