@@ -54,6 +54,11 @@ return array(
                     ),
                 ),
             ),
+            'WebinoDraw\Form\DiForm' => array(
+                'parameters' => array(
+                    'formFactory' => 'FormFactory',
+                ),
+            ),
         ),
     ),
     'service_manager' => array(

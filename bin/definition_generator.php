@@ -1,10 +1,12 @@
 #!/usr/bin/env php
 <?php
 
+use Zend\Code\Scanner\FileScanner as CodeFileScanner;
 use Zend\Di\Definition\CompilerDefinition;
 
 // Autoloader
-$loader = require __DIR__ . '/../._test/ZendSkeletonApplication/vendor/autoload.php';
+$vendorDirname = __DIR__ . '/../._test/ZendSkeletonApplication/vendor';
+$loader = require $vendorDirname . '/autoload.php';
 
 $loader->add('WebinoDraw', __DIR__ . '/../src');
 
@@ -12,6 +14,15 @@ $loader->add('WebinoDraw', __DIR__ . '/../src');
 $diCompiler = new CompilerDefinition;
 
 $diCompiler->addDirectory(__DIR__ . '/../src');
+
+foreach (array(
+
+    // add files
+    $vendorDirname . '/zendframework/zendframework/library/Zend/Form/Factory.php',
+
+) as $file) {
+    $diCompiler->addCodeScannerFile(new CodeFileScanner($file));
+}
 
 $diCompiler->compile();
 

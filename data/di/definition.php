@@ -1,5 +1,51 @@
 <?php 
 return array (
+  'Zend\\Form\\Factory' => 
+  array (
+    'supertypes' => 
+    array (
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+      'setInputFilterFactory' => 0,
+      'setFormElementManager' => 0,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'Zend\\Form\\Factory::__construct:0' => 
+        array (
+          0 => 'formElementManager',
+          1 => 'Zend\\Form\\FormElementManager',
+          2 => false,
+          3 => NULL,
+        ),
+      ),
+      'setInputFilterFactory' => 
+      array (
+        'Zend\\Form\\Factory::setInputFilterFactory:0' => 
+        array (
+          0 => 'inputFilterFactory',
+          1 => 'Zend\\InputFilter\\Factory',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setFormElementManager' => 
+      array (
+        'Zend\\Form\\Factory::setFormElementManager:0' => 
+        array (
+          0 => 'formElementManager',
+          1 => 'Zend\\Form\\FormElementManager',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
   'WebinoDraw\\Form\\DiForm' => 
   array (
     'supertypes' => 
