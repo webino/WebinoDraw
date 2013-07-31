@@ -162,7 +162,7 @@ class NodeList implements IteratorAggregate
 
             if (is_callable($preSet)) {
 
-                $nodeValue = $preSet($node, $value);
+                $nodeValue = $preSet($node, $value, $this);
             } else {
                 $nodeValue = $value;
             }
@@ -186,7 +186,7 @@ class NodeList implements IteratorAggregate
 
             if (is_callable($preSet)) {
 
-                $nodeXhtml = $preSet($node, $xhtml);
+                $nodeXhtml = $preSet($node, $xhtml, $this);
             } else {
                 $nodeXhtml = $xhtml;
             }
@@ -247,7 +247,7 @@ class NodeList implements IteratorAggregate
 
                 if (is_callable($preSet)) {
 
-                    $value = $preSet($node, $value);
+                    $value = $preSet($node, $value, $this);
                 }
 
                 if (empty($value) && !is_numeric($value)) {
@@ -278,12 +278,13 @@ class NodeList implements IteratorAggregate
 
             if (is_callable($preSet)) {
 
-                $nodeXhtml = $preSet($node, $xhtml);
+                $nodeXhtml = $preSet($node, $xhtml, $this);
             } else {
                 $nodeXhtml = $xhtml;
             }
 
             if (empty($nodeXhtml)) {
+                $node->nodeValue = '';
                 continue;
             }
 

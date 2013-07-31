@@ -57,7 +57,8 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
 
         return function (
             Element $node,
-            $value
+            $value,
+            $nodes
         ) use (
             $helper,
             $subject,
@@ -88,10 +89,19 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                 $varTranslator->makeVarKeys($translation)
             );
 
-            return $varTranslator->translateString(
+            $nodeTranslatedValue = $varTranslator->translateString(
                 $translatedValue,
                 $varTranslator->makeVarKeys($nodeTranslation)
             );
+
+            if (empty($nodeTranslatedValue)
+                && array_key_exists('onEmpty', $spec)
+            ) {
+                $helper->manipulateNodes($nodes, $spec['onEmpty'], $translation);
+                return '';
+            }
+
+            return $nodeTranslatedValue;
         };
     }
 

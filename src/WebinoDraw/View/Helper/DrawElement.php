@@ -313,10 +313,6 @@ class DrawElement extends AbstractDrawElement
      */
     protected function replace(NodeList $nodes, array $spec, ArrayAccess $translation)
     {
-        if (empty($spec['replace'])) {
-            throw new \UnexpectedValueException('Expected $spec[replace]');
-        }
-
         if (!empty($spec['locator'])) {
 
             $locator = $nodes->getLocator();
