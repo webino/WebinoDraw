@@ -323,6 +323,11 @@ class DrawElement extends AbstractDrawElement
 
             foreach ($nodes as $node) {
 
+                if (empty($node->ownerDocument)) {
+                    // node no longer
+                    continue;
+                }
+
                 $newNodes = $node->ownerDocument->xpath->query(
                     $locator->set($spec['locator'])->xpathMatchAny()
                 );
