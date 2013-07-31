@@ -86,44 +86,6 @@ class DrawElement extends AbstractDrawElement
     }
 
     /**
-     * Manipulate nodes
-     *
-     * @param NodeList $nodes
-     * @param array $spec
-     * @param ArrayAccess $translation
-     * @return bool
-     */
-    protected function manipulateNodes(NodeList $nodes, array $spec, ArrayAccess $translation)
-    {
-        $translatedSpec = $this->translateSpec($spec, $translation);
-
-        empty($spec['render']) or
-            $this->render($translation, $spec['render']);
-
-        !array_key_exists('remove', $translatedSpec) or
-            $nodes->remove($translatedSpec['remove']);
-
-        if (array_key_exists('replace', $spec)) {
-            $this->replace($nodes, $spec, $translation);
-            return false;
-        }
-
-        !array_key_exists('attribs', $spec) or
-            $this->setAttribs($nodes, $spec, $translation);
-
-        !array_key_exists('value', $spec) or
-            $this->setValue($nodes, $spec, $translation);
-
-        !array_key_exists('html', $spec) or
-            $this->setHtml($nodes, $spec, $translation);
-
-        !array_key_exists('onEmpty', $translatedSpec) or
-            $this->onEmpty($nodes, $translatedSpec['onEmpty']);
-
-        return true;
-    }
-
-    /**
      * Loop target nodes by data.
      *
      * @param NodeList $nodes
