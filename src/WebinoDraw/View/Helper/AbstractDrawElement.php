@@ -186,11 +186,11 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                 $spec['var']['default']
             );
 
-        $this->applyVarTranslator($nodeTranslation, $spec);
-
         $translation->merge(
             $nodeTranslation->getArrayCopy()
         );
+
+        $this->applyVarTranslator($translation, $spec);
 
         $varTranslator->translate(
             $spec,
