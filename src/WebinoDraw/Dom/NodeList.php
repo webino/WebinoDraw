@@ -330,7 +330,9 @@ class NodeList implements IteratorAggregate
         );
 
         foreach ($remove as $node) {
-            $node->parentNode->removeChild($node);
+
+            empty($node->parentNode) or
+                $node->parentNode->removeChild($node);
         }
 
         return $this;
