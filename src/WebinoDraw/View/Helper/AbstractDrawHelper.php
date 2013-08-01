@@ -382,7 +382,7 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
 
         $cache = $this->getCache();
 
-        foreach ($nodes as $index => $node) {
+        foreach ($nodes as $node) {
 
             $html = $cache->getItem($this->cacheKey($node));
 
@@ -414,7 +414,7 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
 
         $cache = $this->getCache();
 
-        foreach ($nodes as $index => $node) {
+        foreach ($nodes as $node) {
 
             $key  = $this->cacheKey($node);
             $html = $node->ownerDocument->saveXml($node);
