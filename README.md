@@ -555,6 +555,8 @@
 
   - To sort elements rendered with FormCollection by order, set element order option.
 
+  - When you don't want to absolutize the element attribute add `data-webino-draw-absolutize="no"` to it's attributes.
+
 ## Examples
 
   Look for more examples in: `config/webinodrawexample.local.php.dist`
