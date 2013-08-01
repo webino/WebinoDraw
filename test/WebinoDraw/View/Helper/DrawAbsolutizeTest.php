@@ -106,7 +106,7 @@ class DrawAbsolutizeTest
             ->will($this->returnValue($nodesIterator));
 
         $this->view
-            ->expects($this->never())
+            ->expects($this->once())
             ->method('__call');
 
         $this->object->drawNodes($nodes, $spec);
@@ -135,7 +135,7 @@ class DrawAbsolutizeTest
             ->will($this->returnValue($nodesIterator));
 
         $this->view
-            ->expects($this->exactly(3))
+            ->expects($this->once())
             ->method('__call')
             ->with($this->equalTo('basePath'))
             ->will($this->returnValue($basePath));

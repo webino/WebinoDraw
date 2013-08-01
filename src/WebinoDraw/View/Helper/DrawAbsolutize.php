@@ -48,6 +48,7 @@ class DrawAbsolutize extends AbstractDrawElement
 
         $varTranslator   = $this->getVarTranslator();
         $translationVars = $varTranslator->makeVarKeys($translation);
+        $basePath        = $this->view->basePath();
 
         foreach ($nodes as $node) {
 
@@ -64,7 +65,7 @@ class DrawAbsolutize extends AbstractDrawElement
             );
 
             $node->nodeValue = $this->removeDotSegments(
-                $this->view->basePath() . '/' . $nodeValue
+                $basePath . '/' . $nodeValue
             );
         }
     }
