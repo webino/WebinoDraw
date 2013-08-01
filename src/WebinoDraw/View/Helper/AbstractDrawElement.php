@@ -14,6 +14,7 @@ use ArrayAccess;
 use DOMNode;
 use WebinoDraw\Dom\Element;
 use WebinoDraw\Dom\NodeList;
+use WebinoDraw\Stdlib\VarTranslator;
 
 /**
  *
@@ -111,11 +112,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
         ) {
             $nodeTranslation = $helper->nodeTranslation($node);
 
-            empty($spec['var']['default']) or
-                $varTranslator->translationDefaults(
-                    $nodeTranslation,
-                    $spec['var']['default']
-                );
+            $helper->applyDefault($spec, $varTranslator, $nodeTranslation);
 
             // include node innerHTML to the translation
             (false === strpos($subject, $innerHtmlKey)) or
@@ -180,11 +177,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
         $varTranslator   = $this->getVarTranslator();
         $nodeTranslation = $this->nodeTranslation($node);
 
-        empty($spec['var']['default']) or
-            $varTranslator->translationDefaults(
-                $nodeTranslation,
-                $spec['var']['default']
-            );
+        $this->applyDefault($spec, $varTranslator, $nodeTranslation);
 
         $translation->merge(
             $nodeTranslation->getArrayCopy()
@@ -199,6 +192,8 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
 
         $this->applyVarTranslator($translation, $spec);
 
+        $this->applyDefault($spec, $varTranslator, $translation);
+
         $translatedValue = $varTranslator->translateString(
             $value,
             $varTranslator->makeVarKeys($translation)
@@ -207,6 +202,18 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
         if ($varTranslator->containsVar($translatedValue)) {
             return $varTranslator->removeVars($translatedValue);
         }
+
         return $translatedValue;
+    }
+
+    public function applyDefault(array $spec, VarTranslator $varTranslator, ArrayAccess $translation)
+    {
+        empty($spec['var']['default']) or
+            $varTranslator->translationDefaults(
+                $translation,
+                $spec['var']['default']
+            );
+
+        return $this;
     }
 }
