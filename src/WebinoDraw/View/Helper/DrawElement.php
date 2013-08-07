@@ -253,10 +253,20 @@ class DrawElement extends AbstractDrawElement
     {
         foreach ($nodes as $node) {
 
-            if (!empty($node->nodeValue)
-                || is_numeric($node->nodeValue)
+            $nodeValue = trim($node->nodeValue);
+
+            if (!empty($nodeValue)
+                || is_numeric($nodeValue)
             ) {
                 continue;
+            }
+
+            // node value is empty,
+            // chceck for childs other than text
+            foreach ($node->childNodes as $childNode) {
+                if (!($childNode instanceof \DOMText)) {
+                    continue 2;
+                }
             }
 
             self::drawNodes($nodes->createNodeList(array($node)), $spec);
