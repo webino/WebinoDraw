@@ -13,6 +13,7 @@ namespace WebinoDraw\View\Helper;
 use WebinoDraw\Dom\NodeList;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\Stdlib\ArrayUtils;
 
 /**
  *
@@ -105,7 +106,7 @@ class DrawPagination extends DrawElement implements ServiceLocatorAwareInterface
     public function drawNodes(NodeList $nodes, array $spec)
     {
         // merge default
-        $spec = array_merge_recursive(self::$defaultSpec, $spec);
+        $spec = ArrayUtils::merge(self::$defaultSpec, $spec);
 
         $services = $this->getServiceLocator()->getServiceLocator();
         $paginatorName = $spec['paginator'];

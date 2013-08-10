@@ -169,7 +169,7 @@ class DrawAjaxJsonStrategyTest
     public function testInjectResponse()
     {
         $event             = $this->getMock('Zend\View\ViewEvent');
-        $response          = $this->getMock('Zend\Http\Response');
+        $response          = $this->getMock('Zend\Http\PhpEnvironment\Response');
         $responseBody      = '<response_body/>';
         $options           = $this->getMock('WebinoDraw\WebinoDrawOptions');
         $instructions      = $this->getMock('WebinoDraw\Stdlib\DrawInstructions');

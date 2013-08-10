@@ -12,6 +12,7 @@ namespace WebinoDraw\View\Strategy;
 
 use WebinoDraw\WebinoDraw as DrawService;
 use Zend\EventManager\EventManagerInterface;
+use Zend\Http\PhpEnvironment\Response as PhpResponse;
 use Zend\View\Model\ViewModel;
 use Zend\View\Renderer\PhpRenderer;
 use Zend\View\Strategy\PhpRendererStrategy;
@@ -53,8 +54,11 @@ abstract class AbstractDrawStrategy extends PhpRendererStrategy
      */
     public function shouldRespond(ViewEvent $event)
     {
+        $response = $event->getResponse();
+
         if ($event->getRenderer() instanceof PhpRenderer
-            && trim($event->getResponse()->getBody())
+            && $response instanceof PhpResponse
+            && trim($response->getBody())
         ) {
             return true;
         }
