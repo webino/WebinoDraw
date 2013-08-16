@@ -155,7 +155,6 @@ class DrawElement extends AbstractDrawElement
                 $newNodeList      = $nodes->createNodeList(array($newNode));
                 $localTranslation = clone $translation;
 
-
                 $varTranslator->translationMerge(
                     $localTranslation,
                     $item
