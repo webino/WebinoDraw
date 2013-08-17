@@ -61,10 +61,8 @@ class DrawElement extends AbstractDrawElement
 
         if (!empty($spec['loop'])) {
             $this->loop($nodes, $spec, $translation);
-            return $this;
-        }
 
-        if (!$this->manipulateNodes($nodes, $spec, $translation)) {
+        } elseif (!$this->manipulateNodes($nodes, $spec, $translation)) {
             return $this;
         }
 
@@ -116,9 +114,9 @@ class DrawElement extends AbstractDrawElement
 
         if (empty($items)) {
             // nothing to loop
-            if (array_key_exists('onEmpty', $spec['loop'])) {
+            !array_key_exists('onEmpty', $spec['loop']) or
                 $this->manipulateNodes($nodes, $spec['loop']['onEmpty'], $translation);
-            }
+
             return $this;
         }
 
@@ -160,6 +158,12 @@ class DrawElement extends AbstractDrawElement
                     $item
                 );
 
+                if ($insertBefore) {
+                    $parentNode->insertBefore($newNode, $insertBefore);
+                } else {
+                    $parentNode->appendChild($newNode);
+                }
+
                 if (!$this->manipulateNodes($newNodeList, $spec, $localTranslation)) {
                     continue;
                 }
@@ -173,12 +177,6 @@ class DrawElement extends AbstractDrawElement
                            $this->view,
                            $localTranslation->getArrayCopy()
                        );
-                }
-
-                if ($insertBefore) {
-                    $parentNode->insertBefore($newNode, $insertBefore);
-                } else {
-                    $parentNode->appendChild($newNode);
                 }
             }
         }
