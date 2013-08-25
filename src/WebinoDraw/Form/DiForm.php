@@ -19,6 +19,8 @@ use Zend\Stdlib\Hydrator\HydratorInterface;
 
 /**
  * Create form via DI
+ *
+ * @deprecated Use form factory service instead
  */
 class DiForm implements FormInterface
 {
@@ -127,6 +129,23 @@ class DiForm implements FormInterface
     public function getInputFilter()
     {
         return $this->getForm()->getInputFilter();
+    }
+
+    /**
+     * @param  bool $useInputFilterDefaults
+     * @return Form
+     */
+    public function setUseInputFilterDefaults($useInputFilterDefaults)
+    {
+        return $this->getForm()->setUseInputFilterDefaults($useInputFilterDefaults);
+    }
+
+    /**
+     * @return bool
+     */
+    public function useInputFilterDefaults()
+    {
+        return $this->getForm()->useInputFilterDefaults();
     }
 
     /**

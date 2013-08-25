@@ -68,6 +68,7 @@ return array (
       'setData' => 0,
       'setBindOnValidate' => 0,
       'setInputFilter' => 0,
+      'setUseInputFilterDefaults' => 0,
       'setValidationGroup' => 0,
       'setPriority' => 0,
       'setObject' => 0,
@@ -139,6 +140,16 @@ return array (
         array (
           0 => 'inputFilter',
           1 => 'Zend\\InputFilter\\InputFilterInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setUseInputFilterDefaults' => 
+      array (
+        'WebinoDraw\\Form\\DiForm::setUseInputFilterDefaults:0' => 
+        array (
+          0 => 'useInputFilterDefaults',
+          1 => NULL,
           2 => true,
           3 => NULL,
         ),
