@@ -78,7 +78,7 @@ return array(
             'WebinoDrawTranslate' => 'WebinoDraw\View\Helper\DrawTranslate',
             'WebinoDrawFormRow' => 'WebinoDraw\Form\View\Helper\FormRow',
             'WebinoDrawFormElement' => 'WebinoDraw\Form\View\Helper\FormElement',
-            'WebinoDrawFormCollection' => 'WebinoDraw\Form\View\Helper\FormCollection',
+            'WebinoDrawFormCollection' => 'Zend\Form\View\Helper\FormCollection',
         ),
     ),
     'view_manager' => array(

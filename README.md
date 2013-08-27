@@ -553,8 +553,6 @@
 
   - To specify the view helper to render the form element set its view_helper option.
 
-  - To sort elements rendered with FormCollection by order, set element order option.
-
   - When you don't want to absolutize the element attribute add `data-webino-draw-absolutize="no"` to it's attributes.
 
 ## Examples
