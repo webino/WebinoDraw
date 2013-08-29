@@ -291,10 +291,6 @@ class VarTranslator
 
                         foreach ($calls as $params) {
 
-                            if (is_string($plugin)) {
-                                break;
-                            }
-
                             $translation->merge($results->getArrayCopy());
 
                             $this->translate(
@@ -306,6 +302,16 @@ class VarTranslator
                                 array($plugin, $func),
                                 $params
                             );
+
+                            if (is_string($plugin)) {
+                                break;
+                            }
+
+                            if (is_array($plugin)) {
+                                // support array results
+                                $results[$key] = $plugin;
+                                continue 3;
+                            }
                         }
                     }
 
