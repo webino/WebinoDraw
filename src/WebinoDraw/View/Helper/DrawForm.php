@@ -282,7 +282,12 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
     {
         $form = $this->getEvent()->getForm();
 
-        $nodes->setAttribs($form->getAttributes());
+        // set form attributes without class,
+        // it will be appended later
+        $formAttribs = $form->getAttributes();
+        $formClass   = $formAttribs['class'];
+        unset($formAttribs['class']);
+        $nodes->setAttribs($formAttribs);
 
         isset($spec['text_domain'])
             or $spec['text_domain'] = 'default';
@@ -295,6 +300,9 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
         $translation = $this->cloneTranslationPrototype($this->getVars());
 
         foreach ($nodes as $node) {
+
+            // append the form class to the node class
+            $node->setAttribute('class', trim($node->getAttribute('class') . ' ' . $formClass));
 
             $childNodes = $nodes->createNodeList(array($node));
 

@@ -66,19 +66,8 @@ class DrawElement extends AbstractDrawElement
             return $this;
         }
 
-        if (!empty($spec['instructions'])) {
-
-            foreach ($nodes as $node) {
-
-                $this
-                    ->cloneInstructionsPrototype($spec['instructions'])
-                    ->render(
-                       $node,
-                       $this->view,
-                       $translation->getArrayCopy()
-                   );
-            }
-        }
+        empty($spec['instructions']) or
+            $this->subInstructions($nodes, $spec['instructions'], $translation);
 
         return $this;
     }
@@ -114,8 +103,14 @@ class DrawElement extends AbstractDrawElement
 
         if (empty($items)) {
             // nothing to loop
-            !array_key_exists('onEmpty', $spec['loop']) or
-                $this->manipulateNodes($nodes, $spec['loop']['onEmpty'], $translation);
+            if (array_key_exists('onEmpty', $spec['loop'])) {
+
+                $onEmptySpec = $spec['loop']['onEmpty'];
+                $this->manipulateNodes($nodes, $onEmptySpec, $translation);
+
+                empty($onEmptySpec['instructions']) or
+                    $this->subInstructions($nodes, $onEmptySpec['instructions'], $translation);
+            }
 
             return $this;
         }
