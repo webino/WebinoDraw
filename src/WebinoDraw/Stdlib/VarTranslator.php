@@ -400,9 +400,7 @@ class VarTranslator
         }
 
         if (!is_object($subject)) {
-            throw new \InvalidArgumentException(
-                'Expected array|object, but provided ' . gettype($subject)
-            );
+            return array($subject);
         }
 
         if (method_exists($subject, 'toArray')) {
