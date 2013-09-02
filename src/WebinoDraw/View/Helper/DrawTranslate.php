@@ -11,8 +11,10 @@
 namespace WebinoDraw\View\Helper;
 
 use ArrayAccess;
+use DOMAttr;
 use WebinoDraw\Dom\Element;
 use WebinoDraw\Dom\NodeList;
+use Zend\View\Renderer\PhpRenderer;
 
 /**
  *
@@ -27,7 +29,9 @@ class DrawTranslate extends DrawElement
      */
     public function createValuePreSet(array $spec, ArrayAccess $translation)
     {
-        $helper = $this;
+        $textDomain = $this->resolveTextDomain($spec);
+        $view       = $this->getView();
+        $helper     = $this;
 
         return function (
             Element $node,
@@ -35,15 +39,15 @@ class DrawTranslate extends DrawElement
         ) use (
             $helper,
             $spec,
-            $translation
+            $translation,
+            $textDomain,
+            $view
         ) {
-            $textDomain = !empty($spec['text_domain']) ? $spec['text_domain'] : 'default';
-            $varValue   = $helper->translatePreSet($node, $value, $spec, clone $translation);
-
+            $varValue = $helper->translatePreSet($node, $value, $spec, clone $translation);
             if (empty($varValue)) {
                 return '';
             }
-            return $helper->getView()->translate($varValue, $textDomain);
+            return $view->translate($varValue, $textDomain);
         };
     }
 
@@ -55,8 +59,9 @@ class DrawTranslate extends DrawElement
      */
     public function createAttribsPreSet(array $spec, ArrayAccess $translation)
     {
-        $varTranslator = $this->getVarTranslator();
-        $helper        = $this;
+        $textDomain = $this->resolveTextDomain($spec);
+        $view       = $this->getView();
+        $helper     = $this;
 
         return function (
             Element $node,
@@ -65,15 +70,14 @@ class DrawTranslate extends DrawElement
             $helper,
             $spec,
             $translation,
-            $varTranslator
+            $textDomain,
+            $view
         ) {
-            $textDomain = !empty($spec['text_domain']) ? $spec['text_domain'] : 'default';
-            $varValue   = $helper->translatePreSet($node, $value, $spec, clone $translation);
-
+            $varValue = $helper->translatePreSet($node, $value, $spec, clone $translation);
             if (empty($varValue)) {
                 return '';
             }
-            return $helper->getView()->translate($varValue, $textDomain);
+            return $view->translate($varValue, $textDomain);
         };
     }
 
@@ -84,6 +88,44 @@ class DrawTranslate extends DrawElement
      */
     public function drawNodes(NodeList $nodes, array $spec)
     {
-        return parent::drawNodes($nodes, $spec);
+        $textDomain  = $this->resolveTextDomain($spec);
+        $view        = $this->getView();
+        $remainNodes = $this->translateAttribNodes($nodes, $view, $textDomain);
+
+        if (empty($remainNodes)) {
+            // return early when all nodes were attribs
+            return $this;
+        }
+
+        return parent::drawNodes($nodes->createNodeList($remainNodes), $spec);
+    }
+
+    /**
+     * @param NodeList $nodes
+     * @param PhpRenderer $view
+     * @param string $textDomain
+     * @return \DOMAttr
+     */
+    protected function translateAttribNodes(NodeList $nodes, PhpRenderer $view, $textDomain)
+    {
+        $remainNodes = array();
+        foreach ($nodes as $node) {
+            if ($node instanceof DOMAttr) {
+                $node->nodeValue = $view->translate($node->nodeValue, $textDomain);
+                continue;
+            }
+            $remainNodes[] = $node;
+        }
+
+        return $remainNodes;
+    }
+
+    /**
+     * @param array $spec
+     * @return bool
+     */
+    protected function resolveTextDomain(array $spec)
+    {
+        return !empty($spec['text_domain']) ? $spec['text_domain'] : 'default';
     }
 }
