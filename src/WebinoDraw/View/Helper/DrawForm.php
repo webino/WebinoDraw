@@ -204,46 +204,69 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
     protected function createForm(array $spec)
     {
         if (empty($spec['form'])) {
-
             throw new RuntimeException(
                 sprintf('Expected form option in: %s', print_r($spec, 1))
             );
         }
 
         try {
-
             $form = $this->serviceLocator->getServiceLocator()->get($spec['form']);
 
         } catch (\Exception $e) {
-
             throw new RuntimeException(
                 sprintf('Expected form in: %s; ' . $e->getMessage(), print_r($spec, 1)),
                 $e->getCode(), $e
             );
         }
 
-        if (isset($spec['route'])) {
-            try {
+        !isset($spec['route']) or
+            $routeFormAction = $this->resolveRouteFormAction($spec['route']);
 
-                $form->setAttribute('action', $this->view->url($spec['route']));
-
-            } catch (\Exception $e) {
-
-                throw new RuntimeException(
-                    sprintf(
-                        'Expected route `%s` for %s',
-                        $spec['route'],
-                        print_r($spec, 1)
-                    ),
-                    $e->getCode(),
-                    $e
-                );
-            }
-        } else {
-            $form->setAttribute('action', null);
-        }
+        $formAction = !empty($routeFormAction) ? $routeFormAction : null;
+        $form->setAttribute('action', $formAction);
 
         return $form;
+    }
+
+    protected function resolveRouteFormAction($spec)
+    {
+        if (!is_string($spec)
+            && !is_array($spec)
+        ) {
+            throw new \InvalidArgumentException('Expected string or array');
+        }
+
+        $route = is_array($spec) ? $spec : array('name' => $spec);
+
+        if (empty($route['name'])) {
+            throw new \RuntimeException('Expected route name option');
+        }
+
+        $params  = !empty($route['params']) ? $route['params'] : array();
+        $options = !empty($route['options']) ? $route['options'] : array();
+        $reusedMatchedParams = !empty($route['reuseMatchedParams']) ? $route['reuseMatchedParams'] : array();
+
+        try {
+            $routeFormAction = $this->view->url(
+                $route['name'],
+                $params,
+                $options,
+                $reusedMatchedParams
+            );
+
+        } catch (\Exception $e) {
+            throw new RuntimeException(
+                sprintf(
+                    'Expected route `%s` for %s',
+                    $route['route'],
+                    print_r($route, 1)
+                ),
+                $e->getCode(),
+                $e
+            );
+        }
+
+        return $routeFormAction;
     }
 
     /**
