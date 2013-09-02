@@ -31,6 +31,24 @@ class Module implements
     /**
      * @return array
      */
+    public function getServiceConfig()
+    {
+        return array(
+            'factories' => array(
+                
+                'WebinoDraw\View\Renderer\DrawRenderer' => function($services) {
+                    return new View\Renderer\DrawRenderer(
+                        $services->get('WebinoDraw'),
+                        $services->get('ViewRenderer')
+                    );
+                },
+            ),
+        );
+    }
+
+    /**
+     * @return array
+     */
     public function getAutoloaderConfig()
     {
         return array(
