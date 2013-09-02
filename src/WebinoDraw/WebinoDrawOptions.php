@@ -40,12 +40,21 @@ class WebinoDrawOptions extends AbstractOptions
     protected $ajaxFragmentXpath = '//*[contains(@class, "ajax-fragment") and @id]';
 
     /**
-     * @return DrawInstructionsInterface
+     * @param array $instructions
+     * @return DrawInstructions
+     */
+    public function createInstructions(array $instructions = array())
+    {
+        return new DrawInstructions($instructions);
+    }
+
+    /**
+     * @return DrawInstructions
      */
     public function getInstructions()
     {
         if (null === $this->instructions) {
-            $this->setInstructions(new DrawInstructions);
+            $this->setInstructions($this->createInstructions());
         }
 
         return $this->instructions;

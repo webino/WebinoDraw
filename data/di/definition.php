@@ -1550,6 +1550,49 @@ return array (
     array (
     ),
   ),
+  'WebinoDraw\\View\\Renderer\\DrawRenderer' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'Zend\\View\\Renderer\\RendererInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+      'setResolver' => 0,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\View\\Renderer\\DrawRenderer::__construct:0' => 
+        array (
+          0 => 'webinoDraw',
+          1 => 'WebinoDraw\\WebinoDraw',
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\View\\Renderer\\DrawRenderer::__construct:1' => 
+        array (
+          0 => 'renderer',
+          1 => 'Zend\\View\\Renderer\\RendererInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setResolver' => 
+      array (
+        'WebinoDraw\\View\\Renderer\\DrawRenderer::setResolver:0' => 
+        array (
+          0 => 'resolver',
+          1 => 'Zend\\View\\Resolver\\ResolverInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
   'WebinoDraw\\View\\Helper\\AbstractDrawElement' => 
   array (
     'supertypes' => 

@@ -27,6 +27,7 @@ return array(
   'WebinoDraw\Stdlib\ArrayMergeInterface'             => __DIR__ . '/src/WebinoDraw/Stdlib/ArrayMergeInterface.php',
   'WebinoDraw\Stdlib\Translation'                     => __DIR__ . '/src/WebinoDraw/Stdlib/Translation.php',
   'WebinoDraw\Stdlib\VarTranslator'                   => __DIR__ . '/src/WebinoDraw/Stdlib/VarTranslator.php',
+  'WebinoDraw\View\Renderer\DrawRenderer'             => __DIR__ . '/src/WebinoDraw/View/Renderer/DrawRenderer.php',
   'WebinoDraw\View\Helper\AbstractDrawElement'        => __DIR__ . '/src/WebinoDraw/View/Helper/AbstractDrawElement.php',
   'WebinoDraw\View\Helper\DrawTranslate'              => __DIR__ . '/src/WebinoDraw/View/Helper/DrawTranslate.php',
   'WebinoDraw\View\Helper\DrawPagination'             => __DIR__ . '/src/WebinoDraw/View/Helper/DrawPagination.php',
