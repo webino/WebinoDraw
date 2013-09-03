@@ -212,15 +212,28 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
         try {
             $form = $this->serviceLocator->getServiceLocator()->get($spec['form']);
 
-        } catch (\Exception $e) {
+        } catch (\Exception $exc) {
             throw new RuntimeException(
-                sprintf('Expected form in: %s; ' . $e->getMessage(), print_r($spec, 1)),
-                $e->getCode(), $e
+                sprintf('Expected form in: %s; ' . $exc->getMessage(), print_r($spec, 1)),
+                $exc->getCode(), $exc
             );
         }
 
-        !isset($spec['route']) or
-            $routeFormAction = $this->resolveRouteFormAction($spec['route']);
+        if (isset($spec['route'])) {
+            try {
+                $routeFormAction = $this->resolveRouteFormAction($spec['route']);
+            } catch (\Exception $exc) {
+                throw new RuntimeException(
+                    $exc->getMessage()
+                     . sprintf(
+                        ' for %s',
+                        print_r($spec, true)
+                    ),
+                    $exc->getCode(),
+                    $exc
+                );
+            }
+        }
 
         $formAction = !empty($routeFormAction) ? $routeFormAction : null;
         $form->setAttribute('action', $formAction);
@@ -228,6 +241,12 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
         return $form;
     }
 
+    /**
+     * @param string|array $spec
+     * @return string
+     * @throws \InvalidArgumentException
+     * @throws RuntimeException
+     */
     protected function resolveRouteFormAction($spec)
     {
         if (!is_string($spec)
@@ -239,7 +258,7 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
         $route = is_array($spec) ? $spec : array('name' => $spec);
 
         if (empty($route['name'])) {
-            throw new \RuntimeException('Expected route name option');
+            throw new RuntimeException('Expected route name option');
         }
 
         $params  = !empty($route['params']) ? $route['params'] : array();
@@ -254,15 +273,14 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
                 $reusedMatchedParams
             );
 
-        } catch (\Exception $e) {
+        } catch (\Exception $exc) {
             throw new RuntimeException(
                 sprintf(
-                    'Expected route `%s` for %s',
-                    $route['route'],
-                    print_r($route, 1)
+                    'Expected route `%s`',
+                    $route['name']
                 ),
-                $e->getCode(),
-                $e
+                $exc->getCode(),
+                $exc
             );
         }
 
