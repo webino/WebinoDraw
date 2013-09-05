@@ -72,7 +72,8 @@ class DrawRenderer
         }
 
         $template     = $this->renderer->render($nameOrModel, $values);
-        $instructions = $this->webinoDraw->getInstructions();
+        $instructions = clone $this->webinoDraw->getInstructions();
+        $instructions->exchangeArray(array());
 
         !$isModel or
             $instructions->merge($nameOrModel->getOption('instructions'));
