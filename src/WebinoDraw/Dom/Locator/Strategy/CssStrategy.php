@@ -24,6 +24,10 @@ class CssStrategy implements TransformatorInterface
      */
     public function locator2Xpath($locator)
     {
+        if (0 === strpos($locator, '//')) {
+            // return early for absolute
+            return Css2Xpath::transform(substr($locator, 2));
+        }
         // dot makes it relative
         return '.' . Css2Xpath::transform($locator);
     }
