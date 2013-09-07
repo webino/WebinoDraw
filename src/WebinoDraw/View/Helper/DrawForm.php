@@ -383,6 +383,8 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
      */
     protected function matchTemplate(NodeList $nodes, array $elements)
     {
+        $translator = $this->getFormElementHelper()->getTranslator();
+
         foreach ($nodes as $node) {
 
             /* @var $element \Zend\Form\Element */
@@ -396,15 +398,20 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
                     $node
                 );
 
-                if (isset($attributes['type'])
-                    && 'hidden' == $attributes['type']
-                ) {
-                    $hiddenNode = $node->ownerDocument->createDocumentFragment();
+                if (isset($attributes['type'])) {
+                    switch ($attributes['type']) {
+                        case 'hidden':
+                            $hiddenNode = $node->ownerDocument->createDocumentFragment();
+                            $hiddenNode->appendXml($this->view->formRow($element));
+                            $node->appendChild($hiddenNode);
+                            continue 2;
 
-                    $hiddenNode->appendXml($this->view->formRow($element));
-
-                    $childNodes = array($node->appendChild($hiddenNode));
-                    continue;
+                        case 'submit':
+                        case 'reset':
+                        case 'button':
+                            $attributes['value'] = $translator->translate($element->getValue());
+                            break;
+                    }
                 }
 
                 if (!count($childNodes)) {
@@ -415,22 +422,28 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
                 $elementNodes = $nodes->createNodeList($childNodes);
                 $elementNodes->setAttribs($attributes);
 
-                $messages = $element->getMessages();
+                // labels
+                $elementNodes->each(
+                    'xpath=../span[name(..)="label"]',
+                    function ($nodes) use ($element, $translator) {
+                        $nodes->setValue(
+                            $translator->translate($element->getLabel())
+                        );
+                    }
+                );
 
+                // errors
+                $messages = $element->getMessages();
                 if (!empty($messages)) {
 
                     $errorNode = $node->ownerDocument->createDocumentFragment();
-
                     $errorNode->appendXml($this->view->formElementErrors($element));
 
                     foreach ($elementNodes as $elementNode) {
 
                         if (empty($elementNode->nextSibling)) {
-
                             $elementNode->parentNode->appendChild($errorNode);
-
                         } else {
-
                             $elementNode->parentNode->insertBefore(
                                 $errorNode->nextSibling,
                                 $elementNode
