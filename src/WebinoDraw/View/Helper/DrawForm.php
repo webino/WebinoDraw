@@ -406,10 +406,15 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
                             $node->appendChild($hiddenNode);
                             continue 2;
 
+                        // TODO
+                        case 'text':
+                        case 'email':
                         case 'submit':
                         case 'reset':
                         case 'button':
-                            $attributes['value'] = $translator->translate($element->getValue());
+                            $value = $element->getValue();
+                            $attributes['value'] = !empty($value) ? $translator->translate($value) : '';
+                            unset($value);
                             break;
                     }
                 }
