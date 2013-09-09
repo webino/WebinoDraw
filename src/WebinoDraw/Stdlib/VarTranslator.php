@@ -124,9 +124,11 @@ class VarTranslator
 
             if (array_key_exists($key, $translation)) {
 
-                if (is_object($translation[$key])) {
-                    // return early for objects
-                    // this is usefull to pass objects
+                if (is_object($translation[$key])
+                    || is_array($translation[$key])
+                ) {
+                    // return early for object|array
+                    // this is usefull to pass subjects
                     // to functions, helpers and filters
                     return $translation[$key];
                 }
