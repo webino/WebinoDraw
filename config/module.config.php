@@ -23,10 +23,19 @@ return array(
         'instance' => array(
             'alias' => array(
                 'WebinoDraw' => 'WebinoDraw\WebinoDraw',
+                'WebinoDrawCache' => 'Zend\Cache\Storage\Adapter\Filesystem',
                 'WebinoDrawElement' => 'WebinoDraw\View\Helper\DrawElement',
                 'WebinoDrawForm' => 'WebinoDraw\View\Helper\DrawForm',
                 'WebinoDrawPagination' => 'WebinoDraw\View\Helper\DrawPagination',
-                'WebinoDrawCache' => 'Zend\Cache\Storage\Adapter\Filesystem',
+                'WebinoDrawTranslate' => 'WebinoDraw\View\Helper\DrawTranslate',
+            ),
+            'WebinoDrawCache' => array(
+                'parameters' => array(
+                    'options' => array(
+                        'namespace' => 'webinodraw',
+                        'cacheDir' => 'data/cache',
+                    ),
+                ),
             ),
             'WebinoDrawElement' => array(
                 'injections' => array(
@@ -46,12 +55,10 @@ return array(
                     'WebinoDrawCache',
                 ),
             ),
-            'WebinoDrawCache' => array(
-                'parameters' => array(
-                    'options' => array(
-                        'namespace' => 'webinodraw',
-                        'cacheDir' => 'data/cache',
-                    ),
+            'WebinoDrawTranslate' => array(
+                'injections' => array(
+                    'FilterManager',
+                    'WebinoDrawCache',
                 ),
             ),
             'WebinoDraw\Form\DiForm' => array(
@@ -72,10 +79,10 @@ return array(
             'WebinoDrawElement' => 'WebinoDraw\Mvc\Service\ServiceViewHelperFactory',
             'WebinoDrawForm' => 'WebinoDraw\Mvc\Service\ServiceViewHelperFactory',
             'WebinoDrawPagination' => 'WebinoDraw\Mvc\Service\ServiceViewHelperFactory',
+            'WebinoDrawTranslate' => 'WebinoDraw\Mvc\Service\ServiceViewHelperFactory',
         ),
         'invokables' => array(
             'WebinoDrawAbsolutize' => 'WebinoDraw\View\Helper\DrawAbsolutize',
-            'WebinoDrawTranslate' => 'WebinoDraw\View\Helper\DrawTranslate',
             'WebinoDrawFormRow' => 'WebinoDraw\Form\View\Helper\FormRow',
             'WebinoDrawFormElement' => 'WebinoDraw\Form\View\Helper\FormElement',
             'WebinoDrawFormCollection' => 'Zend\Form\View\Helper\FormCollection',
