@@ -55,14 +55,8 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
         !array_key_exists('html', $spec) or
             $this->setHtml($nodes, $spec, $translation);
 
-        if (array_key_exists('onEmpty', $translatedSpec)) {
-
-            $onEmptySpec = $translatedSpec['onEmpty'];
-            $this->onEmpty($nodes, $onEmptySpec);
-
-            empty($onEmptySpec['instructions']) or
-                $this->subInstructions($nodes, $onEmptySpec['instructions'], $translation);
-        }
+        !array_key_exists('onEmpty', $translatedSpec) or
+            $this->onEmpty($nodes, $translatedSpec['onEmpty']);
 
         return true;
     }
