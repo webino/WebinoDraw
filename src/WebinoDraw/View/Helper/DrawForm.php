@@ -354,7 +354,7 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
                 $childNodes->setHtml($formCollection($form));
 
             } else {
-                $this->matchTemplate($childNodes, $form->getElements());
+                $this->matchTemplate($childNodes, $form);
             }
 
             if (!empty($spec['instructions'])) {
@@ -375,38 +375,55 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
         return $this;
     }
 
-    /**
-     * Try to match form elements to template
-     *
-     * @param NodeList $nodes
-     * @param array $elements
-     */
-    protected function matchTemplate(NodeList $nodes, array $elements)
+    protected function matchTemplate(NodeList $nodes, FormInterface $form)
     {
+        $elements   = $form->getElements();
         $translator = $this->getFormElementHelper()->getTranslator();
 
         foreach ($nodes as $node) {
 
-            /* @var $element \Zend\Form\Element */
+            // auto draw hidden nodes
             foreach ($elements as $element) {
 
-                $elementName = $element->getName();
-                $attributes  = $element->getAttributes();
+                $attributes = $element->getAttributes();
+                if (empty($attributes['type'])
+                    || 'hidden' !== $attributes['type']
+                ) {
+                    continue;
+                }
+                
+                $hiddenNode = $node->ownerDocument->createDocumentFragment();
+                $hiddenNode->appendXml($this->view->formRow($element));
+                $node->appendChild($hiddenNode);
+            }
 
-                $childNodes = $node->ownerDocument->xpath->query(
-                    './/*[@name="' . $elementName . '"]',
-                    $node
-                );
+            $elementNodes = $node->ownerDocument->xpath->query(
+                './/*[@name]',
+                $node
+            );
 
+            /* @var $element \Zend\Form\Element */
+            foreach ($elementNodes as $elementNode) {
+
+                $elementName = $elementNode->getAttribute('name');
+                if (!$form->has($elementName)) {
+                    $elementNode->parentNode->removeChild($elementNode);
+                    continue;
+                }
+
+                $element    = $form->get($elementName);
+                $attributes = $element->getAttributes();
+
+                // TODO
                 if (isset($attributes['type'])) {
                     switch ($attributes['type']) {
-                        case 'hidden':
-                            $hiddenNode = $node->ownerDocument->createDocumentFragment();
-                            $hiddenNode->appendXml($this->view->formRow($element));
-                            $node->appendChild($hiddenNode);
-                            continue 2;
+                        case 'select':
+                            $selectNode = $node->ownerDocument->createDocumentFragment();
+                            $selectNode->appendXml($this->view->formRow($element));
+                            $elementNode->parentNode->replaceChild($selectNode, $elementNode);
+                            unset($selectNode);
+                            break;
 
-                        // TODO
                         case 'text':
                         case 'email':
                         case 'submit':
@@ -419,12 +436,7 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
                     }
                 }
 
-                if (!count($childNodes)) {
-                    // element not found
-                    continue;
-                }
-
-                $elementNodes = $nodes->createNodeList($childNodes);
+                $elementNodes = $nodes->createNodeList(array($elementNode));
                 $elementNodes->setAttribs($attributes);
 
                 // labels
