@@ -74,16 +74,15 @@ abstract class AbstractDrawStrategy extends PhpRendererStrategy
      */
     public function collectModelVariables(ViewModel $model)
     {
-        $vars = $model->getVariables()->getArrayCopy();
+        $vars = $model->getVariables();
+
+        !method_exists($vars, 'getArrayCopy') or
+            $vars = $vars->getArrayCopy();
 
         foreach ($model->getChildren() as $child) {
 
-            $childVars = $child->getVariables();
-
-            !method_exists($childVars, 'getArrayCopy') or
-                $childVars = $childVars->getArrayCopy();
-
-            $vars = array_replace($vars, $childVars);
+            $childVars = $this->collectModelVariables($child);
+            $vars      = array_replace($vars, $childVars);
         }
 
         return $vars;
