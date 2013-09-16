@@ -276,12 +276,14 @@ class VarTranslator
 
                     // php functions first
 
+                    $translation->merge($results->getArrayCopy());
+
                     $this->translate(
                         $options,
                         $this->makeVarKeys($translation)
                     );
 
-                    $translation[$key] = call_user_func_array($helper, $options);
+                    $results[$key] = call_user_func_array($helper, $options);
 
                 } else {
 

@@ -57,6 +57,11 @@ class Element extends \DOMElement
         empty($this->nodeValue) or
             $properties[$prefix . 'nodeValue'] = $this->nodeValue;
 
+
+        if (empty($this->attributes)) {
+            return $properties;
+        }
+
         foreach ($this->attributes as $attr) {
             $properties[$prefix . $attr->name] = $attr->value;
         }

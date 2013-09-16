@@ -391,7 +391,7 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
                 ) {
                     continue;
                 }
-                
+
                 $hiddenNode = $node->ownerDocument->createDocumentFragment();
                 $hiddenNode->appendXml($this->view->formRow($element));
                 $node->appendChild($hiddenNode);
@@ -407,7 +407,13 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
 
                 $elementName = $elementNode->getAttribute('name');
                 if (!$form->has($elementName)) {
-                    $elementNode->parentNode->removeChild($elementNode);
+                    // remove node of the missing form element
+                    $parentNode = $elementNode->parentNode;
+                    if ('label' === $parentNode->nodeName) {
+                        $parentNode->parentNode->removeChild($parentNode);
+                    } else {
+                        $elementNode->parentNode->removeChild($elementNode);
+                    }
                     continue;
                 }
 
@@ -417,6 +423,7 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
                 // TODO
                 if (isset($attributes['type'])) {
                     switch ($attributes['type']) {
+                        case 'multi_checkbox':
                         case 'select':
                             $selectNode = $node->ownerDocument->createDocumentFragment();
                             $selectNode->appendXml($this->view->formRow($element));
