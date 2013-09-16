@@ -427,7 +427,7 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
                         case 'select':
                             $selectNode = $node->ownerDocument->createDocumentFragment();
                             $selectNode->appendXml($this->view->formRow($element));
-                            $elementNode->parentNode->replaceChild($selectNode, $elementNode);
+                            $elementNode = $elementNode->parentNode->replaceChild($selectNode, $elementNode);
                             unset($selectNode);
                             break;
 
