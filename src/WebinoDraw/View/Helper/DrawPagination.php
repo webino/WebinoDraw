@@ -20,6 +20,8 @@ use Zend\Stdlib\ArrayUtils;
  */
 class DrawPagination extends DrawElement implements ServiceLocatorAwareInterface
 {
+    protected $params = array();
+
     /**
      * @var array
      */
@@ -41,14 +43,14 @@ class DrawPagination extends DrawElement implements ServiceLocatorAwareInterface
             'first' => array(
                 'locator' => 'xpath=.//li[1]/a[1]',
                 'attribs' => array(
-                    'href' => '{$pageHref}?{$first}',
+                    'href' => '{$pageHref}?{$first}{$params}',
                     'title' => '{$first}',
                 ),
             ),
             'last' => array(
                 'locator' => 'xpath=.//li[last()]/a',
                 'attribs' => array(
-                    'href' => '{$pageHref}?{$last}',
+                    'href' => '{$pageHref}?{$last}{$params}',
                     'title' => '{$last}',
                 ),
             ),
@@ -67,7 +69,7 @@ class DrawPagination extends DrawElement implements ServiceLocatorAwareInterface
                             'locator' => 'a',
                             'value' => '{$number}',
                             'attribs' => array(
-                                'href' => '{$pageHref}?{$number}',
+                                'href' => '{$pageHref}?{$number}{$params}',
                                 'title' => '{$number}',
                             ),
                         ),
@@ -98,6 +100,12 @@ class DrawPagination extends DrawElement implements ServiceLocatorAwareInterface
         return $this->serviceLocator;
     }
 
+    public function addParam($name, $value)
+    {
+        $this->params[$name] = $value;
+        return $this;
+    }
+
     /**
      * @param NodeList $nodes
      * @param array $spec
@@ -108,7 +116,7 @@ class DrawPagination extends DrawElement implements ServiceLocatorAwareInterface
         // merge default
         $spec = ArrayUtils::merge(self::$defaultSpec, $spec);
 
-        $services = $this->getServiceLocator()->getServiceLocator();
+        $services      = $this->getServiceLocator()->getServiceLocator();
         $paginatorName = $spec['paginator'];
 
         if (!$services->has($paginatorName)) {
@@ -125,7 +133,7 @@ class DrawPagination extends DrawElement implements ServiceLocatorAwareInterface
             return;
         }
 
-        $curPageNo = $paginator->getCurrentPageNumber();
+        $curPageNo    = $paginator->getCurrentPageNumber();
         $pagesInRange = array();
 
         foreach ($pages->pagesInRange as $pageNo) {
@@ -140,7 +148,10 @@ class DrawPagination extends DrawElement implements ServiceLocatorAwareInterface
             array_merge(
                 $this->getVars(),
                 (array) $pages,
-                array('pagesInRange' => $pagesInRange)
+                array(
+                    'pagesInRange' => $pagesInRange,
+                    'params' => !empty($this->params) ? '&amp;' . http_build_query($this->params, '', '&amp;') : '',
+                )
             )
         );
 
