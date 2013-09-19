@@ -270,7 +270,7 @@ class VarTranslator
                 continue;
             }
 
-            foreach ($value as $helper => $options) {
+            foreach ((array) $value as $helper => $options) {
 
                 if (function_exists($helper)) {
 
@@ -352,7 +352,7 @@ class VarTranslator
                 continue;
             }
 
-            foreach ($value as $helper => $options) {
+            foreach ((array) $value as $helper => $options) {
 
                 if (function_exists($helper)) {
 
