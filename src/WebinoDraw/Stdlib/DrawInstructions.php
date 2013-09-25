@@ -166,6 +166,9 @@ class DrawInstructions extends ArrayObject implements
         unset($spec);
 
         foreach ($mergeFrom as $index => $spec) {
+            if (null === $spec) {
+                continue;
+            }
 
             if (!is_array($spec)) {
                 throw new InvalidInstructionException(
