@@ -32,9 +32,18 @@ class Translation extends ArrayObject implements
 
         foreach ($parts as $key) {
 
+            // magick keys
+            if ('_first' === $key) {
+                reset($value);
+                $key = key($value);
+
+            } elseif ('_last' === $key) {
+                end($value);
+                $key = key($value);
+            }
+
             // undefined
             if (empty($value[$key])) {
-
                 $value = null;
                 break;
             }
