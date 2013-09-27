@@ -628,6 +628,7 @@
   - Write tests + manual for DrawTranslate
   - Write tests + examples for DrawElement {$_outerHtml}
   - Write tests for DrawAjaxHtmlStrategy
+  - Write doc about var fetch _first and _last magic keys
 
 ## Addendum
 
