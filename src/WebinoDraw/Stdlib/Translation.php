@@ -32,7 +32,7 @@ class Translation extends ArrayObject implements
 
         foreach ($parts as $key) {
 
-            // magick keys
+            // magic keys
             if ('_first' === $key) {
                 reset($value);
                 $key = key($value);
