@@ -35,7 +35,7 @@ class Module implements
     {
         return array(
             'factories' => array(
-                
+
                 'WebinoDraw\View\Renderer\DrawRenderer' => function($services) {
                     return new View\Renderer\DrawRenderer(
                         $services->get('WebinoDraw'),
@@ -57,7 +57,7 @@ class Module implements
             ),
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
-                    __NAMESPACE__ => __DIR__ . '/../../src/' . __NAMESPACE__,
+                    __NAMESPACE__ => __DIR__,
                 ),
             ),
         );
