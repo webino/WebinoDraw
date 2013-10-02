@@ -76,7 +76,7 @@ class DrawRenderer
         $instructions->exchangeArray(array());
 
         !$isModel or
-            $instructions->merge($nameOrModel->getOption('instructions'));
+            $instructions->merge((array) $nameOrModel->getOption('instructions'));
 
         $modelVars = $isModel ? $nameOrModel->getVariables()->getArrayCopy() : array();
         $variables = array_merge($modelVars, (array) $values);
