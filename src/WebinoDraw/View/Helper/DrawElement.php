@@ -11,6 +11,7 @@
 namespace WebinoDraw\View\Helper;
 
 use ArrayAccess;
+use ArrayObject;
 use WebinoDraw\Stdlib\ArrayFetchInterface;
 use WebinoDraw\Dom\NodeList;
 use WebinoDraw\Exception;
@@ -139,10 +140,13 @@ class DrawElement extends AbstractDrawElement
             foreach ($items as $key => $itemSubject) {
                 $index++;
 
-                $item = $varTranslator->subjectToArray($itemSubject);
+                $item = new \ArrayObject($varTranslator->subjectToArray($itemSubject));
 
                 $item[self::EXTRA_VAR_PREFIX . 'key']   = (string) $key;
                 $item[self::EXTRA_VAR_PREFIX . 'index'] = (string) $index;
+
+                empty($spec['loop']['callback']) or
+                    call_user_func_array($spec['loop']['callback'], array($item, $this));
 
                 $newNode          = clone $nodeClone;
                 $newNodeList      = $nodes->createNodeList(array($newNode));
@@ -150,7 +154,7 @@ class DrawElement extends AbstractDrawElement
 
                 $varTranslator->translationMerge(
                     $localTranslation,
-                    $item
+                    $item->getArrayCopy()
                 );
 
                 if ($insertBefore) {

@@ -424,11 +424,12 @@
             'event-example.test',                        // event name per item, identificator = WebinoDraw
         ),
         'loop' => array(                                 // loop node by view array items
-            'base'    => 'depth.items',                  // path to view array
-            'index'   => '0',                            // index start point (optional)
-            'offset'  => '0',                            // items offset (optional)
-            'length'  => '0',                            // items length (optional)
-            'onEmpty' => array(                          // custom options if items array is empty
+            'base'     => 'depth.items',                 // path to view array
+            'index'    => '0',                           // index start point (optional)
+            'offset'   => '0',                           // items offset (optional)
+            'length'   => '0',                           // items length (optional)
+            'callback' => function($item, $helper){},    // called on each item (optional)
+            'onEmpty'  => array(                         // custom options if items array is empty
                                                          // use same options as normal
             ),
             'instructions' => array(                     // instructions to draw looped element nodes
