@@ -15,6 +15,7 @@ use ArrayObject;
 use WebinoDraw\Stdlib\ArrayFetchInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\Filter\FilterPluginManager;
+use Zend\View\Helper\HelperInterface;
 
 /**
  * Replace variables in array with values in the other array.
@@ -121,20 +122,23 @@ class VarTranslator
         }
 
         foreach ($match[0] as $key) {
-
-            if (array_key_exists($key, $translation)) {
-
-                if (is_object($translation[$key])
-                    || is_array($translation[$key])
-                ) {
-                    // return early for object|array
-                    // this is usefull to pass subjects
-                    // to functions, helpers and filters
-                    return $translation[$key];
-                }
-
-                $str = str_replace($key, $translation[$key], $str);
+            if (!array_key_exists($key, $translation)) {
+                continue;
             }
+
+            if ($key === $str
+                && (is_object($translation[$key])
+                    || is_array($translation[$key])
+                    || is_int($translation[$key])
+                    || is_float($translation[$key]))
+            ) {
+                // return early for object|array
+                // this is usefull to pass subjects
+                // to functions, helpers and filters
+                return $translation[$key];
+            }
+
+            $str = str_replace($key, $translation[$key], $str);
         }
 
         return $str;
@@ -311,7 +315,11 @@ class VarTranslator
                                 break;
                             }
 
-                            if (is_array($plugin)) {
+                            if (!($plugin instanceof HelperInterface)
+                                || is_array($plugin)
+                                || is_int($plugin)
+                                || is_float($plugin)
+                            ) {
                                 // support array results
                                 $results[$key] = $plugin;
                                 continue 3;
@@ -379,9 +387,8 @@ class VarTranslator
                         continue;
                     }
 
-                    if (empty($options[1])) {
+                    !empty($options[1]) or
                         $options[1] = array();
-                    }
 
                     $translation[$key] = $pluginManager
                                             ->get($helper, $options[1])
