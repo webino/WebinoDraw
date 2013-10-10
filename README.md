@@ -419,7 +419,7 @@
         ),
         'onVar' => array(                                // variables logic
             'customIndex => array(                       // options per variable
-                'var' => '{$invoice.id}',                // test variable value
+                'var' => '{$customvar}',                 // test variable value
                 'equalTo' => '',                         // condition method (or)
                 'notEqualTo' => '',                      // condition method
                 'instructions' => array(                 // sub-instructions processed when condition is true
