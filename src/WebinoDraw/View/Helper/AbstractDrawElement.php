@@ -22,6 +22,28 @@ use WebinoDraw\Stdlib\VarTranslator;
 abstract class AbstractDrawElement extends AbstractDrawHelper
 {
     /**
+     * @param NodeList $nodes
+     * @param array $spec
+     * @return AbstractDrawElement
+     */
+    public function drawNodes(NodeList $nodes, array $spec)
+    {
+        $translation = $this->cloneTranslationPrototype($this->getVars());
+
+        if (!empty($spec['loop'])) {
+            $this->loop($nodes, $spec, $translation);
+
+        } elseif (!$this->manipulateNodes($nodes, $spec, $translation)) {
+            return $this;
+        }
+
+        empty($spec['instructions']) or
+            $this->subInstructions($nodes, $spec['instructions'], $translation);
+
+        return $this;
+    }
+
+    /**
      * Manipulate nodes
      *
      * @todo protected PHP 5.4
@@ -55,10 +77,236 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
         !array_key_exists('html', $spec) or
             $this->setHtml($nodes, $spec, $translation);
 
+        !array_key_exists('onVar', $translatedSpec) or
+            $this->onVar($nodes, $translatedSpec['onVar'], $translation);
+
         !array_key_exists('onEmpty', $translatedSpec) or
             $this->onEmpty($nodes, $translatedSpec['onEmpty']);
 
         return true;
+    }
+
+    /**
+     * Render view script to {$var}
+     *
+     * @param ArrayAccess $translation
+     * @param array $options
+     * @return AbstractDrawElement
+     */
+    protected function render(ArrayAccess $translation, array $options)
+    {
+        foreach ($options as $key => $value) {
+            $translation[$key] = $this->view->render($value);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Replace nodes with XHTML
+     *
+     * @param NodeList $nodes
+     * @param array $spec
+     * @param ArrayAccess $translation
+     * @return AbstractDrawElement
+     */
+    protected function replace(NodeList $nodes, array $spec, ArrayAccess $translation)
+    {
+        if (!empty($spec['locator'])) {
+
+            $locator = $nodes->getLocator();
+
+            foreach ($nodes as $node) {
+                if (empty($node->ownerDocument)) {
+                    // node no longer exists
+                    continue;
+                }
+
+                // TODO BC break match relative to the node
+                $newNodes = $node->ownerDocument->xpath->query(
+                    $locator->set($spec['locator'])->xpathMatchAny()
+                );
+
+                $subspec = $spec;
+                unset($subspec['locator']);
+                $this->replace(
+                    $nodes->createNodeList($newNodes),
+                    $subspec,
+                    $translation
+                );
+            }
+
+            return $this;
+        }
+
+        $nodes->replace(
+            $spec['replace'],
+            $this->createHtmlPreSet($spec['replace'], $spec, $translation)
+        );
+
+        // redraw
+        $subspec = $spec;
+        unset($subspec['replace']);
+        self::drawNodes($nodes, $subspec);
+
+        return $this;
+    }
+
+    /**
+     * Set attributes for each node in the list
+     *
+     * @param NodeList $nodes
+     * @param array $spec
+     * @param ArrayAccess $translation
+     * @return AbstractDrawElement
+     */
+    protected function setAttribs(NodeList $nodes, array $spec, ArrayAccess $translation)
+    {
+        $nodes->setAttribs(
+            $spec['attribs'],
+            $this->createAttribsPreSet($spec, $translation)
+        );
+        return $this;
+    }
+
+    /**
+     * Set text value for each node in the list
+     *
+     * @param NodeList $nodes
+     * @param array $spec
+     * @param ArrayAccess $translation
+     * @return AbstractDrawElement
+     */
+    protected function setValue(NodeList $nodes, array $spec, ArrayAccess $translation)
+    {
+        $nodes->setValue(
+            $spec['value'],
+            $this->createValuePreSet($spec, $translation)
+        );
+        return $this;
+    }
+
+    /**
+     * Set XHTML for each node in the list
+     *
+     * @param NodeList $nodes
+     * @param array $spec
+     * @param ArrayAccess $translation
+     * @return AbstractDrawElement
+     */
+    protected function setHtml(NodeList $nodes, array $spec, ArrayAccess $translation)
+    {
+        if (empty($spec['html'])) {
+            return $this;
+        }
+
+        $nodes->setHtml(
+            $spec['html'],
+            $this->createHtmlPreSet($spec['html'], $spec, $translation)
+        );
+        return $this;
+    }
+
+    /**
+     * Support for the variables logic
+     *
+     * Allows to draw instructions based on the variable logic.
+     * Currently only equalTo and notEqualTo supported.
+     *
+     * @todo Add support for the: lessThan, greaterThan, lessThanOrEqualTo, greaterThanOrEqualTo, match, in, between
+     * @todo Decouple to its own class with related private methods
+     * @param NodeList $nodes
+     * @param array $spec
+     * @param ArrayAccess $translation
+     * @return AbstractDrawElement
+     * @throws Exception\InvalidInstructionException
+     */
+    protected function onVar(NodeList $nodes, array $spec, ArrayAccess $translation)
+    {
+        foreach ($spec as $subSpec) {
+            if (!array_key_exists('var', $subSpec)) {
+                throw new Exception\InvalidInstructionException(
+                    'Expected `var` option in ' . print_r($subSpec, true)
+                );
+            }
+
+            !array_key_exists('equalTo', $subSpec) or
+                $this->onVarEqualTo($nodes, $subSpec, $translation);
+
+            !array_key_exists('notEqualTo', $subSpec) or
+                $this->onVarNotEqualTo($nodes, $subSpec, $translation);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Handle onVar() equalTo
+     *
+     * @param NodeList $nodes
+     * @param array $spec
+     * @param ArrayAccess $translation
+     * @return AbstractDrawElement
+     */
+    private function onVarEqualTo(NodeList $nodes, array $spec, ArrayAccess $translation)
+    {
+        if ($spec['var'] !== $spec['equalTo']) {
+            return $this;
+        }
+
+        $this->subInstructions($nodes, $spec['instructions'], $translation);
+        return $this;
+    }
+
+    /**
+     * Handle onVar() notEqualTo
+     *
+     * @param NodeList $nodes
+     * @param array $spec
+     * @param ArrayAccess $translation
+     * @return AbstractDrawElement
+     */
+    private function onVarNotEqualTo(NodeList $nodes, array $spec, ArrayAccess $translation)
+    {
+        if ($spec['var'] === $spec['notEqualTo']) {
+            return $this;
+        }
+
+        $this->subInstructions($nodes, $spec['instructions'], $translation);
+        return $this;
+    }
+
+    /**
+     * If node has no text value, draw it with onEmpty options
+     *
+     * @param NodeList $nodes
+     * @param array $spec
+     * @return AbstractDrawElement
+     */
+    protected function onEmpty(NodeList $nodes, array $spec)
+    {
+        foreach ($nodes as $node) {
+
+            $nodeValue = trim($node->nodeValue);
+
+            if (!empty($nodeValue)
+                || is_numeric($nodeValue)
+            ) {
+                continue;
+            }
+
+            // node value is empty,
+            // chceck for childs other than text
+            foreach ($node->childNodes as $childNode) {
+                if (!($childNode instanceof \DOMText)) {
+                    continue 2;
+                }
+            }
+
+            self::drawNodes($nodes->createNodeList(array($node)), $spec);
+        }
+
+        return $this;
     }
 
     /**
@@ -228,6 +476,12 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
         return $translatedValue;
     }
 
+    /**
+     * @param array $spec
+     * @param VarTranslator $varTranslator
+     * @param ArrayAccess $translation
+     * @return AbstractDrawElement
+     */
     public function applyDefault(array $spec, VarTranslator $varTranslator, ArrayAccess $translation)
     {
         empty($spec['var']['default']) or

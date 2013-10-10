@@ -417,6 +417,16 @@
                 ),
             ),
         ),
+        'onVar' => array(                                // variables logic
+            'customIndex => array(                       // options per variable
+                'var' => '{$invoice.id}',                // test variable value
+                'equalTo' => '',                         // condition method (or)
+                'notEqualTo' => '',                      // condition method
+                'instructions' => array(                 // sub-instructions processed when condition is true
+
+                ),
+            ),
+        ),
         'instructions' => array(                         // sub-instructions to draw over nodes
                                                          // add different helper instructions
         ),
@@ -620,7 +630,6 @@
 
 ## Todo
 
-  - Variable switch/case support, maybe
   - DrawHelper how to
   - Add DrawResized to resize images
   - Add debug profiler
@@ -630,6 +639,7 @@
   - Write tests + examples for DrawElement {$_outerHtml}
   - Write tests for DrawAjaxHtmlStrategy
   - Write doc about var fetch _first and _last magic keys
+  - Write test for onVar support
 
 ## Addendum
 
