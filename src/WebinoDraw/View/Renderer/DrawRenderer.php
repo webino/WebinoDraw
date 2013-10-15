@@ -75,8 +75,12 @@ class DrawRenderer
         $instructions = clone $this->webinoDraw->getInstructions();
         $instructions->exchangeArray(array());
 
-        !$isModel or
-            $instructions->merge((array) $nameOrModel->getOption('instructions'));
+        if ($isModel) {
+            // merge draw instructions
+            foreach ((array) $nameOrModel->getOption('instructions') as $iOptions) {
+                $instructions->merge($iOptions);
+            }
+        }
 
         $modelVars = $isModel ? $nameOrModel->getVariables()->getArrayCopy() : array();
         $variables = array_merge($modelVars, (array) $values);
