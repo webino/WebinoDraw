@@ -296,6 +296,9 @@ class VarTranslator
                     $plugin = $pluginManager->get($helper);
 
                     foreach ($options as $func => $calls) {
+                        if (null === $calls) {
+                            continue;
+                        }
 
                         foreach ($calls as $params) {
 
