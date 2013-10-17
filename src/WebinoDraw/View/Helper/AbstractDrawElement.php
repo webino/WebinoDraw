@@ -250,7 +250,8 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
      */
     private function onVarEqualTo(NodeList $nodes, array $spec, ArrayAccess $translation)
     {
-        if ($spec['var'] !== $spec['equalTo']) {
+        $val = $this->getVarTranslator()->removeVars($spec['var']);
+        if ($val !== $spec['equalTo']) {
             return $this;
         }
 
@@ -268,7 +269,8 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
      */
     private function onVarNotEqualTo(NodeList $nodes, array $spec, ArrayAccess $translation)
     {
-        if ($spec['var'] === $spec['notEqualTo']) {
+        $val = $this->getVarTranslator()->removeVars($spec['var']);
+        if ($val === $spec['notEqualTo']) {
             return $this;
         }
 
