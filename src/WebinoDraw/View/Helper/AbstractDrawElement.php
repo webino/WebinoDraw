@@ -471,11 +471,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
             $varTranslator->makeVarKeys($translation)
         );
 
-        if ($varTranslator->containsVar($translatedValue)) {
-            return $varTranslator->removeVars($translatedValue);
-        }
-
-        return $translatedValue;
+        return $varTranslator->removeVars($translatedValue);
     }
 
     /**

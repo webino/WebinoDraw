@@ -75,6 +75,9 @@ class VarTranslator
      */
     public function removeVars($string)
     {
+        if (!$this->containsVar($string)) {
+            return $string;
+        }
         $sanitized = preg_replace($this->createVarPregPattern(), '', $string);
         return trim($sanitized);
     }
