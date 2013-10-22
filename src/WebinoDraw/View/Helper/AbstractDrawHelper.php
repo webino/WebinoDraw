@@ -427,6 +427,26 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     }
 
     /**
+     * Return translated $spec by values in $translation
+     *
+     * @param array $spec
+     * @param ArrayAccess $translation
+     * @return array
+     */
+    protected function translateSpec(array $spec, ArrayAccess $translation)
+    {
+        $this->applyVarTranslator($translation, $spec);
+
+        $varTranslator = $this->getVarTranslator();
+        $varTranslator->translate(
+            $spec,
+            $varTranslator->makeVarKeys($translation)
+        );
+
+        return $spec;
+    }
+
+    /**
      * @param array $triggers
      * @return AbstractDrawHelper
      */

@@ -10,7 +10,6 @@
 
 namespace WebinoDraw\View\Helper;
 
-use ArrayAccess;
 use WebinoDraw\Stdlib\ArrayFetchInterface;
 use WebinoDraw\Dom\NodeList;
 use WebinoDraw\Exception;
@@ -158,25 +157,5 @@ class DrawElement extends AbstractDrawElement
         }
 
         return $this;
-    }
-
-    /**
-     * Return translated $spec by values in $translation
-     *
-     * @param array $spec
-     * @param ArrayAccess $translation
-     * @return array
-     */
-    protected function translateSpec(array $spec, ArrayAccess $translation)
-    {
-        $this->applyVarTranslator($translation, $spec);
-
-        $varTranslator = $this->getVarTranslator();
-        $varTranslator->translate(
-            $spec,
-            $varTranslator->makeVarKeys($translation)
-        );
-
-        return $spec;
     }
 }
