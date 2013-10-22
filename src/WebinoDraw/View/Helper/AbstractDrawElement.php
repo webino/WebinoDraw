@@ -58,7 +58,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
         $translatedSpec = $this->translateSpec($spec, $translation);
 
         empty($spec['render']) or
-            $this->render($translation, $spec['render']);
+            $this->render($translation, $translatedSpec['render']);
 
         !array_key_exists('remove', $translatedSpec) or
             $nodes->remove($translatedSpec['remove']);
@@ -364,10 +364,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
      */
     public function createHtmlPreSet($subject, array $spec, ArrayAccess $translation)
     {
-        $varTranslator = $this->getVarTranslator();
-        $helper        = $this; // todo PHP 5.4
-        $innerHtmlKey  = self::EXTRA_VAR_PREFIX . 'innerHtml';
-        $outerHtmlKey  = self::EXTRA_VAR_PREFIX . 'outerHtml';
+        $helper = $this; // todo PHP 5.4
 
         return function (
             Element $node,
@@ -377,41 +374,9 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
             $helper,
             $subject,
             $spec,
-            $varTranslator,
-            $translation,
-            $innerHtmlKey,
-            $outerHtmlKey
+            $translation
         ) {
-            $nodeTranslation = $helper->nodeTranslation($node);
-
-            $helper->applyDefault($spec, $varTranslator, $nodeTranslation);
-
-            // include node innerHTML to the translation
-            (false === strpos($subject, $innerHtmlKey)) or
-                $nodeTranslation[$innerHtmlKey] = $node->getInnerHtml();
-
-            // include node outerHTML to the translation
-            (false === strpos($subject, $outerHtmlKey)) or
-                $nodeTranslation[$outerHtmlKey] = $node->getOuterHtml();
-
-            $translatedValue = $varTranslator->translateString(
-                $value,
-                $varTranslator->makeVarKeys($translation)
-            );
-
-            $nodeTranslatedValue = $varTranslator->translateString(
-                $translatedValue,
-                $varTranslator->makeVarKeys($nodeTranslation)
-            );
-
-            if (empty($nodeTranslatedValue)
-                && array_key_exists('onEmpty', $spec)
-            ) {
-                $helper->manipulateNodes($nodes, $spec['onEmpty'], $translation);
-                return '';
-            }
-
-            return $nodeTranslatedValue;
+            return $helper->translateHtmlPreSet($subject, $node, $value, $nodes, $spec, clone $translation);
         };
     }
 
@@ -472,6 +437,56 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
         );
 
         return $varTranslator->removeVars($translatedValue);
+    }
+
+    /**
+     * @param DOMNode $node
+     * @param string $value
+     * @param array $spec
+     * @param ArrayAccess $translation
+     * @return type
+     */
+    public function translateHtmlPreSet($subject, DOMNode $node, $value, NodeList $nodes,
+                                        array &$spec, ArrayAccess $translation)
+    {
+        $varTranslator = $this->getVarTranslator();
+
+        $this->applyVarTranslator($translation, $spec);
+
+        $translatedValue = $varTranslator->translateString(
+            $value,
+            $varTranslator->makeVarKeys($translation)
+        );
+
+        // node translation
+        $nodeTranslation = $this->nodeTranslation($node);
+
+        $this->applyDefault($spec, $varTranslator, $nodeTranslation);
+
+        $innerHtmlKey = self::EXTRA_VAR_PREFIX . 'innerHtml';
+        $outerHtmlKey = self::EXTRA_VAR_PREFIX . 'outerHtml';
+
+        // include node innerHTML to the translation
+        (false === strpos($subject, $innerHtmlKey)) or
+            $nodeTranslation[$innerHtmlKey] = $node->getInnerHtml();
+
+        // include node outerHTML to the translation
+        (false === strpos($subject, $outerHtmlKey)) or
+            $nodeTranslation[$outerHtmlKey] = $node->getOuterHtml();
+
+        $nodeTranslatedValue = $varTranslator->translateString(
+            $translatedValue,
+            $varTranslator->makeVarKeys($nodeTranslation)
+        );
+
+        if (empty($nodeTranslatedValue)
+            && array_key_exists('onEmpty', $spec)
+        ) {
+            $this->manipulateNodes($nodes, $spec['onEmpty'], $translation);
+            return '';
+        }
+
+        return $nodeTranslatedValue;
     }
 
     /**
