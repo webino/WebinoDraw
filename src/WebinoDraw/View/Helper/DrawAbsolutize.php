@@ -31,8 +31,8 @@ class DrawAbsolutize extends AbstractDrawElement
     public static function getDefaultLocator()
     {
         return array(
-            'src' => 'xpath=//@src' . self::LOCATOR_CONDITION,
-            'href' => 'xpath=//@href' . self::LOCATOR_CONDITION,
+            'src'    => 'xpath=//@src' . self::LOCATOR_CONDITION,
+            'href'   => 'xpath=//@href' . self::LOCATOR_CONDITION,
             'action' => 'xpath=//@action' . self::LOCATOR_CONDITION,
         );
     }
