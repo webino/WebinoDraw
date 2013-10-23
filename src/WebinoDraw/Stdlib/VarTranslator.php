@@ -170,7 +170,6 @@ class VarTranslator
         }
 
         foreach ($subject as &$param) {
-
             if (is_array($param)) {
 
                 $this->translate($param, $translation);
@@ -193,7 +192,6 @@ class VarTranslator
         foreach ($values as $key => $value) {
 
             $this->translate($value, $translation);
-
             $translation[$key] = $value;
         }
 
@@ -210,11 +208,9 @@ class VarTranslator
     public function translationDefaults(ArrayAccess $translation, array $defaults)
     {
         foreach ($defaults as $key => $value) {
-
             if (empty($translation[$key])) {
 
                 $this->translate($value, $translation);
-
                 $translation[$key] = $value;
             }
         }
@@ -266,21 +262,19 @@ class VarTranslator
      * @param AbstractPluginManager $pluginManager Helper loader
      * @return VarTranslator
      */
-    public function applyHelper(ArrayAccess $translation, array $spec, AbstractPluginManager $pluginManager)
+    public function applyHelper(ArrayAccess $translation, array &$spec, AbstractPluginManager $pluginManager)
     {
         $results = new ArrayObject;
 
-        foreach ($spec as $key => $value) {
-
-            // skip undefined
+        foreach ($spec as $key => &$value) {
             if (!array_key_exists($key, $translation)) {
+                // skip undefined
                 continue;
             }
 
             foreach ((array) $value as $helper => $options) {
 
                 if (function_exists($helper)) {
-
                     // php functions first
 
                     $translation->merge($results->getArrayCopy());
@@ -293,7 +287,6 @@ class VarTranslator
                     $results[$key] = call_user_func_array($helper, $options);
 
                 } else {
-
                     // zf helpers
 
                     $plugin = $pluginManager->get($helper);
@@ -328,6 +321,8 @@ class VarTranslator
                             ) {
                                 // support array results
                                 $results[$key] = $plugin;
+
+                                unset($value[$helper]);
                                 continue 3;
                             }
                         }
@@ -339,6 +334,8 @@ class VarTranslator
                     // join helper result
                     $results[$key].= $plugin;
                 }
+
+                unset($value[$helper]);
             }
         }
 
@@ -357,19 +354,17 @@ class VarTranslator
      * @param  FilterPluginManager $pluginManager Filter loader.
      * @return VarTranslator
      */
-    public function applyFilter(ArrayAccess $translation, array $spec, FilterPluginManager $pluginManager)
+    public function applyFilter(ArrayAccess $translation, array &$spec, FilterPluginManager $pluginManager)
     {
-        foreach ($spec as $key => $value) {
-
-            // skip undefined
+        foreach ($spec as $key => &$value) {
             if (!array_key_exists($key, $translation)) {
+                // skip undefined
                 continue;
             }
 
             foreach ((array) $value as $helper => $options) {
 
                 if (function_exists($helper)) {
-
                     // php functions first
 
                     $this->translate(
@@ -380,7 +375,6 @@ class VarTranslator
                     $translation[$key] = call_user_func_array($helper, $options);
 
                 } else {
-
                     // zf filter
 
                     $this->translate(
@@ -400,6 +394,8 @@ class VarTranslator
                                             ->get($helper, $options[1])
                                             ->filter($options[0]);
                 }
+
+                unset($value[$helper]);
             }
         }
 
@@ -427,5 +423,14 @@ class VarTranslator
         if (method_exists($subject, 'getArrayCopy')) {
             return $subject->getArrayCopy();
         }
+    }
+
+    /**
+     * @param mixed $subject
+     * @return \ArrayObject
+     */
+    public function subjectToArrayObject($subject)
+    {
+        return new ArrayObject($this->subjectToArray($subject));
     }
 }

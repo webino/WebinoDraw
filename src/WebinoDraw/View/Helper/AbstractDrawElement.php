@@ -14,7 +14,8 @@ use ArrayAccess;
 use DOMNode;
 use WebinoDraw\Dom\Element;
 use WebinoDraw\Dom\NodeList;
-use WebinoDraw\Stdlib\VarTranslator;
+use WebinoDraw\Exception;
+use WebinoDraw\Stdlib\ArrayFetchInterface;
 
 /**
  *
@@ -55,13 +56,13 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
      */
     public function manipulateNodes(NodeList $nodes, array $spec, ArrayAccess $translation)
     {
-        $translatedSpec = $this->translateSpec($spec, $translation);
+        $this->translateSpec($spec, $translation);
 
         empty($spec['render']) or
-            $this->render($translation, $translatedSpec['render']);
+            $this->render($translation, $spec['render']);
 
-        !array_key_exists('remove', $translatedSpec) or
-            $nodes->remove($translatedSpec['remove']);
+        !array_key_exists('remove', $spec) or
+            $nodes->remove($spec['remove']);
 
         if (array_key_exists('replace', $spec)) {
             $this->replace($nodes, $spec, $translation);
@@ -77,13 +78,130 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
         !array_key_exists('html', $spec) or
             $this->setHtml($nodes, $spec, $translation);
 
-        !array_key_exists('onVar', $translatedSpec) or
-            $this->onVar($nodes, $translatedSpec['onVar'], $translation);
+        !array_key_exists('onVar', $spec) or
+            $this->onVar($nodes, $spec['onVar'], $translation);
 
-        !array_key_exists('onEmpty', $translatedSpec) or
-            $this->onEmpty($nodes, $translatedSpec['onEmpty']);
+        !array_key_exists('onEmpty', $spec) or
+            $this->onEmpty($nodes, $spec['onEmpty']);
 
         return true;
+    }
+
+    /**
+     * Loop target nodes by data.
+     *
+     * @param NodeList $nodes
+     * @param array $spec
+     * @param ArrayFetchInterface $translation
+     * @return AbstractDrawElement
+     */
+    protected function loop(NodeList $nodes, array $spec, ArrayFetchInterface $translation)
+    {
+        if (empty($spec['loop']['base'])) {
+            throw new Exception\MissingPropertyException(
+                sprintf('Loop base expected in: %s', print_r($spec, 1))
+            );
+        }
+
+        !empty($spec['loop']['offset']) or
+            $spec['loop']['offset'] = 0;
+
+        !empty($spec['loop']['length']) or
+            $spec['loop']['length'] = null;
+
+        $items = array_slice(
+            (array) $translation->fetch($spec['loop']['base']),
+            $spec['loop']['offset'],
+            $spec['loop']['length'],
+            true
+        );
+
+        if (empty($items)) {
+            // nothing to loop
+            if (array_key_exists('onEmpty', $spec['loop'])) {
+
+                $onEmptySpec = $spec['loop']['onEmpty'];
+                $this->manipulateNodes($nodes, $onEmptySpec, $translation);
+
+                empty($onEmptySpec['instructions']) or
+                    $this->subInstructions($nodes, $onEmptySpec['instructions'], $translation);
+            }
+
+            return $this;
+        }
+
+        $varTranslator = $this->getVarTranslator();
+
+        foreach ($nodes as $node) {
+
+            if ($node->nextSibling) {
+                $insertBefore = $node->nextSibling;
+            } else {
+                $insertBefore = null;
+            }
+
+            $nodeClone  = clone $node;
+            $parentNode = $node->parentNode;
+
+            $node->parentNode->removeChild($node);
+
+            if (empty($spec['loop']['index'])) {
+                $index = 0;
+            } else {
+                $index = $spec['loop']['index'];
+            }
+
+            foreach ($items as $key => $itemSubject) {
+                $index++;
+
+                $item = $varTranslator->subjectToArrayObject($itemSubject);
+
+                $item[self::EXTRA_VAR_PREFIX . 'key']   = (string) $key;
+                $item[self::EXTRA_VAR_PREFIX . 'index'] = (string) $index;
+
+                // call loop item callback
+                // todo callback array
+                empty($spec['loop']['callback']) or
+                    call_user_func_array($spec['loop']['callback'], array($item, $this));
+
+                // create local translation
+                $localTranslation = clone $translation;
+
+                $varTranslator->translationMerge(
+                    $localTranslation,
+                    $item->getArrayCopy()
+                );
+
+                // add node
+                $newNode = clone $nodeClone;
+
+                if ($insertBefore) {
+                    $parentNode->insertBefore($newNode, $insertBefore);
+                } else {
+                    $parentNode->appendChild($newNode);
+                }
+
+                // manipulate item nodes with local spec and translation
+                $newNodeList = $nodes->createNodeList(array($newNode));
+                $localSpec   = $spec;
+                $terminate   = !$this->manipulateNodes($newNodeList, $localSpec, $localTranslation);
+
+                if ($terminate || empty($spec['loop']['instructions'])) {
+                    continue;
+                }
+
+                // render sub-instructions
+                $this
+                    ->cloneInstructionsPrototype($spec['loop']['instructions'])
+                    ->render(
+                       $newNode,
+                       $this->view,
+                       $localTranslation->getArrayCopy()
+                   );
+            }
+        }
+
+        return $this;
     }
 
     /**
@@ -414,8 +532,6 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
         $varTranslator   = $this->getVarTranslator();
         $nodeTranslation = $this->nodeTranslation($node);
 
-        $this->applyDefault($spec, $varTranslator, $nodeTranslation);
-
         $translation->merge(
             $nodeTranslation->getArrayCopy()
         );
@@ -428,8 +544,6 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
         );
 
         $this->applyVarTranslator($translation, $spec);
-
-        $this->applyDefault($spec, $varTranslator, $translation);
 
         $translatedValue = $varTranslator->translateString(
             $value,
@@ -461,8 +575,6 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
         // node translation
         $nodeTranslation = $this->nodeTranslation($node);
 
-        $this->applyDefault($spec, $varTranslator, $nodeTranslation);
-
         $innerHtmlKey = self::EXTRA_VAR_PREFIX . 'innerHtml';
         $outerHtmlKey = self::EXTRA_VAR_PREFIX . 'outerHtml';
 
@@ -487,22 +599,5 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
         }
 
         return $nodeTranslatedValue;
-    }
-
-    /**
-     * @param array $spec
-     * @param VarTranslator $varTranslator
-     * @param ArrayAccess $translation
-     * @return AbstractDrawElement
-     */
-    public function applyDefault(array $spec, VarTranslator $varTranslator, ArrayAccess $translation)
-    {
-        empty($spec['var']['default']) or
-            $varTranslator->translationDefaults(
-                $translation,
-                $spec['var']['default']
-            );
-
-        return $this;
     }
 }

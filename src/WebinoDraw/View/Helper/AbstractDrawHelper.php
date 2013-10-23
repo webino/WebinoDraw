@@ -299,7 +299,7 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
      * @param array $spec
      * @return AbstractDrawHelper
      */
-    public function applyVarTranslator(ArrayAccess $translation, array $spec)
+    public function applyVarTranslator(ArrayAccess $translation, array &$spec)
     {
         $varTranslator = $this->getVarTranslator();
 
@@ -334,6 +334,12 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
                 $translation,
                 $spec['var']['filter']['post'],
                 $this->getFilterPluginManager()
+            );
+
+        empty($spec['var']['default']) or
+            $varTranslator->translationDefaults(
+                $translation,
+                $spec['var']['default']
             );
 
         return $this;
@@ -431,9 +437,9 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
      *
      * @param array $spec
      * @param ArrayAccess $translation
-     * @return array
+     * @return VarTranslator
      */
-    protected function translateSpec(array $spec, ArrayAccess $translation)
+    protected function translateSpec(array &$spec, ArrayAccess $translation)
     {
         $this->applyVarTranslator($translation, $spec);
 
@@ -443,7 +449,7 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
             $varTranslator->makeVarKeys($translation)
         );
 
-        return $spec;
+        return $this;
     }
 
     /**
