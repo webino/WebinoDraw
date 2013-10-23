@@ -50,6 +50,10 @@ class DrawAbsolutize extends AbstractDrawElement
         $translationVars = $varTranslator->makeVarKeys($translation);
         $basePath        = $this->view->basePath();
 
+        $serverUrl = array_key_exists('serverUrl', $spec)
+                    ? (true === $spec['serverUrl'] ? $this->view->serverUrl() : (string) $spec['serverUrl'] )
+                    : '';
+
         foreach ($nodes as $node) {
 
             if (!($node instanceof \DOMAttr)) {
@@ -64,7 +68,7 @@ class DrawAbsolutize extends AbstractDrawElement
                 $translationVars
             );
 
-            $node->nodeValue = $this->removeDotSegments(
+            $node->nodeValue = $serverUrl . $this->removeDotSegments(
                 $basePath . '/' . $nodeValue
             );
         }
