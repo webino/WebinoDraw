@@ -330,6 +330,9 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
         unset($formAttribs['class']);
         $nodes->setAttribs($formAttribs);
 
+        isset($spec['wrap'])
+            or $spec['wrap'] = false;
+
         isset($spec['text_domain'])
             or $spec['text_domain'] = 'default';
 
@@ -351,7 +354,7 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
                 // easy render
                 $formCollection = $this->getFormCollectionHelper();
 
-                $childNodes->setHtml($formCollection($form));
+                $childNodes->setHtml($formCollection($form, $spec['wrap']));
 
             } else {
                 $this->matchTemplate($childNodes, $form);
