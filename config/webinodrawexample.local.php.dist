@@ -120,6 +120,7 @@ return array(
             'filter-example' => array(
                 'locator' => '.filter-example',
                 'value' => '{$_nodeValue}',
+                'x' => 'y',
                 'var' => array(
                     'filter' => array(
                         'pre' => array(
@@ -200,7 +201,7 @@ return array(
                 'loop' => array(
                     'base' => 'depth.items-empty',
                     'onEmpty' => array(
-                        'locator' => '.loop-empty-example',
+                        'locator' => '//.loop-empty-example',
                         'replace' => '<p>YOU HAVE NO ITEMS</p>',
                     ),
                     'instructions' => array(),
