@@ -191,7 +191,8 @@ class VarTranslator
     {
         foreach ($values as $key => $value) {
 
-            $this->translate($value, $translation);
+            $varTranslation = $this->makeVarKeys($translation);
+            $this->translate($value, $varTranslation);
             $translation[$key] = $value;
         }
 
@@ -210,7 +211,8 @@ class VarTranslator
         foreach ($defaults as $key => $value) {
             if (empty($translation[$key])) {
 
-                $this->translate($value, $translation);
+                $varTranslation = $this->makeVarKeys($translation);
+                $this->translate($value, $varTranslation);
                 $translation[$key] = $value;
             }
         }
@@ -262,7 +264,7 @@ class VarTranslator
      * @param AbstractPluginManager $pluginManager Helper loader
      * @return VarTranslator
      */
-    public function applyHelper(ArrayAccess $translation, array &$spec, AbstractPluginManager $pluginManager)
+    public function applyHelper(ArrayAccess $translation, array $spec, AbstractPluginManager $pluginManager)
     {
         $results = new ArrayObject;
 
@@ -321,8 +323,6 @@ class VarTranslator
                             ) {
                                 // support array results
                                 $results[$key] = $plugin;
-
-                                unset($value[$helper]);
                                 continue 3;
                             }
                         }
@@ -334,8 +334,6 @@ class VarTranslator
                     // join helper result
                     $results[$key].= $plugin;
                 }
-
-                unset($value[$helper]);
             }
         }
 
@@ -354,7 +352,7 @@ class VarTranslator
      * @param  FilterPluginManager $pluginManager Filter loader.
      * @return VarTranslator
      */
-    public function applyFilter(ArrayAccess $translation, array &$spec, FilterPluginManager $pluginManager)
+    public function applyFilter(ArrayAccess $translation, array $spec, FilterPluginManager $pluginManager)
     {
         foreach ($spec as $key => &$value) {
             if (!array_key_exists($key, $translation)) {
@@ -394,8 +392,6 @@ class VarTranslator
                                             ->get($helper, $options[1])
                                             ->filter($options[0]);
                 }
-
-                unset($value[$helper]);
             }
         }
 
