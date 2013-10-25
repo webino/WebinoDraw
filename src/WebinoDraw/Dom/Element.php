@@ -15,6 +15,8 @@ namespace WebinoDraw\Dom;
  */
 class Element extends \DOMElement
 {
+    const NODE_VALUE_PROPERTY = 'nodeValue';
+
     /**
      * Returns the node body html
      *
@@ -55,7 +57,7 @@ class Element extends \DOMElement
         $properties = array();
 
         empty($this->nodeValue) or
-            $properties[$prefix . 'nodeValue'] = $this->nodeValue;
+            $properties[$prefix . self::NODE_VALUE_PROPERTY] = $this->nodeValue;
 
 
         if (empty($this->attributes)) {
@@ -67,5 +69,29 @@ class Element extends \DOMElement
         }
 
         return $properties;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEmpty()
+    {
+        $nodeValue = trim($this->nodeValue);
+
+        if (!empty($nodeValue)
+            || is_numeric($nodeValue)
+        ) {
+            return false;
+        }
+
+        // node value is empty,
+        // chceck for childs other than text
+        foreach ($this->childNodes as $childNode) {
+            if (!($childNode instanceof \DOMText)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
