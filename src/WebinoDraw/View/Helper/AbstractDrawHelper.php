@@ -299,9 +299,15 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
      * @param array $spec
      * @return AbstractDrawHelper
      */
-    public function applyVarTranslator(ArrayAccess $translation, array &$spec)
+    public function applyVarTranslator(ArrayAccess $translation, array $spec)
     {
         $varTranslator = $this->getVarTranslator();
+
+        empty($spec['var']['default']) or
+            $varTranslator->translationDefaults(
+                $translation,
+                $spec['var']['default']
+            );
 
         empty($spec['var']['set']) or
             $varTranslator->translationMerge(
@@ -351,13 +357,49 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
      * @param Element $node
      * @return array
      */
-    public function nodeTranslation(Element $node)
+    public function nodeTranslation(Element $node, array $spec = array())
     {
         $translation = clone $this->getTranslationPrototype();
 
         $translation->exchangeArray(
             $node->getProperties(self::EXTRA_VAR_PREFIX)
         );
+
+        $htmlTranslation = $this->nodeHtmlTranslation($node, $spec);
+
+        $translation->merge(
+            $htmlTranslation->getArrayCopy()
+        );
+
+        return $translation;
+    }
+
+    public function nodeHtmlTranslation(Element $node, array $spec)
+    {
+        $translation  = clone $this->getTranslationPrototype();
+        $innerHtmlKey = self::EXTRA_VAR_PREFIX . 'innerHtml';
+        $outerHtmlKey = self::EXTRA_VAR_PREFIX . 'outerHtml';
+
+        foreach (
+            array(
+                'html',
+                'replace',
+            ) as $key
+        ) {
+            if (empty($spec[$key])) {
+                continue;
+            }
+
+            if (false !== strpos($spec[$key], $innerHtmlKey)) {
+                // include node innerHTML to the translation
+                $translation[$innerHtmlKey] = $node->getInnerHtml();
+            }
+
+            if (false !== strpos($spec[$key], $outerHtmlKey)) {
+                // include node outerHTML to the translation
+                $translation[$outerHtmlKey] = $node->getOuterHtml();
+            }
+        }
 
         return $translation;
     }
@@ -428,26 +470,6 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
             $cache->setItem($key, $html);
             $cache->setTags($key, (array) $spec['cache']);
         }
-
-        return $this;
-    }
-
-    /**
-     * Return translated $spec by values in $translation
-     *
-     * @param array $spec
-     * @param ArrayAccess $translation
-     * @return VarTranslator
-     */
-    protected function translateSpec(array &$spec, ArrayAccess $translation)
-    {
-        $this->applyVarTranslator($translation, $spec);
-
-        $varTranslator = $this->getVarTranslator();
-        $varTranslator->translate(
-            $spec,
-            $varTranslator->makeVarKeys($translation)
-        );
 
         return $this;
     }

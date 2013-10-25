@@ -12,7 +12,6 @@ namespace WebinoDraw\View\Helper;
 
 use ArrayAccess;
 use DOMAttr;
-use WebinoDraw\Dom\Element;
 use WebinoDraw\Dom\NodeList;
 use Zend\View\Renderer\PhpRenderer;
 
@@ -21,66 +20,6 @@ use Zend\View\Renderer\PhpRenderer;
  */
 class DrawTranslate extends DrawElement
 {
-    /**
-     * Return callable to set node value
-     *
-     * @param array $spec
-     * @return Closure
-     */
-    public function createValuePreSet(array $spec, ArrayAccess $translation)
-    {
-        $textDomain = $this->resolveTextDomain($spec);
-        $view       = $this->getView();
-        $helper     = $this;
-
-        return function (
-            Element $node,
-            $value
-        ) use (
-            $helper,
-            $spec,
-            $translation,
-            $textDomain,
-            $view
-        ) {
-            $varValue = $helper->translatePreSet($node, $value, $spec, clone $translation);
-            if (empty($varValue)) {
-                return '';
-            }
-            return $view->translate($varValue, $textDomain);
-        };
-    }
-
-    /**
-     * Return callable to set node attributes
-     *
-     * @param array $spec
-     * @return Closure
-     */
-    public function createAttribsPreSet(array $spec, ArrayAccess $translation)
-    {
-        $textDomain = $this->resolveTextDomain($spec);
-        $view       = $this->getView();
-        $helper     = $this;
-
-        return function (
-            Element $node,
-            $value
-        ) use (
-            $helper,
-            $spec,
-            $translation,
-            $textDomain,
-            $view
-        ) {
-            $varValue = $helper->translatePreSet($node, $value, $spec, clone $translation);
-            if (empty($varValue)) {
-                return '';
-            }
-            return $view->translate($varValue, $textDomain);
-        };
-    }
-
     /**
      * @param NodeList $nodes
      * @param array $spec
@@ -98,6 +37,16 @@ class DrawTranslate extends DrawElement
         }
 
         return parent::drawNodes($nodes->createNodeList($remainNodes), $spec);
+    }
+
+    protected function translateValue($value, ArrayAccess $varTranslation, array $spec)
+    {
+        $varValue = parent::translateValue($value, $varTranslation, $spec);
+        if (empty($varValue)) {
+            return '';
+        }
+
+        return $this->getView()->translate($varValue, $this->resolveTextDomain($spec));
     }
 
     /**

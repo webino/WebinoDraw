@@ -20,6 +20,8 @@ class DrawElementTest
      */
     protected $nodeList;
 
+    protected $view;
+
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
@@ -28,6 +30,9 @@ class DrawElementTest
     {
         $this->object   = new DrawElement;
         $this->nodeList = $this->getMock('WebinoDraw\Dom\NodeList', array(), array(), '', null);
+
+        $this->view = $this->getMock('Zend\View\Renderer\PhpRenderer', array('escapeHtml'));
+        $this->object->setView($this->view);
     }
 
     /**
@@ -40,111 +45,26 @@ class DrawElementTest
     }
 
     /**
-     * @covers WebinoDraw\View\Helper\DrawElement::drawNodes
-     * @covers WebinoDraw\View\Helper\DrawElement::manipulateNodes
-     * @covers WebinoDraw\View\Helper\DrawElement::setValue
-     * @covers WebinoDraw\View\Helper\DrawElement::translateSpec
+     *
      */
     public function testDrawNodesValue()
     {
-        $spec = array(
-            'value' => 'customValue',
-        );
-
-        $vars = new \ArrayObject(array('{$var}' => 'val'));
-
-        $varTranslator = $this->getMock('WebinoDraw\Stdlib\VarTranslator');
-        $this->object->setVarTranslator($varTranslator);
-
-        $varTranslator->expects($this->exactly(1))
-            ->method('makeVarKeys')
-            ->with($this->isInstanceOf('ArrayAccess'))
-            ->will($this->returnValue($vars));
-
-        $varTranslator->expects($this->once())
-            ->method('translate')
-            ->with(
-                $this->equalTo($spec),
-                $this->equalTo($vars)
-            );
-
-        $this->nodeList
-            ->expects($this->exactly(1))
-            ->method('setValue')
-            ->with(
-                $this->equalTo($spec['value']),
-                $this->isInstanceOf('Closure')
-            );
-
-        $this->object->drawNodes($this->nodeList, $spec);
-    }
-
-    /**
-     * @covers WebinoDraw\View\Helper\DrawElement::drawNodes
-     * @covers WebinoDraw\View\Helper\DrawElement::setHtml
-     */
-    public function testDrawNodeHtml()
-    {
-        $spec = array(
-            'html' => '<testhtml/>',
-        );
-
-        $this->nodeList
-            ->expects($this->once())
-            ->method('setHtml')
-            ->with(
-                $this->equalTo($spec['html']),
-                $this->isInstanceOf('Closure')
-            );
-
-        $this->object->drawNodes($this->nodeList, $spec);
-    }
-
-    /**
-     * @covers WebinoDraw\View\Helper\DrawElement::drawNodes
-     * @covers WebinoDraw\View\Helper\DrawElement::replace
-     */
-    public function testDrawNodesReplace()
-    {
-        $spec = array(
-            'replace' => '<testhtml/>',
-        );
-
-        $this->nodeList
-            ->expects($this->once())
-            ->method('replace')
-            ->with($this->equalTo($spec['replace']));
-
-        $this->object->drawNodes($this->nodeList, $spec);
-    }
-
-    /**
-     * @covers WebinoDraw\View\Helper\DrawElement::drawNodes
-     * @covers WebinoDraw\View\Helper\DrawElement::replace
-     */
-    public function testDrawNodesReplaceWithLocator()
-    {
         $dom         = new \DOMDocument;
+        $dom->registerNodeClass('DOMElement', 'WebinoDraw\Dom\Element');
         $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
         $dom->xpath  = new \DOMXpath($dom);
         $nodeList    = $this->getMock('WebinoDraw\Dom\NodeList', array(), array(), '', null);
         $locator     = $this->getMock('WebinoDraw\Dom\Locator');
-        $xpath       = 'dummyOne';
-        $target      = 'xpath=' . $xpath;
+        $value       = 'testvalue';
 
         $spec = array(
-            'locator' => $target,
-            'replace' => '<testhtml/>',
+            'value' => $value,
         );
 
-        $locator->expects($this->exactly(2))
-            ->method('set')
-            ->with($this->equalTo($target))
-            ->will($this->returnValue($locator));
-
-        $locator->expects($this->exactly(2))
-            ->method('xpathMatchAny')
-            ->will($this->returnValue($xpath));
+        $this->view->expects($this->exactly(2))
+            ->method('escapeHtml')
+            ->with($value)
+            ->will($this->returnValue($value));
 
         $nodeList
             ->expects($this->once())
@@ -154,20 +74,83 @@ class DrawElementTest
         $nodeList
             ->expects($this->once())
             ->method('getIterator')
-            ->will($this->returnValue(new \IteratorIterator($dom->firstChild->childNodes)));
-
-        $subnodeList = $this->getMock('WebinoDraw\Dom\NodeList', array(), array(), '', null);
-        $subnodeList
-            ->expects($this->exactly(2))
-            ->method('replace')
-            ->with($this->equalTo($spec['replace']));
-
-        $nodeList
-            ->expects($this->exactly(2))
-            ->method('createNodeList')
-            ->with($this->isInstanceOf('DOMNodeList'))
-            ->will($this->returnValue($subnodeList));
+            ->will($this->returnValue($dom->firstChild->childNodes));
 
         $this->object->drawNodes($nodeList, $spec);
+
+        foreach ($dom->firstChild->childNodes as $childNode) {
+
+            $this->assertEquals($value, $childNode->nodeValue);
+        }
+    }
+
+    /**
+     *
+     */
+    public function testDrawNodesHtml()
+    {
+        $dom         = new \DOMDocument;
+        $dom->registerNodeClass('DOMElement', 'WebinoDraw\Dom\Element');
+        $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
+        $dom->xpath  = new \DOMXpath($dom);
+        $nodeList    = $this->getMock('WebinoDraw\Dom\NodeList', array(), array(), '', null);
+        $locator     = $this->getMock('WebinoDraw\Dom\Locator');
+        $html        = '<testhtml/>';
+
+        $spec = array(
+            'html' => $html,
+        );
+
+        $nodeList
+            ->expects($this->once())
+            ->method('getLocator')
+            ->will($this->returnValue($locator));
+
+        $nodeList
+            ->expects($this->once())
+            ->method('getIterator')
+            ->will($this->returnValue($dom->firstChild->childNodes));
+
+        $this->object->drawNodes($nodeList, $spec);
+
+        foreach ($dom->firstChild->childNodes as $childNode) {
+
+            $this->assertEquals($html, $childNode->getInnerHtml());
+        }
+    }
+
+    /**
+     *
+     */
+    public function testDrawNodesReplace()
+    {
+        $dom         = new \DOMDocument;
+        $dom->registerNodeClass('DOMElement', 'WebinoDraw\Dom\Element');
+        $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
+        $dom->xpath  = new \DOMXpath($dom);
+        $nodeList    = $this->getMock('WebinoDraw\Dom\NodeList', array(), array(), '', null);
+        $locator     = $this->getMock('WebinoDraw\Dom\Locator');
+        $html        = '<testhtmlreplace/>';
+
+        $spec = array(
+            'replace' => $html,
+        );
+
+        $nodeList
+            ->expects($this->once())
+            ->method('getLocator')
+            ->will($this->returnValue($locator));
+
+        $nodeList
+            ->expects($this->once())
+            ->method('getIterator')
+            ->will($this->returnValue($dom->firstChild->childNodes));
+
+        $this->object->drawNodes($nodeList, $spec);
+
+        foreach ($dom->firstChild->childNodes as $childNode) {
+
+            $this->assertEquals($html, $childNode->getOuterHtml());
+        }
     }
 }
