@@ -115,10 +115,11 @@ class WebinoDraw
      * Create DOM document for drawing
      *
      * @param string $xhtml XHTML valid string
+     * @param bool $isXml Load as XML
      * @return DOMDocument
      * @throws DOMCreationException
      */
-    public function createDom($xhtml)
+    public function createDom($xhtml, $isXml = false)
     {
         if (empty($xhtml) || !is_string($xhtml)) {
             throw new InvalidArgumentException(
@@ -130,13 +131,16 @@ class WebinoDraw
         libxml_use_internal_errors(true);
 
         $dom = new DOMDocument;
-
         $dom->registerNodeClass('DOMElement', 'WebinoDraw\Dom\Element');
-        $dom->loadHtml($xhtml);
-
+        $isXml ? $dom->loadXml($xhtml) : $dom->loadHtml($xhtml);
         $dom->xpath = new DOMXPath($dom);
 
         return $dom;
+    }
+
+    public function createXmlDom($xml)
+    {
+        return $this->createDom($xml, true);
     }
 
     /**
@@ -175,9 +179,10 @@ class WebinoDraw
      * @param string $xhtml XHTML template.
      * @param array|DrawInstructionsInterface $instructions Options how to render.
      * @param array $vars Data variables.
+     * @param bool $isXml Load as XML
      * @return string Rendered HTML.
      */
-    public function draw($xhtml, $instructions, array $vars)
+    public function draw($xhtml, $instructions, array $vars, $isXml = false)
     {
         try {
             $resolvedInstructions = $this->resolveInstructions($instructions);
@@ -185,14 +190,14 @@ class WebinoDraw
             throw new \InvalidArgumentException($exc->getMessage(), $exc->getCode(), $exc);
         }
 
-        $dom = $this->createDom($xhtml);
+        $dom = !empty($isXml) ? $this->createXmlDom($xhtml) : $this->createDom($xhtml) ;
         $this->drawDom(
             $dom->documentElement,
             $resolvedInstructions,
             $vars
         );
 
-        return $dom->saveHTML();
+        return $isXml ? $dom->saveXml() : $dom->saveHtml();
     }
 
     /**

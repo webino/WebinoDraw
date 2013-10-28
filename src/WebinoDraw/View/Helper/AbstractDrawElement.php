@@ -171,6 +171,28 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                 }
             }
 
+            if (array_key_exists('cdata', $spec)) {
+
+                $translatedCdata = $this->translateValue(
+                    $spec['cdata'],
+                    $varTranslation,
+                    $spec
+                );
+
+                $node->nodeValue = '';
+
+                if (empty($translatedCdata)) {
+                    if (array_key_exists('onEmpty', $spec)) {
+
+                        $this->subInstructions($nodes, array($spec['onEmpty']), $translation);
+                    }
+                } else {
+
+                    $cdata = $node->ownerDocument->createCdataSection($translatedCdata);
+                    $node->appendChild($cdata);
+                }
+            }
+
             if (array_key_exists('onVar', $spec)) {
 
                 $varTranslator->translate(

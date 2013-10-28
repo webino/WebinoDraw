@@ -85,6 +85,11 @@ class DrawRenderer
         $modelVars = $isModel ? $nameOrModel->getVariables()->getArrayCopy() : array();
         $variables = array_merge($modelVars, (array) $values);
 
-        return $this->webinoDraw->draw($template, $instructions, $variables);
+        return $this->webinoDraw->draw(
+            $template,
+            $instructions,
+            $variables,
+            $isModel ? (bool) $nameOrModel->getOption('isXml') : false
+        );
     }
 }
