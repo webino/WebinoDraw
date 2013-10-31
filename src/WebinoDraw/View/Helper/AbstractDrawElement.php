@@ -195,11 +195,6 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
 
             if (array_key_exists('onVar', $spec)) {
 
-                $varTranslator->translate(
-                    $spec['onVar'],
-                    $varTranslation
-                );
-
                 foreach ($spec['onVar'] as $onVarSpecKey => $onVarSpec) {
                     if (!array_key_exists('var', $onVarSpec)) {
                         throw new Exception\InvalidInstructionException(
@@ -207,9 +202,15 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                         );
                     }
 
+                    $val = $varTranslator->removeVars(
+                        $varTranslator->translateString(
+                            $onVarSpec['var'],
+                            $varTranslation
+                        )
+                    );
+
                     if (array_key_exists('equalTo', $onVarSpec)) {
 
-                        $val = $varTranslator->removeVars($onVarSpec['var']);
                         if ($val === $onVarSpec['equalTo']) {
 
                             $this->subInstructions(
@@ -222,7 +223,6 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
 
                     if (array_key_exists('notEqualTo', $onVarSpec)) {
 
-                        $val = $varTranslator->removeVars($onVarSpec['var']);
                         if ($val !== $onVarSpec['notEqualTo']) {
 
                             $this->subInstructions(
