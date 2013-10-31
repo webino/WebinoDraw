@@ -54,7 +54,9 @@ class Element extends \DOMElement
      */
     public function getProperties($prefix = null)
     {
-        $properties = array();
+        $properties = array(
+            $prefix . self::NODE_VALUE_PROPERTY => '',
+        );
 
         empty($this->nodeValue) or
             $properties[$prefix . self::NODE_VALUE_PROPERTY] = $this->nodeValue;
