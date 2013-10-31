@@ -75,7 +75,9 @@ class VarTranslator
      */
     public function removeVars($string)
     {
-        if (!$this->containsVar($string)) {
+        if (!is_string($string)
+            || !$this->containsVar($string)
+        ) {
             return $string;
         }
         $sanitized = preg_replace($this->createVarPregPattern(), '', $string);
@@ -275,6 +277,12 @@ class VarTranslator
             }
 
             foreach ((array) $value as $helper => $options) {
+
+                if (!empty($options['helper'])) {
+                    // helper is not an options key
+                    $helper = $options['helper'];
+                    unset($options['helper']);
+                }
 
                 if (function_exists($helper)) {
                     // php functions first
