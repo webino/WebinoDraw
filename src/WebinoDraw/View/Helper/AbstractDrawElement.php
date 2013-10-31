@@ -211,7 +211,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
 
                     if (array_key_exists('equalTo', $onVarSpec)) {
 
-                        if ($val === $onVarSpec['equalTo']) {
+                        if ($val == $onVarSpec['equalTo']) {
 
                             $this->subInstructions(
                                 $nodes,
@@ -223,7 +223,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
 
                     if (array_key_exists('notEqualTo', $onVarSpec)) {
 
-                        if ($val !== $onVarSpec['notEqualTo']) {
+                        if ($val != $onVarSpec['notEqualTo']) {
 
                             $this->subInstructions(
                                 $nodes,
