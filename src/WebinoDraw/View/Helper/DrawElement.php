@@ -11,6 +11,7 @@
 namespace WebinoDraw\View\Helper;
 
 use WebinoDraw\Dom\NodeList;
+use WebinoDraw\Stdlib\ArrayFetchInterface;
 
 /**
  * Draw helper used for DOMElement modifications.
@@ -28,7 +29,9 @@ class DrawElement extends AbstractDrawElement
      */
     public function __invoke(NodeList $nodes, array $spec)
     {
-        if ($this->cacheLoad($nodes, $spec)) {
+        if (empty($spec['loop'])
+            && $this->cacheLoad($nodes, $spec)
+        ) {
             return;
         }
 
@@ -44,6 +47,31 @@ class DrawElement extends AbstractDrawElement
 
         $this->drawNodes($nodes, $event->getSpec()->getArrayCopy());
 
-        $this->cacheSave($nodes, $spec);
+        !empty($spec['loop']) or
+            $this->cacheSave($nodes, $spec);
+    }
+
+    /**
+     * Cached loop
+     *
+     * @param NodeList $nodes
+     * @param array $spec
+     * @param ArrayFetchInterface $translation
+     * @return DrawElement
+     */
+    protected function loop(NodeList $nodes, array $spec, ArrayFetchInterface $translation)
+    {
+        foreach ($nodes as $node) {
+
+            $parentNodes = $nodes->createNodeList(array($node->parentNode));
+            if ($this->cacheLoad($parentNodes, $spec)) {
+                continue;
+            }
+
+            parent::loop($nodes->createNodeList(array($node)), $spec, $translation);
+            $this->cacheSave($parentNodes, $spec);
+        }
+
+        return $this;
     }
 }
