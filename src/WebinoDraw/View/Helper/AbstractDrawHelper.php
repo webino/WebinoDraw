@@ -410,9 +410,22 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
      * @param array $node
      * @return string
      */
-    protected function cacheKey(DOMNode $node)
+    protected function resolveCacheKey(DOMNode $node, array $spec)
     {
-        return md5($node->getNodePath());
+        $cacheKey = $node->getNodePath();
+
+        if (!empty($spec['cache_key_trigger'])) {
+
+            $events = $this->getEventManager();
+            foreach ((array) $spec['cache_key_trigger'] as $eventName) {
+                $results = $events->trigger($eventName, $this, array('spec' => $spec));
+                foreach ($results as $result) {
+                    $cacheKey .= $result;
+                }
+            }
+        }
+
+        return md5($cacheKey);
     }
 
     /**
@@ -432,7 +445,7 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
 
         foreach ($nodes as $node) {
 
-            $html = $cache->getItem($this->cacheKey($node));
+            $html = $cache->getItem($this->resolveCacheKey($node, $spec));
 
             if (empty($html)) {
                 return false;
@@ -464,7 +477,7 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
 
         foreach ($nodes as $node) {
 
-            $key  = $this->cacheKey($node);
+            $key  = $this->resolveCacheKey($node, $spec);
             $html = $node->ownerDocument->saveXml($node);
 
             $cache->setItem($key, $html);

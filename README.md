@@ -250,9 +250,24 @@
   - **Cache**
 
         'cache-example' => array(
-            'locator' => 'body',
-            'cache'   => 'exampleCacheTag',
+            'locator'           => 'body',
+            'cache'             => 'exampleCacheTag',
+            'cache_key_trigger' => array(
+                'draw.cache.byPage',
+            ),
         ),
+
+    Attach cache key listener:
+
+        $this->getEventManager()->getSharedManager()->attach(
+            'WebinoDraw',
+            'draw.cache.byPage',
+            function(Event $event) use ($navigation) {
+
+                $page = $navigation->getActivePage();
+                return $page->getHref();
+            }
+        );
 
     Clear the cache:
 
