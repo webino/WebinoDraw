@@ -90,11 +90,15 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     public function getCache()
     {
         if (empty($this->cache)) {
+
             $this->setCache(
                 CacheStorage::factory(
                     array(
                         'adapter' => 'filesystem',
-                        'options' => array('data/cache'),
+                        'options' => array(
+                            'namespace' => 'webinodraw',
+                            'cacheDir'  => 'data/cache'
+                        ),
                     )
                 )
             );
