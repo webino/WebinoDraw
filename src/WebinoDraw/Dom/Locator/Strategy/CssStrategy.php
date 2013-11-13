@@ -11,7 +11,7 @@
 namespace WebinoDraw\Dom\Locator\Strategy;
 
 use WebinoDraw\Dom\Locator\TransformatorInterface;
-use Zend\Dom\Css2Xpath;
+use Zend\Dom\Document\Query as DomQuery;
 
 /**
  *
@@ -26,9 +26,9 @@ class CssStrategy implements TransformatorInterface
     {
         if (0 === strpos($locator, '//')) {
             // return early for absolute
-            return Css2Xpath::transform(substr($locator, 2));
+            return DomQuery::cssToXpath(substr($locator, 2));
         }
         // dot makes it relative
-        return '.' . Css2Xpath::transform($locator);
+        return '.' . DomQuery::cssToXpath($locator);
     }
 }

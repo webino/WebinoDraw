@@ -299,10 +299,6 @@ return array (
       'setTranslatorEnabled' => 3,
       'setTranslatorTextDomain' => 3,
       'setView' => 0,
-      'getTranslator' => 3,
-      'hasTranslator' => 3,
-      'isTranslatorEnabled' => 3,
-      'getTranslatorTextDomain' => 3,
     ),
     'parameters' => 
     array (
@@ -388,10 +384,6 @@ return array (
       'setTranslatorEnabled' => 3,
       'setTranslatorTextDomain' => 3,
       'setView' => 0,
-      'getTranslator' => 3,
-      'hasTranslator' => 3,
-      'isTranslatorEnabled' => 3,
-      'getTranslatorTextDomain' => 3,
     ),
     'parameters' => 
     array (
@@ -1621,7 +1613,6 @@ return array (
       'setTranslationPrototype' => 0,
       'setInstructionsPrototype' => 0,
       'setView' => 0,
-      'getEventManager' => 3,
     ),
     'parameters' => 
     array (
@@ -1755,7 +1746,6 @@ return array (
       'setTranslationPrototype' => 0,
       'setInstructionsPrototype' => 0,
       'setView' => 0,
-      'getEventManager' => 3,
     ),
     'parameters' => 
     array (
@@ -1891,8 +1881,6 @@ return array (
       'setTranslationPrototype' => 0,
       'setInstructionsPrototype' => 0,
       'setView' => 0,
-      'getEventManager' => 3,
-      'getServiceLocator' => 3,
     ),
     'parameters' => 
     array (
@@ -2033,8 +2021,6 @@ return array (
       'setTranslationPrototype' => 0,
       'setInstructionsPrototype' => 0,
       'setView' => 0,
-      'getEventManager' => 3,
-      'getServiceLocator' => 3,
     ),
     'parameters' => 
     array (
@@ -2247,7 +2233,6 @@ return array (
       'setTranslationPrototype' => 0,
       'setInstructionsPrototype' => 0,
       'setView' => 0,
-      'getEventManager' => 3,
     ),
     'parameters' => 
     array (
@@ -2376,7 +2361,6 @@ return array (
       'setTranslationPrototype' => 0,
       'setInstructionsPrototype' => 0,
       'setView' => 0,
-      'getEventManager' => 3,
     ),
     'parameters' => 
     array (
@@ -2495,7 +2479,6 @@ return array (
       'setTranslationPrototype' => 0,
       'setInstructionsPrototype' => 0,
       'setView' => 0,
-      'getEventManager' => 3,
     ),
     'parameters' => 
     array (
@@ -2656,7 +2639,6 @@ return array (
       'setEvent' => 0,
       'setEventManager' => 3,
       'setContentPlaceholders' => 0,
-      'getEventManager' => 3,
     ),
     'parameters' => 
     array (
@@ -2723,7 +2705,6 @@ return array (
       'setEvent' => 0,
       'setEventManager' => 3,
       'setContentPlaceholders' => 0,
-      'getEventManager' => 3,
     ),
     'parameters' => 
     array (
@@ -2836,7 +2817,6 @@ return array (
       'setEvent' => 0,
       'setEventManager' => 3,
       'setContentPlaceholders' => 0,
-      'getEventManager' => 3,
     ),
     'parameters' => 
     array (
