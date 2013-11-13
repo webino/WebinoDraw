@@ -6,6 +6,7 @@ php:
 
 before_script:
   - git clone git://github.com/zendframework/ZendSkeletonApplication.git ._test/ZendSkeletonApplication
+  - cp composer.json config/application.config.php ._test/ZendSkeletonApplication
   - cd ._test/ZendSkeletonApplication
   - php composer.phar self-update
   - php composer.phar install
