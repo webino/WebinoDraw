@@ -209,6 +209,8 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                         )
                     );
 
+                    $this->expandInstructionsFromSet($spec['onVar'][$onVarSpecKey]);
+
                     if (array_key_exists('equalTo', $onVarSpec)) {
 
                         if ($val == $onVarSpec['equalTo']) {
@@ -244,13 +246,17 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                         $this->subInstructions($nodes, array($onEmptySpec), $translation);
 
                     } else {
-                        $this->manipulateNodes($nodes, $onEmptySpec, $translation);
+                        $this
+                            ->manipulateNodes($nodes, $onEmptySpec, $translation)
+                            ->expandInstructionsFromSet($onEmptySpec);
 
                         empty($onEmptySpec['instructions']) or
                             $this->subInstructions($nodes, $onEmptySpec['instructions'], $translation);
                     }
                 }
             }
+
+            $this->expandInstructionsFromSet($spec);
 
             empty($spec['instructions']) or
                 $this->subInstructions($nodes->createNodeList(array($node)), $spec['instructions'], $translation);
@@ -303,7 +309,9 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                     $this->subInstructions($nodes, array($onEmptySpec), $translation);
 
                 } else {
-                    $this->manipulateNodes($nodes, $onEmptySpec, $translation);
+                    $this
+                        ->manipulateNodes($nodes, $onEmptySpec, $translation)
+                        ->expandInstructionsFromSet($onEmptySpec);
 
                     empty($onEmptySpec['instructions']) or
                         $this->subInstructions($nodes, $onEmptySpec['instructions'], $translation);
@@ -312,6 +320,10 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
 
             return $this;
         }
+
+        $this
+            ->expandInstructionsFromSet($spec)
+            ->expandInstructionsFromSet($spec['loop']);
 
         $varTranslator = $this->getVarTranslator();
 

@@ -437,10 +437,16 @@
                 'var' => '{$customvar}',                 // test variable value
                 'equalTo' => '',                         // condition method (or)
                 'notEqualTo' => '',                      // condition method
+                'instructionset' => array(               // sub-instructionset to expand instructions
+
+                ),
                 'instructions' => array(                 // sub-instructions processed when condition is true
 
                 ),
             ),
+        ),
+        'instructionset' => array(                       // instructionset to expand instructions
+
         ),
         'instructions' => array(                         // sub-instructions to draw over nodes
                                                          // add different helper instructions
@@ -456,6 +462,9 @@
             'callback' => function($item, $helper){},    // called on each item (optional)
             'onEmpty'  => array(                         // custom options if items array is empty
                                                          // use same options as normal
+            ),
+            'instructionset' => array(                   // instructionset to expand instructions
+
             ),
             'instructions' => array(                     // instructions to draw looped element nodes
                                                          // add same instructions as normal
@@ -477,6 +486,9 @@
         'form'         => 'exampleForm',            // form available via ServiceManager
         'route'        => 'example_route',          // available route
         'text_domain'  => __NAMESPACE__,            // form translator text domain
+        'instructionset' => array(                  // instructionset to expand instructions
+
+        ),
         'instructions' => array(                    // sub-instructions to decorate the form
                                                     // add different helper instructions
         ),
@@ -655,6 +667,7 @@
   - Write tests for DrawAjaxHtmlStrategy
   - Write doc about var fetch _first and _last magic keys
   - Write test for onVar support
+  - Write tests for spec instructionset to expand instructions
 
 ## Addendum
 

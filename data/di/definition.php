@@ -1589,25 +1589,29 @@ return array (
   array (
     'supertypes' => 
     array (
-      0 => 'Zend\\EventManager\\EventsCapableInterface',
-      1 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      2 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      3 => 'Zend\\View\\Helper\\HelperInterface',
-      4 => 'WebinoDraw\\View\\Helper\\AbstractDrawHelper',
-      5 => 'Zend\\View\\Helper\\HelperInterface',
-      6 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      7 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      8 => 'Zend\\EventManager\\EventsCapableInterface',
-      9 => 'Zend\\View\\Helper\\AbstractHelper',
-      10 => 'Zend\\View\\Helper\\HelperInterface',
+      0 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
+      1 => 'Zend\\EventManager\\EventsCapableInterface',
+      2 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      3 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
+      4 => 'Zend\\View\\Helper\\HelperInterface',
+      5 => 'WebinoDraw\\View\\Helper\\AbstractDrawHelper',
+      6 => 'Zend\\View\\Helper\\HelperInterface',
+      7 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
+      8 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      9 => 'Zend\\EventManager\\EventsCapableInterface',
+      10 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
+      11 => 'Zend\\View\\Helper\\AbstractHelper',
+      12 => 'Zend\\View\\Helper\\HelperInterface',
     ),
     'instantiator' => NULL,
     'methods' => 
     array (
       'setCache' => 0,
+      'setDraw' => 0,
       'setEvent' => 0,
       'setEventManager' => 3,
       'setFilterPluginManager' => 0,
+      'setServiceLocator' => 3,
       'setVars' => 0,
       'setVarTranslator' => 0,
       'setTranslationPrototype' => 0,
@@ -1622,6 +1626,16 @@ return array (
         array (
           0 => 'cache',
           1 => 'Zend\\Cache\\Storage\\StorageInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setDraw' => 
+      array (
+        'WebinoDraw\\View\\Helper\\AbstractDrawElement::setDraw:0' => 
+        array (
+          0 => 'draw',
+          1 => 'WebinoDraw\\WebinoDraw',
           2 => true,
           3 => NULL,
         ),
@@ -1652,6 +1666,16 @@ return array (
         array (
           0 => 'filterManager',
           1 => 'Zend\\Filter\\FilterPluginManager',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setServiceLocator' => 
+      array (
+        'WebinoDraw\\View\\Helper\\AbstractDrawElement::setServiceLocator:0' => 
+        array (
+          0 => 'serviceLocator',
+          1 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
           2 => true,
           3 => NULL,
         ),
@@ -1712,35 +1736,41 @@ return array (
   array (
     'supertypes' => 
     array (
-      0 => 'Zend\\EventManager\\EventsCapableInterface',
-      1 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      2 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      3 => 'Zend\\View\\Helper\\HelperInterface',
-      4 => 'WebinoDraw\\View\\Helper\\DrawElement',
-      5 => 'Zend\\View\\Helper\\HelperInterface',
-      6 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      7 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      8 => 'Zend\\EventManager\\EventsCapableInterface',
-      9 => 'WebinoDraw\\View\\Helper\\AbstractDrawElement',
-      10 => 'Zend\\EventManager\\EventsCapableInterface',
-      11 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      12 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      13 => 'Zend\\View\\Helper\\HelperInterface',
-      14 => 'WebinoDraw\\View\\Helper\\AbstractDrawHelper',
-      15 => 'Zend\\View\\Helper\\HelperInterface',
-      16 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      17 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      18 => 'Zend\\EventManager\\EventsCapableInterface',
-      19 => 'Zend\\View\\Helper\\AbstractHelper',
-      20 => 'Zend\\View\\Helper\\HelperInterface',
+      0 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
+      1 => 'Zend\\EventManager\\EventsCapableInterface',
+      2 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      3 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
+      4 => 'Zend\\View\\Helper\\HelperInterface',
+      5 => 'WebinoDraw\\View\\Helper\\DrawElement',
+      6 => 'Zend\\View\\Helper\\HelperInterface',
+      7 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
+      8 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      9 => 'Zend\\EventManager\\EventsCapableInterface',
+      10 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
+      11 => 'WebinoDraw\\View\\Helper\\AbstractDrawElement',
+      12 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
+      13 => 'Zend\\EventManager\\EventsCapableInterface',
+      14 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      15 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
+      16 => 'Zend\\View\\Helper\\HelperInterface',
+      17 => 'WebinoDraw\\View\\Helper\\AbstractDrawHelper',
+      18 => 'Zend\\View\\Helper\\HelperInterface',
+      19 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
+      20 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      21 => 'Zend\\EventManager\\EventsCapableInterface',
+      22 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
+      23 => 'Zend\\View\\Helper\\AbstractHelper',
+      24 => 'Zend\\View\\Helper\\HelperInterface',
     ),
     'instantiator' => '__construct',
     'methods' => 
     array (
       'setCache' => 0,
+      'setDraw' => 0,
       'setEvent' => 0,
       'setEventManager' => 3,
       'setFilterPluginManager' => 0,
+      'setServiceLocator' => 3,
       'setVars' => 0,
       'setVarTranslator' => 0,
       'setTranslationPrototype' => 0,
@@ -1755,6 +1785,16 @@ return array (
         array (
           0 => 'cache',
           1 => 'Zend\\Cache\\Storage\\StorageInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setDraw' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawTranslate::setDraw:0' => 
+        array (
+          0 => 'draw',
+          1 => 'WebinoDraw\\WebinoDraw',
           2 => true,
           3 => NULL,
         ),
@@ -1785,6 +1825,16 @@ return array (
         array (
           0 => 'filterManager',
           1 => 'Zend\\Filter\\FilterPluginManager',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setServiceLocator' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawTranslate::setServiceLocator:0' => 
+        array (
+          0 => 'serviceLocator',
+          1 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
           2 => true,
           3 => NULL,
         ),
@@ -1845,34 +1895,38 @@ return array (
   array (
     'supertypes' => 
     array (
-      0 => 'Zend\\EventManager\\EventsCapableInterface',
-      1 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      2 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      3 => 'Zend\\View\\Helper\\HelperInterface',
-      4 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
+      0 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
+      1 => 'Zend\\EventManager\\EventsCapableInterface',
+      2 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      3 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
+      4 => 'Zend\\View\\Helper\\HelperInterface',
       5 => 'WebinoDraw\\View\\Helper\\DrawElement',
       6 => 'Zend\\View\\Helper\\HelperInterface',
       7 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
       8 => 'Zend\\EventManager\\EventManagerAwareInterface',
       9 => 'Zend\\EventManager\\EventsCapableInterface',
-      10 => 'WebinoDraw\\View\\Helper\\AbstractDrawElement',
-      11 => 'Zend\\EventManager\\EventsCapableInterface',
-      12 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      13 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      14 => 'Zend\\View\\Helper\\HelperInterface',
-      15 => 'WebinoDraw\\View\\Helper\\AbstractDrawHelper',
+      10 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
+      11 => 'WebinoDraw\\View\\Helper\\AbstractDrawElement',
+      12 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
+      13 => 'Zend\\EventManager\\EventsCapableInterface',
+      14 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      15 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
       16 => 'Zend\\View\\Helper\\HelperInterface',
-      17 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      18 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      19 => 'Zend\\EventManager\\EventsCapableInterface',
-      20 => 'Zend\\View\\Helper\\AbstractHelper',
-      21 => 'Zend\\View\\Helper\\HelperInterface',
+      17 => 'WebinoDraw\\View\\Helper\\AbstractDrawHelper',
+      18 => 'Zend\\View\\Helper\\HelperInterface',
+      19 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
+      20 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      21 => 'Zend\\EventManager\\EventsCapableInterface',
+      22 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
+      23 => 'Zend\\View\\Helper\\AbstractHelper',
+      24 => 'Zend\\View\\Helper\\HelperInterface',
     ),
     'instantiator' => '__construct',
     'methods' => 
     array (
       'setServiceLocator' => 3,
       'setCache' => 0,
+      'setDraw' => 0,
       'setEvent' => 0,
       'setEventManager' => 3,
       'setFilterPluginManager' => 0,
@@ -1900,6 +1954,16 @@ return array (
         array (
           0 => 'cache',
           1 => 'Zend\\Cache\\Storage\\StorageInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setDraw' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawPagination::setDraw:0' => 
+        array (
+          0 => 'draw',
+          1 => 'WebinoDraw\\WebinoDraw',
           2 => true,
           3 => NULL,
         ),
@@ -1990,32 +2054,34 @@ return array (
   array (
     'supertypes' => 
     array (
-      0 => 'Zend\\EventManager\\EventsCapableInterface',
-      1 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      2 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      3 => 'Zend\\View\\Helper\\HelperInterface',
-      4 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
+      0 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
+      1 => 'Zend\\EventManager\\EventsCapableInterface',
+      2 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      3 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
+      4 => 'Zend\\View\\Helper\\HelperInterface',
       5 => 'WebinoDraw\\View\\Helper\\AbstractDrawHelper',
       6 => 'Zend\\View\\Helper\\HelperInterface',
       7 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
       8 => 'Zend\\EventManager\\EventManagerAwareInterface',
       9 => 'Zend\\EventManager\\EventsCapableInterface',
-      10 => 'Zend\\View\\Helper\\AbstractHelper',
-      11 => 'Zend\\View\\Helper\\HelperInterface',
+      10 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
+      11 => 'Zend\\View\\Helper\\AbstractHelper',
+      12 => 'Zend\\View\\Helper\\HelperInterface',
     ),
     'instantiator' => '__construct',
     'methods' => 
     array (
       'setEvent' => 0,
-      'setServiceLocator' => 3,
       'setFormCollectionHelper' => 0,
       'setFormRowHelper' => 0,
       'setFormElementHelper' => 0,
       'setTranslatorTextDomain' => 0,
       'setRenderErrors' => 0,
       'setCache' => 0,
+      'setDraw' => 0,
       'setEventManager' => 3,
       'setFilterPluginManager' => 0,
+      'setServiceLocator' => 3,
       'setVars' => 0,
       'setVarTranslator' => 0,
       'setTranslationPrototype' => 0,
@@ -2030,16 +2096,6 @@ return array (
         array (
           0 => 'event',
           1 => 'WebinoDraw\\DrawEvent',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setServiceLocator' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawForm::setServiceLocator:0' => 
-        array (
-          0 => 'serviceLocator',
-          1 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
           2 => true,
           3 => NULL,
         ),
@@ -2104,6 +2160,16 @@ return array (
           3 => NULL,
         ),
       ),
+      'setDraw' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawForm::setDraw:0' => 
+        array (
+          0 => 'draw',
+          1 => 'WebinoDraw\\WebinoDraw',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
       'setEventManager' => 
       array (
         'WebinoDraw\\View\\Helper\\DrawForm::setEventManager:0' => 
@@ -2120,6 +2186,16 @@ return array (
         array (
           0 => 'filterManager',
           1 => 'Zend\\Filter\\FilterPluginManager',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setServiceLocator' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawForm::setServiceLocator:0' => 
+        array (
+          0 => 'serviceLocator',
+          1 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
           2 => true,
           3 => NULL,
         ),
@@ -2208,26 +2284,31 @@ return array (
       1 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
       2 => 'Zend\\EventManager\\EventManagerAwareInterface',
       3 => 'Zend\\EventManager\\EventsCapableInterface',
-      4 => 'WebinoDraw\\View\\Helper\\AbstractDrawElement',
-      5 => 'Zend\\EventManager\\EventsCapableInterface',
-      6 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      7 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      8 => 'Zend\\View\\Helper\\HelperInterface',
-      9 => 'WebinoDraw\\View\\Helper\\AbstractDrawHelper',
+      4 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
+      5 => 'WebinoDraw\\View\\Helper\\AbstractDrawElement',
+      6 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
+      7 => 'Zend\\EventManager\\EventsCapableInterface',
+      8 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      9 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
       10 => 'Zend\\View\\Helper\\HelperInterface',
-      11 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      12 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      13 => 'Zend\\EventManager\\EventsCapableInterface',
-      14 => 'Zend\\View\\Helper\\AbstractHelper',
-      15 => 'Zend\\View\\Helper\\HelperInterface',
+      11 => 'WebinoDraw\\View\\Helper\\AbstractDrawHelper',
+      12 => 'Zend\\View\\Helper\\HelperInterface',
+      13 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
+      14 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      15 => 'Zend\\EventManager\\EventsCapableInterface',
+      16 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
+      17 => 'Zend\\View\\Helper\\AbstractHelper',
+      18 => 'Zend\\View\\Helper\\HelperInterface',
     ),
     'instantiator' => '__construct',
     'methods' => 
     array (
       'setCache' => 0,
+      'setDraw' => 0,
       'setEvent' => 0,
       'setEventManager' => 3,
       'setFilterPluginManager' => 0,
+      'setServiceLocator' => 3,
       'setVars' => 0,
       'setVarTranslator' => 0,
       'setTranslationPrototype' => 0,
@@ -2242,6 +2323,16 @@ return array (
         array (
           0 => 'cache',
           1 => 'Zend\\Cache\\Storage\\StorageInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setDraw' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawAbsolutize::setDraw:0' => 
+        array (
+          0 => 'draw',
+          1 => 'WebinoDraw\\WebinoDraw',
           2 => true,
           3 => NULL,
         ),
@@ -2272,6 +2363,16 @@ return array (
         array (
           0 => 'filterManager',
           1 => 'Zend\\Filter\\FilterPluginManager',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setServiceLocator' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawAbsolutize::setServiceLocator:0' => 
+        array (
+          0 => 'serviceLocator',
+          1 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
           2 => true,
           3 => NULL,
         ),
@@ -2336,26 +2437,31 @@ return array (
       1 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
       2 => 'Zend\\EventManager\\EventManagerAwareInterface',
       3 => 'Zend\\EventManager\\EventsCapableInterface',
-      4 => 'WebinoDraw\\View\\Helper\\AbstractDrawElement',
-      5 => 'Zend\\EventManager\\EventsCapableInterface',
-      6 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      7 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      8 => 'Zend\\View\\Helper\\HelperInterface',
-      9 => 'WebinoDraw\\View\\Helper\\AbstractDrawHelper',
+      4 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
+      5 => 'WebinoDraw\\View\\Helper\\AbstractDrawElement',
+      6 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
+      7 => 'Zend\\EventManager\\EventsCapableInterface',
+      8 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      9 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
       10 => 'Zend\\View\\Helper\\HelperInterface',
-      11 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      12 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      13 => 'Zend\\EventManager\\EventsCapableInterface',
-      14 => 'Zend\\View\\Helper\\AbstractHelper',
-      15 => 'Zend\\View\\Helper\\HelperInterface',
+      11 => 'WebinoDraw\\View\\Helper\\AbstractDrawHelper',
+      12 => 'Zend\\View\\Helper\\HelperInterface',
+      13 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
+      14 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      15 => 'Zend\\EventManager\\EventsCapableInterface',
+      16 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
+      17 => 'Zend\\View\\Helper\\AbstractHelper',
+      18 => 'Zend\\View\\Helper\\HelperInterface',
     ),
     'instantiator' => '__construct',
     'methods' => 
     array (
       'setCache' => 0,
+      'setDraw' => 0,
       'setEvent' => 0,
       'setEventManager' => 3,
       'setFilterPluginManager' => 0,
+      'setServiceLocator' => 3,
       'setVars' => 0,
       'setVarTranslator' => 0,
       'setTranslationPrototype' => 0,
@@ -2370,6 +2476,16 @@ return array (
         array (
           0 => 'cache',
           1 => 'Zend\\Cache\\Storage\\StorageInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setDraw' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawElement::setDraw:0' => 
+        array (
+          0 => 'draw',
+          1 => 'WebinoDraw\\WebinoDraw',
           2 => true,
           3 => NULL,
         ),
@@ -2400,6 +2516,16 @@ return array (
         array (
           0 => 'filterManager',
           1 => 'Zend\\Filter\\FilterPluginManager',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setServiceLocator' => 
+      array (
+        'WebinoDraw\\View\\Helper\\DrawElement::setServiceLocator:0' => 
+        array (
+          0 => 'serviceLocator',
+          1 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
           2 => true,
           3 => NULL,
         ),
@@ -2464,16 +2590,19 @@ return array (
       1 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
       2 => 'Zend\\EventManager\\EventManagerAwareInterface',
       3 => 'Zend\\EventManager\\EventsCapableInterface',
-      4 => 'Zend\\View\\Helper\\AbstractHelper',
-      5 => 'Zend\\View\\Helper\\HelperInterface',
+      4 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
+      5 => 'Zend\\View\\Helper\\AbstractHelper',
+      6 => 'Zend\\View\\Helper\\HelperInterface',
     ),
     'instantiator' => NULL,
     'methods' => 
     array (
       'setCache' => 0,
+      'setDraw' => 0,
       'setEvent' => 0,
       'setEventManager' => 3,
       'setFilterPluginManager' => 0,
+      'setServiceLocator' => 3,
       'setVars' => 0,
       'setVarTranslator' => 0,
       'setTranslationPrototype' => 0,
@@ -2488,6 +2617,16 @@ return array (
         array (
           0 => 'cache',
           1 => 'Zend\\Cache\\Storage\\StorageInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setDraw' => 
+      array (
+        'WebinoDraw\\View\\Helper\\AbstractDrawHelper::setDraw:0' => 
+        array (
+          0 => 'draw',
+          1 => 'WebinoDraw\\WebinoDraw',
           2 => true,
           3 => NULL,
         ),
@@ -2518,6 +2657,16 @@ return array (
         array (
           0 => 'filterManager',
           1 => 'Zend\\Filter\\FilterPluginManager',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setServiceLocator' => 
+      array (
+        'WebinoDraw\\View\\Helper\\AbstractDrawHelper::setServiceLocator:0' => 
+        array (
+          0 => 'serviceLocator',
+          1 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
           2 => true,
           3 => NULL,
         ),

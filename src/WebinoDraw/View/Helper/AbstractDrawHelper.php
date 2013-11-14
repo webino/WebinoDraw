@@ -18,10 +18,13 @@ use WebinoDraw\DrawEvent;
 use WebinoDraw\Stdlib\DrawInstructions;
 use WebinoDraw\Stdlib\Translation;
 use WebinoDraw\Stdlib\VarTranslator;
+use WebinoDraw\WebinoDraw;
 use Zend\EventManager\EventManager;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Filter\FilterPluginManager;
+use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\View\Helper\AbstractHelper;
 use Zend\Cache\StorageFactory as CacheStorage;
 use Zend\Cache\Storage\StorageInterface as CacheStorageInterface;
@@ -31,7 +34,8 @@ use Zend\Cache\Storage\StorageInterface as CacheStorageInterface;
  */
 abstract class AbstractDrawHelper extends AbstractHelper implements
     DrawHelperInterface,
-    EventManagerAwareInterface
+    EventManagerAwareInterface,
+    ServiceLocatorAwareInterface
 {
     /**
      * Prefix of the extra variables to avoid conflicts
@@ -44,6 +48,11 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     protected $cache;
 
     /**
+     * @var WebinoDraw
+     */
+    protected $draw;
+
+    /**
      * @var EventManagerInterface
      */
     protected $eventManager;
@@ -54,7 +63,6 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     protected $eventIdentifier;
 
     /**
-     *
      * @var DrawEvent
      */
     protected $event;
@@ -63,6 +71,11 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
      * @var FilterPluginManager
      */
     protected $filterPluginManager;
+
+    /**
+     * @var ServiceLocatorInterface
+     */
+    protected $serviceLocator;
 
     /**
      * @var array
@@ -114,6 +127,27 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     public function setCache(CacheStorageInterface $cache)
     {
         $this->cache = $cache;
+        return $this;
+    }
+
+    /**
+     * @return WebinoDraw
+     */
+    public function getDraw()
+    {
+        if (null === $this->draw) {
+            $this->setDraw($this->getServiceLocator()->getServiceLocator()->get('WebinoDraw'));
+        }
+        return $this->draw;
+    }
+
+    /**
+     * @param WebinoDraw $draw
+     * @return AbstractDrawHelper
+     */
+    public function setDraw(WebinoDraw $draw)
+    {
+        $this->draw = $draw;
         return $this;
     }
 
@@ -187,6 +221,22 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     {
         $this->filterPluginManager = $filterManager;
         return $this;
+    }
+
+    /**
+     * @param ServiceLocatorInterface $serviceLocator
+     */
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+        $this->serviceLocator = $serviceLocator;
+    }
+
+    /**
+     * @return ServiceLocatorInterface
+     */
+    public function getServiceLocator()
+    {
+        return $this->serviceLocator;
     }
 
     /**
@@ -351,6 +401,32 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
                 $translation,
                 $spec['var']['default']
             );
+
+        return $this;
+    }
+
+    /**
+     * Expand spec instructions with instructions from the instructionset
+     *
+     * @param array $spec
+     * @return AbstractDrawHelper
+     */
+    protected function expandInstructionsFromSet(array &$spec)
+    {
+        if (empty($spec['instructionset'])) {
+            return $this;
+        }
+
+        $draw         = $this->getDraw();
+        $instructions = $this->getInstructionsPrototype();
+
+        foreach ($spec['instructionset'] as $instructionset) {
+            $instructions->merge($draw->instructionsFromSet($instructionset));
+        }
+
+        foreach ($instructions->getSortedArrayCopy() as $instruction) {
+            $spec['instructions'][key($instruction)] = current($instruction);
+        }
 
         return $this;
     }

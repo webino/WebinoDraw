@@ -67,6 +67,19 @@ class DrawInstructions extends ArrayObject implements
     }
 
     /**
+     * Sort by stackIndex
+     *
+     * @return array
+     */
+    public function getSortedArrayCopy()
+    {
+        $instructions = $this->getArrayCopy();
+        ksort($instructions);
+
+        return $instructions;
+    }
+
+    /**
      * @return Locator
      */
     public function getLocator()
@@ -224,12 +237,7 @@ class DrawInstructions extends ArrayObject implements
             );
         }
 
-        $instructions = $this->getArrayCopy();
-
-        // sort by stackIndex
-        ksort($instructions);
-
-        foreach ($instructions as $specNode) {
+        foreach ($this->getSortedArrayCopy() as $specNode) {
 
             // one node per stackIndex
             $spec = current($specNode);

@@ -230,9 +230,8 @@ return array(
                 'locator' => '.form-template-example',
                 'helper' => 'WebinoDrawForm',
                 'form' => 'exampleForm',
-                'cache' => 'exampleFormTemplate',
                 'instructions' => array(
-                    'form-decorator1' => array(
+                    'form-decorator' => array(
                         'locator' => 'xpath=.//li//input/..',
                         'html' => 'LABEL {$_innerHtml}',
                     ),

@@ -18,19 +18,12 @@ use Zend\Form\FormInterface;
 use Zend\Form\View\Helper\FormCollection;
 use Zend\Form\View\Helper\FormRow;
 use Zend\I18n\View\Helper\AbstractTranslatorHelper;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**
  * Draw helper used to render the form
  */
-class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterface
+class DrawForm extends AbstractDrawHelper
 {
-    /**
-     * @var ServiceLocatorInterface
-     */
-    protected $serviceLocator;
-
     /**
      * @var FormCollection
      */
@@ -85,22 +78,6 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
 
         $this->event = $event;
         return $this;
-    }
-
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->serviceLocator = $serviceLocator;
-    }
-
-    /**
-     * @return ServiceLocatorInterface
-     */
-    public function getServiceLocator()
-    {
-        return $this->serviceLocator;
     }
 
     /**
@@ -360,6 +337,8 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
                 $this->matchTemplate($childNodes, $form);
             }
 
+            $this->expandInstructionsFromSet($spec);
+
             if (!empty($spec['instructions'])) {
 
                 foreach ($childNodes as $childNode) {
@@ -472,7 +451,7 @@ class DrawForm extends AbstractDrawHelper implements ServiceLocatorAwareInterfac
                             $elementNode->parentNode->appendChild($errorNode);
                         } else {
                             $elementNode->parentNode->insertBefore(
-                                $errorNode->nextSibling,
+                                $errorNode,
                                 $elementNode
                             );
                         }
