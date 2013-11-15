@@ -33,7 +33,6 @@ class VarTranslator
      */
     const VAR_PATTERN = '{$%s}';
 
-
     /**
      * Match {$var} regular pattern
      *
@@ -80,6 +79,7 @@ class VarTranslator
         ) {
             return $string;
         }
+
         $sanitized = preg_replace($this->createVarPregPattern(), '', $string);
         return trim($sanitized);
     }
@@ -92,15 +92,15 @@ class VarTranslator
      */
     public function makeVarKeys(ArrayAccess $subject)
     {
-        $_subject = clone $subject;
+        $subjectClone = clone $subject;
 
         foreach ($subject as $key => $value) {
 
-            $_subject->offsetSet($this->makeVar($key), $value);
-            $_subject->offsetUnset($key);
+            $subjectClone->offsetSet($this->makeVar($key), $value);
+            $subjectClone->offsetUnset($key);
         }
 
-        return $_subject;
+        return $subjectClone;
     }
 
     /**
@@ -137,7 +137,7 @@ class VarTranslator
                     || is_int($translation[$key])
                     || is_float($translation[$key]))
             ) {
-                // return early for object|array
+                // return early for non-strings
                 // this is usefull to pass subjects
                 // to functions, helpers and filters
                 return $translation[$key];
@@ -340,6 +340,7 @@ class VarTranslator
                         $results[$key] = null;
 
                     // join helper result
+                    // todo optional
                     $results[$key].= $plugin;
                 }
             }
