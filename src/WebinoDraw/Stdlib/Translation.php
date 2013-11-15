@@ -31,6 +31,11 @@ class Translation extends ArrayObject implements
         $parts = explode('.', $basepath);
 
         foreach ($parts as $key) {
+            if (!is_array($value)
+                && !($value instanceof ArrayObject)
+            ) {
+                break;
+            }
 
             // magic keys
             if ('_first' === $key) {
@@ -43,7 +48,7 @@ class Translation extends ArrayObject implements
             }
 
             // undefined
-            if (empty($value[$key])) {
+            if (!array_key_exists($key, $value)) {
                 $value = null;
                 break;
             }
