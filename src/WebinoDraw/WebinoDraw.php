@@ -190,7 +190,7 @@ class WebinoDraw
             throw new \InvalidArgumentException($exc->getMessage(), $exc->getCode(), $exc);
         }
 
-        $dom = !empty($isXml) ? $this->createXmlDom($xhtml) : $this->createDom($xhtml) ;
+        $dom = $isXml ? $this->createXmlDom($xhtml) : $this->createDom($xhtml) ;
         $this->drawDom(
             $dom->documentElement,
             $resolvedInstructions,
