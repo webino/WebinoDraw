@@ -213,6 +213,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
 
                     if (array_key_exists('equalTo', $onVarSpec)) {
 
+                        $this->onVarFixTypes($val, $onVarSpec['equalTo']);
                         if ($val == $onVarSpec['equalTo']) {
 
                             $this->subInstructions(
@@ -225,6 +226,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
 
                     if (array_key_exists('notEqualTo', $onVarSpec)) {
 
+                        $this->onVarFixTypes($val, $onVarSpec['notEqualTo']);
                         if ($val != $onVarSpec['notEqualTo']) {
 
                             $this->subInstructions(
@@ -265,6 +267,32 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
         // remove nodes
         foreach ($nodesToRemove as $nodeToRemove) {
             $nodeToRemove->parentNode->removeChild($nodeToRemove);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Fix value types for equation
+     *
+     * @todo decouple
+     *
+     * @param mixed $valA
+     * @param mixed $valB
+     * @return AbstractDrawElement
+     */
+    private function onVarFixTypes(&$valA, &$valB)
+    {
+        if (is_numeric($valA)) {
+            $valA = (float) $valA;
+            $valB = (float) $valB;
+            return $this;
+        }
+
+        if (is_string($valA)) {
+            $valA = (string) $valA;
+            $valB = (string) $valB;
+            return $this;
         }
 
         return $this;
