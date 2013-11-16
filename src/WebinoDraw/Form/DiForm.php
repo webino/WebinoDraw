@@ -342,6 +342,15 @@ class DiForm implements FormInterface
      * @param string $option
      * @return null|mixed
      */
+    public function setOption($key, $value)
+    {
+        return $this->getForm()->setOption($key, $value);
+    }
+
+    /**
+     * @param string $option
+     * @return null|mixed
+     */
     public function getOption($option)
     {
         return $this->getForm()->getOption($option);

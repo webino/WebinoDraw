@@ -75,6 +75,7 @@ return array (
       'setHydrator' => 0,
       'setName' => 0,
       'setOptions' => 0,
+      'setOption' => 0,
       'setAttribute' => 0,
       'setAttributes' => 0,
       'setValue' => 0,
@@ -206,6 +207,23 @@ return array (
         'WebinoDraw\\Form\\DiForm::setOptions:0' => 
         array (
           0 => 'options',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setOption' => 
+      array (
+        'WebinoDraw\\Form\\DiForm::setOption:0' => 
+        array (
+          0 => 'key',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Form\\DiForm::setOption:1' => 
+        array (
+          0 => 'value',
           1 => NULL,
           2 => true,
           3 => NULL,
