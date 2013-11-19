@@ -414,6 +414,7 @@
         'var' => array(
             'helper' => array(                           // use helpers on variables
                 'customvar' => array(
+                    '_join_result' => false,             // bool, disable the string result joining, default true
                     'customhelper' => array(             // zend helper
                         '__invoke' => array(array()),    // zend helper methods with params
                     ),
@@ -593,6 +594,9 @@
 
   - When you don't want to absolutize the element attribute add `data-webino-draw-absolutize="no"` to it's attributes.
 
+  - When using helpers with view helpers multiple methods call on the same variable, the string result is automatically joined.
+    Use _join_result = false option to disable this behaviour.
+
 ## Examples
 
   Look for more examples in: `config/webinodrawexample.local.php.dist`
@@ -668,6 +672,8 @@
   - Write doc about var fetch _first and _last magic keys
   - Write test for onVar support
   - Write tests for spec instructionset to expand instructions
+  - Disable the var helpers multiple methods call on the same variable auto join the result, BC break
+  - Redesign var helpers and filters API, cos helper/filter name as a key causes issues when we wan to override via config merge, BC break
 
 ## Addendum
 

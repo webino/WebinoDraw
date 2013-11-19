@@ -276,7 +276,14 @@ class VarTranslator
                 continue;
             }
 
+            $joinResult = true;
             foreach ((array) $value as $helper => $options) {
+
+                if ('_join_result' === $helper) {
+                    // option to disable the string result joining
+                    $joinResult = (bool) $options;
+                    continue;
+                }
 
                 if (!empty($options['helper'])) {
                     // helper is not an options key
@@ -339,9 +346,12 @@ class VarTranslator
                     !empty($results[$key]) or
                         $results[$key] = null;
 
-                    // join helper result
-                    // todo optional
-                    $results[$key].= $plugin;
+                    if ($joinResult) {
+                        // join helper result
+                        $results[$key].= $plugin;
+                    } else {
+                        $results[$key] = $plugin;
+                    }
                 }
             }
         }
