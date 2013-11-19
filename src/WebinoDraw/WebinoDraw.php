@@ -132,7 +132,7 @@ class WebinoDraw
 
         $dom = new DOMDocument;
         $dom->registerNodeClass('DOMElement', 'WebinoDraw\Dom\Element');
-        $isXml ? $dom->loadXml($xhtml) : $dom->loadHtml($xhtml);
+        $isXml ? $dom->loadXml($xhtml) : $dom->loadHtml(mb_convert_encoding($xhtml, 'HTML-ENTITIES', 'UTF-8'));
         $dom->xpath = new DOMXPath($dom);
 
         return $dom;
