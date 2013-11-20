@@ -460,7 +460,9 @@
             'index'    => '0',                           // index start point (optional)
             'offset'   => '0',                           // items offset (optional)
             'length'   => '0',                           // items length (optional)
-            'callback' => function($item, $helper){},    // called on each item (optional)
+            'callback' => function(                      // called on each item (optional)
+                $loopArgument, array $options
+            ){},
             'onEmpty'  => array(                         // custom options if items array is empty
                                                          // use same options as normal
             ),
@@ -674,6 +676,7 @@
   - Write tests for spec instructionset to expand instructions
   - Disable the var helpers multiple methods call on the same variable auto join the result, BC break
   - Redesign var helpers and filters API, cos helper/filter name as a key causes issues when we wan to override via config merge, BC break
+  - Write loop callback manual + tests
 
 ## Addendum
 

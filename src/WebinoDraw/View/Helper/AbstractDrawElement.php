@@ -357,46 +357,58 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
 
         foreach ($nodes as $node) {
 
-            $insertBefore = $node->nextSibling ? $node->nextSibling : null;
-            $nodeClone    = clone $node;
-            $parentNode   = $node->parentNode;
+            $beforeNode = $node->nextSibling ? $node->nextSibling : null;
+            $nodeClone  = clone $node;
+            $parentNode = $node->parentNode;
 
             $node->parentNode->removeChild($node);
 
             $index = !empty($spec['loop']['index']) ? $spec['loop']['index'] : 0;
-            foreach ($items as $key => $itemSubject) {
+            foreach ($items as $key => $item) {
                 $index++;
 
-                $item = $varTranslator->subjectToArrayObject($itemSubject);
-                $item[self::EXTRA_VAR_PREFIX . 'key']   = (string) $key;
-                $item[self::EXTRA_VAR_PREFIX . 'index'] = (string) $index;
+                // create loop argument for better callback support
+                $loopArgument = $varTranslator->subjectToArrayObject(
+                    array(
+                        'spec'       => $spec,
+                        'index'      => $index,
+                        'key'        => $key,
+                        'item'       => $item,
+                        'node'       => clone $nodeClone,
+                        'parentNode' => $parentNode,
+                        'beforeNode' => $beforeNode,
+                        'target'     => $this,
+                    )
+                );
 
                 // call loop item callback
                 if (!empty($spec['loop']['callback'])) {
                     foreach ((array) $spec['loop']['callback'] as $callback) {
-                        call_user_func_array($callback, array($item, $this));
+                        $callback = (array) $callback;
+                        call_user_func(current($callback), $loopArgument, (array) next($callback));
                     }
                 }
+
+                $loopArgument['item'][self::EXTRA_VAR_PREFIX . 'key']   = (string) $loopArgument['key'];
+                $loopArgument['item'][self::EXTRA_VAR_PREFIX . 'index'] = (string) $loopArgument['index'];
 
                 // create local translation
                 $localTranslation = clone $translation;
 
                 $varTranslator->translationMerge(
                     $localTranslation,
-                    $item->getArrayCopy()
+                    $loopArgument['item']
                 );
 
                 // add node
-                $newNode = clone $nodeClone;
-
-                if ($insertBefore) {
-                    $parentNode->insertBefore($newNode, $insertBefore);
+                if ($loopArgument['beforeNode']) {
+                    $loopArgument['parentNode']->insertBefore($loopArgument['node'], $loopArgument['beforeNode']);
                 } else {
-                    $parentNode->appendChild($newNode);
+                    $loopArgument['parentNode']->appendChild($loopArgument['node']);
                 }
 
                 // manipulate item nodes with local spec and translation
-                $newNodeList = $nodes->createNodeList(array($newNode));
+                $newNodeList = $nodes->createNodeList(array($loopArgument['node']));
                 $this->manipulateNodes($newNodeList, $spec, $localTranslation);
 
                 if (empty($spec['loop']['instructions'])) {
@@ -407,7 +419,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                 $this
                     ->cloneInstructionsPrototype($spec['loop']['instructions'])
                     ->render(
-                       $newNode,
+                       $loopArgument['node'],
                        $this->view,
                        $localTranslation->getArrayCopy()
                    );

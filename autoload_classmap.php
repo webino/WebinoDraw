@@ -5,6 +5,7 @@ return array(
   'WebinoDraw\Form\View\Helper\FormElement'           => __DIR__ . '/src/WebinoDraw/Form/View/Helper/FormElement.php',
   'WebinoDraw\Form\View\Helper\FormRow'               => __DIR__ . '/src/WebinoDraw/Form/View/Helper/FormRow.php',
   'WebinoDraw\DrawEvent'                              => __DIR__ . '/src/WebinoDraw/DrawEvent.php',
+  'WebinoDraw\LoopCallback'                           => __DIR__ . '/src/WebinoDraw/LoopCallback.php',
   'WebinoDraw\Module'                                 => __DIR__ . '/src/WebinoDraw/Module.php',
   'WebinoDraw\AjaxEvent'                              => __DIR__ . '/src/WebinoDraw/AjaxEvent.php',
   'WebinoDraw\WebinoDraw'                             => __DIR__ . '/src/WebinoDraw/WebinoDraw.php',
