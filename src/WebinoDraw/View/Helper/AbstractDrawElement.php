@@ -360,26 +360,26 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
             $beforeNode = $node->nextSibling ? $node->nextSibling : null;
             $nodeClone  = clone $node;
             $parentNode = $node->parentNode;
-
             $node->parentNode->removeChild($node);
+
+            // create loop argument for better callback support
+            $loopArgument = $varTranslator->subjectToArrayObject(
+                array(
+                    'spec'       => $spec,
+                    'parentNode' => $parentNode,
+                    'beforeNode' => $beforeNode,
+                    'target'     => $this,
+                )
+            );
 
             $index = !empty($spec['loop']['index']) ? $spec['loop']['index'] : 0;
             foreach ($items as $key => $item) {
                 $index++;
 
-                // create loop argument for better callback support
-                $loopArgument = $varTranslator->subjectToArrayObject(
-                    array(
-                        'spec'       => $spec,
-                        'index'      => $index,
-                        'key'        => $key,
-                        'item'       => $item,
-                        'node'       => clone $nodeClone,
-                        'parentNode' => $parentNode,
-                        'beforeNode' => $beforeNode,
-                        'target'     => $this,
-                    )
-                );
+                $loopArgument['index'] = $index;
+                $loopArgument['key']   = $key;
+                $loopArgument['item']  = $item;
+                $loopArgument['node']  = clone $nodeClone;
 
                 // call loop item callback
                 if (!empty($spec['loop']['callback'])) {

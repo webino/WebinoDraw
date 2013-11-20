@@ -64,7 +64,7 @@ abstract class LoopCallback
             );
         }
 
-        if ($loopArgument['index'] % $options['each']) {
+        if (($loopArgument['index'] - 1) % $options['each']) {
             return;
         }
 
