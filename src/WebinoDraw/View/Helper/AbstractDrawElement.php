@@ -283,6 +283,12 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
      */
     private function onVarFixTypes(&$valA, &$valB)
     {
+        if (empty($valA) && is_array($valA)) {
+            $valA = (string) null;
+            $valB = (string) $valB;
+            return $this;
+        }
+
         if (is_numeric($valA)) {
             $valA = (float) $valA;
             $valB = (float) $valB;
