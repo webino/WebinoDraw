@@ -213,8 +213,15 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
 
                     if (array_key_exists('equalTo', $onVarSpec)) {
 
-                        $this->onVarFixTypes($val, $onVarSpec['equalTo']);
-                        if ($val == $onVarSpec['equalTo']) {
+                        $expected = $varTranslator->removeVars(
+                            $varTranslator->translateString(
+                                $onVarSpec['equalTo'],
+                                $varTranslation
+                            )
+                        );
+
+                        $this->onVarFixTypes($val, $expected);
+                        if ($val == $expected) {
 
                             $this->subInstructions(
                                 $nodes,
@@ -226,8 +233,55 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
 
                     if (array_key_exists('notEqualTo', $onVarSpec)) {
 
-                        $this->onVarFixTypes($val, $onVarSpec['notEqualTo']);
-                        if ($val != $onVarSpec['notEqualTo']) {
+                        $expected = $varTranslator->removeVars(
+                            $varTranslator->translateString(
+                                $onVarSpec['notEqualTo'],
+                                $varTranslation
+                            )
+                        );
+
+                        $this->onVarFixTypes($val, $expected);
+                        if ($val != $expected) {
+
+                            $this->subInstructions(
+                                $nodes,
+                                $spec['onVar'][$onVarSpecKey]['instructions'],
+                                $translation
+                            );
+                        }
+                    }
+
+                    if (array_key_exists('lessThan', $onVarSpec)) {
+
+                        $expected = $varTranslator->removeVars(
+                            $varTranslator->translateString(
+                                $onVarSpec['lessThan'],
+                                $varTranslation
+                            )
+                        );
+
+                        $this->onVarFixTypes($val, $expected);
+                        if ($val < $expected) {
+
+                            $this->subInstructions(
+                                $nodes,
+                                $spec['onVar'][$onVarSpecKey]['instructions'],
+                                $translation
+                            );
+                        }
+                    }
+
+                    if (array_key_exists('greaterThan', $onVarSpec)) {
+
+                        $expected = $varTranslator->removeVars(
+                            $varTranslator->translateString(
+                                $onVarSpec['greaterThan'],
+                                $varTranslation
+                            )
+                        );
+
+                        $this->onVarFixTypes($val, $expected);
+                        if ($val < $expected) {
 
                             $this->subInstructions(
                                 $nodes,
