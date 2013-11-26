@@ -211,12 +211,16 @@ class VarTranslator
     public function translationDefaults(ArrayAccess $translation, array $defaults)
     {
         foreach ($defaults as $key => $value) {
-            if (empty($translation[$key])) {
-
-                $varTranslation = $this->makeVarKeys($translation);
-                $this->translate($value, $varTranslation);
-                $translation[$key] = $value;
+            if (!empty($translation[$key])
+                || (array_key_exists($key, $translation)
+                    && is_numeric($translation[$key]))
+            ) {
+                continue;
             }
+
+            $varTranslation = $this->makeVarKeys($translation);
+            $this->translate($value, $varTranslation);
+            $translation[$key] = $value;
         }
 
         return $this;
