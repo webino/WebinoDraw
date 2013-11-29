@@ -395,28 +395,6 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
         return $this;
     }
 
-    /**
-     * @param NodeList $nodes
-     * @param array $instructions
-     * @param ArrayAccess $translation
-     * @return AbstractDrawElement
-     */
-    protected function subInstructions(NodeList $nodes, array $instructions, ArrayAccess $translation)
-    {
-        foreach ($nodes as $node) {
-
-            $this
-                ->cloneInstructionsPrototype($instructions)
-                ->render(
-                   $node,
-                   $this->view,
-                   $translation->getArrayCopy()
-               );
-        }
-
-        return $this;
-    }
-
     protected function translateValue($value, ArrayAccess $varTranslation, array $spec)
     {
         return $this->getVarTranslator()->translateString(

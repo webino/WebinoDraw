@@ -436,6 +436,30 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     }
 
     /**
+     * @todo PHP 5.4 protected
+     *
+     * @param NodeList $nodes
+     * @param array $instructions
+     * @param ArrayAccess $translation
+     * @return AbstractDrawElement
+     */
+    public function subInstructions(NodeList $nodes, array $instructions, ArrayAccess $translation)
+    {
+        foreach ($nodes as $node) {
+
+            $this
+                ->cloneInstructionsPrototype($instructions)
+                ->render(
+                   $node,
+                   $this->view,
+                   $translation->getArrayCopy()
+               );
+        }
+
+        return $this;
+    }
+
+    /**
      * Returns array translation of the node
      *
      * @param Element $node
