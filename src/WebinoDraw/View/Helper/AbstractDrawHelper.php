@@ -424,6 +424,8 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
             $instructions->merge($draw->instructionsFromSet($instructionset));
         }
 
+        unset($spec['instructionset']);
+
         foreach ($instructions->getSortedArrayCopy() as $instruction) {
             $spec['instructions'][key($instruction)] = current($instruction);
         }
