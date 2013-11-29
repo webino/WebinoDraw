@@ -12,6 +12,7 @@ namespace WebinoDraw\Stdlib;
 
 use ArrayAccess;
 use ArrayObject;
+use WebinoDraw\Exception;
 use WebinoDraw\Stdlib\ArrayFetchInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\Filter\FilterPluginManager;
@@ -274,14 +275,14 @@ class VarTranslator
     {
         $results = new ArrayObject;
 
-        foreach ($spec as $key => &$value) {
+        foreach ($spec as $key => $subSpec) {
             if (!array_key_exists($key, $translation)) {
                 // skip undefined
                 continue;
             }
 
             $joinResult = true;
-            foreach ((array) $value as $helper => $options) {
+            foreach ((array) $subSpec as $helper => $options) {
 
                 if ('_join_result' === $helper) {
                     // option to disable the string result joining
@@ -366,7 +367,7 @@ class VarTranslator
     }
 
     /**
-     * Apply filters and functions on variables.
+     * Apply filters and functions on variables
      *
      * Call user function if exists else call filter.
      *
@@ -377,13 +378,13 @@ class VarTranslator
      */
     public function applyFilter(ArrayAccess $translation, array $spec, FilterPluginManager $pluginManager)
     {
-        foreach ($spec as $key => &$value) {
+        foreach ($spec as $key => $subSpec) {
             if (!array_key_exists($key, $translation)) {
                 // skip undefined
                 continue;
             }
 
-            foreach ((array) $value as $helper => $options) {
+            foreach ((array) $subSpec as $helper => $options) {
 
                 if (function_exists($helper)) {
                     // php functions first
@@ -416,6 +417,135 @@ class VarTranslator
                                             ->filter($options[0]);
                 }
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Apply variable logic
+     *
+     * @todo refactor
+     *
+     * @param ArrayAccess $varTranslation
+     * @param array $spec
+     * @param Callable $callback
+     * @return VarTranslator
+     * @throws Exception\InvalidInstructionException
+     */
+    public function applyOnVar(ArrayAccess $varTranslation, array $spec, $callback)
+    {
+        foreach ($spec as $key => $spec) {
+            if (!array_key_exists('var', $spec)) {
+                throw new Exception\InvalidInstructionException(
+                    'Expected `var` option in ' . print_r($spec, true)
+                );
+            }
+
+            $value = $this->removeVars(
+                $this->translateString(
+                    $spec['var'],
+                    $varTranslation
+                )
+            );
+
+            !array_key_exists('equalTo', $spec) or
+                $this->performOnVar(
+                    $varTranslation,
+                    $value,
+                    $spec['equalTo'],
+                    function ($value, $expected) use ($spec, $callback) {
+
+                        $value != $expected or
+                            $callback($spec);
+                    }
+                );
+
+            !array_key_exists('notEqualTo', $spec) or
+                $this->performOnVar(
+                    $varTranslation,
+                    $value,
+                    $spec['notEqualTo'],
+                    function ($value, $expected) use ($spec, $callback) {
+
+                        $value == $expected or
+                            $callback($spec);
+                    }
+                );
+
+            !array_key_exists('lessThan', $spec) or
+                $this->performOnVar(
+                    $varTranslation,
+                    $value,
+                    $spec['lessThan'],
+                    function ($value, $expected) use ($spec, $callback) {
+
+                        $value >= $expected or
+                            $callback($spec);
+                    }
+                );
+
+            !array_key_exists('greaterThan', $spec) or
+                $this->performOnVar(
+                    $varTranslation,
+                    $value,
+                    $spec['greaterThan'],
+                    function ($value, $expected) use ($spec, $callback) {
+
+                        $value <= $expected or
+                            $callback($spec);
+                    }
+                );
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ArrayAccess $varTranslation
+     * @param mixed $value
+     * @param mixed $expected
+     * @param Callable $callback
+     */
+    private function performOnVar(ArrayAccess $varTranslation, $value, $expected, $callback)
+    {
+        $expected = $this->removeVars(
+            $this->translateString(
+                $expected,
+                $varTranslation
+            )
+        );
+
+        $this->onVarFixTypes($value, $expected);
+
+        $callback($value, $expected);
+    }
+
+    /**
+     * Fix value types for equation
+     *
+     * @param mixed $valA
+     * @param mixed $valB
+     * @return AbstractDrawElement
+     */
+    private function onVarFixTypes(&$valA, &$valB)
+    {
+        if (empty($valA) && is_array($valA)) {
+            $valA = (string) null;
+            $valB = (string) $valB;
+            return $this;
+        }
+
+        if (is_numeric($valA)) {
+            $valA = (float) $valA;
+            $valB = (float) $valB;
+            return $this;
+        }
+
+        if (is_string($valA)) {
+            $valA = (string) $valA;
+            $valB = (string) $valB;
+            return $this;
         }
 
         return $this;

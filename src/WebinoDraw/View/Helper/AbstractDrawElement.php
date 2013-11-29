@@ -68,9 +68,9 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
             $varTranslation = $varTranslator->makeVarKeys($translation);
 
             // start manipulation
-            // todo redesign
+            // todo refactor
 
-            if (array_key_exists('remove', $spec)) {
+            if (!empty($spec['remove'])) {
 
                 $nodeXpath = $node->ownerDocument->xpath;
 
@@ -111,7 +111,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                 $varTranslation->merge($varTranslator->makeVarKeys($this->nodeHtmlTranslation($node, $spec))->getArrayCopy());
             }
 
-            if (array_key_exists('attribs', $spec)) {
+            if (!empty($spec['attribs'])) {
 
                 foreach ($spec['attribs'] as $attribName => $attribValue) {
 
@@ -193,107 +193,26 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                 }
             }
 
-            if (array_key_exists('onVar', $spec)) {
+            if (!empty($spec['onVar'])) {
+                $helper = $this; // todo PHP 5.4
 
-                foreach ($spec['onVar'] as $onVarSpecKey => $onVarSpec) {
-                    if (!array_key_exists('var', $onVarSpec)) {
-                        throw new Exception\InvalidInstructionException(
-                            'Expected `var` option in ' . print_r($onVarSpec, true)
-                        );
-                    }
+                $varTranslator->applyOnVar(
+                    $varTranslation,
+                    $spec['onVar'],
+                    function($spec) use ($nodes, $translation, $helper) {
 
-                    $val = $varTranslator->removeVars(
-                        $varTranslator->translateString(
-                            $onVarSpec['var'],
-                            $varTranslation
-                        )
-                    );
-
-                    $this->expandInstructionsFromSet($spec['onVar'][$onVarSpecKey]);
-
-                    if (array_key_exists('equalTo', $onVarSpec)) {
-
-                        $expected = $varTranslator->removeVars(
-                            $varTranslator->translateString(
-                                $onVarSpec['equalTo'],
-                                $varTranslation
-                            )
-                        );
-
-                        $this->onVarFixTypes($val, $expected);
-                        if ($val == $expected) {
-
-                            $this->subInstructions(
+                        $helper
+                            ->expandInstructionsFromSet($spec)
+                            ->subInstructions(
                                 $nodes,
-                                $spec['onVar'][$onVarSpecKey]['instructions'],
+                                $spec['instructions'],
                                 $translation
                             );
-                        }
                     }
-
-                    if (array_key_exists('notEqualTo', $onVarSpec)) {
-
-                        $expected = $varTranslator->removeVars(
-                            $varTranslator->translateString(
-                                $onVarSpec['notEqualTo'],
-                                $varTranslation
-                            )
-                        );
-
-                        $this->onVarFixTypes($val, $expected);
-                        if ($val != $expected) {
-
-                            $this->subInstructions(
-                                $nodes,
-                                $spec['onVar'][$onVarSpecKey]['instructions'],
-                                $translation
-                            );
-                        }
-                    }
-
-                    if (array_key_exists('lessThan', $onVarSpec)) {
-
-                        $expected = $varTranslator->removeVars(
-                            $varTranslator->translateString(
-                                $onVarSpec['lessThan'],
-                                $varTranslation
-                            )
-                        );
-
-                        $this->onVarFixTypes($val, $expected);
-                        if ($val < $expected) {
-
-                            $this->subInstructions(
-                                $nodes,
-                                $spec['onVar'][$onVarSpecKey]['instructions'],
-                                $translation
-                            );
-                        }
-                    }
-
-                    if (array_key_exists('greaterThan', $onVarSpec)) {
-
-                        $expected = $varTranslator->removeVars(
-                            $varTranslator->translateString(
-                                $onVarSpec['greaterThan'],
-                                $varTranslation
-                            )
-                        );
-
-                        $this->onVarFixTypes($val, $expected);
-                        if ($val < $expected) {
-
-                            $this->subInstructions(
-                                $nodes,
-                                $spec['onVar'][$onVarSpecKey]['instructions'],
-                                $translation
-                            );
-                        }
-                    }
-                }
+                );
             }
 
-            if (array_key_exists('onEmpty', $spec)) {
+            if (!empty($spec['onEmpty'])) {
 
                 if ($node->isEmpty()) {
                     $onEmptySpec = $spec['onEmpty'];
@@ -321,38 +240,6 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
         // remove nodes
         foreach ($nodesToRemove as $nodeToRemove) {
             $nodeToRemove->parentNode->removeChild($nodeToRemove);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Fix value types for equation
-     *
-     * @todo decouple
-     *
-     * @param mixed $valA
-     * @param mixed $valB
-     * @return AbstractDrawElement
-     */
-    private function onVarFixTypes(&$valA, &$valB)
-    {
-        if (empty($valA) && is_array($valA)) {
-            $valA = (string) null;
-            $valB = (string) $valB;
-            return $this;
-        }
-
-        if (is_numeric($valA)) {
-            $valA = (float) $valA;
-            $valB = (float) $valB;
-            return $this;
-        }
-
-        if (is_string($valA)) {
-            $valA = (string) $valA;
-            $valB = (string) $valB;
-            return $this;
         }
 
         return $this;
