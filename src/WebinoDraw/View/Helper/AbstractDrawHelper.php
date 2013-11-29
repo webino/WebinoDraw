@@ -408,10 +408,12 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     /**
      * Expand spec instructions with instructions from the instructionset
      *
+     * @todo PHP 5.4 protected
+     *
      * @param array $spec
      * @return AbstractDrawHelper
      */
-    protected function expandInstructionsFromSet(array &$spec)
+    public function expandInstructionsFromSet(array &$spec)
     {
         if (empty($spec['instructionset'])) {
             return $this;
