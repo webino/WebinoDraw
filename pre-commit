@@ -2,7 +2,6 @@
 stash -q --keep-index
 phing pre-commit
 RESULT=$?
-cd ..
 env -i
 git stash pop -q
 [ $RESULT -ne 0 ] && exit 1
