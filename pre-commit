@@ -1,5 +1,5 @@
 # pre-commit
-stash -q --keep-index
+git stash -q --keep-index
 phing pre-commit
 RESULT=$?
 env -i
