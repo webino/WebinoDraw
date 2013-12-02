@@ -1,10 +1,6 @@
 # pre-commit
-git stash -q --keep-index
-phing classmap
-git add autoload_classmap.php
-phing didef
-git add data/di/definition.php
-cd test && phpunit
+stash -q --keep-index
+phing pre-commit
 RESULT=$?
 cd ..
 env -i

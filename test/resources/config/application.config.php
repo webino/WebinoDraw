@@ -1,7 +1,7 @@
 <?php
 return array(
     'modules' => array(
-        'ZF2NetteDebug',
+        // 'ZF2NetteDebug', // todo: conflict with nett library
         'ZendDeveloperTools',
         'Application',
         'WebinoDraw',
@@ -11,10 +11,10 @@ return array(
             'config/autoload/{,*.}{global,local}.php',
         ),
         'config_static_paths'    => array(
-            __DIR__ . '/../../test/resources/config.local.php',
+            __DIR__ . '/config.local.php',
         ),
         'module_paths' => array(
-            'WebinoDraw' => __DIR__ . '/../..',
+            'WebinoDraw' => __DIR__ . '/../../src',
             './module',
             './vendor',
         ),

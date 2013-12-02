@@ -1,7 +1,4 @@
-<phpunit bootstrap="./bootstrap.php" colors="true">
-    <php>
-        <includePath>../._test/ZendSkeletonApplication/vendor</includePath>
-    </php>
+<phpunit bootstrap="bootstrap.php" colors="true">
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
             <directory>../src</directory>
@@ -9,7 +6,7 @@
     </filter>
     <testsuites>
         <testsuite name="WebinoDraw Test Suite">
-            <directory>./</directory>
+            <directory>.</directory>
         </testsuite>
     </testsuites>
 </phpunit>

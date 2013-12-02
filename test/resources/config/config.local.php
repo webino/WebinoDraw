@@ -52,7 +52,7 @@ return array(
 
     'view_manager' => array(
         'template_map' => array(
-            'application/index/heavy' => __DIR__ . '/view/application/index/heavy.html',
+            'application/index/heavy' => __DIR__ . '/../view/application/index/heavy.html',
         ),
     ),
 
@@ -60,7 +60,7 @@ return array(
         'translation_files' => array(
             array(
                 'type' => 'phparray',
-                'filename' => current(glob(__DIR__ . '/../../._test/ZendSkeletonApplication/vendor/*/zendframework/resources/languages/sk/Zend_Validate.php')),
+                'filename' => current(glob(__DIR__ . '/../../../vendor/*/zendframework/resources/languages/sk/Zend_Validate.php')),
                 'locale' => 'sk_SK',
             ),
         ),
