@@ -5,8 +5,7 @@ php:
   - 5.4
 
 before_script:
-  - php composer.phar self-update
-  - php composer.phar install
+  - composer install
 
 script:
   - cd test
