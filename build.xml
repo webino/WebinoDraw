@@ -89,7 +89,7 @@
 
     <target name="test">
         <echo>Testing ...</echo>
-        <exec command="cd ${module.testdir} &amp;&amp; ${module.vendorbindir}/phpunit --include-path=${test.vendorbasedir} --coverage-html ${log.coveragedir} --testdox-html ${log.basedir}/testdox.html --coverage-clover ${log.basedir}/clover.xml --log-junit ${log.basedir}/junit.xml" checkreturn="true" logoutput="true"/>
+        <exec command="${module.vendorbindir}/phpunit -c ${module.testdir} --include-path=${test.vendorbasedir} --coverage-html ${log.coveragedir} --testdox-html ${log.basedir}/testdox.html --coverage-clover ${log.basedir}/clover.xml --log-junit ${log.basedir}/junit.xml" checkreturn="true" logoutput="true"/>
 
         <echo>Analysing code ...</echo>
         <exec command="${module.vendorbindir}/phpcs --report=checkstyle --report-file=${log.basedir}/checkstyle.xml --standard=${project.checkstyle} --extensions=php ${module.srcdir}" logoutput="true"/>
