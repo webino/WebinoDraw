@@ -116,8 +116,8 @@
         <phingCall target="classmap"/>
         <phingCall target="didef"/>
         <phingCall target="test"/>
-        <exec command="cd ${project.basedir} &amp;&amp; git add autoload_classmap.php"/>
-        <exec command="cd ${project.basedir} &amp;&amp; git add data/di/definition.php"/>
+        <exec command="cd ${project.basedir} &amp;&amp; git add ${module.srcdir}/${project.name}/autoload_classmap.php"/>
+        <exec command="cd ${project.basedir} &amp;&amp; git add ${project.basedir}/data/di"/>
     </target>
 
 </project>
