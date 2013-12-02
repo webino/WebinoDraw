@@ -1,6 +1,9 @@
 <?php
 
 return array(
+    /**
+     * This is just a WebinoDraw example configuration
+     */
     'webino_draw' => array(
         /**
          * Override ajax settings

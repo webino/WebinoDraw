@@ -601,7 +601,7 @@
 
 ## Examples
 
-  Look for more examples in: `config/webinodrawexample.local.php.dist`
+  Look for more examples in: `config/webino_draw.global.php.dist`
 
 **Manual setup**
 
@@ -614,8 +614,8 @@
     - Paste it to application: `config/autoload/config.local.php` <br /><br />
 
   3. Set up module example configuration:
-    - Copy: `vendor/webino/webino-draw/config/webinodrawexample.local.php.dist`
-    - Paste it to application: `config/autoload/webinodrawexample.local.php` <br /><br />
+    - Copy: `vendor/webino/webino-draw/config/webino_draw.global.php.dist`
+    - Paste it to application: `config/autoload/webino_draw.global.php` <br /><br />
 
   4. Set up module example controller:
     - Copy: `vendor/webino/webino-draw/test/resources/IndexController.php`
