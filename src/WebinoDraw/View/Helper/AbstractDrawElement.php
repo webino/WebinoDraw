@@ -233,7 +233,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
 
             $this->expandInstructionsFromSet($spec);
 
-            empty($spec['instructions']) or
+            empty($spec['instructions']) || empty($node->ownerDocument) or
                 $this->subInstructions($nodes->createNodeList(array($node)), $spec['instructions'], $translation);
         }
 
