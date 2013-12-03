@@ -23,7 +23,6 @@
         }
     ],
     "minimum-stability" : "dev",
-    
     "require": {
         "php": ">=5.3.3",
         "zendframework/zendframework": "dev-develop as 2.2.0"
