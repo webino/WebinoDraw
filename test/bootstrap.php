@@ -8,7 +8,7 @@
  * @license     New BSD License
  */
 
-namespace WebinoAuthentication\Test;
+namespace WebinoDraw\Test;
 
 use RuntimeException;
 
