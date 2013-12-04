@@ -1,5 +1,15 @@
 <?php
-
+/**
+ * Webino (http://webino.sk)
+ *
+ * @link        https://github.com/webino/WebinoDraw for the canonical source repository
+ * @copyright   Copyright (c) 2013 Webino, s. r. o. (http://webino.sk)
+ * @author      Peter Bačinský <peter@bacinsky.sk>
+ * @license     New BSD License
+ */
+/**
+ * Do not write your custom settings into this file
+ */
 return array(
     'di' => array(
         'definition' => array(
@@ -22,18 +32,18 @@ return array(
         ),
         'instance' => array(
             'alias' => array(
-                'WebinoDraw' => 'WebinoDraw\WebinoDraw',
-                'WebinoDrawCache' => 'Zend\Cache\Storage\Adapter\Filesystem',
-                'WebinoDrawElement' => 'WebinoDraw\View\Helper\DrawElement',
-                'WebinoDrawForm' => 'WebinoDraw\View\Helper\DrawForm',
+                'WebinoDraw'           => 'WebinoDraw\WebinoDraw',
+                'WebinoDrawCache'      => 'Zend\Cache\Storage\Adapter\Filesystem',
+                'WebinoDrawElement'    => 'WebinoDraw\View\Helper\DrawElement',
+                'WebinoDrawForm'       => 'WebinoDraw\View\Helper\DrawForm',
                 'WebinoDrawPagination' => 'WebinoDraw\View\Helper\DrawPagination',
-                'WebinoDrawTranslate' => 'WebinoDraw\View\Helper\DrawTranslate',
+                'WebinoDrawTranslate'  => 'WebinoDraw\View\Helper\DrawTranslate',
             ),
             'WebinoDrawCache' => array(
                 'parameters' => array(
                     'options' => array(
                         'namespace' => 'webinodraw',
-                        'cacheDir' => 'data/cache',
+                        'cacheDir'  => 'data/cache',
                     ),
                 ),
             ),
@@ -70,27 +80,27 @@ return array(
     ),
     'service_manager' => array(
         'factories' => array(
-            'WebinoDraw' => 'WebinoDraw\Mvc\Service\WebinoDrawFactory',
+            'WebinoDraw'         => 'WebinoDraw\Mvc\Service\WebinoDrawFactory',
             'WebinoDrawStrategy' => 'WebinoDraw\Mvc\Service\DrawStrategyFactory',
         ),
     ),
     'view_helpers' => array(
-        'factories' => array(
-            'WebinoDrawElement' => 'WebinoDraw\Mvc\Service\ServiceViewHelperFactory',
-            'WebinoDrawForm' => 'WebinoDraw\Mvc\Service\ServiceViewHelperFactory',
+        'factories'  => array(
+            'WebinoDrawElement'    => 'WebinoDraw\Mvc\Service\ServiceViewHelperFactory',
+            'WebinoDrawForm'       => 'WebinoDraw\Mvc\Service\ServiceViewHelperFactory',
             'WebinoDrawPagination' => 'WebinoDraw\Mvc\Service\ServiceViewHelperFactory',
-            'WebinoDrawTranslate' => 'WebinoDraw\Mvc\Service\ServiceViewHelperFactory',
+            'WebinoDrawTranslate'  => 'WebinoDraw\Mvc\Service\ServiceViewHelperFactory',
         ),
         'invokables' => array(
-            'WebinoDrawAbsolutize' => 'WebinoDraw\View\Helper\DrawAbsolutize',
-            'WebinoDrawFormRow' => 'WebinoDraw\Form\View\Helper\FormRow',
-            'WebinoDrawFormElement' => 'WebinoDraw\Form\View\Helper\FormElement',
+            'WebinoDrawAbsolutize'     => 'WebinoDraw\View\Helper\DrawAbsolutize',
+            'WebinoDrawFormRow'        => 'WebinoDraw\Form\View\Helper\FormRow',
+            'WebinoDrawFormElement'    => 'WebinoDraw\Form\View\Helper\FormElement',
             'WebinoDrawFormCollection' => 'Zend\Form\View\Helper\FormCollection',
         ),
     ),
     'view_manager' => array(
-        'doctype' => 'XHTML5', // !!!XML REQUIRED
-        'strategies' => array('WebinoDrawStrategy'),
+        'doctype'      => 'XHTML5', // !!!XML REQUIRED
+        'strategies'   => array('WebinoDrawStrategy'),
         'template_map' => array(
             'webino-draw/snippet/pagination' => __DIR__ . '/../view/webino-draw/snippet/pagination.html',
         ),
