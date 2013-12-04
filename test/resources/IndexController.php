@@ -18,7 +18,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Validator\AbstractValidator;
 
 /**
- * WebinoDraw  test application controller.
+ * WebinoDraw application test controller
  */
 class IndexController extends AbstractActionController implements RemoteLoaderInterface
 {
@@ -27,7 +27,7 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
      *
      * @param  string $locale
      * @param  string $textDomain
-     * @return TextDomain|null
+     * @return TextDomain
      */
     public function load($locale, $textDomain)
     {
@@ -63,7 +63,7 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
         // 1) set instructions into the draw strategy
         $this->getServiceLocator()->get('WebinoDraw')->setInstructions(
             array(
-                'direct-example' => array(
+                'runtime-example' => array(
                     'value' => '{$_nodeValue} VALUE',
                 ),
             )
@@ -80,7 +80,7 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
 
                 $event->setSpec(
                     array(
-                        'value'   => '{$_nodeValue} VALUE',
+                        'value' => '{$_nodeValue} VALUE',
                         'attribs' => array(
                             'title' => 'Hello from Controller!',
                         ),
