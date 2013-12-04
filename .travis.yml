@@ -13,7 +13,7 @@ script:
   - cd test
   - phpunit --coverage-clover ../build/logs/clover.xml
   - cd ..
-  - vendor/bin/phpcs --standard=PSR2 src
+  - vendor/bin/phpcs --standard=PSR2 src test
 
 after_script:
   - vendor/bin/coveralls -v
