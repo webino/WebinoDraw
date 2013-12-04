@@ -1,4 +1,4 @@
-# XHTML Layout Renderer for Zend Framework
+# XHTML Layout Renderer <br /> for Zend Framework 2
 
   [![Build Status](https://secure.travis-ci.org/webino/WebinoDraw.png?branch=master)](http://travis-ci.org/webino/WebinoDraw "Master")
   [![Build Status](https://secure.travis-ci.org/webino/WebinoDraw.png?branch=develop)](http://travis-ci.org/webino/WebinoDraw "Develop")
