@@ -606,9 +606,9 @@
 
 ## Examples
 
-  Look for more examples in: `config/webino_draw.global.php.dist`
+  Look for more examples in: `example/config/module.config.php`
 
-**Manual setup**
+### Manual setup
 
   1. Install ZendSkeletonApplication
 
@@ -616,17 +616,9 @@
 
   3. Set up module test configuration:
     - Copy: `vendor/webino/webino-draw/test/resources/config.local.php`
-    - Paste it to application: `config/autoload/config.local.php` <br /><br />
+    - Paste it to application: `config/autoload/config.local.php`
 
-  3. Set up module example configuration:
-    - Copy: `vendor/webino/webino-draw/config/webino_draw.global.php.dist`
-    - Paste it to application: `config/autoload/webino_draw.global.php` <br /><br />
-
-  4. Set up module example controller:
-    - Copy: `vendor/webino/webino-draw/test/resources/IndexController.php`
-    - Paste it to application: `src/Application/Controller/IndexController.php` <br /><br />
-
-  7. Check your ZF2 Application welcome page for changes
+  4. Check your application welcome page for changes
 
 [Check out wiki for more examples](https://github.com/webino/WebinoDraw/wiki)
 
@@ -634,24 +626,24 @@
 
 **Requirements**
 
-  - Linux (recommended)
-  - NetBeans (optional)
-  - Phing
-  - PHPUnit
-  - Selenium
-  - Web browser
+  - [Linux](http://www.ubuntu.com/download)
+  - [NetBeans](https://netbeans.org/downloads/) (optional)
+  - [Phing](http://www.phing.info/trac/wiki/Users/Download)
+  - [PHPUnit](http://phpunit.de/manual/3.7/en/installation.html)
+  - [PSR-2 coding style](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)
+  - [Web browser](https://www.google.com/intl/sk/chrome/browser/) (recommended)
+  - [Selenium](http://www.seleniumhq.org/) (optional)
 
-**Setup**
+### Setup
 
   1. Clone this repository and run: `phing update`
 
-     Now your development environment is set.
+     *Now your development environment is set.*
 
   2. Open project in (NetBeans) IDE
 
   3. To check module integration with the skeleton application open following directory via web browser:
-
-  `._test/ZendSkeletonApplication/public/`
+     `._test/ZendSkeletonApplication/public/`
 
      e.g. [http://localhost/WebinoDraw/._test/ZendSkeletonApplication/public/](http://localhost/WebinoDraw/._test/ZendSkeletonApplication/public/)
 
@@ -659,12 +651,21 @@
 
      *NOTE: Module example config is also used for integration testing.*
 
-**Testing**
+### Testing
 
   - Run `phpunit` in the test directory
   - Run `phing test` in the module directory to run the tests and code insights
 
-    *NOTE: To run the code insights there are some tool requirements.*
+    *NOTE: To run the code analysis there are some tool requirements.*
+      - [apigen](http://apigen.org/##installation)
+      - [pdepend](http://pdepend.org/)
+      - [phpcb](https://github.com/Mayflower/PHP_CodeBrowser)
+      - [phpcpd](https://github.com/sebastianbergmann/phpcpd)
+      - [phpcs](http://pear.php.net/package/PHP_CodeSniffer/)
+      - [phploc](https://github.com/sebastianbergmann/phploc)
+      - [phpmd](http://phpmd.org/download/index.html)
+
+    *NOTE: Those tools are present after development environment is based.*
 
 ## Todo
 
