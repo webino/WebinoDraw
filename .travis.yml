@@ -9,4 +9,9 @@ before_script:
 
 script:
   - cd test
-  - phpunit
+  - phpunit --coverage-clover build/logs/clover.xml
+  - cd ..
+  - vendor/bin/phpcs --standard=PSR2 src
+
+after_script:
+  - vendor/bin/coveralls -v
