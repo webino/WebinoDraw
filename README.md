@@ -2,6 +2,11 @@
 
   [![Build Status](https://secure.travis-ci.org/webino/WebinoDraw.png?branch=master)](http://travis-ci.org/webino/WebinoDraw "Master")
   [![Build Status](https://secure.travis-ci.org/webino/WebinoDraw.png?branch=develop)](http://travis-ci.org/webino/WebinoDraw "Develop")
+  [![Coverage Status](https://coveralls.io/repos/webino/WebinoDraw/badge.png)](https://coveralls.io/r/webino/WebinoDraw)
+  [![Latest Stable Version](https://poser.pugx.org/webino/webino-draw/v/stable.png)](https://packagist.org/packages/webino/webino-draw)
+  [![Latest Unstable Version](https://poser.pugx.org/webino/webino-draw/v/unstable.png)](https://packagist.org/packages/webino/webino-draw)
+  [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/webino/WebinoDraw/badges/quality-score.png?s=65f766be2d200ae47c60adbd062bce6e65d6823f)](https://scrutinizer-ci.com/g/webino/WebinoDraw/)
+  [![Total Downloads](https://poser.pugx.org/webino/webino-draw/downloads.png)](https://packagist.org/packages/webino/webino-draw)
 
   Provides ability to configure rendering of the layout. **Still under development, use it for play.**
 
