@@ -20,3 +20,4 @@ if (empty($loader)) {
 }
 
 $loader->add('WebinoDraw', __DIR__ . '/../src');
+$loader->add('WebinoDraw', __DIR__);

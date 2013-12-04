@@ -60,7 +60,9 @@ return array(
         'translation_files' => array(
             array(
                 'type' => 'phparray',
-                'filename' => current(glob(__DIR__ . '/../../../vendor/*/zendframework/resources/languages/sk/Zend_Validate.php')),
+                'filename' => current(
+                    glob(__DIR__ . '/../../../vendor/*/zendframework/resources/languages/sk/Zend_Validate.php')
+                ),
                 'locale' => 'sk_SK',
             ),
         ),

@@ -73,7 +73,7 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
         $this->getEventManager()->getSharedManager()->attach(
             'WebinoDraw',
             'event-example.test',
-            function(DrawEvent $event) {
+            function (DrawEvent $event) {
 
                 $event->getNodes()
                     ->setAttribs(array('style' => 'border: 1px solid #ee0000;'));
@@ -93,7 +93,7 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
         $this->getEventManager()->getSharedManager()->attach(
             'WebinoDraw',
             'form-example.event',
-            function(DrawFormEvent $event) {
+            function (DrawFormEvent $event) {
 
                 $event->getNodes()
                     ->setAttribs(array('style' => 'border: 1px solid #0000ee;'));
@@ -132,7 +132,7 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
         $this->getEventManager()->getSharedManager()->attach(
             'WebinoDraw',
             AjaxEvent::EVENT_AJAX,
-            function(AjaxEvent $event) use ($request) {
+            function (AjaxEvent $event) use ($request) {
 
                 !$request->getQuery()->offsetExists('ajaxExtra') or
                     $event->setJson(array('extraTest' => 'ajax extra random ' . rand()));
@@ -238,13 +238,15 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
         // generate data
         $data = array();
 
-        $text = 'Paš glouskůřenchlym niděk člobleď. Frc hrýš, tišlý pa chénizli tiškeš v fla děďmo choněr ' .
-                'nivrýtlutat flyhlaž z mláď, vlireměh lkusteněm niništ a dibu i tes břetěm tiz škázly, di vu ' .
-                'pypřouflel lápi hrgý kůn mymrůs niti k cháčnýzdleni a děslům. Glo tkesliti. Z těk těsak ' .
-                'třizra člihreskni? Ni mevoď deš dihly dir slamrá gluni, zlýmlýjžré zluza uhřižlyj žletiv z tiďa ' .
-                'v běchrou, mloj puzku ufluptoz nimi mipochroň slamu těbu, sech umepr o úbyl šlouží di tě mloumani. ' .
-                'Bedic tymo s dini šrur. Dipěv i diď. Mleva a ti, gloněť stůjni glysk nyplýklech jetrou nizkuj ' .
-                'a žragre. I ňorá tra dře paštaběn clys sini? Zoř žlůšké i bří šlicku, pyh úně glíhá a těvo kapeti.';
+        $text = 'Paš glouskůřenchlym niděk člobleď. Frc hrýš, tišlý pa chénizli tiškeš v fla děďmo '
+                . 'choněr nivrýtlutat flyhlaž z mláď, vlireměh lkusteněm niništ a dibu i tes břetěm '
+                . 'tiz škázly, di vu pypřouflel lápi hrgý kůn mymrůs niti k cháčnýzdleni a děslům. '
+                . 'Glo tkesliti. Z těk těsak třizra člihreskni? Ni mevoď deš dihly dir slamrá gluni, '
+                . 'zlýmlýjžré zluza uhřižlyj žletiv z tiďa v běchrou, mloj puzku ufluptoz nimi '
+                . 'mipochroň slamu těbu, sech umepr o úbyl šlouží di tě mloumani. Bedic tymo s dini '
+                . 'šrur. Dipěv i diď. Mleva a ti, gloněť stůjni glysk nyplýklech jetrou nizkuj '
+                . 'a žragre. I ňorá tra dře paštaběn clys sini? Zoř žlůšké i bří šlicku, pyh úně '
+                . 'glíhá a těvo kapeti.';
 
         $data['long_list'] = array();
 
