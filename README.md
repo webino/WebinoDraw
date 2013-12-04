@@ -615,8 +615,8 @@
   2. Set up WebinoDraw module
 
   3. Set up module test configuration:
-    - Copy: `vendor/webino/webino-draw/test/resources/config.local.php`
-    - Paste it to application: `config/autoload/config.local.php`
+    - Copy: `vendor/webino/webino-draw/test/resources/application.config.php`
+    - Paste it to application: `config/application.config.php` (replace)
 
   4. Check your application welcome page for changes
 
