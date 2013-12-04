@@ -1,7 +1,10 @@
 # XHTML Layout Renderer <br /> for Zend Framework 2
 
   [![Build Status](https://secure.travis-ci.org/webino/WebinoDraw.png?branch=master)](http://travis-ci.org/webino/WebinoDraw "Master")
+  [![Dependency Status](https://www.versioneye.com/user/projects/529f8dea632bac8958000033/badge.png)](https://www.versioneye.com/user/projects/529f8dea632bac8958000033)
   [![Build Status](https://secure.travis-ci.org/webino/WebinoDraw.png?branch=develop)](http://travis-ci.org/webino/WebinoDraw "Develop")
+  [![Dependency Status](https://www.versioneye.com/user/projects/529f8de6632bac79c600003d/badge.png)](https://www.versioneye.com/user/projects/529f8de6632bac79c600003d)
+
   [![Coverage Status](https://coveralls.io/repos/webino/WebinoDraw/badge.png)](https://coveralls.io/r/webino/WebinoDraw)
   [![Latest Stable Version](https://poser.pugx.org/webino/webino-draw/v/stable.png)](https://packagist.org/packages/webino/webino-draw)
   [![Latest Unstable Version](https://poser.pugx.org/webino/webino-draw/v/unstable.png)](https://packagist.org/packages/webino/webino-draw)
