@@ -1,15 +1,18 @@
 # XHTML Layout Renderer <br /> for Zend Framework 2
 
-  [![Build Status](https://secure.travis-ci.org/webino/WebinoDraw.png?branch=master)](http://travis-ci.org/webino/WebinoDraw "Master")
-  [![Dependency Status](https://www.versioneye.com/user/projects/529f8dea632bac8958000033/badge.png)](https://www.versioneye.com/user/projects/529f8dea632bac8958000033)
-  [![Build Status](https://secure.travis-ci.org/webino/WebinoDraw.png?branch=develop)](http://travis-ci.org/webino/WebinoDraw "Develop")
-  [![Dependency Status](https://www.versioneye.com/user/projects/529f8de6632bac79c600003d/badge.png)](https://www.versioneye.com/user/projects/529f8de6632bac79c600003d)
+  [![Build Status](https://secure.travis-ci.org/webino/WebinoDraw.png?branch=master)](http://travis-ci.org/webino/WebinoDraw "Master Build Status")
+  [![Coverage Status](https://coveralls.io/repos/webino/WebinoDraw/badge.png?branch=master)](https://coveralls.io/r/webino/WebinoDraw?branch=master "Master Coverage Status")
+  [![Dependency Status](https://www.versioneye.com/user/projects/529f8dea632bac8958000033/badge.png)](https://www.versioneye.com/user/projects/529f8dea632bac8958000033 "Master Dependency Status")
+  [![Build Status](https://secure.travis-ci.org/webino/WebinoDraw.png?branch=develop)](http://travis-ci.org/webino/WebinoDraw "Develop Build Status")
+  [![Coverage Status](https://coveralls.io/repos/webino/WebinoDraw/badge.png?branch=develop)](https://coveralls.io/r/webino/WebinoDraw?branch=develop "Develop Coverage Status")
+  [![Dependency Status](https://www.versioneye.com/user/projects/529f8de6632bac79c600003d/badge.png)](https://www.versioneye.com/user/projects/529f8de6632bac79c600003d "Develop Dependency Status")
 
-  [![Coverage Status](https://coveralls.io/repos/webino/WebinoDraw/badge.png)](https://coveralls.io/r/webino/WebinoDraw)
-  [![Latest Stable Version](https://poser.pugx.org/webino/webino-draw/v/stable.png)](https://packagist.org/packages/webino/webino-draw)
-  [![Latest Unstable Version](https://poser.pugx.org/webino/webino-draw/v/unstable.png)](https://packagist.org/packages/webino/webino-draw)
-  [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/webino/WebinoDraw/badges/quality-score.png?s=65f766be2d200ae47c60adbd062bce6e65d6823f)](https://scrutinizer-ci.com/g/webino/WebinoDraw/)
-  [![Total Downloads](https://poser.pugx.org/webino/webino-draw/downloads.png)](https://packagist.org/packages/webino/webino-draw)
+  [![Latest Stable Version](https://poser.pugx.org/webino/webino-draw/v/stable.png)](https://packagist.org/packages/webino/webino-draw "Latest Stable Version")
+  [![Latest Unstable Version](https://poser.pugx.org/webino/webino-draw/v/unstable.png)](https://packagist.org/packages/webino/webino-draw "Latest Unstable Version")
+  [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/webino/WebinoDraw/badges/quality-score.png?s=65f766be2d200ae47c60adbd062bce6e65d6823f)](https://scrutinizer-ci.com/g/webino/WebinoDraw/ "Quality Score")
+  [![Daily Downloads](https://poser.pugx.org/webino/webino-draw/d/daily.png)](https://packagist.org/packages/webino/webino-draw "Daily Downloads")
+  [![Montly Downloads](https://poser.pugx.org/webino/webino-draw/d/monthly.png)](https://packagist.org/packages/webino/webino-draw "Monthly Downloads")
+  [![Total Downloads](https://poser.pugx.org/webino/webino-draw/downloads.png)](https://packagist.org/packages/webino/webino-draw "Total Downloads")
 
   Provides ability to configure rendering of the layout. **Still under development, use it for play.**
 
