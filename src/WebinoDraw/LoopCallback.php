@@ -19,25 +19,30 @@ abstract class LoopCallback
         if (empty($options['property'])) {
             // todo InvalidLoopCallbackOptionException
             throw new \InvalidArgumentException(
-                'Expected the ' . __FUNCTION__ . ' loop callback `property` option for spec ' . print_r($loopArgument['spec'], true)
+                'Expected the ' . __FUNCTION__ . ' loop callback `property` option for spec '
+                . print_r($loopArgument['spec'], true)
             );
         }
 
         if (empty($options['value'])) {
             // todo InvalidLoopCallbackOptionException
             throw new \InvalidArgumentException(
-                'Expected the ' . __FUNCTION__ . ' loop callback `value` option for spec ' . print_r($loopArgument['spec'], true)
+                'Expected the ' . __FUNCTION__ . ' loop callback `value` option for spec '
+                . print_r($loopArgument['spec'], true)
             );
         }
 
         if (empty($options['each'])) {
             // todo InvalidLoopCallbackOptionException
             throw new \InvalidArgumentException(
-                'Expected the ' . __FUNCTION__ . ' loop callback `each` option for spec ' . print_r($loopArgument['spec'], true)
+                'Expected the ' . __FUNCTION__ . ' loop callback `each` option for spec '
+                . print_r($loopArgument['spec'], true)
             );
         }
 
-        $loopArgument['item'][$options['property']] = ($loopArgument['index'] % $options['each'] === 0) ? $options['value'] : '';
+        $loopArgument['item'][$options['property']] = ($loopArgument['index'] % $options['each'] === 0)
+                                                    ? $options['value']
+                                                    : '';
     }
 
     /**
@@ -53,14 +58,16 @@ abstract class LoopCallback
         if (empty($options['elementName'])) {
             // todo InvalidLoopCallbackOptionException
             throw new \InvalidArgumentException(
-                'Expected the ' . __FUNCTION__ . ' loop callback `elementName` option for  spec ' . print_r($loopArgument['spec'], true)
+                'Expected the ' . __FUNCTION__ . ' loop callback `elementName` option for  spec '
+                . print_r($loopArgument['spec'], true)
             );
         }
 
         if (empty($options['each'])) {
             // todo InvalidLoopCallbackOptionException
             throw new \InvalidArgumentException(
-                'Expected the ' . __FUNCTION__ . ' loop callback `each` option for spec ' . print_r($loopArgument['spec'], true)
+                'Expected the ' . __FUNCTION__ . ' loop callback `each` option for spec '
+                . print_r($loopArgument['spec'], true)
             );
         }
 
@@ -69,7 +76,7 @@ abstract class LoopCallback
         }
 
         $loopArgument['beforeNode'] = null;
-        $newParentNode              = $loopArgument['parentNode']->ownerDocument->createElement($options['elementName']);
+        $newParentNode = $loopArgument['parentNode']->ownerDocument->createElement($options['elementName']);
         $loopArgument['parentNode'] = $loopArgument['parentNode']->parentNode->appendChild($newParentNode);
     }
 }

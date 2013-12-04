@@ -108,7 +108,11 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                 }
 
                 // update node html var translation
-                $varTranslation->merge($varTranslator->makeVarKeys($this->nodeHtmlTranslation($node, $spec))->getArrayCopy());
+                $varTranslation->merge(
+                    $varTranslator
+                        ->makeVarKeys($this->nodeHtmlTranslation($node, $spec))
+                        ->getArrayCopy()
+                );
             }
 
             if (!empty($spec['attribs'])) {
@@ -131,7 +135,11 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                 }
 
                 // update node html var translation
-                $varTranslation->merge($varTranslator->makeVarKeys($this->nodeHtmlTranslation($node, $spec))->getArrayCopy());
+                $varTranslation->merge(
+                    $varTranslator
+                        ->makeVarKeys($this->nodeHtmlTranslation($node, $spec))
+                        ->getArrayCopy()
+                );
             }
 
             if (array_key_exists('value', $spec)) {
@@ -145,7 +153,11 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                 $node->nodeValue = $view->escapeHtml($varTranslator->removeVars($translatedValue));
 
                 // update node html var translation
-                $varTranslation->merge($varTranslator->makeVarKeys($this->nodeHtmlTranslation($node, $spec))->getArrayCopy());
+                $varTranslation->merge(
+                    $varTranslator
+                        ->makeVarKeys($this->nodeHtmlTranslation($node, $spec))
+                        ->getArrayCopy()
+                );
             }
 
             if (array_key_exists('html', $spec)) {
@@ -199,7 +211,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                 $varTranslator->applyOnVar(
                     $varTranslation,
                     $spec['onVar'],
-                    function($spec) use ($nodes, $translation, $helper) {
+                    function ($spec) use ($nodes, $translation, $helper) {
 
                         $helper
                             ->expandInstructionsFromSet($spec)
@@ -366,10 +378,10 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                 $this
                     ->cloneInstructionsPrototype($spec['loop']['instructions'])
                     ->render(
-                       $loopArgument['node'],
-                       $this->view,
-                       $localTranslation->getArrayCopy()
-                   );
+                        $loopArgument['node'],
+                        $this->view,
+                        $localTranslation->getArrayCopy()
+                    );
             }
 
             empty($spec['instructions']) or

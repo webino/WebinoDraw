@@ -189,7 +189,7 @@ class DrawInstructions extends ArrayObject implements
                 );
             }
 
-            if (!isset($spec['stackIndex']) ) {
+            if (!isset($spec['stackIndex'])) {
 
                 // add without stack index
                 $stackIndex = $instructionsN + self::STACK_SPACER;

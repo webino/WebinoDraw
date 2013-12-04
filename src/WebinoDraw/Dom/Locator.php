@@ -89,9 +89,9 @@ class Locator extends ArrayObject
     {
         $this->exchangeArray(
             array_merge(
-               $this->getArrayCopy(),
-               $array
-           )
+                $this->getArrayCopy(),
+                $array
+            )
         );
 
         return $this;
@@ -108,9 +108,23 @@ class Locator extends ArrayObject
         $xpath    = array();
 
         foreach ($this->getArrayCopy() as $locator) {
-            $xpath[] = $strategy->locator2Xpath($locator);
+            $xpath[] = $strategy->locator2Xpath(
+                $this->normalizeLocator($locator)
+            );
         }
 
         return join('|', $xpath);
+    }
+
+    /**
+     * @param string $locator
+     */
+    private function normalizeLocator($locator)
+    {
+        if (false === strpos($locator, PHP_EOL)) {
+            return $locator;
+        }
+
+        return preg_replace('~[[:space:]]+~', ' ', $locator);
     }
 }

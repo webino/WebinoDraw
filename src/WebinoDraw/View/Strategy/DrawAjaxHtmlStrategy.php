@@ -58,8 +58,8 @@ class DrawAjaxHtmlStrategy extends AbstractDrawAjaxStrategy
         $this->getEventManager()->trigger(AjaxEvent::EVENT_AJAX, $ajaxEvent);
 
         return $this->createMarkup(
-                $dom,
-                $ajaxEvent->getFragmentXpath()
-            );
+            $dom,
+            $ajaxEvent->getFragmentXpath()
+        );
     }
 }

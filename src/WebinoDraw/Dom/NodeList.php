@@ -320,7 +320,7 @@ class NodeList implements IteratorAggregate
 
         $this->each(
             $locator,
-            function(NodeList $nodes) use (& $remove) {
+            function (NodeList $nodes) use (& $remove) {
 
                 $remove = array_merge(
                     $remove,

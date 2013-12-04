@@ -97,7 +97,7 @@ class AjaxEvent extends Event
             return $this;
         }
 
-        if ($xpath instanceof FragmentXpath){
+        if ($xpath instanceof FragmentXpath) {
 
             $this->setParam('fragmentXpath', $xpath);
             $this->fragmentXpath = $xpath;

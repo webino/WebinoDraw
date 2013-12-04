@@ -192,7 +192,8 @@ class DrawForm extends AbstractDrawHelper
         } catch (\Exception $exc) {
             throw new RuntimeException(
                 sprintf('Expected form in: %s; ' . $exc->getMessage(), print_r($spec, 1)),
-                $exc->getCode(), $exc
+                $exc->getCode(),
+                $exc
             );
         }
 
@@ -202,7 +203,7 @@ class DrawForm extends AbstractDrawHelper
             } catch (\Exception $exc) {
                 throw new RuntimeException(
                     $exc->getMessage()
-                     . sprintf(
+                    . sprintf(
                         ' for %s',
                         print_r($spec, true)
                     ),

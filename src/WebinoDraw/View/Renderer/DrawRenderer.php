@@ -18,8 +18,7 @@ use Zend\View\Resolver\ResolverInterface;
 /**
  *
  */
-class DrawRenderer
-    implements RendererInterface
+class DrawRenderer implements RendererInterface
 {
     /**
      * @var WebinoDraw

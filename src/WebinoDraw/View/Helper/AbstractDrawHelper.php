@@ -450,10 +450,10 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
             $this
                 ->cloneInstructionsPrototype($instructions)
                 ->render(
-                   $node,
-                   $this->view,
-                   $translation->getArrayCopy()
-               );
+                    $node,
+                    $this->view,
+                    $translation->getArrayCopy()
+                );
         }
 
         return $this;
@@ -488,12 +488,7 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
         $innerHtmlKey = self::EXTRA_VAR_PREFIX . 'innerHtml';
         $outerHtmlKey = self::EXTRA_VAR_PREFIX . 'outerHtml';
 
-        foreach (
-            array(
-                'html',
-                'replace',
-            ) as $key
-        ) {
+        foreach (array('html', 'replace') as $key) {
             if (empty($spec[$key])) {
                 continue;
             }

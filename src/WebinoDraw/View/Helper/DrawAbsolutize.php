@@ -21,7 +21,14 @@ class DrawAbsolutize extends AbstractDrawElement
     /**
      * Default condition for the locator
      */
-    const LOCATOR_CONDITION = '[not(starts-with(., "http")) and not(starts-with(., "#")) and not(starts-with(., "?")) and not(starts-with(., "/")) and not(starts-with(., "mailto:")) and not(starts-with(., "javascript:")) and not(../@data-webino-draw-absolutize="no")]';
+    const LOCATOR_CONDITION = '
+        [not(starts-with(., "http"))
+        and not(starts-with(., "#"))
+        and not(starts-with(., "?"))
+        and not(starts-with(., "/"))
+        and not(starts-with(., "mailto:"))
+        and not(starts-with(., "javascript:"))
+        and not(../@data-webino-draw-absolutize="no")]';
 
     /**
      * The default locator of attributes to absolutize
