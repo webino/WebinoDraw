@@ -57,7 +57,7 @@
 
     <target name="test" depends="clear-log">
         <echo>Testing ...</echo>
-        <exec command="${module.vendorbindir}/phpunit -c ${module.testdir} --include-path=${test.vendorbasedir} --coverage-html ${log.coveragedir} --testdox-html ${log.basedir}/testdox.html --coverage-clover ${log.basedir}/clover.xml --log-junit ${log.basedir}/junit.xml" checkreturn="true" logoutput="true"/>
+        <exec command="${module.vendorbindir}/phpunit -c ${module.testdir} --coverage-html ${log.coveragedir} --testdox-html ${log.basedir}/testdox.html --coverage-clover ${log.basedir}/clover.xml --log-junit ${log.basedir}/junit.xml" checkreturn="true" logoutput="true"/>
         <echo>Checking coding style ...</echo>
         <exec command="${module.vendorbindir}/phpcs -v --report=checkstyle --report-file=${log.basedir}/checkstyle.xml --standard=${project.checkstyle} --extensions=php ${module.srcdir}" checkreturn="true" logoutput="true"/>
         <echo>Analysing code ...</echo>
