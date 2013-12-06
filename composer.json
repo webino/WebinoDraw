@@ -1,6 +1,6 @@
 {
     "name": "webino/webino-draw",
-    "description": "XHTML Layout Renderer for Zend Framework.",
+    "description": "XHTML Layout Renderer for Zend Framework 2",
     "type": "library",
     "keywords": [
         "xhtml", "html5", "render", "draw", "view",
