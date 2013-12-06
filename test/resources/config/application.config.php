@@ -22,10 +22,10 @@ return array(
         'WebinoDraw',
     ),
     'module_listener_options' => array(
-        'config_glob_paths'    => array(
+        'config_glob_paths' => array(
             'config/autoload/{,*.}{global,local}.php',
         ),
-        'config_static_paths'    => array(
+        'config_static_paths' => array(
             __DIR__ . '/module.config.php',
             __DIR__ . '/../../../example/config/module.config.php',
         ),
