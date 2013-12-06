@@ -660,7 +660,7 @@
 ### Testing
 
   - Run `phpunit` in the test directory
-  - Run `phing test` in the module directory to run the tests and code insights
+  - Run `phing test` in the module directory to run the tests and code analysis
 
     *NOTE: To run the code analysis there are some tool requirements.*
       - [apigen](http://apigen.org/##installation)
