@@ -337,7 +337,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
 
                 $loopArgument['index'] = $index;
                 $loopArgument['key']   = $key;
-                $loopArgument['item']  = $item;
+                $loopArgument['item']  = (array) $item;
                 $loopArgument['node']  = clone $nodeClone;
 
                 // call loop item callback
