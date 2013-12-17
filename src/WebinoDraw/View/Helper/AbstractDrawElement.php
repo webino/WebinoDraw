@@ -325,6 +325,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
             $loopArgument = $varTranslator->subjectToArrayObject(
                 array(
                     'spec'       => $spec,
+                    'vars'       => $translation,
                     'parentNode' => $parentNode,
                     'beforeNode' => $beforeNode,
                     'target'     => $this,
@@ -345,6 +346,11 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                     foreach ((array) $spec['loop']['callback'] as $callback) {
                         $callback = (array) $callback;
                         call_user_func(current($callback), $loopArgument, (array) next($callback));
+
+                        if (empty($loopArgument['node'])) {
+                            // allows to skip node by callback
+                            continue 2;
+                        }
                     }
                 }
 
