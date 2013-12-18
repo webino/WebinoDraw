@@ -398,6 +398,7 @@ class DrawForm extends AbstractDrawHelper
                     if ('label' === $parentNode->nodeName) {
                         $parentNode->parentNode->removeChild($parentNode);
                     } else {
+                        $elementNodes->remove('xpath=../..//label[@for="' . $elementName . '"]');
                         $elementNode->parentNode->removeChild($elementNode);
                     }
                     continue;
@@ -434,7 +435,7 @@ class DrawForm extends AbstractDrawHelper
 
                 // labels
                 $elementNodes->each(
-                    'xpath=../span[name(..)="label"]',
+                    'xpath=../span[name(..)="label"]|..//label[@for="' . $elementName . '"]',
                     function ($nodes) use ($element, $translator) {
                         $nodes->setValue(
                             $translator->translate($element->getLabel())
