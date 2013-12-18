@@ -304,8 +304,11 @@ class DrawForm extends AbstractDrawHelper
         // set form attributes without class,
         // it will be appended later
         $formAttribs = $form->getAttributes();
-        $formClass   = $formAttribs['class'];
-        unset($formAttribs['class']);
+        $formClass   = '';
+        if (!empty($formAttribs['class'])) {
+            $formClass = $formAttribs['class'];
+            unset($formAttribs['class']);
+        }
         $nodes->setAttribs($formAttribs);
 
         isset($spec['wrap'])
