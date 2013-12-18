@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+namespace WebinoDraw;
+
 use Zend\Code\Scanner\FileScanner as CodeFileScanner;
 use Zend\Di\Definition\CompilerDefinition;
 
@@ -8,7 +10,7 @@ use Zend\Di\Definition\CompilerDefinition;
 $vendorDirname = __DIR__ . '/../._test/ZendSkeletonApplication/vendor';
 $loader = require $vendorDirname . '/autoload.php';
 
-$loader->add('WebinoDraw', __DIR__ . '/../src');
+$loader->add(__NAMESPACE__, __DIR__ . '/../src');
 
 // Compile Di Definition
 $diCompiler = new CompilerDefinition;
