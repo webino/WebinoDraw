@@ -308,6 +308,9 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
             return $this;
         }
 
+        empty($spec['loop']['shuffle']) or
+            shuffle($items);
+
         $this
             ->expandInstructionsFromSet($spec)
             ->expandInstructionsFromSet($spec['loop']);

@@ -471,6 +471,7 @@
             'index'    => '0',                           // index start point (optional)
             'offset'   => '0',                           // items offset (optional)
             'length'   => '0',                           // items length (optional)
+            'shuffle'  => false,                         // shuffle items
             'callback' => function(                      // called on each item (optional)
                 $loopArgument, array $options
             ){},
