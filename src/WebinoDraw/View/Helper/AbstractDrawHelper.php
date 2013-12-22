@@ -579,6 +579,10 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
         $cache = $this->getCache();
 
         foreach ($nodes as $node) {
+            if (empty($node->ownerDocument)) {
+                // node no longer exists
+                continue;
+            }
 
             $key  = $this->resolveCacheKey($node, $spec);
             $html = $node->ownerDocument->saveXml($node);
