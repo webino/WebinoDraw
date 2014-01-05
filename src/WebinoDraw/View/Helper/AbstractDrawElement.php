@@ -12,6 +12,8 @@ namespace WebinoDraw\View\Helper;
 
 use ArrayAccess;
 use WebinoDraw\Dom\NodeList;
+use WebinoDraw\Dom\Element;
+use WebinoDraw\Dom\Locator;
 use WebinoDraw\Exception;
 use WebinoDraw\Stdlib\ArrayFetchInterface;
 
@@ -63,6 +65,9 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
             empty($spec['render']) or
                 $this->render($translation, $spec['render']);
 
+            empty($spec['fragments']) or
+                $this->fragments($translation, $spec['fragments'], $node, $locator);
+
             $this->applyVarTranslator($translation, $spec);
 
             $varTranslation = $varTranslator->makeVarKeys($translation);
@@ -71,7 +76,6 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
             // todo refactor
 
             if (!empty($spec['remove'])) {
-
                 $nodeXpath = $node->ownerDocument->xpath;
 
                 foreach ((array) $spec['remove'] as $removeLocator) {
@@ -335,11 +339,10 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                 )
             );
 
-            $index = !empty($spec['loop']['index']) ? $spec['loop']['index'] : 0;
+            $loopArgument['index'] = !empty($spec['loop']['index']) ? $spec['loop']['index'] : 0;
             foreach ($items as $key => $item) {
-                $index++;
+                $loopArgument['index']++;
 
-                $loopArgument['index'] = $index;
                 $loopArgument['key']   = $key;
                 $loopArgument['item']  = (array) $item;
                 $loopArgument['node']  = clone $nodeClone;
@@ -411,6 +414,31 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
     {
         foreach ($options as $key => $value) {
             $translation[$key] = $this->view->render($value);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Set target nodes HTML fragments into the translation
+     *
+     * @param ArrayAccess $translation
+     * @param array $options
+     * @param Element $node
+     * @param Locator $locator
+     * @return AbstractDrawElement
+     */
+    protected function fragments(ArrayAccess $translation, array $options, Element $node, Locator $locator)
+    {
+        $nodeXpath = $node->ownerDocument->xpath;
+
+        foreach ($options as $name => $fragmentLocator) {
+
+            $xpath = $locator->set($fragmentLocator)->xpathMatchAny();
+            $node  = $nodeXpath->query($xpath, $node)->item(0);
+
+            $translation[$name . 'OuterHtml'] = $node->getOuterHtml();
+            $translation[$name . 'InnerHtml'] = $node->getInnerHtml();
         }
 
         return $this;

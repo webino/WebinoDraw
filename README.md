@@ -413,6 +413,9 @@
         'render'  => array(
             'script' => 'script/path'                    // render view script to variable
         ),
+        'fragments' => array(                            // HTML fragments of the template to variables
+            'frag' => '.frag-class'                      // pairs of customName => locator, gives us fragOuterHtml and fragInnerHtml variables
+        ),
         'html'    => '<span>HTML value</span>{$script}', // set node XHTML
         'attribs' => array(                              // set attributes
             'title' => 'Attribute example'
