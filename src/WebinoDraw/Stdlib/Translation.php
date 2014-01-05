@@ -22,15 +22,15 @@ class Translation extends ArrayObject implements
     /**
      * Return value in depth from multidimensional array
      *
-     * @param string $basepath Something like: value.in.the.depth
+     * @param string $basePath Something like: value.in.the.depth
      * @return mixed Result value
      */
-    public function fetch($basepath)
+    public function fetch($basePath)
     {
         $value = $this->getArrayCopy();
-        $parts = explode('.', $basepath);
+        preg_match_all('~[^\.]+\\\.[^\.]+|[^\.]+~', $basePath, $parts);
 
-        foreach ($parts as $key) {
+        foreach ($parts[0] as $key) {
             if (!is_array($value)
                 && !($value instanceof ArrayObject)
             ) {
@@ -46,6 +46,9 @@ class Translation extends ArrayObject implements
                 end($value);
                 $key = key($value);
             }
+
+            // unescape
+            $key = str_replace('\.', '.', $key);
 
             // undefined
             if (!array_key_exists($key, $value)) {
