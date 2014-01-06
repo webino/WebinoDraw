@@ -41,7 +41,7 @@ class DrawTranslate extends DrawElement
 
     protected function translateValue($value, ArrayAccess $varTranslation, array $spec)
     {
-        $varValue = parent::translateValue($value, $varTranslation, $spec);
+        $varValue = trim(parent::translateValue($value, $varTranslation, $spec));
         if (empty($varValue)) {
             return '';
         }
@@ -60,9 +60,14 @@ class DrawTranslate extends DrawElement
         $remainNodes = array();
         foreach ($nodes as $node) {
             if ($node instanceof DOMAttr) {
-                $node->nodeValue = $view->translate($node->nodeValue, $textDomain);
+                $nodeValue = trim($node->nodeValue);
+
+                empty($nodeValue) or
+                    $node->nodeValue = $view->translate($nodeValue, $textDomain);
+
                 continue;
             }
+            
             $remainNodes[] = $node;
         }
 
