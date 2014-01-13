@@ -255,7 +255,9 @@ class VarTranslator
     public function translationFetch(ArrayFetchInterface $translation, array $options)
     {
         foreach ($options as $key => $basepath) {
-            $translation[$key] = $translation->fetch($basepath);
+            $translation[$key] = $translation->fetch(
+                $this->translateString($basepath, $this->makeVarKeys($translation))
+            );
         }
 
         return $this;
