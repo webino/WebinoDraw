@@ -639,13 +639,14 @@ This package uses Grunt task runner to automating the development.
 **Requirements**
 
   - [Linux](http://www.ubuntu.com/download)
-  - [NetBeans](https://netbeans.org/downloads/) (optional)
+  - [NetBeans](https://netbeans.org/downloads/) (recommended)
   - [NPM](https://npmjs.org/)
   - [Grunt](http://gruntjs.com/getting-started)
   - [PHPUnit](http://phpunit.de/manual/3.7/en/installation.html)
   - [PSR-2 coding style](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)
   - [Web browser](https://www.google.com/intl/sk/chrome/browser/) (recommended)
-  - [Selenium](http://www.seleniumhq.org/) (optional)
+  - [Selenium](http://www.seleniumhq.org/)
+  - [HtmlUnit](http://htmlunit.sourceforge.net/)
 
 ### Setup
 
@@ -662,7 +663,7 @@ Setting up development environment of the package.
   4. To check module integration with the skeleton application open following directory via web browser:
      `._test/ZendSkeletonApplication/public/`
 
-     e.g. [http://localhost/WebinoDraw/._test/ZendSkeletonApplication/public/](http://localhost/WebinoDraw/._test/ZendSkeletonApplication/public/)
+     e.g. [http://localhost/webino/WebinoDraw/._test/ZendSkeletonApplication/public/](http://localhost/webino/WebinoDraw/._test/ZendSkeletonApplication/public/)
 
   5. Integration test resources are in directory: `test/resources`
 
@@ -683,6 +684,8 @@ Setting up development environment of the package.
       - [phpmd](http://phpmd.org/download/index.html)
 
     *NOTE: Those tools are present after development environment is based.*
+
+  - Run `grunt exec:selenium` in the module directory to run the Selenium WebDriver tests
 
 ## Todo
 

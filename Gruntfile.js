@@ -2,6 +2,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
         basedir: require("path").resolve("."),
+        test_app_uri: "http://localhost/webino/WebinoDraw/._test/ZendSkeletonApplication/public/",
         clean: {
             log: {
                 src: ["._log"]
@@ -43,6 +44,9 @@ module.exports = function(grunt) {
             },
             apigen: {
                 cmd: "vendor/bin/apigen.php --source src --destination ._log/api"
+            },
+            selenium: {
+                cmd: "URI='" + (grunt.option('uri') || "<%= test_app_uri %>") + "' vendor/bin/phpunit -c test/selenium"
             },
             link_precommit: {
                 cmd: "ln -s <%= basedir %>/pre-commit <%= basedir %>/.git/hooks/pre-commit && chmod +x <%= basedir %>/pre-commit"
