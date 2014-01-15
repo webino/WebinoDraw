@@ -1,5 +1,13 @@
 #!/usr/bin/env php
 <?php
+/**
+ * Webino (http://webino.sk)
+ *
+ * @link        https://github.com/webino/WebinoDraw for the canonical source repository
+ * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @author      Peter Bačinský <peter@bacinsky.sk>
+ * @license     New BSD License
+ */
 
 namespace WebinoDraw;
 
@@ -7,8 +15,8 @@ use Zend\Code\Scanner\FileScanner as CodeFileScanner;
 use Zend\Di\Definition\CompilerDefinition;
 
 // Autoloader
-$vendorDirname = __DIR__ . '/../._test/ZendSkeletonApplication/vendor';
-$loader = require $vendorDirname . '/autoload.php';
+$vendorDir = __DIR__ . '/../vendor';
+$loader    = require $vendorDir . '/autoload.php';
 
 $loader->add(__NAMESPACE__, __DIR__ . '/../src');
 
@@ -20,7 +28,7 @@ $diCompiler->addDirectory(__DIR__ . '/../src');
 foreach (array(
 
     // add files
-    $vendorDirname . '/zendframework/zendframework/library/Zend/Form/Factory.php',
+    $vendorDir . '/zendframework/zendframework/library/Zend/Form/Factory.php',
 
 ) as $file) {
     $diCompiler->addCodeScannerFile(new CodeFileScanner($file));
