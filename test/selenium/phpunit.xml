@@ -1,7 +1,7 @@
 <phpunit bootstrap="bootstrap.php" colors="true">
     <testsuites>
         <testsuite name="WebinoDraw Test Suite">
-            <directory>.</directory>
+            <directory>WebinoDraw</directory>
         </testsuite>
     </testsuites>
 </phpunit>
