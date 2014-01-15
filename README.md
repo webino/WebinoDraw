@@ -634,11 +634,14 @@
 
 ## Develop
 
+This package uses Grunt task runner to automating the development.
+
 **Requirements**
 
   - [Linux](http://www.ubuntu.com/download)
   - [NetBeans](https://netbeans.org/downloads/) (optional)
-  - [Phing](http://www.phing.info/trac/wiki/Users/Download)
+  - [NPM](https://npmjs.org/)
+  - [Grunt](http://gruntjs.com/getting-started)
   - [PHPUnit](http://phpunit.de/manual/3.7/en/installation.html)
   - [PSR-2 coding style](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)
   - [Web browser](https://www.google.com/intl/sk/chrome/browser/) (recommended)
@@ -646,25 +649,29 @@
 
 ### Setup
 
-  1. Clone this repository and run: `phing update`
+Setting up development environment of the package.
+
+  1. Clone this repository and run: `npm install`
+
+  2. To update development environment run: `grunt update`
 
      *Now your development environment is set.*
 
-  2. Open project in (NetBeans) IDE
+  3. Open project in (NetBeans) IDE
 
-  3. To check module integration with the skeleton application open following directory via web browser:
+  4. To check module integration with the skeleton application open following directory via web browser:
      `._test/ZendSkeletonApplication/public/`
 
      e.g. [http://localhost/WebinoDraw/._test/ZendSkeletonApplication/public/](http://localhost/WebinoDraw/._test/ZendSkeletonApplication/public/)
 
-  4. Integration test resources are in directory: `test/resources`
+  5. Integration test resources are in directory: `test/resources`
 
      *NOTE: Module example config is also used for integration testing.*
 
 ### Testing
 
   - Run `phpunit` in the test directory
-  - Run `phing test` in the module directory to run the tests and code analysis
+  - Run `grunt test` in the module directory to run the tests and code analysis
 
     *NOTE: To run the code analysis there are some tool requirements.*
       - [apigen](http://apigen.org/##installation)
