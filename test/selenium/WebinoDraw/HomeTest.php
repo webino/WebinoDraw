@@ -15,100 +15,139 @@ class HomeTest extends AbstractBase
         $this->assertNotContains('Server Error', $this->session->title());
 
         // absolutize
-        $this->session->element(By::XPATH, '//head/script[contains(@src, "/test-script-relative.js")]');
-        $this->session->element(By::XPATH, '//head/link[contains(@href, "/test-link-relative.css")]');
-        $this->session->element(By::XPATH, '//body/form[contains(@action, "/test-action-relative")]');
+        $loc = '//head/script[contains(@src, "/test-script-relative.js")]';
+        $this->session->element(By::XPATH, $loc);
+
+        $loc = '//head/link[contains(@href, "/test-link-relative.css")]';
+        $this->session->element(By::XPATH, $loc);
+
+        $loc = '//body/form[contains(@action, "/test-action-relative")]';
+        $this->session->element(By::XPATH, $loc);
         // /absolutize
 
-        //
-        $elm = $this->session->element(By::TAG_NAME, 'h1');
+
+        $loc = 'h1';
+        $elm = $this->session->element(By::TAG_NAME, $loc);
         $this->assertEquals('Welcome to Webino', $elm->text());
-        //
-        $elm = $this->session->element(By::CLASS_NAME, 'zf-green');
+
+        $loc = 'zf-green';
+        $elm = $this->session->element(By::CLASS_NAME, $loc);
         $this->assertEquals('Webino', $elm->text());
-        //
-        $elm = $this->session->element(By::CSS_SELECTOR, '.jumbotron > span');
+
+        $loc = '.jumbotron > span';
+        $elm = $this->session->element(By::CSS_SELECTOR, $loc);
         $this->assertEquals('TEST ADD BEFORE', $elm->text());
-        //
-        $elm = $this->session->element(By::TAG_NAME, 'strong');
+
+        $loc = 'strong';
+        $elm = $this->session->element(By::TAG_NAME, $loc);
         $this->assertEquals('TEST REPLACE', $elm->text());
-        //
-        $this->session->element(By::LINK_TEXT, 'Fork WebinoDraw on GitHub »');
-        //
-        $this->assertEquals(0, count($this->session->elements(By::CLASS_NAME, 'remove-me-single')));
-        //
-        $this->assertEquals(0, count($this->session->elements(By::CLASS_NAME, 'remove-me')));
-        //
-        $this->assertEquals(0, count($this->session->elements(By::CLASS_NAME, 'remove-me-xpath')));
-        //
-        $elm = $this->session->element(By::CSS_SELECTOR, 'h2[title="ORIGCONTENT NODEVARATTRIBTEST ORIGATTRIB"]');
+
+        $loc = 'Fork WebinoDraw on GitHub »';
+        $this->session->element(By::LINK_TEXT, $loc);
+
+        $loc = 'remove-me-single';
+        $this->assertEquals(0, count($this->session->elements(By::CLASS_NAME, $loc)));
+
+        $loc = 'remove-me';
+        $this->assertEquals(0, count($this->session->elements(By::CLASS_NAME, $loc)));
+
+        $loc = 'remove-me-xpath';
+        $this->assertEquals(0, count($this->session->elements(By::CLASS_NAME, $loc)));
+
+        $loc = 'h2[title="ORIGCONTENT NODEVARATTRIBTEST ORIGATTRIB"]';
+        $elm = $this->session->element(By::CSS_SELECTOR, $loc);
         $this->assertEquals('ORIGCONTENT NODEVARTEST ORIGATTRIB', $elm->text());
-        //
-        $elm = $this->session->element(By::CLASS_NAME, 'viewvar-example');
+
+        $loc = 'viewvar-example';
+        $elm = $this->session->element(By::CLASS_NAME, $loc);
         $this->assertEquals('TESTVIEWVAR DEPTHVAR', $elm->text());
-        //
-        $elm = $this->session->element(By::CLASS_NAME, 'filter-example');
+
+        $loc = 'filter-example';
+        $elm = $this->session->element(By::CLASS_NAME, $loc);
         $this->assertEquals('THIS SHOULD BE UPPER CASE', $elm->text());
-        //
-        $elm = $this->session->element(By::CLASS_NAME, 'translate-example');
+
+        $loc = 'translate-example';
+        $elm = $this->session->element(By::CLASS_NAME, $loc);
         $this->assertEquals('toto by malo byť preložené', $elm->text());
-        //
-        $elm = $this->session->element(By::CSS_SELECTOR, 'ul.loop-example > li:first-child');
+
+        $loc = 'ul.loop-example > li:first-child';
+        $elm = $this->session->element(By::CSS_SELECTOR, $loc);
         $this->assertEquals('BEFORE', $elm->text());
-        //
-        $this->assertEquals(0, count($this->session->elements(By::CSS_SELECTOR, 'li[title="value1ToOffset"] > strong')));
-        //
-        $elm = $this->session->element(By::XPATH, '//li[2][@title="value01"]/strong');
+
+        $loc = 'li[title="value1ToOffset"] > strong';
+        $elm = $this->session->elements(By::CSS_SELECTOR, $loc);
+        $this->assertEquals(0, count($elm));
+
+        $loc = '//li[2][@title="value01"]/strong';
+        $elm = $this->session->element(By::XPATH, $loc);
         $this->assertEquals('item0 1 value00 value000', $elm->text());
-        //
-        $elm = $this->session->element(By::XPATH, '//li[2][@title="value01"]/span');
+
+        $loc = '//li[2][@title="value01"]/span';
+        $elm = $this->session->element(By::XPATH, $loc);
         $this->assertEquals('TADA', $elm->text());
-        //
-        $elm = $this->session->element(By::XPATH, '//li[3][@title="value11"]/strong');
+
+        $loc = '//li[3][@title="value11"]/strong';
+        $elm = $this->session->element(By::XPATH, $loc);
         $this->assertEquals('item1 2 value10', $elm->text());
-        //
-        $elm = $this->session->element(By::XPATH, '//li[3][@title="value11"]/span');
+
+        $loc = '//li[3][@title="value11"]/span';
+        $elm = $this->session->element(By::XPATH, $loc);
         $this->assertEquals('TADA', $elm->text());
-        //
-        $elm = $this->session->element(By::XPATH, '//li[4][@title="value31"]/strong');
+
+        $loc = '//li[4][@title="value31"]/strong';
+        $elm = $this->session->element(By::XPATH, $loc);
         $this->assertEquals('item3 3 value30', $elm->text());
-        //
-        $elm = $this->session->element(By::XPATH, '//li[4][@title="value31"]/span');
+
+        $loc = '//li[4][@title="value31"]/span';
+        $elm = $this->session->element(By::XPATH, $loc);
         $this->assertEquals('TADA', $elm->text());
-        //
-        $this->assertEquals(0, count($this->session->elements(By::CSS_SELECTOR, 'li[title="value1TooMuch"] > strong')));
-        //
-        $elm = $this->session->element(By::XPATH, '//ul[@class="loop-example"]/li[5]');
+
+        $loc = 'li[title="value1TooMuch"] > strong';
+        $elm = $this->session->elements(By::CSS_SELECTOR, $loc);
+        $this->assertEquals(0, count($elm));
+
+        $loc = '//ul[@class="loop-example"]/li[5]';
+        $elm = $this->session->element(By::XPATH, $loc);
         $this->assertEquals('AFTER', $elm->text());
-        //
-        $elm = $this->session->element(By::XPATH, '//p[4]');
+
+        $loc = '//p[4]';
+        $elm = $this->session->element(By::XPATH, $loc);
         $this->assertEquals('YOU HAVE NO ITEMS', $elm->text());
-        //
-        $elm = $this->session->element(By::CSS_SELECTOR, 'label span');
+
+        $loc = 'label span';
+        $elm = $this->session->element(By::CSS_SELECTOR, $loc);
         $this->assertEquals('Ukážka popisky', $elm->text());
-        //
-        $elm = $this->session->element(By::NAME, 'example_text_element');
+
+        $loc = 'example_text_element';
+        $elm = $this->session->element(By::NAME, $loc);
         $this->assertEquals('TEST VALUE FROM CONTROLLER', $elm->attribute("value"));
-        //
-        $elm = $this->session->element(By::CSS_SELECTOR, 'form.example-form > ul > li');
+
+        $loc = 'form.example-form > ul > li';
+        $elm = $this->session->element(By::CSS_SELECTOR, $loc);
         $this->assertEquals('Položka je povinná a nesmie byť prázdna', $elm->text());
-        //
-        $elm = $this->session->element(By::XPATH, '//label[2]/span');
+
+        $loc = '//label[2]/span';
+        $elm = $this->session->element(By::XPATH, $loc);
         $this->assertEquals('Label example2', $elm->text());
-        //
-        $elm = $this->session->element(By::CLASS_NAME, 'runtime-example');
+
+        $loc = 'runtime-example';
+        $elm = $this->session->element(By::CLASS_NAME, $loc);
         $this->assertEquals('RUNTIME EXAMPLE VALUE', $elm->text());
-        //
-        $elm = $this->session->element(By::CLASS_NAME, 'event-example');
+
+        $loc = 'event-example';
+        $elm = $this->session->element(By::CLASS_NAME, $loc);
         $this->assertEquals('EVENT EXAMPLE VALUE', $elm->text());
-        //
-        $elm = $this->session->element(By::CLASS_NAME, 'subinstructions-example');
+
+        $loc = 'subinstructions-example';
+        $elm = $this->session->element(By::CLASS_NAME, $loc);
         $this->assertContains('SUB-INSTRUCTIONS(TEST) EXAMPLE VALUE', $elm->text());
-        //
-        $elm = $this->session->element(By::CSS_SELECTOR, '.subinstructions-example > form.example-form > label > span');
+
+        $loc = '.subinstructions-example > form.example-form > label > span';
+        $elm = $this->session->element(By::CSS_SELECTOR, $loc);
         $this->assertEquals('Ukážka popisky*(TEST)', $elm->text());
-        //
-        $elm = $this->session->element(By::XPATH, '//div[4]/form/label[2]/span');
+
+        $loc = '//div[4]/form/label[2]/span';
+        $elm = $this->session->element(By::XPATH, $loc);
         $this->assertEquals('Label example2*(TEST)', $elm->text());
     }
 }
