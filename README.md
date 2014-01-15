@@ -638,15 +638,15 @@ This package uses Grunt task runner to automating the development.
 
 **Requirements**
 
+  - [PSR-2 coding style](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)
   - [Linux](http://www.ubuntu.com/download)
   - [NetBeans](https://netbeans.org/downloads/) (recommended)
   - [NPM](https://npmjs.org/)
   - [Grunt](http://gruntjs.com/getting-started)
   - [PHPUnit](http://phpunit.de/manual/3.7/en/installation.html)
-  - [PSR-2 coding style](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)
-  - [Web browser](https://www.google.com/intl/sk/chrome/browser/) (recommended)
   - [Selenium](http://www.seleniumhq.org/)
   - [HtmlUnit](http://htmlunit.sourceforge.net/)
+  - [Web browser](https://www.google.com/intl/sk/chrome/browser/) (recommended)
 
 ### Setup
 
@@ -686,6 +686,10 @@ Setting up development environment of the package.
     *NOTE: Those tools are present after development environment is based.*
 
   - Run `grunt exec:selenium` in the module directory to run the Selenium WebDriver tests
+
+    *NOTE: To specify the testing URI set the uri option, e.g. `grunt exec:selenium -uri http://example.com/`*
+
+    *NOTE: Selenium server must be running, e.g. `java -jar selenium-server-standalone-<version-number>.jar`*
 
 ## Todo
 
