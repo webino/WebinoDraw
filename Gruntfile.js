@@ -218,8 +218,8 @@ module.exports = function(grunt) {
         "Git pre-commit",
         [
             "exec:classmap",
-            "exec:didef",
             "test",
+            "exec:didef",
             "exec:add_classmap",
             "exec:add_didef"
         ]
