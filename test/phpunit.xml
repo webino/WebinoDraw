@@ -9,7 +9,7 @@
     </filter>
     <testsuites>
         <testsuite name="WebinoDraw Test Suite">
-            <directory>.</directory>
+            <directory>WebinoDraw</directory>
         </testsuite>
     </testsuites>
 </phpunit>
