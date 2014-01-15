@@ -325,7 +325,7 @@ return array (
         'WebinoDraw\\Form\\View\\Helper\\FormElement::setTranslator:0' => 
         array (
           0 => 'translator',
-          1 => 'Zend\\I18n\\Translator\\Translator',
+          1 => 'Zend\\I18n\\Translator\\TranslatorInterface',
           2 => false,
           3 => NULL,
         ),
@@ -490,7 +490,7 @@ return array (
         'WebinoDraw\\Form\\View\\Helper\\FormRow::setTranslator:0' => 
         array (
           0 => 'translator',
-          1 => 'Zend\\I18n\\Translator\\Translator',
+          1 => 'Zend\\I18n\\Translator\\TranslatorInterface',
           2 => false,
           3 => NULL,
         ),
