@@ -47,6 +47,12 @@ module.exports = function(grunt) {
             link_precommit: {
                 cmd: "ln -s <%= basedir %>/pre-commit <%= basedir %>/.git/hooks/pre-commit && chmod +x <%= basedir %>/pre-commit"
             },
+            add_classmap: {
+                cmd: "git add src/<%= pkg.name %>/autoload_classmap.php"
+            },
+            add_didef: {
+                cmd: "git add data/di"
+            },
             get_composer: {
                 cmd: "curl -sS https://getcomposer.org/installer | php"
             },
@@ -213,7 +219,9 @@ module.exports = function(grunt) {
         [
             "exec:classmap",
             "exec:didef",
-            "test"
+            "test",
+            "exec:add_classmap",
+            "exec:add_didef"
         ]
     );
     grunt.registerTask(
