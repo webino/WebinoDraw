@@ -29,6 +29,7 @@
     },
     "require-dev": {
         "apigen/apigen": "2.*",
+        "element-34/php-webdriver": "1.*",
         "mayflower/php-codebrowser": "*",
         "pdepend/pdepend": "1.*",
         "phploc/phploc": "*",
