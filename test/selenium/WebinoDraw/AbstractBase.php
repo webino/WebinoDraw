@@ -2,9 +2,8 @@
 
 namespace WebinoDraw;
 
-require_once 'PHPWebDriver/__init__.php';
-
 use PHPWebDriver_WebDriver;
+use RuntimeException;
 
 abstract class AbstractBase extends \PHPUnit_Framework_TestCase
 {
@@ -55,7 +54,7 @@ abstract class AbstractBase extends \PHPUnit_Framework_TestCase
     {
         $uri = getenv('URI');
         if (empty($uri)) {
-            throw new \RuntimeException('Expected URI env');
+            throw new RuntimeException('Expected URI env');
         }
 
         return $uri;
