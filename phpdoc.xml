@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+    <parser>
+        <target>._tmp/api</target>
+    </parser>
+    <transformer>
+        <target>._log/api</target>
+    </transformer>
+    <files>
+        <directory>src</directory>
+    </files>
+    <transformations>
+        <template name="clean" />
+    </transformations>
+</phpdoc>

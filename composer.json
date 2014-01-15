@@ -28,10 +28,10 @@
         "zendframework/zendframework": "2.*"
     },
     "require-dev": {
-        "apigen/apigen": "2.*",
         "element-34/php-webdriver": "1.*",
         "mayflower/php-codebrowser": "*",
         "pdepend/pdepend": "1.*",
+        "phpdocumentor/phpdocumentor": "2.*",
         "phploc/phploc": "*",
         "phpmd/phpmd": "1.*",
         "phpunit/phpunit": "3.7.*",

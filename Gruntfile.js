@@ -42,8 +42,8 @@ module.exports = function(grunt) {
             phpcb: {
                 cmd: "vendor/bin/phpcb --log ._log --source src --output ._log/codebrowser"
             },
-            apigen: {
-                cmd: "vendor/bin/apigen.php --source src --destination ._log/api"
+            phpdoc: {
+                cmd: "vendor/bin/phpdoc.php"
             },
             selenium: {
                 cmd: "URI='" + (grunt.option('uri') || "<%= test_app_uri %>") + "' vendor/bin/phpunit -c test/selenium"
@@ -104,14 +104,14 @@ module.exports = function(grunt) {
         },
         phpcs: {
             options: {
-                extensions: "src,test",
                 standard: "PSR2",
+                extensions: "php",
                 bin: "vendor/bin/phpcs",
                 report: "checkstyle",
                 reportFile: "._log/checkstyle.html",
                 verbose: true
             },
-            package: {dir: ""}
+            package: {dir: "src test"}
         },
         phpmd: {
             options: {
@@ -166,6 +166,17 @@ module.exports = function(grunt) {
     });
     //
     grunt.registerTask(
+        "build",
+        "Build the package",
+        [
+            "update",
+            "test",
+            "exec:selenium",
+            "analyze",
+            "api"
+        ]
+    );
+    grunt.registerTask(
         "update",
         "Update the package development environment",
         [
@@ -203,7 +214,7 @@ module.exports = function(grunt) {
     grunt.registerTask(
         "api",
         "Generate API",
-        ["apigen"]
+        ["exec:phpdoc"]
     );
     grunt.registerTask(
         "precommit:init",
