@@ -636,7 +636,7 @@
 
 This package uses Grunt task runner to automating the development.
 
-**Requirements**
+### Requirements
 
   - [PSR-2 coding style](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)
   - [Linux](http://www.ubuntu.com/download)
