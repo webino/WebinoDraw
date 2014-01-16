@@ -40,7 +40,7 @@ module.exports = function(grunt) {
                 cmd: "vendor/bin/pdepend --summary-xml=._log/pdepend.xml --jdepend-xml=._log/jdepend.xml --jdepend-chart=._log/dependencies.svg --overview-pyramid=._log/overview-pyramid.svg src"
             },
             phpcb: {
-                cmd: "vendor/bin/phpcb --log ._log --source src --output ._log/codebrowser"
+                cmd: "vendor/bin/phpcb --log ._log --source src --output ._log/code-browser"
             },
             phpdoc: {
                 cmd: "vendor/bin/phpdoc.php"
