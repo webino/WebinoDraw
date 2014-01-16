@@ -208,7 +208,8 @@ module.exports = function(grunt) {
             "phpmd",
             "exec:phploc",
             "exec:pdepend",
-            "exec:phpcb"
+            "exec:phpcb",
+            "todos"
         ]
     );
     grunt.registerTask(
