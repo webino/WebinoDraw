@@ -2,7 +2,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
         basedir: require("path").resolve("."),
-        test_app_uri: "http://localhost/webino/WebinoDraw/._test/ZendSkeletonApplication/public/",
+        test_app_uri: "http://localhost/webino/<%= pkg.name %>/._test/ZendSkeletonApplication/public/",
         clean: {
             log: {
                 src: ["._log"]
