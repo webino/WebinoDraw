@@ -16,7 +16,6 @@ return array(
     'filter-example'         => array(
         'locator' => '.filter-example',
         'value'   => '{$_nodeValue}',
-        'x'       => 'y',
         'var' => array(
             'filter' => array(
                 'pre' => array(
