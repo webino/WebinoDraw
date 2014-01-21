@@ -17,7 +17,6 @@ return array(
         'locator' => '.cache-example',
         'value'   => 'CACHED? {$rand}',
         'cache'   => 'example',
-        'sleep'   => true,
         'var' => array(
             'set' => array(
                 'rand' => '',
