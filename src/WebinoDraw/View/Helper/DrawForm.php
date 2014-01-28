@@ -200,6 +200,7 @@ class DrawForm extends AbstractDrawHelper
         if (isset($spec['route'])) {
             try {
                 $routeFormAction = $this->resolveRouteFormAction($spec['route']);
+
             } catch (\Exception $exc) {
                 throw new RuntimeException(
                     $exc->getMessage()
@@ -211,10 +212,9 @@ class DrawForm extends AbstractDrawHelper
                     $exc
                 );
             }
-        }
 
-        $formAction = !empty($routeFormAction) ? $routeFormAction : null;
-        $form->setAttribute('action', $formAction);
+            $form->setAttribute('action', $routeFormAction);
+        }
 
         return $form;
     }
