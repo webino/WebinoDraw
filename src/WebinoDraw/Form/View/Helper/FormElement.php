@@ -106,7 +106,13 @@ class FormElement extends AbstractTranslatorHelper
                 return $renderer->plugin('form_' . $type);
         }
 
-        throw new \OutOfRangeException('Unknown type of ' . get_class($element));
+        throw new \OutOfRangeException(
+            sprintf('Unknown element `%s` type `%s` of `%s`',
+                $element->getName(),
+                $type,
+                get_class($element)
+            )
+        );
     }
 
     /**
