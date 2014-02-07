@@ -107,7 +107,8 @@ class FormElement extends AbstractTranslatorHelper
         }
 
         throw new \OutOfRangeException(
-            sprintf('Unknown element `%s` type `%s` of `%s`',
+            sprintf(
+                'Unknown element `%s` type `%s` of `%s`',
                 $element->getName(),
                 $type,
                 get_class($element)
