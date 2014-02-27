@@ -17,16 +17,13 @@ use Zend\Di\Definition\CompilerDefinition;
 // Autoloader
 $vendorDir = __DIR__ . '/../vendor';
 $loader    = require $vendorDir . '/autoload.php';
-
 $loader->add(__NAMESPACE__, __DIR__ . '/../src');
 
 // Compile Di Definition
 $diCompiler = new CompilerDefinition;
-
 $diCompiler->addDirectory(__DIR__ . '/../src');
 
 foreach (array(
-
     // add files
     $vendorDir . '/zendframework/zendframework/library/Zend/Form/Factory.php',
 
@@ -35,11 +32,9 @@ foreach (array(
 }
 
 $diCompiler->compile();
-
 $definition = $diCompiler->toArrayDefinition()->toArray();
 
 $dir = __DIR__ . '/../data/di';
-
 is_dir($dir) or mkdir($dir);
 
 file_put_contents(
