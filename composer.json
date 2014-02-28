@@ -24,7 +24,7 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": "2.*"
+        "zendframework/zendframework": "dev-develop as 2.2.0"
     },
     "require-dev": {
         "element-34/php-webdriver": "1.*",
