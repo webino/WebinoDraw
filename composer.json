@@ -7,22 +7,21 @@
         "layout", "template", "webino", "zf2", "zend", "framework"
     ],
     "homepage": "http://github.com/webino/WebinoDraw",
-    "license": "New BSD License",
+    "license": "BSD-3-Clause",
     "authors": [
         {
             "name": "Webino, s. r. o.",
             "email": "info@webino.sk",
-            "homepage": "http://www.webino.sk/",
+            "homepage": "http://webino.sk",
             "role": "Developer"
         },
         {
             "name": "Peter Bačinský",
             "email": "peter@bacinsky.sk",
-            "homepage": "http://www.bacinsky.sk/",
+            "homepage": "http://bacinsky.sk",
             "role": "Developer"
         }
     ],
-    "minimum-stability" : "dev",
     "require": {
         "php": ">=5.3.3",
         "zendframework/zendframework": "2.*"
