@@ -14,7 +14,9 @@
   [![Montly Downloads](https://poser.pugx.org/webino/webino-draw/d/monthly.png)](https://packagist.org/packages/webino/webino-draw "Monthly Downloads")
   [![Total Downloads](https://poser.pugx.org/webino/webino-draw/downloads.png)](https://packagist.org/packages/webino/webino-draw "Total Downloads")
 
-  Provides ability to configure rendering of the layout. **Still under development, use it for play.**
+  Provides ability to configure rendering of the layout.
+
+  **Still under development, use it for play.**
 
   <br />
 
