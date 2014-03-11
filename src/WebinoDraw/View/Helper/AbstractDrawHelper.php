@@ -465,9 +465,12 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
      * @param Element $node
      * @return array
      */
-    public function nodeTranslation(Element $node, array $spec = array())
+    public function nodeTranslation(DOMNode $node, array $spec = array())
     {
         $translation = clone $this->getTranslationPrototype();
+        if (!($node instanceof Element)) {
+            return $translation;
+        }
 
         $translation->exchangeArray(
             $node->getProperties(self::EXTRA_VAR_PREFIX)
@@ -482,9 +485,13 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
         return $translation;
     }
 
-    public function nodeHtmlTranslation(Element $node, array $spec)
+    public function nodeHtmlTranslation(DOMNode $node, array $spec)
     {
-        $translation  = clone $this->getTranslationPrototype();
+        $translation = clone $this->getTranslationPrototype();
+        if (!($node instanceof Element)) {
+            return $translation;
+        }
+
         $innerHtmlKey = self::EXTRA_VAR_PREFIX . 'innerHtml';
         $outerHtmlKey = self::EXTRA_VAR_PREFIX . 'outerHtml';
 
