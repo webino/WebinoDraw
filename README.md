@@ -100,6 +100,20 @@
             'locator'    => 'body',
             'value'      => 'Hello Webino!',
         ),
+  
+  - In the instructions hierarchy you can use relative locators:
+
+        'quick-contact' => array(
+            'locator'      => '.quick-contact',    // the same node
+            'instructions' => array(
+                'widget' => array(
+                    'locator' => 'xpath=.',        // the same node
+                    // ...
+                ),
+            ),
+        ),
+        
+    *NOTE: Every sub-locator css selector will be resolved as relative. If you want to match by absolute css selector, start with double slash, e.g. `//.quick-contact`.*
 
   - Use **node variables**:
 
