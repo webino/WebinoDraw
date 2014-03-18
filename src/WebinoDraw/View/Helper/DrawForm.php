@@ -415,6 +415,10 @@ class DrawForm extends AbstractDrawHelper
                 // TODO
                 if (isset($attributes['type'])) {
                     switch ($attributes['type']) {
+                        case 'checkbox':
+                            $attributes['value'] = $element->getCheckedValue();
+                            // todo checkbox use hidden element
+                            break;
                         case 'multi_checkbox':
                         case 'select':
                             $selectNode = $node->ownerDocument->createDocumentFragment();
