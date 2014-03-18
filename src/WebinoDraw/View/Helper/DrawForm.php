@@ -293,6 +293,8 @@ class DrawForm extends AbstractDrawHelper
     }
 
     /**
+     * @todo refactor
+     *
      * @param NodeList $nodes
      * @param array $spec
      * @return DrawForm
@@ -361,6 +363,7 @@ class DrawForm extends AbstractDrawHelper
         return $this;
     }
 
+    // todo decouple & redesign
     protected function matchTemplate(NodeList $nodes, FormInterface $form)
     {
         $elements   = $form->getElements();
@@ -388,6 +391,8 @@ class DrawForm extends AbstractDrawHelper
                 $node
             );
 
+            $nodePath = $node->getNodePath();
+            $toRemove = array();
             /* @var $element \Zend\Form\Element */
             foreach ($elementNodes as $elementNode) {
 
@@ -398,7 +403,7 @@ class DrawForm extends AbstractDrawHelper
                     if ('label' === $parentNode->nodeName) {
                         $parentNode->parentNode->removeChild($parentNode);
                     } else {
-                        $elementNodes->remove('xpath=../..//label[@for="' . $elementName . '"]');
+                        $toRemove[$nodePath][] = $elementName;
                         $elementNode->parentNode->removeChild($elementNode);
                     }
                     continue;
@@ -462,6 +467,13 @@ class DrawForm extends AbstractDrawHelper
                         }
                     }
                 }
+            }
+        }
+
+        // remove labels of missing elements
+        foreach ($toRemove as $nodePath => $elementNames) {
+            foreach ($elementNames as $elementName) {
+                $nodes->remove('xpath=' . $nodePath . '//label[@for="' . $elementName . '"]');
             }
         }
     }
