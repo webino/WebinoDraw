@@ -4,6 +4,7 @@ return array(
   'WebinoDraw\Form\DiForm'                            => __DIR__ . '/Form/DiForm.php',
   'WebinoDraw\Form\View\Helper\FormElement'           => __DIR__ . '/Form/View/Helper/FormElement.php',
   'WebinoDraw\Form\View\Helper\FormRow'               => __DIR__ . '/Form/View/Helper/FormRow.php',
+  'WebinoDraw\Config'                                 => __DIR__ . '/Config.php',
   'WebinoDraw\DrawEvent'                              => __DIR__ . '/DrawEvent.php',
   'WebinoDraw\LoopCallback'                           => __DIR__ . '/LoopCallback.php',
   'WebinoDraw\Module'                                 => __DIR__ . '/Module.php',

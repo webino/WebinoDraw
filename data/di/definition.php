@@ -534,6 +534,19 @@ return array (
       ),
     ),
   ),
+  'WebinoDraw\\Config' => 
+  array (
+    'supertypes' => 
+    array (
+    ),
+    'instantiator' => NULL,
+    'methods' => 
+    array (
+    ),
+    'parameters' => 
+    array (
+    ),
+  ),
   'WebinoDraw\\DrawEvent' => 
   array (
     'supertypes' => 
