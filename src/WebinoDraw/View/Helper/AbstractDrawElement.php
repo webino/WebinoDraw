@@ -91,7 +91,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                 }
             }
 
-            if (array_key_exists('replace', $spec)) {
+            if (array_key_exists('replace', $spec) && null !== $spec['replace']) {
 
                 $translatedHtml = $this->translateValue(
                     $spec['replace'],
@@ -146,7 +146,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                 );
             }
 
-            if (array_key_exists('value', $spec)) {
+            if (array_key_exists('value', $spec) && null !== $spec['value']) {
 
                 $translatedValue = $this->translateValue(
                     $spec['value'],
@@ -164,7 +164,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                 );
             }
 
-            if (array_key_exists('html', $spec)) {
+            if (array_key_exists('html', $spec) && null !== $spec['html']) {
 
                 $translatedHtml = $this->translateValue(
                     $spec['html'],
@@ -187,7 +187,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                 }
             }
 
-            if (array_key_exists('cdata', $spec)) {
+            if (array_key_exists('cdata', $spec) && null !== $spec['cdata']) {
 
                 $translatedCdata = $this->translateValue(
                     $spec['cdata'],
