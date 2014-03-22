@@ -11,6 +11,8 @@
 namespace WebinoDraw;
 
 use ArrayObject;
+use RuntimeException;
+use UnexpectedValueException;
 use WebinoDraw\Dom\NodeList;
 use WebinoDraw\View\Helper\DrawHelperInterface;
 use Zend\EventManager\Event;
@@ -40,12 +42,15 @@ class DrawEvent extends Event
      */
     public function getHelper()
     {
+        if (null === $this->helper) {
+            throw new RuntimeException('Expected helper');
+        }
         return $this->helper;
     }
 
     /**
      * @param DrawHelperInterface $helper
-     * @return DrawEvent
+     * @return self
      */
     public function setHelper(DrawHelperInterface $helper)
     {
@@ -67,7 +72,7 @@ class DrawEvent extends Event
 
     /**
      * @param NodeList $nodes
-     * @return DrawEvent
+     * @return self
      */
     public function setNodes(NodeList $nodes)
     {
@@ -90,7 +95,7 @@ class DrawEvent extends Event
 
     /**
      * @param array|ArrayObject $spec
-     * @return DrawEvent
+     * @return self
      */
     public function setSpec($spec)
     {
@@ -114,17 +119,29 @@ class DrawEvent extends Event
             return $this;
         }
 
-        throw new \UnexpectedValueException(
-            'Expected array|ArrayObject'
-        );
+        throw new UnexpectedValueException('Expected array|ArrayObject');
     }
 
     /**
-     * @return DrawEvent
+     * @return self
      */
     public function clearSpec()
     {
         $this->spec = null;
+        return $this;
+    }
+
+    /**
+     * @param string|int $key
+     * @param string|array|object $value
+     * @return self
+     */
+    public function setVar($key, $value)
+    {
+        $helper     = $this->getHelper();
+        $vars       = $helper->getVars();
+        $vars[$key] = $value;
+        $helper->setVars($vars);
         return $this;
     }
 }
