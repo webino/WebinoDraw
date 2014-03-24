@@ -321,6 +321,9 @@ class VarTranslator
                         }
 
                         foreach ($calls as $params) {
+                            if (null === $params) {
+                                continue;
+                            }
 
                             $translation->merge($results->getArrayCopy());
 
