@@ -22,7 +22,7 @@ abstract class Config
 {
     const CFG_SUFFIX = '.php';
     const DRAW_DIR_NAME   = 'draw';
-    const DRAW_CFG_SUFFIX = '.draw';
+    const DRAW_SET_CFG_SUFFIX = '.drawset';
 
     /**
      * Instructionset autoloading
@@ -36,7 +36,7 @@ abstract class Config
         $drawDir  = $dir . '/' . self::DRAW_DIR_NAME;
         $iterator = new RegexIterator(
             new RecursiveIteratorIterator(new RecursiveDirectoryIterator($drawDir)),
-            '/^.+' . preg_quote(self::DRAW_CFG_SUFFIX) . preg_quote(self::CFG_SUFFIX) . '$/i',
+            '/^.+' . preg_quote(self::DRAW_SET_CFG_SUFFIX) . preg_quote(self::CFG_SUFFIX) . '$/i',
             RecursiveRegexIterator::GET_MATCH
         );
 
@@ -48,7 +48,7 @@ abstract class Config
                 array_filter([
                     $namespace,
                     trim(dirname(str_replace($drawDir, '', $path[0])), '/'),
-                    rtrim($finfo['filename'], self::DRAW_CFG_SUFFIX),
+                    substr($finfo['filename'], 0, - strlen(self::DRAW_SET_CFG_SUFFIX)),
                 ])
             );
 
