@@ -31,10 +31,19 @@ class Translation extends ArrayObject implements
         preg_match_all('~[^\.]+\\\.[^\.]+|[^\.]+~', $basePath, $parts);
 
         foreach ($parts[0] as $key) {
-            if (!is_array($value)
-                && !($value instanceof ArrayObject)
-            ) {
-                break;
+            // array only
+            if (!is_array($value) && !($value instanceof ArrayObject)) {
+                if (is_object($value)) {
+                    if (method_exists($value, 'toArray')) {
+                        $value = $value->toArray();
+                    } elseif (method_exists($value, 'getArrayCopy')) {
+                        $value = $value->getArrayCopy();
+                    } else {
+                        break;
+                    }
+                } else {
+                    break;
+                }
             }
 
             // magic keys
