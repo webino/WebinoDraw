@@ -11,6 +11,7 @@
 namespace WebinoDraw\View\Helper;
 
 use ArrayAccess;
+use DOMText;
 use WebinoDraw\Dom\NodeList;
 use WebinoDraw\Dom\Element;
 use WebinoDraw\Dom\Locator;
@@ -230,7 +231,10 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
 
             if (!empty($spec['onEmpty'])) {
 
-                if ($node->isEmpty()) {
+                // todo better OOP
+                if (($node instanceof Element && $node->isEmpty())
+                    || ($node instanceof DOMText && '' === trim($node->nodeValue))
+                ) {
                     $onEmptySpec = $spec['onEmpty'];
 
                     if (!empty($onEmptySpec['locator'])) {
