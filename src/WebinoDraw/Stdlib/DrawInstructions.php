@@ -242,7 +242,7 @@ class DrawInstructions extends ArrayObject implements
             // one node per stackIndex
             $spec = current($specNode);
 
-            if (empty($spec['locator'])) {
+            if (empty($spec['locator']) || empty($node->ownerDocument)) {
                 continue;
             }
 
