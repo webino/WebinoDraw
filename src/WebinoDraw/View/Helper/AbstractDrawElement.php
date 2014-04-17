@@ -60,18 +60,18 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
         $nodesToRemove = array();
 
         foreach ($nodes as $node) {
-
-            $translation->merge($this->nodeTranslation($node, $spec)->getArrayCopy());
+            $localTranslation = clone $translation;
+            $localTranslation->merge($this->nodeTranslation($node, $spec)->getArrayCopy());
 
             empty($spec['render']) or
-                $this->render($translation, $spec['render']);
+                $this->render($localTranslation, $spec['render']);
 
             empty($spec['fragments']) or
-                $this->fragments($translation, $spec['fragments'], $node, $locator);
+                $this->fragments($localTranslation, $spec['fragments'], $node, $locator);
 
-            $this->applyVarTranslator($translation, $spec);
+            $this->applyVarTranslator($localTranslation, $spec);
 
-            $varTranslation = $varTranslator->makeVarKeys($translation);
+            $varTranslation = $varTranslator->makeVarKeys($localTranslation);
 
             // start manipulation
             // todo refactor
@@ -178,7 +178,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                 if (empty($translatedHtml)) {
                     if (array_key_exists('onEmpty', $spec)) {
 
-                        $this->subInstructions($nodes, array($spec['onEmpty']), $translation);
+                        $this->subInstructions($nodes, array($spec['onEmpty']), $localTranslation);
                     }
                 } else {
 
@@ -201,7 +201,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                 if (empty($translatedCdata)) {
                     if (array_key_exists('onEmpty', $spec)) {
 
-                        $this->subInstructions($nodes, array($spec['onEmpty']), $translation);
+                        $this->subInstructions($nodes, array($spec['onEmpty']), $localTranslation);
                     }
                 } else {
 
@@ -216,14 +216,14 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                 $varTranslator->applyOnVar(
                     $varTranslation,
                     $spec['onVar'],
-                    function ($spec) use ($nodes, $translation, $helper) {
+                    function ($spec) use ($nodes, $localTranslation, $helper) {
 
                         $helper
                             ->expandInstructionsFromSet($spec)
                             ->subInstructions(
                                 $nodes,
                                 $spec['instructions'],
-                                $translation
+                                $localTranslation
                             );
                     }
                 );
@@ -238,15 +238,15 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                     $onEmptySpec = $spec['onEmpty'];
 
                     if (!empty($onEmptySpec['locator'])) {
-                        $this->subInstructions($nodes, array($onEmptySpec), $translation);
+                        $this->subInstructions($nodes, array($onEmptySpec), $localTranslation);
 
                     } else {
                         $this
-                            ->manipulateNodes($nodes, $onEmptySpec, $translation)
+                            ->manipulateNodes($nodes, $onEmptySpec, $localTranslation)
                             ->expandInstructionsFromSet($onEmptySpec);
 
                         empty($onEmptySpec['instructions']) or
-                            $this->subInstructions($nodes, $onEmptySpec['instructions'], $translation);
+                            $this->subInstructions($nodes, $onEmptySpec['instructions'], $localTranslation);
                     }
                 }
             }
@@ -254,7 +254,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
             $this->expandInstructionsFromSet($spec);
 
             empty($spec['instructions']) || empty($node->ownerDocument) or
-                $this->subInstructions($nodes->createNodeList(array($node)), $spec['instructions'], $translation);
+                $this->subInstructions($nodes->createNodeList(array($node)), $spec['instructions'], $localTranslation);
         }
 
         // remove nodes
