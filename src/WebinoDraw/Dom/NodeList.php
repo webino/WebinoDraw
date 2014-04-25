@@ -247,7 +247,7 @@ class NodeList implements IteratorAggregate
             $callback = $preSet
                       ? function ($value) use ($node, $preSet, $self) {
                             return $preSet($node, $value, $self);
-                        }
+                      }
                       : null;
 
             $node->setAttributes($attribs, $callback);
