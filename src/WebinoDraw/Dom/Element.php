@@ -18,6 +18,30 @@ class Element extends \DOMElement
     const NODE_VALUE_PROPERTY = 'nodeValue';
 
     /**
+     * Attributes mass assignment
+     *
+     * @param array $attribs
+     * @param callable $callback Called on each attribute value
+     * @return self
+     */
+    public function setAttributes(array $attribs, $callback = null)
+    {
+        foreach ($attribs as $name => $value) {
+
+            !is_callable($callback) or
+                $value = $callback($value, $name);
+
+            if (empty($value) && !is_numeric($value)) {
+                $this->removeAttribute($name);
+            } else {
+                $this->setAttribute($name, trim($value));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * Returns the node body html
      *
      * @return string

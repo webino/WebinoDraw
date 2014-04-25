@@ -242,21 +242,15 @@ class NodeList implements IteratorAggregate
     public function setAttribs(array $attribs, $preSet = null)
     {
         foreach ($this as $node) {
+            // prepare callback
+            $self     = $this; // todo
+            $callback = $preSet
+                      ? function ($value) use ($node, $preSet, $self) {
+                            return $preSet($node, $value, $self);
+                        }
+                      : null;
 
-            foreach ($attribs as $name => $value) {
-
-                if (is_callable($preSet)) {
-
-                    $value = $preSet($node, $value, $this);
-                }
-
-                if (empty($value) && !is_numeric($value)) {
-
-                    $node->removeAttribute($name);
-                } else {
-                    $node->setAttribute($name, trim($value));
-                }
-            }
+            $node->setAttributes($attribs, $callback);
         }
 
         return $this;
