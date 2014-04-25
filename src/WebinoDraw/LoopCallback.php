@@ -13,7 +13,7 @@ namespace WebinoDraw;
 use ArrayObject;
 
 /**
- * 
+ *
  */
 abstract class LoopCallback
 {
@@ -57,19 +57,28 @@ abstract class LoopCallback
     }
 
     /**
-     * Add the element separator
+     * Add the element wrapper
      *
      * Useful for e.g. tables, loop the td and set the tr separator for each 3.
      *
      * @param ArrayObject $loopArgument
      * @param array $options
      */
-    public static function separator(ArrayObject $loopArgument, array $options)
+    public static function elementWrapper(ArrayObject $loopArgument, array $options)
     {
         if (empty($options['elementName'])) {
             // todo InvalidLoopCallbackOptionException
             throw new \InvalidArgumentException(
                 'Expected the ' . __FUNCTION__ . ' loop callback `elementName` option for  spec '
+                . print_r($loopArgument['spec'], true)
+            );
+        }
+
+        if (!empty($options['elementAttribs']) && !is_array($options['elementAttribs'])) {
+            // todo InvalidLoopCallbackOptionException
+            throw new \InvalidArgumentException(
+                'Expected the ' . __FUNCTION__
+                . ' loop callback valid `elementAttribs` option for  spec '
                 . print_r($loopArgument['spec'], true)
             );
         }
@@ -86,8 +95,24 @@ abstract class LoopCallback
             return;
         }
 
+        // create wrapper
+        $newParentNode = $loopArgument['parentNode']->ownerDocument
+            ->createElement($options['elementName']);
+
+        $parentNode = !empty($loopArgument['wrapperParentNode'])
+                    ? $loopArgument['wrapperParentNode']
+                    : $loopArgument['wrapperParentNode'] = $loopArgument['parentNode'];
+
+        $beforeNode = !empty($loopArgument['wrapperBeforeNode'])
+                    ? $loopArgument['wrapperBeforeNode']
+                    : $loopArgument['wrapperBeforeNode'] = $loopArgument['beforeNode'];
+
         $loopArgument['beforeNode'] = null;
-        $newParentNode = $loopArgument['parentNode']->ownerDocument->createElement($options['elementName']);
-        $loopArgument['parentNode'] = $loopArgument['parentNode']->parentNode->appendChild($newParentNode);
+        $loopArgument['parentNode'] = $beforeNode
+                                    ? $parentNode->insertBefore($newParentNode, $beforeNode)
+                                    : $parentNode->appendChild($newParentNode);
+
+        empty($options['elementAttribs']) or
+            $newParentNode->setAttributes($options['elementAttribs']);
     }
 }
