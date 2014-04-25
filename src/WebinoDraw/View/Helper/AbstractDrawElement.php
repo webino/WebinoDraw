@@ -60,16 +60,17 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
         $nodesToRemove = array();
 
         foreach ($nodes as $node) {
-            $localTranslation = clone $translation;
-            $localTranslation->merge($this->nodeTranslation($node, $spec)->getArrayCopy());
-
+            
             empty($spec['render']) or
-                $this->render($localTranslation, $spec['render']);
+                $this->render($translation, $spec['render']);
 
             empty($spec['fragments']) or
-                $this->fragments($localTranslation, $spec['fragments'], $node, $locator);
+                $this->fragments($translation, $spec['fragments'], $node, $locator);
 
-            $this->applyVarTranslator($localTranslation, $spec);
+            $this->applyVarTranslator($translation, $spec);
+
+            $localTranslation = clone $translation;
+            $localTranslation->merge($this->nodeTranslation($node, $spec)->getArrayCopy());
 
             $varTranslation = $varTranslator->makeVarKeys($localTranslation);
 
