@@ -73,7 +73,7 @@ class Translation extends ArrayObject implements
 
     /**
      * @param array $array
-     * @return Translation
+     * @return self
      */
     public function merge(array $array)
     {
@@ -87,6 +87,19 @@ class Translation extends ArrayObject implements
                 $array
             )
         );
+
+        return $this;
+    }
+
+    /**
+     * @param array $keys
+     * @return self
+     */
+    public function unsetKeys(array $keys)
+    {
+        foreach ($keys as $key) {
+            unset($this[$key]);
+        }
 
         return $this;
     }
