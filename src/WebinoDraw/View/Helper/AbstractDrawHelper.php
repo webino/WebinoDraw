@@ -524,8 +524,19 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     {
         $cacheKey = $node->getNodePath();
 
-        if (!empty($spec['cache_key_trigger'])) {
+        if (!empty($spec['cache_key'])) {
+            // replace vars in the cache key settings
+            $varTranslator = $this->getVarTranslator();
+            $varTranslator->translate(
+                $spec['cache_key'],
+                $varTranslator->makeVarKeys($this->cloneTranslationPrototype($this->getVars()))
+            );
 
+            // add cache keys
+            $cacheKey .= join('', $spec['cache_key']);
+        }
+
+        if (!empty($spec['cache_key_trigger'])) {
             $events = $this->getEventManager();
             foreach ((array) $spec['cache_key_trigger'] as $eventName) {
                 $results = $events->trigger($eventName, $this, array('spec' => $spec));
