@@ -28,9 +28,32 @@ class Translation extends ArrayObject implements
     public function fetch($basePath)
     {
         $value = $this->getArrayCopy();
+        $parts = [];
+        
         preg_match_all('~[^\.]+\\\.[^\.]+|[^\.]+~', $basePath, $parts);
 
         foreach ($parts[0] as $key) {
+            // unescape
+            $key = str_replace('\.', '.', $key);
+
+            // undefined
+            if (!array_key_exists($key, $value)) {
+                $value = null;
+                break;
+            }
+
+            // magic keys
+            if ('_first' === $key) {
+                reset($value);
+                $key = key($value);
+
+            } elseif ('_last' === $key) {
+                end($value);
+                $key = key($value);
+            }
+
+            $value = &$value[$key];
+
             // array only
             if (!is_array($value) && !($value instanceof ArrayObject)) {
                 if (is_object($value)) {
@@ -45,27 +68,6 @@ class Translation extends ArrayObject implements
                     break;
                 }
             }
-
-            // magic keys
-            if ('_first' === $key) {
-                reset($value);
-                $key = key($value);
-
-            } elseif ('_last' === $key) {
-                end($value);
-                $key = key($value);
-            }
-
-            // unescape
-            $key = str_replace('\.', '.', $key);
-
-            // undefined
-            if (!array_key_exists($key, $value)) {
-                $value = null;
-                break;
-            }
-
-            $value = &$value[$key];
         }
 
         return $value;
