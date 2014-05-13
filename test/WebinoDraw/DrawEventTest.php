@@ -5,7 +5,7 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw;
@@ -80,10 +80,10 @@ class DrawEventTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetSpec()
     {
-        $spec = array(array('rewritten'));
+        $spec = [['rewritten']];
 
-        $targetSpec = array(array('torewrite'), 'original');
-        $mergedSpec = array(array('rewritten'), 'original');
+        $targetSpec = [['torewrite'], 'original'];
+        $mergedSpec = [['rewritten'], 'original'];
 
         $specObject = $this->getMock('ArrayObject');
 
@@ -109,7 +109,7 @@ class DrawEventTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetSpecCreate()
     {
-        $spec = array(array('rewritten'));
+        $spec = [['rewritten']];
 
         // test fluent
         $this->assertSame($this->object, $this->object->setSpec($spec));

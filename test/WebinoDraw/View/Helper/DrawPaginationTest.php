@@ -5,7 +5,7 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw\View\Helper;
@@ -33,7 +33,7 @@ class DrawPaginationTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->object   = new DrawPagination;
-        $this->nodeList = $this->getMock('WebinoDraw\Dom\NodeList', array(), array(), '', null);
+        $this->nodeList = $this->getMock('WebinoDraw\Dom\NodeList', [], [], '', null);
     }
 
     /**
@@ -81,7 +81,7 @@ class DrawPaginationTest extends \PHPUnit_Framework_TestCase
         );
 
         $paginatorName = 'TestPaginator';
-        $spec = array('paginator' => $paginatorName);
+        $spec = ['paginator' => $paginatorName];
 
         $this->object->drawNodes($this->nodeList, $spec);
     }

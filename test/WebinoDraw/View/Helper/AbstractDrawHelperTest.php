@@ -5,7 +5,7 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw\View\Helper;
@@ -275,10 +275,10 @@ class AbstractDrawHelperTest extends \PHPUnit_Framework_TestCase
     public function testNodeTranslation()
     {
         $value   = 'test node value';
-        $attribs = array(
+        $attribs = [
             'attr1' => 'testAttr1',
             'attr2' => 'testAttr2',
-        );
+        ];
         $prefix  = '_';
 
         $dom  = new DOMDocument;

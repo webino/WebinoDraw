@@ -5,11 +5,12 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw\Dom;
 
+use ArrayObject;
 use DOMDocument;
 use WebinoDraw\Dom\Element as DOMElement;
 use DOMNode;
@@ -61,12 +62,12 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateNodeList()
     {
-        $nodeList = new NodeList(array());
+        $nodeList = new NodeList([]);
 
         $nodeOne = new DOMElement('testOne');
         $nodeTwo = new DOMElement('testTwo');
 
-        $newNodeList = $nodeList->createNodeList(array($nodeOne, $nodeTwo));
+        $newNodeList = $nodeList->createNodeList([$nodeOne, $nodeTwo]);
 
         $this->assertThat(
             $newNodeList,
@@ -82,7 +83,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetNodes()
     {
-        $nodes = $this->getMock('DOMNodeList', array(), array(), '', false);
+        $nodes = $this->getMock('DOMNodeList', [], [], '', false);
 
         // test fluent
         $this->assertSame($this->object, $this->object->setNodes($nodes));
@@ -98,7 +99,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetNodesArray()
     {
-        $nodes = array($this->getMock('DOMElement', array(), array(), '', false));
+        $nodes = [$this->getMock('DOMElement', [], [], '', false)];
 
         // test fluent
         $this->assertSame($this->object, $this->object->setNodes($nodes));
@@ -114,9 +115,9 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetIterator()
     {
-        $iterator = new \ArrayObject;
+        $iterator = new ArrayObject;
 
-        $nodes = $this->getMock('IteratorIterator', array(), array(), '', false);
+        $nodes = $this->getMock('IteratorIterator', [], [], '', false);
         $this->object->setNodes($nodes);
 
         $nodes->expects($this->once())
@@ -302,7 +303,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
             . '<dummyTwo ' . $attribs . '/></box>';
         $nodeList = new NodeList($dom->firstChild->childNodes);
 
-        $nodeList->setAttribs(array('attr0' => 'val0', 'attr1' => '0', 'attr2' => ''));
+        $nodeList->setAttribs(['attr0' => 'val0', 'attr1' => '0', 'attr2' => '']);
 
         $this->assertSame(
             '<?xml version="1.0"?>' . PHP_EOL . $expected . PHP_EOL,
@@ -317,14 +318,13 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
     {
         $dom      = $this->createDomDocument();
         $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
-        $attribs  = 'attr0="val0" attr1="val1"';
         $_attribs = 'attr0="val0modified" attr1="val1modified"';
         $expected = '<box><dummyOne ' . $_attribs . '/>'
             . '<dummyTwo ' . $_attribs . '/></box>';
         $nodeList = new NodeList($dom->firstChild->childNodes);
 
         $nodeList->setAttribs(
-            array('attr0' => 'val0', 'attr1' => 'val1'),
+            ['attr0' => 'val0', 'attr1' => 'val1'],
             function (DOMNode $node, $value) {
                 return $value . 'modified';
             }
@@ -421,7 +421,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
         $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
         $expected   = '<box><dummyOne/></box>';
         $dom->xpath = new DOMXpath($dom);
-        $nodeList   = new NodeList(array($dom->firstChild->firstChild));
+        $nodeList   = new NodeList([$dom->firstChild->firstChild]);
         $locator    = $this->getMock('WebinoDraw\Dom\Locator');
         $nodeList->setLocator($locator);
         $xpath      = '//dummyTwo';
@@ -453,7 +453,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
 
         $dom      = $this->createDomDocument();
         $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
-        $nodeList = new NodeList(array($dom->firstChild->firstChild));
+        $nodeList = new NodeList([$dom->firstChild->firstChild]);
 
         $nodeList->remove();
     }

@@ -5,7 +5,7 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw\View\Helper;
@@ -42,9 +42,9 @@ class DrawElementTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->object   = new DrawElement;
-        $this->nodeList = $this->getMock('WebinoDraw\Dom\NodeList', array(), array(), '', null);
+        $this->nodeList = $this->getMock('WebinoDraw\Dom\NodeList', [], [], '', null);
 
-        $this->view = $this->getMock('Zend\View\Renderer\PhpRenderer', array('escapeHtml'));
+        $this->view = $this->getMock('Zend\View\Renderer\PhpRenderer', ['escapeHtml']);
         $this->object->setView($this->view);
     }
 
@@ -66,11 +66,11 @@ class DrawElementTest extends \PHPUnit_Framework_TestCase
         $dom->registerNodeClass('DOMElement', 'WebinoDraw\Dom\Element');
         $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
         $dom->xpath = new DOMXpath($dom);
-        $nodeList   = $this->getMock('WebinoDraw\Dom\NodeList', array(), array(), '', null);
+        $nodeList   = $this->getMock('WebinoDraw\Dom\NodeList', [], [], '', null);
         $locator    = $this->getMock('WebinoDraw\Dom\Locator');
         $value      = 'testvalue';
 
-        $spec = array('value' => $value);
+        $spec = ['value' => $value];
 
         $this->view->expects($this->exactly(2))
             ->method('escapeHtml')
@@ -103,11 +103,11 @@ class DrawElementTest extends \PHPUnit_Framework_TestCase
         $dom->registerNodeClass('DOMElement', 'WebinoDraw\Dom\Element');
         $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
         $dom->xpath = new DOMXpath($dom);
-        $nodeList   = $this->getMock('WebinoDraw\Dom\NodeList', array(), array(), '', null);
+        $nodeList   = $this->getMock('WebinoDraw\Dom\NodeList', [], [], '', null);
         $locator    = $this->getMock('WebinoDraw\Dom\Locator');
         $html       = '<testhtml/>';
 
-        $spec = array('html' => $html);
+        $spec = ['html' => $html];
 
         $nodeList
             ->expects($this->once())
@@ -135,11 +135,11 @@ class DrawElementTest extends \PHPUnit_Framework_TestCase
         $dom->registerNodeClass('DOMElement', 'WebinoDraw\Dom\Element');
         $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
         $dom->xpath = new DOMXpath($dom);
-        $nodeList   = $this->getMock('WebinoDraw\Dom\NodeList', array(), array(), '', null);
+        $nodeList   = $this->getMock('WebinoDraw\Dom\NodeList', [], [], '', null);
         $locator    = $this->getMock('WebinoDraw\Dom\Locator');
         $html       = '<testhtmlreplace/>';
 
-        $spec = array('replace' => $html);
+        $spec = ['replace' => $html];
 
         $nodeList
             ->expects($this->once())

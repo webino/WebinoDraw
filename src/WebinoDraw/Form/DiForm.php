@@ -5,7 +5,7 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw\Form;
@@ -177,7 +177,7 @@ class DiForm implements FormInterface
      * @param  array $flags
      * @return FieldsetInterface
      */
-    public function add($elementOrFieldset, array $flags = array())
+    public function add($elementOrFieldset, array $flags = [])
     {
         return $this->getForm()->add($elementOrFieldset, $flags);
     }
@@ -291,7 +291,7 @@ class DiForm implements FormInterface
      * @param  array $values
      * @return mixed
      */
-    public function bindValues(array $values = array())
+    public function bindValues(array $values = [])
     {
         return $this->getForm()->bindValues($values);
     }

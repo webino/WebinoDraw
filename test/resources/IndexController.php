@@ -4,7 +4,7 @@
  *
  * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk/)
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
 namespace Application\Controller;
@@ -31,12 +31,10 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
      */
     public function load($locale, $textDomain)
     {
-        return new TextDomain(
-            array(
-                'this should be translated' => 'toto by malo byť preložené',
-                'Label example' => 'Ukážka popisky',
-            )
-        );
+        return new TextDomain([
+            'this should be translated' => 'toto by malo byť preložené',
+            'Label example' => 'Ukážka popisky',
+        ]);
     }
 
     /**
@@ -57,17 +55,15 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
 
         // trigger form errors
         $form = $this->getServiceLocator()->get('exampleForm');
-        $form->setData(array('test'));
+        $form->setData(['test']);
         $form->isValid();
 
         // 1) set instructions into the draw strategy
-        $this->getServiceLocator()->get('WebinoDraw')->setInstructions(
-            array(
-                'runtime-example' => array(
-                    'value' => '{$_nodeValue} VALUE',
-                ),
-            )
-        );
+        $this->getServiceLocator()->get('WebinoDraw')->setInstructions([
+            'runtime-example' => [
+                'value' => '{$_nodeValue} VALUE',
+            ],
+        ]);
 
         // 2) attach example-event listener to the draw element custom event
         $this->getEventManager()->getSharedManager()->attach(
@@ -76,16 +72,14 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
             function (DrawEvent $event) {
 
                 $event->getNodes()
-                    ->setAttribs(array('style' => 'border: 1px solid #ee0000;'));
+                    ->setAttribs(['style' => 'border: 1px solid #ee0000;']);
 
-                $event->setSpec(
-                    array(
-                        'value' => '{$_nodeValue} VALUE',
-                        'attribs' => array(
-                            'title' => 'Hello from Controller!',
-                        ),
-                    )
-                );
+                $event->setSpec([
+                    'value' => '{$_nodeValue} VALUE',
+                    'attribs' => [
+                        'title' => 'Hello from Controller!',
+                    ],
+                ]);
             }
         );
 
@@ -96,34 +90,30 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
             function (DrawFormEvent $event) {
 
                 $event->getNodes()
-                    ->setAttribs(array('style' => 'border: 1px solid #0000ee;'));
+                    ->setAttribs(['style' => 'border: 1px solid #0000ee;']);
 
-                $event->getForm()->add(
-                    array(
-                        'name' => 'element_from_controller',
-                        'attributes' => array(
-                            'type'  => 'submit',
-                            'value' => 'Button from controller',
-                        ),
-                    )
-                );
+                $event->getForm()->add([
+                    'name' => 'element_from_controller',
+                    'attributes' => [
+                        'type'  => 'submit',
+                        'value' => 'Button from controller',
+                    ],
+                ]);
 
                 $event->getForm()
-                    ->setData(array('example_text_element' => 'TEST VALUE FROM CONTROLLER'));
+                    ->setData(['example_text_element' => 'TEST VALUE FROM CONTROLLER']);
 
-                $event->setSpec(
-                    array(
-                        'instructions' => array(
-                            'instruction-from-controller' => array(
-                                'locator' => 'input',
-                                'attribs' => array(
-                                    'disabled' => 'disabled',
-                                    'title' => 'Form sub-instruction title from controller',
-                                ),
-                            ),
-                        ),
-                    )
-                );
+                $event->setSpec([
+                    'instructions' => [
+                        'instruction-from-controller' => [
+                            'locator' => 'input',
+                            'attribs' => [
+                                'disabled' => 'disabled',
+                                'title'    => 'Form sub-instruction title from controller',
+                            ],
+                        ],
+                    ],
+                ]);
             }
         );
 
@@ -135,7 +125,7 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
             function (AjaxEvent $event) use ($request) {
 
                 !$request->getQuery()->offsetExists('ajaxExtra') or
-                    $event->setJson(array('extraTest' => 'ajax extra random ' . rand()));
+                    $event->setJson(['extraTest' => 'ajax extra random ' . rand()]);
 
                 $id = $request->getQuery()->fragmentId;
                 if (empty($id)) {
@@ -148,56 +138,55 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
 
         // 5) clear the draw cache example
         !isset($this->request->getQuery()->clearcache) or
-            $this->getServiceLocator()->get('WebinoDrawCache')->clearByTags(array('example'));
+            $this->getServiceLocator()->get('WebinoDrawCache')->clearByTags(['example']);
 
         // test view variables
-        return array(
-
+        return [
             'viewvar' => 'TESTVIEWVAR',
 
-            'value' => array(
-                'in' => array(
-                    'the' => array(
+            'value' => [
+                'in' => [
+                    'the' => [
                         'depth' => 'DEPTHVAR',
-                    ),
-                ),
-            ),
+                    ],
+                ],
+            ],
 
-            'depth' => array(
-                'items' => array(
-                    'itemToOffset' => array(
+            'depth' => [
+                'items' => [
+                    'itemToOffset' => [
                         'property0' => 'value0ToOffset',
                         'property1' => 'value1ToOffset',
-                    ),
-                    'item0' => array(
+                    ],
+                    'item0' => [
                         'property0' => 'value00',
                         'property1' => 'value01',
-                        'childs'    => array(
-                            'item00' => array(
+                        'childs'    => [
+                            'item00' => [
                                 'property0' => 'value000',
                                 'property1' => 'value001',
-                            ),
-                            'item01' => array(
+                            ],
+                            'item01' => [
                                 'property0' => 'value010',
                                 'property1' => 'value011',
-                            ),
-                        ),
-                    ),
-                    'item1' => array(
+                            ],
+                        ],
+                    ],
+                    'item1' => [
                         'property0' => 'value10',
                         'property1' => 'value11',
-                    ),
-                    'item3' => array(
+                    ],
+                    'item3' => [
                         'property0' => 'value30',
                         'property1' => 'value31',
-                    ),
-                    'itemTooMuch' => array(
+                    ],
+                    'itemTooMuch' => [
                         'property0' => 'value0TooMuch',
                         'property1' => 'value1TooMuch',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -217,26 +206,26 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
     {
         $draw = $this->getServiceLocator()->get('WebinoDraw');
 
-        $draw->setInstructions(
-            array(
-                'long-list' => array(
-                    'locator' => '.long-list',
-                    'cache' => 'long-list',
-                    'instructions' => array(
-                        'item' => array(
-                            'locator' => 'li',
-                            'value' => '{$_index} {$text}',
-                            'loop' => array(
-                                'base' => 'long_list',
-                            ),
-                        ),
-                    ),
-                ),
-            )
-        );
+        $draw->setInstructions([
+            'long-list' => [
+            'locator'   => '.long-list',
+            'cache'     => 'long-list',
+
+                'instructions' => [
+                    'item' => [
+                        'locator' => 'li',
+                        'value'   => '{$_index} {$text}',
+
+                        'loop' => [
+                            'base' => 'long_list',
+                        ],
+                    ],
+                ],
+            ],
+        ]);
 
         // generate data
-        $data = array();
+        $data = [];
 
         $text = 'Paš glouskůřenchlym niděk člobleď. Frc hrýš, tišlý pa chénizli tiškeš v fla děďmo '
                 . 'choněr nivrýtlutat flyhlaž z mláď, vlireměh lkusteněm niništ a dibu i tes břetěm '
@@ -248,10 +237,10 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
                 . 'a žragre. I ňorá tra dře paštaběn clys sini? Zoř žlůšké i bří šlicku, pyh úně '
                 . 'glíhá a těvo kapeti.';
 
-        $data['long_list'] = array();
+        $data['long_list'] = [];
 
         for ($i=0; $i < 500; $i++) {
-            $data['long_list'][] = array('text' => $text);
+            $data['long_list'][] = ['text' => $text];
         }
 
         return $data;

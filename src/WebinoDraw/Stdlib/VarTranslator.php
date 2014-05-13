@@ -5,7 +5,7 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw\Stdlib;
@@ -120,7 +120,7 @@ class VarTranslator
             return $str;
         }
 
-        $match = array();
+        $match = [];
         preg_match_all($this->createVarPregPattern(), $str, $match);
 
         if (empty($match[0])) {
@@ -232,21 +232,21 @@ class VarTranslator
      *
      * example of properties:
      *
-     * $translation = array(
-     *     'value' => array(
-     *         'in' => array(
-     *             'the' => array(
+     * $translation = [
+     *     'value' => [
+     *         'in' => [
+     *             'the' => [
      *                 'depth' => 'valueInTheDepth',
-     *             ),
-     *         ),
-     *     ),
-     * );
+     *             ],
+     *         ],
+     *     ],
+     * ];
      *
      * example of options:
      *
-     * $options = array(
+     * $options = [
      *     'customVar' => 'value.in.the.depth',
-     * );
+     * ];
      *
      * @param array $translation
      * @param array $options
@@ -302,17 +302,12 @@ class VarTranslator
                     // php functions first
 
                     $translation->merge($results->getArrayCopy());
-
-                    $this->translate(
-                        $options,
-                        $this->makeVarKeys($translation)
-                    );
+                    $this->translate($options, $this->makeVarKeys($translation));
 
                     $results[$key] = call_user_func_array($helper, $options);
 
                 } else {
                     // zf helpers
-
                     $plugin = $pluginManager->get($helper);
 
                     foreach ($options as $func => $calls) {
@@ -326,17 +321,9 @@ class VarTranslator
                             }
 
                             $translation->merge($results->getArrayCopy());
+                            $this->translate($params, $this->makeVarKeys($translation));
 
-                            $this->translate(
-                                $params,
-                                $this->makeVarKeys($translation)
-                            );
-
-                            $plugin = call_user_func_array(
-                                array($plugin, $func),
-                                $params
-                            );
-
+                            $plugin = call_user_func_array([$plugin, $func], $params);
                             if (is_string($plugin)) {
                                 break;
                             }
@@ -367,7 +354,6 @@ class VarTranslator
         }
 
         $translation->merge($results->getArrayCopy());
-
         return $this;
     }
 
@@ -393,21 +379,12 @@ class VarTranslator
 
                 if (function_exists($helper)) {
                     // php functions first
-
-                    $this->translate(
-                        $options,
-                        $this->makeVarKeys($translation)
-                    );
-
+                    $this->translate($options, $this->makeVarKeys($translation));
                     $translation[$key] = call_user_func_array($helper, $options);
 
                 } else {
                     // zf filter
-
-                    $this->translate(
-                        $options,
-                        $this->makeVarKeys($translation)
-                    );
+                    $this->translate($options, $this->makeVarKeys($translation));
 
                     if (empty($options[0])) {
                         $translation[$key] = '';
@@ -415,7 +392,7 @@ class VarTranslator
                     }
 
                     !empty($options[1]) or
-                        $options[1] = array();
+                        $options[1] = [];
 
                     $translation[$key] = $pluginManager
                                             ->get($helper, $options[1])
@@ -567,7 +544,7 @@ class VarTranslator
         }
 
         if (!is_object($subject)) {
-            return array($subject);
+            return [$subject];
         }
 
         if (method_exists($subject, 'toArray')) {

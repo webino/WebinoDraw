@@ -562,6 +562,7 @@ return array (
       'setHelper' => 0,
       'setNodes' => 0,
       'setSpec' => 0,
+      'setVar' => 0,
       'setParams' => 0,
       'setName' => 0,
       'setTarget' => 0,
@@ -618,6 +619,23 @@ return array (
         'WebinoDraw\\DrawEvent::setSpec:0' => 
         array (
           0 => 'spec',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setVar' => 
+      array (
+        'WebinoDraw\\DrawEvent::setVar:0' => 
+        array (
+          0 => 'key',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\DrawEvent::setVar:1' => 
+        array (
+          0 => 'value',
           1 => NULL,
           2 => true,
           3 => NULL,
@@ -1273,6 +1291,7 @@ return array (
       'setHelper' => 0,
       'setNodes' => 0,
       'setSpec' => 0,
+      'setVar' => 0,
       'setParams' => 0,
       'setName' => 0,
       'setTarget' => 0,
@@ -1339,6 +1358,23 @@ return array (
         'WebinoDraw\\DrawFormEvent::setSpec:0' => 
         array (
           0 => 'spec',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setVar' => 
+      array (
+        'WebinoDraw\\DrawFormEvent::setVar:0' => 
+        array (
+          0 => 'key',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\DrawFormEvent::setVar:1' => 
+        array (
+          0 => 'value',
           1 => NULL,
           2 => true,
           3 => NULL,
@@ -3247,6 +3283,7 @@ return array (
     'methods' => 
     array (
       '__construct' => 3,
+      'setAttributes' => 0,
       'setAttribute' => 0,
       'setAttributeNode' => 0,
       'setAttributeNS' => 0,
@@ -3277,6 +3314,23 @@ return array (
         'WebinoDraw\\Dom\\Element::__construct:2' => 
         array (
           0 => 'uri',
+          1 => NULL,
+          2 => false,
+          3 => NULL,
+        ),
+      ),
+      'setAttributes' => 
+      array (
+        'WebinoDraw\\Dom\\Element::setAttributes:0' => 
+        array (
+          0 => 'attribs',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Dom\\Element::setAttributes:1' => 
+        array (
+          0 => 'callback',
           1 => NULL,
           2 => false,
           3 => NULL,

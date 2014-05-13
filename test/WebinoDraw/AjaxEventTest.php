@@ -5,7 +5,7 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw;
@@ -47,7 +47,7 @@ class AjaxEventTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetJson()
     {
-        $json = array('var' => 'val');
+        $json = ['var' => 'val'];
 
         $ajaxJson = $this->getMock('WebinoDraw\Ajax\Json');
 
@@ -76,7 +76,7 @@ class AjaxEventTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetJsonCreate()
     {
-        $json = array('var' => 'val');
+        $json = ['var' => 'val'];
 
         // test fluent
         $this->assertSame($this->object, $this->object->setJson($json));

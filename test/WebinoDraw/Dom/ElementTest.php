@@ -5,7 +5,7 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw\Dom;
@@ -67,11 +67,11 @@ class ElementTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetProperties()
     {
-        $input = array(
+        $input = [
             'nodeValue' => 'test node value',
             'attr01'    => 'attr01Val',
             'attr02'    => 'attr02Val',
-        );
+        ];
 
         $this->object->nodeValue = $input['nodeValue'];
 
@@ -90,16 +90,16 @@ class ElementTest extends \PHPUnit_Framework_TestCase
     public function testGetPropertiesWithPrefix()
     {
         $prefix   = '___';
-        $input    = array(
+        $input    = [
             'nodeValue' => 'test node value',
             'attr01'    => 'attr01Val',
             'attr02'    => 'attr02Val',
-        );
-        $expected = array(
+        ];
+        $expected = [
             $prefix . 'nodeValue' => 'test node value',
             $prefix . 'attr01'    => 'attr01Val',
             $prefix . 'attr02'    => 'attr02Val',
-        );
+        ];
 
         $this->object->nodeValue = $input['nodeValue'];
 

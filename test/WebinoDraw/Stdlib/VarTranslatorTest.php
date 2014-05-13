@@ -5,7 +5,7 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw\Stdlib;
@@ -91,7 +91,7 @@ class VarTranslatorTest extends \PHPUnit_Framework_TestCase
     {
         $string      = 'before {$var} after';
         $expected    = 'before value after';
-        $translation = new ArrayObject(array('{$var}' => 'value'));
+        $translation = new ArrayObject(['{$var}' => 'value']);
         $result      = $this->object->translateString($string, $translation);
 
         $this->assertEquals($expected, $result);
@@ -103,9 +103,9 @@ class VarTranslatorTest extends \PHPUnit_Framework_TestCase
     public function testTranslate()
     {
         $string      = 'before2 {$var2} after2';
-        $subject     = array($string);
-        $expected    = array('before2 value2 after2');
-        $translation = new ArrayObject(array('{$var2}' => 'value2'));
+        $subject     = [$string];
+        $expected    = ['before2 value2 after2'];
+        $translation = new ArrayObject(['{$var2}' => 'value2']);
 
         // test fluent
         $this->assertSame($this->object, $this->object->translate($subject, $translation));
@@ -120,7 +120,7 @@ class VarTranslatorTest extends \PHPUnit_Framework_TestCase
     {
         $subject     = 'before2 {$var2} after2';
         $expected    = 'before2 value2 after2';
-        $translation = new ArrayObject(array('{$var2}' => 'value2'));
+        $translation = new ArrayObject(['{$var2}' => 'value2']);
 
         // test fluent
         $this->assertSame($this->object, $this->object->translate($subject, $translation));
@@ -135,7 +135,7 @@ class VarTranslatorTest extends \PHPUnit_Framework_TestCase
     {
         $subject     = null;
         $expected    = $subject;
-        $translation = new ArrayObject(array('{$var2}' => 'value2'));
+        $translation = new ArrayObject(['{$var2}' => 'value2']);
 
         // test fluent
         $this->assertSame($this->object, $this->object->translate($subject, $translation));
@@ -150,7 +150,7 @@ class VarTranslatorTest extends \PHPUnit_Framework_TestCase
     {
         $subject     = new stdClass;
         $expected    = $subject;
-        $translation = new ArrayObject(array('{$var2}' => 'value2'));
+        $translation = new ArrayObject(['{$var2}' => 'value2']);
 
         // test fluent
         $this->assertSame($this->object, $this->object->translate($subject, $translation));

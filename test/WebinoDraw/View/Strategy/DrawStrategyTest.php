@@ -5,7 +5,7 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw\View\Strategy;
@@ -35,7 +35,7 @@ class DrawStrategyTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->service = $this->getMock('WebinoDraw\WebinoDraw', array(), array(), '', null);
+        $this->service = $this->getMock('WebinoDraw\WebinoDraw', [], [], '', null);
         $this->object  = new DrawStrategy($this->service);
     }
 
@@ -100,7 +100,7 @@ class DrawStrategyTest extends \PHPUnit_Framework_TestCase
 
         $model->expects($this->any())
             ->method('getChildren')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
 
         $this->service
             ->expects($this->once())

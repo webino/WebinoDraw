@@ -5,28 +5,31 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
-return array(
-    'translate-example-prepare' => array(
+namespace WebinoDraw;
+
+return [
+    'translate-example-prepare' => [
         'locator' => '.jumbotron',
         'html'    => '{$_innerHtml}<p class="translate-example">this should be translated</p>',
-    ),
-    'translate-example' => array(
+    ],
+    'translate-example' => [
         'locator' => '.translate-example',
         'value'   => '{$_nodeValue}',
-        'var' => array(
-            'default' => array(
+
+        'var' => [
+            'default' => [
                 'data-textdomain' => 'test',
-            ),
-            'helper' => array(
-                '_nodeValue' => array(
-                    'translate' => array(
-                        '__invoke' => array(array('{$_nodeValue}', '{$data-textdomain}')),
-                    ),
-                ),
-            ),
-        ),
-    ),
-);
+            ],
+            'helper' => [
+                '_nodeValue' => [
+                    'translate' => [
+                        '__invoke' => [['{$_nodeValue}', '{$data-textdomain}']],
+                    ],
+                ],
+            ],
+        ],
+    ],
+];

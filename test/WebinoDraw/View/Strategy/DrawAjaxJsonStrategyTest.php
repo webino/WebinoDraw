@@ -5,7 +5,7 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw\View\Strategy;
@@ -38,7 +38,7 @@ class DrawAjaxJsonStrategyTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->service = $this->getMock('WebinoDraw\WebinoDraw', array(), array(), '', null);
+        $this->service = $this->getMock('WebinoDraw\WebinoDraw', [], [], '', null);
         $this->object  = new DrawAjaxJsonStrategy($this->service);
     }
 
@@ -93,13 +93,11 @@ class DrawAjaxJsonStrategyTest extends \PHPUnit_Framework_TestCase
         $events->expects($this->once())
             ->method('setIdentifiers')
             ->with(
-                $this->equalTo(
-                    array(
-                        'WebinoDraw\View\Strategy\DrawAjaxJsonStrategy',
-                        'WebinoDraw\View\Strategy\AbstractDrawAjaxStrategy',
-                        'WebinoDraw',
-                    )
-                )
+                $this->equalTo([
+                    'WebinoDraw\View\Strategy\DrawAjaxJsonStrategy',
+                    'WebinoDraw\View\Strategy\AbstractDrawAjaxStrategy',
+                    'WebinoDraw',
+                ])
             );
 
         // test fluent
@@ -137,7 +135,7 @@ class DrawAjaxJsonStrategyTest extends \PHPUnit_Framework_TestCase
         $dom->loadXML('<xhtml/>');
         $xpath      = '//test';
         $xhtml      = '<xhtml></xhtml>';
-        $domXpath   = $this->getMock('DOMXpath', array(), array(), '', false);
+        $domXpath   = $this->getMock('DOMXpath', [], [], '', false);
         $dom->xpath = $domXpath;
 
         $domXpath->expects($this->once())
@@ -157,8 +155,8 @@ class DrawAjaxJsonStrategyTest extends \PHPUnit_Framework_TestCase
         $xhtml      = '<div id="testid"></div>';
         $dom->loadHTML($xhtml);
         $xpath      = '//test';
-        $fragments  = array('fragment' => array('#testid' => $xhtml));
-        $domXpath   = $this->getMock('DOMXpath', array(), array(), '', false);
+        $fragments  = ['fragment' => ['#testid' => $xhtml]];
+        $domXpath   = $this->getMock('DOMXpath', [], [], '', false);
         $dom->xpath = $domXpath;
 
         $domXpath->expects($this->once())
@@ -182,12 +180,12 @@ class DrawAjaxJsonStrategyTest extends \PHPUnit_Framework_TestCase
         $xhtml          = '<xhtml></xhtml>' . PHP_EOL;
         $dom            = new DOMDocument;
         $dom->loadXML($xhtml);
-        $xpath          = $this->getMock('DOMXpath', array(), array(), '', false);
+        $xpath          = $this->getMock('DOMXpath', [], [], '', false);
         $dom->documentElement->ownerDocument->xpath = $xpath;
         $containerXhtml = '<div></div>' . PHP_EOL;
         $containerDom   = new DOMDocument;
         $containerDom->loadHTML($containerXhtml);
-        $containerDomXpath = $this->getMock('DOMXpath', array(), array(), '', false);
+        $containerDomXpath = $this->getMock('DOMXpath', [], [], '', false);
         $containerDom->documentElement->ownerDocument->xpath = $containerDomXpath;
         $containerXpath = '//container/xpath';
         $model          = $this->getMock('Zend\View\Model\ViewModel');
@@ -252,7 +250,7 @@ class DrawAjaxJsonStrategyTest extends \PHPUnit_Framework_TestCase
 
         $model->expects($this->any())
             ->method('getChildren')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
 
         $this->service
             ->expects($this->once())

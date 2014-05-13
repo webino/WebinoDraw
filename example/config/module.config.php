@@ -5,19 +5,21 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
+
+namespace WebinoDraw;
 
 /**
 * WebinoDraw example configuration
 */
-return array(
-    'webino_draw' => array(
+return [
+    'webino_draw' => [
         /**
          * Override ajax settings
          */
         'ajax_container_xpath' => '//body',
-        'ajax_fragment_xpath' => '//*[contains(@class, "ajax-fragment") and @id]',
+        'ajax_fragment_xpath'  => '//*[contains(@class, "ajax-fragment") and @id]',
         /**
          * The Draw Instructions Example
          */
@@ -46,81 +48,79 @@ return array(
         /**
          * The Instruction Set Example
          */
-        'instructionset' => array(
-            'exampleinstructionset_01' => array(),
-            'exampleinstructionset_02' => array(),
-        ),
-    ),
+        'instructionset' => [
+            'exampleinstructionset_01' => [],
+            'exampleinstructionset_02' => [],
+        ],
+    ],
     /**
      * Create Form via DI
      *
      * @deprecated Use form factory instead
      */
-    'di' => array(
-        'instance' => array(
-            'alias' => array(
+    'di' => [
+        'instance' => [
+            'alias' => [
                 'exampleForm' => 'WebinoDraw\Form\DiForm',
-            ),
-            'exampleForm' => array(
-                'parameters' => array(
-                    'config' => array(
+            ],
+            'exampleForm' => [
+                'parameters' => [
+                    'config' => [
                         'hydrator' => 'Zend\Stdlib\Hydrator\ArraySerializable',
-                        'attributes' => array(
+                        'attributes' => [
                             'method' => 'post',
-                            'class' => 'example-form',
-                        ),
-                        'elements' => array(
-                            array(
-                                'spec' => array(
+                            'class'  => 'example-form',
+                        ],
+                        'elements' => [
+                            [
+                                'spec' => [
                                     'name' => 'example_text_element',
-                                    'options' => array(
+                                    'options' => [
                                         'label' => 'Label example',
-                                    ),
-                                    'attributes' => array(
-                                        'type' => 'text',
+                                    ],
+                                    'attributes' => [
+                                        'type'        => 'text',
                                         'placeholder' => 'Type something ...',
-                                    ),
-                                ),
-                            ),
-                            array(
-                                'spec' => array(
+                                    ],
+                                ],
+                            ],
+                            [
+                                'spec' => [
                                     'name' => 'example_text_element2',
-                                    'options' => array(
+                                    'options' => [
                                         'label' => 'Label example2',
-                                    ),
-                                    'attributes' => array(
-                                        'type' => 'text',
+                                    ],
+                                    'attributes' => [
+                                        'type'        => 'text',
                                         'placeholder' => 'Type something2 ...',
-                                    ),
-                                ),
-                            ),
-                            array(
-                                'spec' => array(
+                                    ],
+                                ],
+                            ],
+                            [
+                                'spec' => [
                                     'type' => 'Zend\Form\Element\Csrf',
                                     'name' => 'security',
-                                ),
-                            ),
-                            array(
-                                'spec' => array(
+                                ],
+                            ],
+                            [
+                                'spec' => [
                                     'name' => 'send',
-                                    'attributes' => array(
-                                        'type' => 'submit',
+                                    'attributes' => [
+                                        'type'  => 'submit',
                                         'value' => 'Submit',
-                                    ),
-                                ),
-                            ),
-                        ),
-                        'input_filter' => array(
-                            'example_text_element' => array(
-                                'name' => 'example_text_element',
+                                    ],
+                                ],
+                            ],
+                        ],
+                        'input_filter' => [
+                            'example_text_element' => [
+                                'name'     => 'example_text_element',
                                 'required' => true,
-                                'validators' => array(
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        ),
-    ),
-);
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ],
+];

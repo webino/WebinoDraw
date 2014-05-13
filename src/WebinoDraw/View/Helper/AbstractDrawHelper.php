@@ -5,7 +5,7 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw\View\Helper;
@@ -80,7 +80,7 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     /**
      * @var array
      */
-    protected $vars = array();
+    protected $vars = [];
 
     /**
      * @var VarTranslator
@@ -103,16 +103,15 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
     public function getCache()
     {
         if (empty($this->cache)) {
-
             $this->setCache(
                 CacheStorage::factory(
-                    array(
+                    [
                         'adapter' => 'filesystem',
-                        'options' => array(
+                        'options' => [
                             'namespace' => 'webinodraw',
                             'cacheDir'  => 'data/cache'
-                        ),
-                    )
+                        ],
+                    ]
                 )
             );
         }
@@ -180,7 +179,6 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
         if (null === $this->eventManager) {
             $this->setEventManager(new EventManager);
         }
-
         return $this->eventManager;
     }
 
@@ -190,13 +188,13 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
      */
     public function setEventManager(EventManagerInterface $eventManager)
     {
-        $eventManager->setIdentifiers(array(
+        $eventManager->setIdentifiers([
             'WebinoDraw\View\Helper\DrawHelperInterface',
             __CLASS__,
             get_called_class(),
             $this->eventIdentifier,
             'WebinoDraw'
-        ));
+        ]);
 
         $this->eventManager = $eventManager;
         return $this;
@@ -465,7 +463,7 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
      * @param Element $node
      * @return array
      */
-    public function nodeTranslation(DOMNode $node, array $spec = array())
+    public function nodeTranslation(DOMNode $node, array $spec = [])
     {
         $translation = clone $this->getTranslationPrototype();
         if (!($node instanceof Element)) {
@@ -495,7 +493,7 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
         $innerHtmlKey = self::EXTRA_VAR_PREFIX . 'innerHtml';
         $outerHtmlKey = self::EXTRA_VAR_PREFIX . 'outerHtml';
 
-        foreach (array('html', 'replace') as $key) {
+        foreach (['html', 'replace'] as $key) {
             if (empty($spec[$key])) {
                 continue;
             }
@@ -539,7 +537,7 @@ abstract class AbstractDrawHelper extends AbstractHelper implements
         if (!empty($spec['cache_key_trigger'])) {
             $events = $this->getEventManager();
             foreach ((array) $spec['cache_key_trigger'] as $eventName) {
-                $results = $events->trigger($eventName, $this, array('spec' => $spec));
+                $results = $events->trigger($eventName, $this, ['spec' => $spec]);
                 foreach ($results as $result) {
                     $cacheKey .= $result;
                 }

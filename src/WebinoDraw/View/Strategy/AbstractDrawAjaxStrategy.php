@@ -5,7 +5,7 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw\View\Strategy;
@@ -77,10 +77,7 @@ abstract class AbstractDrawAjaxStrategy extends AbstractDrawStrategy implements
      */
     public function setEventManager(EventManagerInterface $eventManager)
     {
-        $eventManager->setIdentifiers(
-            array(get_class($this), __CLASS__, 'WebinoDraw')
-        );
-
+        $eventManager->setIdentifiers([get_class($this), __CLASS__, 'WebinoDraw']);
         $this->eventManager = $eventManager;
         return $this;
     }

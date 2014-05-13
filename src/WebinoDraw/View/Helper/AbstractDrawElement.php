@@ -5,7 +5,7 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw\View\Helper;
@@ -61,8 +61,8 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
         $varTranslator = $this->getVarTranslator();
         $locator       = $nodes->getLocator();
 
-        $nodesToRemove       = array();
-        $lastNodeTranslation = array();
+        $nodesToRemove       = [];
+        $lastNodeTranslation = [];
         foreach ($nodes as $node) {
 
             empty($spec['fragments']) or
@@ -181,8 +181,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
 
                 if (empty($translatedHtml)) {
                     if (array_key_exists('onEmpty', $spec)) {
-
-                        $this->subInstructions($nodes, array($spec['onEmpty']), $translation);
+                        $this->subInstructions($nodes, [$spec['onEmpty']], $translation);
                     }
                 } else {
 
@@ -204,8 +203,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
 
                 if (empty($translatedCdata)) {
                     if (array_key_exists('onEmpty', $spec)) {
-
-                        $this->subInstructions($nodes, array($spec['onEmpty']), $translation);
+                        $this->subInstructions($nodes, [$spec['onEmpty']], $translation);
                     }
                 } else {
 
@@ -242,7 +240,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                     $onEmptySpec = $spec['onEmpty'];
 
                     if (!empty($onEmptySpec['locator'])) {
-                        $this->subInstructions($nodes, array($onEmptySpec), $translation);
+                        $this->subInstructions($nodes, [$onEmptySpec], $translation);
 
                     } else {
                         $this
@@ -258,7 +256,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
             $this->expandInstructionsFromSet($spec);
 
             empty($spec['instructions']) || empty($node->ownerDocument) or
-                $this->subInstructions($nodes->createNodeList(array($node)), $spec['instructions'], $translation);
+                $this->subInstructions($nodes->createNodeList([$node]), $spec['instructions'], $translation);
         }
 
         // remove nodes
@@ -305,7 +303,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                 $onEmptySpec = $spec['loop']['onEmpty'];
 
                 if (!empty($onEmptySpec['locator'])) {
-                    $this->subInstructions($nodes, array($onEmptySpec), $translation);
+                    $this->subInstructions($nodes, [$onEmptySpec], $translation);
 
                 } else {
                     $this
@@ -338,13 +336,13 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
 
             // create loop argument for better callback support
             $loopArgument = $varTranslator->subjectToArrayObject(
-                array(
+                [
                     'spec'       => $spec,
                     'vars'       => $translation,
                     'parentNode' => $parentNode,
                     'beforeNode' => $beforeNode,
                     'target'     => $this,
-                )
+                ]
             );
 
             $loopArgument['index'] = !empty($spec['loop']['index']) ? $spec['loop']['index'] : 0;
@@ -387,7 +385,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
                 }
 
                 // manipulate item nodes with local spec and translation
-                $newNodeList = $nodes->createNodeList(array($loopArgument['node']));
+                $newNodeList = $nodes->createNodeList([$loopArgument['node']]);
                 $this->manipulateNodes($newNodeList, $spec, $localTranslation);
 
                 if (empty($spec['loop']['instructions'])) {
@@ -405,7 +403,7 @@ abstract class AbstractDrawElement extends AbstractDrawHelper
             }
 
             empty($spec['instructions']) or
-                $this->subInstructions($nodes->createNodeList(array($node)), $spec['instructions'], $translation);
+                $this->subInstructions($nodes->createNodeList([$node]), $spec['instructions'], $translation);
         }
 
         return $this;

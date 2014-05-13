@@ -5,7 +5,7 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw\View\Helper;
@@ -56,11 +56,11 @@ class DrawAbsolutizeTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDefaultLocator()
     {
-        $expected = array(
+        $expected = [
             'src'    => 'xpath=//@src' . DrawAbsolutize::LOCATOR_CONDITION,
             'href'   => 'xpath=//@href' . DrawAbsolutize::LOCATOR_CONDITION,
             'action' => 'xpath=//@action' . DrawAbsolutize::LOCATOR_CONDITION,
-        );
+        ];
 
         $result = DrawAbsolutize::getDefaultLocator();
 
@@ -73,13 +73,13 @@ class DrawAbsolutizeTest extends \PHPUnit_Framework_TestCase
     public function testDrawNodes()
     {
         $nodes = $this->getMock('WebinoDraw\Dom\NodeList');
-        $spec  = array();
+        $spec  = [];
 
         $basePath  = '/test/base/path';
         $attrValue = 'test-value';
         $attr      = new DOMAttr('test-attr', $attrValue);
 
-        $nodesIterator = new ArrayObject(array($attr));
+        $nodesIterator = new ArrayObject([$attr]);
 
         $nodes->expects($this->once())
             ->method('getIterator')
@@ -104,12 +104,12 @@ class DrawAbsolutizeTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('WebinoDraw\Exception\RuntimeException');
 
         $nodes = $this->getMock('WebinoDraw\Dom\NodeList');
-        $spec  = array();
+        $spec  = [];
 
         // invalid attr
         $attr = new DOMElement('test-element');
 
-        $nodesIterator = new ArrayObject(array($attr));
+        $nodesIterator = new ArrayObject([$attr]);
 
         $nodes->expects($this->once())
             ->method('getIterator')
@@ -128,7 +128,7 @@ class DrawAbsolutizeTest extends \PHPUnit_Framework_TestCase
     public function testDrawNodesCycle()
     {
         $nodes = $this->getMock('WebinoDraw\Dom\NodeList');
-        $spec  = array();
+        $spec  = [];
 
         $basePath   = '/test/base/path';
         $attrValue  = 'test-value';
@@ -138,7 +138,7 @@ class DrawAbsolutizeTest extends \PHPUnit_Framework_TestCase
         $attr2      = new DOMAttr('test-attr', $attrValue2);
         $attr3      = new DOMAttr('test-attr', $attrValue3);
 
-        $nodesIterator = new ArrayObject(array($attr, $attr2, $attr3));
+        $nodesIterator = new ArrayObject([$attr, $attr2, $attr3]);
 
         $nodes->expects($this->once())
             ->method('getIterator')

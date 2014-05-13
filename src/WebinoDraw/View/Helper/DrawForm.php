@@ -5,7 +5,7 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw\View\Helper;
@@ -233,15 +233,15 @@ class DrawForm extends AbstractDrawHelper
             throw new \InvalidArgumentException('Expected string or array');
         }
 
-        $route = is_array($spec) ? $spec : array('name' => $spec);
+        $route = is_array($spec) ? $spec : ['name' => $spec];
 
         if (empty($route['name'])) {
             throw new RuntimeException('Expected route name option');
         }
 
-        $params  = !empty($route['params']) ? $route['params'] : array();
-        $options = !empty($route['options']) ? $route['options'] : array();
-        $reusedMatchedParams = !empty($route['reuseMatchedParams']) ? $route['reuseMatchedParams'] : array();
+        $params  = !empty($route['params']) ? $route['params'] : [];
+        $options = !empty($route['options']) ? $route['options'] : [];
+        $reusedMatchedParams = !empty($route['reuseMatchedParams']) ? $route['reuseMatchedParams'] : [];
 
         try {
             $routeFormAction = $this->view->url(
@@ -331,12 +331,11 @@ class DrawForm extends AbstractDrawHelper
             // append the form class to the node class
             $node->setAttribute('class', trim($node->getAttribute('class') . ' ' . $formClass));
 
-            $childNodes = $nodes->createNodeList(array($node));
+            $childNodes = $nodes->createNodeList([$node]);
 
             if (empty($node->childNodes->length)) {
                 // easy render
                 $formCollection = $this->getFormCollectionHelper();
-
                 $childNodes->setHtml($formCollection($form, $spec['wrap']));
 
             } else {
@@ -392,7 +391,7 @@ class DrawForm extends AbstractDrawHelper
             );
 
             $nodePath = $node->getNodePath();
-            $toRemove = array();
+            $toRemove = [];
             /* @var $element \Zend\Form\Element */
             foreach ($elementNodes as $elementNode) {
 
@@ -439,7 +438,7 @@ class DrawForm extends AbstractDrawHelper
                     }
                 }
 
-                $elementNodes = $nodes->createNodeList(array($elementNode));
+                $elementNodes = $nodes->createNodeList([$elementNode]);
                 $elementNodes->setAttribs($attributes);
 
                 // labels

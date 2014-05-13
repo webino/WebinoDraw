@@ -5,15 +5,18 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
-return array(
-    'set-value-example' => array(
+namespace WebinoDraw;
+
+return [
+    'set-value-example' => [
         'locator' => '.jumbotron .btn-success',
         'value'   => 'Fork WebinoDraw on GitHub »',
-        'attribs' => array(
+        
+        'attribs' => [
             'href' => 'https://github.com/webino/WebinoDraw',
-        ),
-    ),
-);
+        ],
+    ],
+];

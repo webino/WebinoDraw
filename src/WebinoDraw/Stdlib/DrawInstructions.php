@@ -5,7 +5,7 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw\Stdlib;
@@ -60,7 +60,7 @@ class DrawInstructions extends ArrayObject implements
      */
     public function exchangeArray($array)
     {
-        parent::exchangeArray(array());
+        parent::exchangeArray([]);
         $this->merge($array);
 
         return $this;
@@ -140,13 +140,13 @@ class DrawInstructions extends ArrayObject implements
      *
      * Instructions structure:
      * <pre>
-     * array(
-     *   'node_name' => array(
+     * [
+     *   'node_name' => [
      *     'stackIndex' => '50',
      *     'customkey'  => 'customvalue',
      *     ....
-     *   ),
-     * );
+     *   ],
+     * ];
      * </pre>
      *
      * If no stackIndex is defined add as last with
@@ -163,16 +163,14 @@ class DrawInstructions extends ArrayObject implements
         $instructionsN = count($mergeWith) * self::STACK_SPACER;
 
         foreach ($mergeWith as &$spec) {
-
             foreach ($mergeFrom as $iKey => $iSpec) {
-
                 if (key($spec) != $iKey) {
                     continue;
                 }
 
                 // merge existing spec
                 unset($mergeFrom[$iKey]);
-                $spec = array_replace_recursive($spec, array($iKey => $iSpec));
+                $spec = array_replace_recursive($spec, [$iKey => $iSpec]);
             }
         }
 
@@ -190,7 +188,6 @@ class DrawInstructions extends ArrayObject implements
             }
 
             if (!isset($spec['stackIndex'])) {
-
                 // add without stack index
                 $stackIndex = $instructionsN + self::STACK_SPACER;
 
@@ -204,7 +201,6 @@ class DrawInstructions extends ArrayObject implements
                 unset($stackIndex);
 
             } elseif (!isset($mergeWith[$spec['stackIndex']])) {
-
                 // add with stackindex
                 $mergeWith[$spec['stackIndex']][$index] = $spec;
                 continue;
@@ -216,7 +212,6 @@ class DrawInstructions extends ArrayObject implements
         }
 
         parent::exchangeArray($mergeWith);
-
         return $this;
     }
 

@@ -5,12 +5,13 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw\Stdlib;
 
 use DOMDocument;
+use DOMNodeList;
 use ReflectionProperty;
 
 /**
@@ -158,27 +159,27 @@ class DrawInstructionsTest extends \PHPUnit_Framework_TestCase
      */
     public function testMerge()
     {
-        $instructions = array(
-            'instruction_node1' => array('option' => 'value1'),
-            'instruction_node2' => array('option' => 'value2'),
-        );
-        $expectOne = array(
+        $instructions = [
+            'instruction_node1' => ['option' => 'value1'],
+            'instruction_node2' => ['option' => 'value2'],
+        ];
+        $expectOne = [
             'instruction_node1' => $instructions['instruction_node1']
-        );
-        $expectTwo = array(
+        ];
+        $expectTwo = [
             'instruction_node2' => $instructions['instruction_node2']
-        );
+        ];
 
         $this->object->merge($instructions);
 
         $_instructions = $this->object->getArrayCopy();
 
         $this->assertEquals(
-            array($expectOne, $expectTwo),
-            array(
+            [$expectOne, $expectTwo],
+            [
                 $_instructions[DrawInstructions::STACK_SPACER],
                 $_instructions[DrawInstructions::STACK_SPACER * 2]
-            )
+            ]
         );
 
         $this->object->merge($expectOne);
@@ -200,20 +201,20 @@ class DrawInstructionsTest extends \PHPUnit_Framework_TestCase
         $dom      = new DOMDocument;
         $dom->loadXML('<root/>');
         $renderer = $this->getMock('Zend\View\Renderer\PhpRenderer');
-        $vars     = array('test_var' => 'test_val');
+        $vars     = ['test_var' => 'test_val'];
 
-        $xpath  = $this->getMock('DOMXpath', array(), array(), '', false);
+        $xpath  = $this->getMock('DOMXpath', [], [], '', false);
         $dom->documentElement->ownerDocument->xpath = $xpath;
         $plugin = $this->getMock('WebinoDraw\View\Helper\DrawElement');
 
-        $spec = array(
+        $spec = [
             'locator' => 'body',
             'helper'  => 'drawElement',
-        );
+        ];
 
-        $instructions = array(
+        $instructions = [
             'test-node' => $spec,
-        );
+        ];
 
         $this->object->merge($instructions);
 
@@ -249,20 +250,19 @@ class DrawInstructionsTest extends \PHPUnit_Framework_TestCase
         $dom      = new DOMDocument;
         $dom->loadXML('<root/>');
         $renderer = $this->getMock('Zend\View\Renderer\PhpRenderer');
-        $vars     = array();
+        $vars     = [];
 
-        $xpath  = $this->getMock('DOMXpath', array(), array(), '', false);
+        $xpath  = $this->getMock('DOMXpath', [], [], '', false);
         $dom->documentElement->ownerDocument->xpath = $xpath;
-        $plugin = $this->getMock('WebinoDraw\View\Helper\DrawElement');
 
-        $spec = array(
+        $spec = [
             'locator' => 'body',
             'helper'  => 'drawElement',
-        );
+        ];
 
-        $instructions = array(
+        $instructions = [
             'test-node' => $spec,
-        );
+        ];
 
         $this->object->merge($instructions);
 
@@ -270,7 +270,7 @@ class DrawInstructionsTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('query')
             ->with($this->anything(), $this->equalTo($dom->documentElement))
-            ->will($this->returnValue(new \DOMNodeList));
+            ->will($this->returnValue(new DOMNodeList));
 
         $renderer
             ->expects($this->never())
@@ -287,15 +287,12 @@ class DrawInstructionsTest extends \PHPUnit_Framework_TestCase
         $dom      = new DOMDocument;
         $dom->loadXML('<root/>');
         $renderer = $this->getMock('Zend\View\Renderer\PhpRenderer');
-        $vars     = array();
+        $vars     = [];
 
-        $xpath = $this->getMock('DOMXpath', array(), array(), '', false);
+        $xpath = $this->getMock('DOMXpath', [], [], '', false);
         $dom->documentElement->ownerDocument->xpath = $xpath;
 
-        $instructions = array(
-            'test-node' => array(),
-        );
-
+        $instructions = ['test-node' => []];
         $this->object->merge($instructions);
 
         $xpath
@@ -317,32 +314,32 @@ class DrawInstructionsTest extends \PHPUnit_Framework_TestCase
         $dom      = new DOMDocument;
         $dom->loadXML('<root/>');
         $renderer = $this->getMock('Zend\View\Renderer\PhpRenderer');
-        $vars     = array('test_var' => 'test_val');
+        $vars     = ['test_var' => 'test_val'];
 
-        $xpath  = $this->getMock('DOMXpath', array(), array(), '', false);
+        $xpath  = $this->getMock('DOMXpath', [], [], '', false);
         $dom->documentElement->ownerDocument->xpath = $xpath;
         $plugin = $this->getMock('WebinoDraw\View\Helper\DrawElement');
 
-        $spec = array(
+        $spec = [
             'locator' => 'body',
             'helper'  => 'drawElement',
-        );
+        ];
 
-        $spec1 = array(
+        $spec1 = [
             'locator' => 'head',
             'helper'  => 'drawElement',
-        );
+        ];
 
-        $spec2 = array(
+        $spec2 = [
             'locator' => 'footer',
             'helper'  => 'drawElement',
-        );
+        ];
 
-        $instructions = array(
+        $instructions = [
             'test-node1' => $spec1,
             'test-node2' => $spec2,
             'test-node'  => $spec,
-        );
+        ];
 
         $this->object->merge($instructions);
 

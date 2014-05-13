@@ -5,7 +5,7 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw;
@@ -27,7 +27,7 @@ class WebinoDrawOptions extends AbstractOptions
     /**
      * @var array
      */
-    protected $instructionSet = array();
+    protected $instructionSet = [];
 
     /**
      * @var string
@@ -43,7 +43,7 @@ class WebinoDrawOptions extends AbstractOptions
      * @param array $instructions
      * @return DrawInstructions
      */
-    public function createInstructions(array $instructions = array())
+    public function createInstructions(array $instructions = [])
     {
         return new DrawInstructions($instructions);
     }
@@ -120,9 +120,8 @@ class WebinoDrawOptions extends AbstractOptions
     public function instructionsFromSet($key)
     {
         if (empty($this->instructionSet[$key])) {
-            return array();
+            return [];
         }
-
         return $this->instructionSet[$key];
     }
 

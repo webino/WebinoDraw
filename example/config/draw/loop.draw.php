@@ -5,59 +5,66 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
-return array(
-    'loop-example-prepare' => array(
+namespace WebinoDraw;
+
+return [
+    'loop-example-prepare' => [
         'locator' => '.jumbotron',
         'html'    => '{$_innerHtml}<ul class="loop-example"><li>BEFORE</li><li/><li>AFTER</li></ul>',
-    ),
-    'loop-example' => array(
+    ],
+    'loop-example' => [
         'locator' => '.loop-example li[2]',
         'html'    => '<strong/> <span/>',
-        'loop' => array(
+
+        'loop' => [
             'base'   => 'depth.items',
             'index'  => '0',
             'offset' => '1',
             'length' => '3',
-            'onEmpty' => array(
+
+            'onEmpty' => [
                 'locator' => '.loop-example',
                 'replace' => '<p>YOU HAVE NO ITEMS</p>',
-            ),
-            'instructions' => array(
-                'loop-example-strong-node' => array(
+            ],
+            'instructions' => [
+                'loop-example-strong-node' => [
                     'locator' => 'strong',
                     'value'   => '{$_key} {$_index} {$property0} {$test}',
-                    'var' => array(
-                        'fetch' => array(
+
+                    'var' => [
+                        'fetch' => [
                             'test' => 'childs.item00.property0'
-                        ),
-                    ),
-                ),
-                'loop-example-span-node' => array(
+                        ],
+                    ],
+                ],
+                'loop-example-span-node' => [
                     'locator' => 'span',
                     'value'   => 'TADA',
-                ),
-            ),
-        ),
-        'attribs' => array(
+                ],
+            ],
+        ],
+        'attribs' => [
             'title' => '{$property1}',
-        ),
-    ),
-    'loop-empty-example-prepare' => array(
+        ],
+    ],
+    'loop-empty-example-prepare' => [
         'locator' => '.jumbotron',
         'html'    => '{$_innerHtml}<ul class="loop-empty-example"><li>BEFORE</li><li/><li>AFTER</li></ul>',
-    ),
-    'loop-empty-example' => array(
+    ],
+    'loop-empty-example' => [
         'locator' => '.loop-empty-example li[2]',
-        'loop'    => array(
+
+        'loop' => [
             'base' => 'depth.items-empty',
-            'onEmpty' => array(
+
+            'onEmpty' => [
                 'locator' => '//.loop-empty-example',
                 'replace' => '<p>YOU HAVE NO ITEMS</p>',
-            ),
-            'instructions' => array(),
-        ),
-    ),
-);
+            ],
+            'instructions' => [],
+        ],
+    ],
+];

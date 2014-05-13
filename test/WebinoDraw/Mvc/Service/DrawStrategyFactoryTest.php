@@ -5,7 +5,7 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw\Mvc\Service;
@@ -42,7 +42,7 @@ class DrawStrategyFactoryTest extends \PHPUnit_Framework_TestCase
         $this->request  = $this->getMock('Zend\Http\Request');
 
         $testCase = $this;
-        $draw     = $this->getMock('WebinoDraw\WebinoDraw', array(), array(), '', false);
+        $draw     = $this->getMock('WebinoDraw\WebinoDraw', [], [], '', false);
 
         $this->services->expects($this->exactly(2))
             ->method('get')
@@ -105,8 +105,8 @@ class DrawStrategyFactoryTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
         $acceptHeader      = $this->getMock('Zend\Http\Header\Accept');
-        $acceptHeaderPart  = $this->getMock('Zend\Http\Header\Accept\FieldValuePart', array('getRaw'));
-        $acceptHeaderParts = array($acceptHeaderPart);
+        $acceptHeaderPart  = $this->getMock('Zend\Http\Header\Accept\FieldValuePart', ['getRaw']);
+        $acceptHeaderParts = [$acceptHeaderPart];
 
         $acceptHeaderPart->expects($this->once())
             ->method('getRaw')
@@ -134,7 +134,7 @@ class DrawStrategyFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateServiceConsoleRequest()
     {
-        $this->request = $this->getMock('Zend\Console\Request', array(), array(), '', false);
+        $this->request = $this->getMock('Zend\Console\Request', [], [], '', false);
 
         $this->request->expects($this->never())
             ->method('isXmlHttpRequest');

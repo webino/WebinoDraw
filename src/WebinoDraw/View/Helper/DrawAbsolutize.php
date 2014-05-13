@@ -5,7 +5,7 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw\View\Helper;
@@ -37,11 +37,11 @@ class DrawAbsolutize extends AbstractDrawElement
      */
     public static function getDefaultLocator()
     {
-        return array(
+        return [
             'src'    => 'xpath=//@src' . self::LOCATOR_CONDITION,
             'href'   => 'xpath=//@href' . self::LOCATOR_CONDITION,
             'action' => 'xpath=//@action' . self::LOCATOR_CONDITION,
-        );
+        ];
     }
 
     /**

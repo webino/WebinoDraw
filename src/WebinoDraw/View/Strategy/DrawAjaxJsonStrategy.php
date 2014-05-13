@@ -5,7 +5,7 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw\View\Strategy;
@@ -29,7 +29,7 @@ class DrawAjaxJsonStrategy extends AbstractDrawAjaxStrategy
      */
     public function createFragments(DOMDocument $dom, $xpath)
     {
-        $data = array();
+        $data = [];
 
         foreach ($dom->xpath->query($xpath) as $item) {
 

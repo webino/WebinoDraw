@@ -5,7 +5,7 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw\Dom\Locator;
@@ -19,10 +19,10 @@ class StrategyFactory
      *
      * @var array
      */
-    protected static $strategyList = array(
+    protected static $strategyList = [
         'css'   => 'WebinoDraw\Dom\Locator\Strategy\CssStrategy',
-        'xpath' => 'WebinoDraw\Dom\Locator\Strategy\XpathStrategy'
-    );
+        'xpath' => 'WebinoDraw\Dom\Locator\Strategy\XpathStrategy',
+    ];
 
     /**
      * @param string $type Strategy type
@@ -53,7 +53,6 @@ class StrategyFactory
         if (empty($type)) {
             return self::DEFAULT_STRATEGY;
         }
-
         return $type;
     }
 }

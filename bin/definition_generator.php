@@ -23,11 +23,11 @@ $loader->add(__NAMESPACE__, __DIR__ . '/../src');
 $diCompiler = new CompilerDefinition;
 $diCompiler->addDirectory(__DIR__ . '/../src');
 
-foreach (array(
+foreach ([
     // add files
     $vendorDir . '/zendframework/zendframework/library/Zend/Form/Factory.php',
 
-) as $file) {
+] as $file) {
     $diCompiler->addCodeScannerFile(new CodeFileScanner($file));
 }
 

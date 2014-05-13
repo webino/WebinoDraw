@@ -5,13 +5,14 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw;
 
-use PHPUnit_Framework_Assert as PhpUnitAssert;
 use DOMDocument;
+use PHPUnit_Framework_Assert as PhpUnitAssert;
+use ReflectionProperty;
 
 /**
  * Test class for WebinoDraw.
@@ -40,7 +41,7 @@ class WebinoDrawTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->renderer = $this->getMock('Zend\View\Renderer\PhpRenderer', array(), array(), '', false, false);
+        $this->renderer = $this->getMock('Zend\View\Renderer\PhpRenderer', [], [], '', false, false);
         $this->options  = $this->getMock('WebinoDraw\WebinoDrawOptions');
         $this->object   = new WebinoDraw($this->renderer, $this->options);
     }
@@ -76,7 +77,7 @@ class WebinoDrawTest extends \PHPUnit_Framework_TestCase
 
         $options = $this->getMock('WebinoDraw\WebinoDrawOptions');
 
-        $attribute = new \ReflectionProperty($this->object, 'options');
+        $attribute = new ReflectionProperty($this->object, 'options');
         $attribute->setAccessible(true);
         $attribute->setValue($this->object, $options);
 
@@ -88,7 +89,7 @@ class WebinoDrawTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetInstructions()
     {
-        $instructions = array('test' => array());
+        $instructions = ['test' => []];
 
         $this->options
             ->expects($this->once())
@@ -104,7 +105,7 @@ class WebinoDrawTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetInstructions()
     {
-        $instructions = array('test' => array());
+        $instructions = ['test' => []];
 
         $this->options
             ->expects($this->once())
@@ -133,7 +134,7 @@ class WebinoDrawTest extends \PHPUnit_Framework_TestCase
     public function testInstructionsFromSet()
     {
         $key          = 'testset';
-        $instructions = array('test' => array());
+        $instructions = ['test' => []];
 
         $this->options
             ->expects($this->once())
@@ -162,9 +163,9 @@ class WebinoDrawTest extends \PHPUnit_Framework_TestCase
      */
     public function testDrawDom()
     {
-        $element      = $this->getMock('DOMElement', array(), array(), '', false);
+        $element      = $this->getMock('DOMElement', [], [], '', false);
         $instructions = $this->getMock('WebinoDraw\Stdlib\DrawInstructions');
-        $vars         = array('var' => 'val');
+        $vars         = ['var' => 'val'];
 
         $instructions->expects($this->once())
             ->method('render')
@@ -191,7 +192,7 @@ class WebinoDrawTest extends \PHPUnit_Framework_TestCase
 
         $element      = $dom->documentElement;
         $instructions = $this->getMock('WebinoDraw\Stdlib\DrawInstructions');
-        $vars         = array('var' => 'val');
+        $vars         = ['var' => 'val'];
 
         $instructions->expects($this->once())
             ->method('render')

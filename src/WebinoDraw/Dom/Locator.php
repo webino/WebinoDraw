@@ -5,7 +5,7 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw\Dom;
@@ -44,7 +44,7 @@ class Locator extends ArrayObject
     {
         if (is_string($input)) {
 
-            $this->exchangeArray(array($input));
+            $this->exchangeArray([$input]);
             return $this;
 
         } elseif (is_array($input)) {
@@ -105,7 +105,7 @@ class Locator extends ArrayObject
     public function xpathMatchAny()
     {
         $strategy = $this->getTransformator();
-        $xpath    = array();
+        $xpath    = [];
 
         foreach ($this->getArrayCopy() as $locator) {
             $xpath[] = $strategy->locator2Xpath(

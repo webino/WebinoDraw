@@ -5,18 +5,20 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
-return array(
-    'event-example-prepare' => array(
+namespace WebinoDraw;
+
+return [
+    'event-example-prepare' => [
         'locator' => '.jumbotron',
         'html'    => '{$_innerHtml}<div class="event-example">EVENT EXAMPLE</div>',
-    ),
-    'event-example' => array(
+    ],
+    'event-example' => [
         'locator' => '.event-example',
-        'trigger' => array(
+        'trigger' => [
             'event-example.test',
-        ),
-    ),
-);
+        ],
+    ],
+];

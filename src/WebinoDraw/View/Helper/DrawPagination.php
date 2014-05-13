@@ -5,7 +5,7 @@
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
  * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
- * @license     New BSD License
+ * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw\View\Helper;
@@ -20,64 +20,66 @@ use Zend\Stdlib\ArrayUtils;
  */
 class DrawPagination extends DrawElement implements ServiceLocatorAwareInterface
 {
-    protected $params = array();
+    protected $params = [];
 
     /**
      * @var array
      */
-    protected static $defaultSpec = array(
+    protected static $defaultSpec = [
         'paginator' => 'WebinoDrawPaginator',
-        'var' => array(
-            'fetch' => array(
+        'var' => [
+            'fetch' => [
                 'pageHref' => 'page.href'
-            ),
-        ),
-        'instructions' => array(
-            'snippet' => array(
+            ],
+        ],
+        'instructions' => [
+            'snippet' => [
                 'locator' => 'xpath=.',
-                'render' => array(
+                'html'    => '{$snippet}',
+
+                'render' => [
                     'snippet' => 'webino-draw/snippet/pagination',
-                ),
-                'html' => '{$snippet}',
-            ),
-            'first' => array(
+                ],
+            ],
+            'first' => [
                 'locator' => 'xpath=.//li[1]/a[1]',
-                'attribs' => array(
-                    'href' => '{$pageHref}?{$first}{$params}',
+                'attribs' => [
+                    'href'  => '{$pageHref}?{$first}{$params}',
                     'title' => '{$first}',
-                ),
-            ),
-            'last' => array(
+                ],
+            ],
+            'last' => [
                 'locator' => 'xpath=.//li[last()]/a',
-                'attribs' => array(
-                    'href' => '{$pageHref}?{$last}{$params}',
+                'attribs' => [
+                    'href'  => '{$pageHref}?{$last}{$params}',
                     'title' => '{$last}',
-                ),
-            ),
-            'pages' => array(
+                ],
+            ],
+            'pages' => [
                 'locator' => 'xpath=.//li[2]',
-                'loop' => array(
+                'loop' => [
                     'base' => 'pagesInRange',
-                    'instructions' => array(
-                        'active' => array(
+                    'instructions' => [
+                        'active' => [
                             'locator' => 'xpath=.',
-                            'attribs' => array(
+                            'attribs' => [
                                 'class' => '{$active}',
-                            ),
-                        ),
-                        'value' => array(
+                            ],
+                        ],
+                        'value' => [
                             'locator' => 'a',
-                            'value' => '{$number}',
-                            'attribs' => array(
-                                'href' => '{$pageHref}?{$number}{$params}',
+                            'value'   => '{$number}',
+
+                            'attribs' => [
+                                'href'  => '{$pageHref}?{$number}{$params}',
                                 'title' => '{$number}',
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        ),
-    );
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ];
 
     /**
      * @var ServiceLocatorInterface
@@ -134,24 +136,26 @@ class DrawPagination extends DrawElement implements ServiceLocatorAwareInterface
         }
 
         $curPageNo    = $paginator->getCurrentPageNumber();
-        $pagesInRange = array();
+        $pagesInRange = [];
 
         foreach ($pages->pagesInRange as $pageNo) {
 
-            $pagesInRange[] = array(
+            $pagesInRange[] = [
                 'number' => $pageNo,
                 'active' => ($curPageNo == $pageNo) ? 'active' : '',
-            );
+            ];
         }
 
         $this->setVars(
             array_merge(
                 $this->getVars(),
                 (array) $pages,
-                array(
+                [
                     'pagesInRange' => $pagesInRange,
-                    'params' => !empty($this->params) ? '&amp;' . http_build_query($this->params, '', '&amp;') : '',
-                )
+                    'params'       => !empty($this->params)
+                                      ? '&amp;' . http_build_query($this->params, '', '&amp;')
+                                      : '',
+                ]
             )
         );
 
