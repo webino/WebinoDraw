@@ -58,75 +58,75 @@
 
   - For example, add this code somewhere to your module config:
 
-        'webino_draw' => array(
-            'instructions' => array(
-
+        'webino_draw' => [
+            'instructions' => [
                 // Add draw instructions here
-                'draw-node-example' => array(
+                'draw-node-example' => [
                     'locator' => 'body',
                     'value'   => 'Hello Webino!',
-                ),
-            ),
-        ),
+                ],
+            ],
+        ],
 
     Reload your browser and you should see "Hello Webino!" as a body content.
 
   - Rendering is based on instructions mapped to DOM nodes like this:
 
-        'draw-node-example' => array(         // custom name
+        'draw-node-example' => [              // custom name
             'locator' => 'body',              // node locator
             'helper'  => 'WebinoDrawElement', // draw helper
             'value'   => 'Hello Webino!',     // helper options
-        ),
+        ],
 
   - You can use **CSS selector** or **XPath** even combine them together to map dom nodes to draw instruction.
 
     It is possible to set many CSS or/and XPath locators:
 
-        'draw-node-example' => array(
-            'locator' => array(
+        'draw-node-example' => [
+            'locator' => [
                 'body a',
                 '.customclass',
                 'xpath=//title',
                 'xpath=//footer',
-            ),
-            'value'  => 'Hello Webino!',
-        ),
+            ],
+            'value' => 'Hello Webino!',
+        ],
 
   - To specify priority of each instruction use **stackIndex** option:
 
-        'draw-node-example' => array(
+        'draw-node-example' => [
             'stackIndex' => '9',
             'locator'    => 'body',
             'value'      => 'Hello Webino!',
-        ),
-  
+        ],
+
   - In the instructions hierarchy you can use relative locators:
 
-        'quick-contact' => array(
-            'locator'      => '.quick-contact',    // the same node
-            'instructions' => array(
-                'widget' => array(
+        'quick-contact' => [
+            'locator' => '.quick-contact',         // the same node
+            'instructions' => [
+                'widget' => [
                     'locator' => 'xpath=.',        // the same node
                     // ...
-                ),
-            ),
-        ),
-        
+                ],
+            ],
+        ],
+
     *NOTE: Every sub-locator css selector will be resolved as relative. If you want to match by absolute css selector, start with double slash, e.g. `//.quick-contact`.*
 
   - Use **node variables**:
 
-        'draw-node-example' => array(
+        'draw-node-example' => [
             'locator' => 'a',
             'value'   => 'customprefix {$_nodeValue} customsuffix',
             'html'    => '<custom>{$_innerHtml}</custom>',
             'replace' => '{$_outerHtml}<custom/>',
-            'attribs' => array(
+
+            'attribs' => [
                 'title' => '{$_nodeValue} {$_href}',
                 'href'  => '{$_href}#customfragment',
-             ),
-        ),
+             ],
+        ],
 
     *NOTE: Node variables are prefixed with the underscore to avoid conflicts.*
 
@@ -134,104 +134,107 @@
 
     Assume that controller action return view model with multidimensional array.
 
-        'draw-node-example' => array(
+        'draw-node-example' => [
             'locator' => 'body',
             'value'   => '{$viewvar}',
-        ),
+        ],
 
     Set and override:
 
-        'draw-node-example' => array(
+        'draw-node-example' => [
             'locator' => 'body',
             'value'   => '{$viewvar}',
-            'var'     => array(
-                'set' => array(
+
+            'var' => [
+                'set' => [
                     'viewvar' => 'customval',
-                ),
-             ),
-        ),
+                ],
+             ],
+        ],
 
     Fetch variables:
 
-        'draw-node-example' => array(
+        'draw-node-example' => [
             'locator' => 'body',
             'value'   => '{$depthvar}',
-            'var'     => array(
-                'fetch' => array(
+
+            'var' => [
+                'fetch' => [
                     'depthvar' => 'value.in.the.depth',
-                ),
-            ),
-        ),
+                ],
+            ],
+        ],
 
 
     Set default variables:
 
-        'draw-node-example' => array(
+        'draw-node-example' => [
             'locator' => 'body',
             'value'   => '{$viewvar}',
-            'var'     => array(
-                'default' => array(
+            'var'     => [
+                'default' => [
                     'viewvar' => 'defaultval',
-                ),
-             ),
-        ),
+                ],
+             ],
+        ],
 
   - Use **functions**, **view helpers** and **filters**:
 
     Modify variable values, helper/filter definition accepts in function/method parameters: `{$var}`
 
-        'draw-node-example' => array(
+        'draw-node-example' => [
             'locator' => 'body',
             'value'   => '{$customvar}',
-            'var'     => array(
-                'helper' => array(
-                    'customvar' => array(
-                        'customhelper' => array(
-                            '__invoke' => array(array()),
-                        ),
-                        'customfunction' => array(array()),
-                    ),
-                ),
-                'filter' => array(
-                    'pre' => array(
-                        'customvar' => array(
-                            'customfilter'   => array(),
-                            'customfunction' => array(),
-                        ),
-                    ),
-                    'post' => array(),
-                ),
-            ),
-        ),
+            'var'     => [
+                'helper' => [
+                    'customvar' => [
+                        'customhelper' => [
+                            '__invoke' => [[]],
+                        ],
+                        'customfunction' => [[]],
+                    ],
+                ],
+                'filter' => [
+                    'pre' => [
+                        'customvar' => [
+                            'customfilter'   => [],
+                            'customfunction' => [],
+                        ],
+                    ],
+                    'post' => [],
+                ],
+            ],
+        ],
 
   - **Loop** by view array:
 
-        'draw-node-example' => array(
+        'draw-node-example' => [
             'locator' => 'ul li',
             'value'   => '{$_key} {$_index} {$property}',
-            'loop'    => array(
+
+            'loop' => [
                 'base'    => 'array.in.the.depth',
                 'index'   => '0',
-                'onEmpty' => array(
+                'onEmpty' => [
                     'locator' => 'ul',
                     'replace' => '<p>You have no items.</p>',
-                ),
-            ),
-            'attribs' => array(
+                ],
+            ],
+            'attribs' => [
                 'title' => '{$property}',
-            ),
-        ),
+            ],
+        ],
 
     *NOTE: Extra variables are prefixed with the underscore to avoid conflicts.*
 
   - Trigger **events**
 
-        'event-example' => array(
+        'event-example' => [
             'locator' => 'body',
-            'trigger' => array(
+            'trigger' => [
                 'event-example.test',
-            ),
-        ),
+            ],
+        ],
 
     Then attach listener:
 
@@ -241,32 +244,30 @@
             function(DrawEvent $event) {
 
                 // set custom variables
-                $event->getHelper()->setVars(array());
+                $event->getHelper()->setVars([]);
 
                 // do something with the nodes
                 $event->getNodes()->setValue("my node value");
 
                 // change instruction node
-                $event->setSpec(
-                    array(
-                        // draw instructions
-                        'value'   => '{$_nodeValue} VALUE',
-                        'attribs' => array(
-                            'title' => 'Hello from Controller!',
-                        ),
-                    )
-                );
+                $event->setSpec([
+                    // draw instructions
+                    'value' => '{$_nodeValue} VALUE',
+                    'attribs' => [
+                        'title' => 'Hello from Controller!',
+                    ],
+                ]);
             }
         );
 
   - Set instructions **from controller**:
 
-        $this->getServiceLocator()->get('WebinoDraw')->setInstructions(array(
-            'custom' => array(
+        $this->getServiceLocator()->get('WebinoDraw')->setInstructions([
+            'custom' => [
                 'locator' => '.customclass',
                 'value'   => 'Custom value',
-            ),
-        ));
+            ],
+        ]);
 
     Set instructions always merge so in some cases it is useful to clear them:
 
@@ -274,13 +275,15 @@
 
   - **Cache**
 
-        'cache-example' => array(
-            'locator'           => 'body',
-            'cache'             => 'exampleCacheTag',
-            'cache_key_trigger' => array(
+        'cache-example' => [
+            'locator'   => 'body',
+            'cache'     => 'exampleCacheTag',
+            'cache_key' => ['{$var}'],
+
+            'cache_key_trigger' => [
                 'draw.cache.byPage',
-            ),
-        ),
+            ],
+        ],
 
     Attach cache key listener:
 
@@ -296,7 +299,7 @@
 
     Clear the cache:
 
-        $this->getServiceLocator()->get('WebinoDrawCache')->clearByTags(array('exampleCacheTag'));
+        $this->getServiceLocator()->get('WebinoDrawCache')->clearByTags(['exampleCacheTag']);
 
     *NOTE: When cached data are loaded, the draw helper manipulation is skipped, nor AjaxEvent is fired.*
 
@@ -304,13 +307,13 @@
 
   - The instruction set allows you to configure group of draw instructions under custom name:
 
-        'webino_draw' => array(
-            'instructionset' => array(
-                'customname' => array(
+        'webino_draw' => [
+            'instructionset' => [
+                'customname' => [
                     // Add draw instructions here
-                ),
-            ),
-        ),
+                ],
+            ],
+        ],
 
   - Later you can get those instructions and set them to the WebinoDraw service:
 
@@ -376,7 +379,7 @@
             function(AjaxEvent $event) {
 
                 // add custom JSON data
-                $event->setJson(array('extraExample' => 'my extra ajax'));
+                $event->setJson(['extraExample' => 'my extra ajax']);
 
                 // change XPath of fragments to render
                 $event->setFragmentXpath('//*[contains(@class, "my-ajax-fragment"])');
@@ -389,14 +392,13 @@
 
   There are default settings to configure the Ajax support:
 
-        'webino_draw' => array(
-
+        'webino_draw' => [
             // container is the area to render (in the layout)
             'ajax_container_xpath' => '//body',
 
             // fragment is the part of the container to receive
             'ajax_fragment_xpath' => '//*[contains(@class, "ajax-fragment") and @id]',
-        ),
+        ],
 
   *NOTE: Only elements matched with container XPath will be rendered.*
 
@@ -418,72 +420,72 @@
 
   Use it to modify the element of the page. Many options, very powerful.
 
-    'draw-element-example' => array(
+    'draw-element-example' => [
         'locator' => '.customclass',
         'helper'  => 'WebinoDrawElement',                // default (not required to set)
 
         // Helper options:
         'value'   => 'Draw element example value',       // set node value
-        'render'  => array(
+        'render'  => [
             'script' => 'script/path'                    // render view script to variable
-        ),
-        'fragments' => array(                            // HTML fragments of the template to variables
+        ],
+        'fragments' => [                                 // HTML fragments of the template to variables
             'frag' => '.frag-class'                      // pairs of customName => locator, gives us fragOuterHtml and fragInnerHtml variables
-        ),
+        ],
         'html'    => '<span>HTML value</span>{$script}', // set node XHTML
-        'attribs' => array(                              // set attributes
+        'attribs' => [                                   // set attributes
             'title' => 'Attribute example'
-        ),
+        ],
         'remove'  => 'xpath=.',                          // locator|array, removes target node
         'replace' => '<strong/>',                        // XHTML, replaces node
-        'onEmpty' => array(                              // custom options if node is empty
+        'onEmpty' => [                                   // custom options if node is empty
             'value' => 'Empty node example',             // use same options as normal
-        ),
-        'var' => array(
-            'helper' => array(                           // use helpers on variables
-                'customvar' => array(
+        ],
+        'var' => [
+            'helper' => [                                // use helpers on variables
+                'customvar' => [
                     '_join_result' => false,             // bool, disable the string result joining, default true
-                    'customhelper' => array(             // zend helper
-                        '__invoke' => array(array()),    // zend helper methods with params
-                    ),
-                    'customfunction' => array(array()),  // use php function with params
-                ),
-            ),
-            'filter' => array(                           // filter variables
-                'pre' => array(                          // filter called before helpers
-                    'customvar' => array(
-                        'customfilter'   => array(),     // use zend filter with params
-                        'customfunction' => array(),     // use php function with params
-                    ),
-                ),
-                'post' => array(
+                    'customhelper' => [                  // zend helper
+                        '__invoke' => [[)],              // zend helper methods with params
+                    ],
+                    'customfunction' => [[)],            // use php function with params
+                ],
+            ],
+            'filter' => [                                // filter variables
+                'pre' => [                               // filter called before helpers
+                    'customvar' => [
+                        'customfilter'   => [],          // use zend filter with params
+                        'customfunction' => [],          // use php function with params
+                    ],
+                ],
+                'post' => [
                                                          // filter called after helper, same as for pre
-                ),
-            ),
-        ),
-        'onVar' => array(                                // variables logic
-            'customIndex => array(                       // options per variable
+                ],
+            ],
+        ],
+        'onVar' => [                                     // variables logic
+            'customIndex => [                            // options per variable
                 'var' => '{$customvar}',                 // test variable value
                 'equalTo' => '',                         // condition method (or)
                 'notEqualTo' => '',                      // condition method
-                'instructionset' => array(               // sub-instructionset to expand instructions
+                'instructionset' => [                    // sub-instructionset to expand instructions
 
-                ),
-                'instructions' => array(                 // sub-instructions processed when condition is true
+                ],
+                'instructions' => [                      // sub-instructions processed when condition is true
 
-                ),
-            ),
-        ),
-        'instructionset' => array(                       // instructionset to expand instructions
+                ],
+            ],
+        ],
+        'instructionset' => [                            // instructionset to expand instructions
 
-        ),
-        'instructions' => array(                         // sub-instructions to draw over nodes
+        ],
+        'instructions' => [                              // sub-instructions to draw over nodes
                                                          // add different helper instructions
-        ),
-        'trigger' => array(
+        ],
+        'trigger' => [
             'event-example.test',                        // event name per item, identificator = WebinoDraw
-        ),
-        'loop' => array(                                 // loop node by view array items
+        ],
+        'loop' => [                                      // loop node by view array items
             'base'     => 'depth.items',                 // path to view array
             'index'    => '0',                           // index start point (optional)
             'offset'   => '0',                           // items offset (optional)
@@ -492,25 +494,25 @@
             'callback' => function(                      // called on each item (optional)
                 $loopArgument, array $options
             ){},
-            'onEmpty'  => array(                         // custom options if items array is empty
+            'onEmpty'  => [                              // custom options if items array is empty
                                                          // use same options as normal
-            ),
-            'instructionset' => array(                   // instructionset to expand instructions
+            ],
+            'instructionset' => [                        // instructionset to expand instructions
 
-            ),
-            'instructions' => array(                     // instructions to draw looped element nodes
+            ],
+            'instructions' => [                          // instructions to draw looped element nodes
                                                          // add same instructions as normal
-            ),
-        ),
+            ],
+        ],
         'cache' => '',                                   // string|array cache tags
-    ),
+    ],
 
 ### WebinoDrawForm
 
   Use it to render the form. If `<form/>` template is empty use the default render else try to match
   form elements by name attribute.
 
-    'draw-form-example' => array(
+    'draw-form-example' => [
         'localtor' => 'form.form-example',
         'helper'   => 'WebinoDrawForm',
 
@@ -518,17 +520,17 @@
         'form'         => 'exampleForm',            // form available via ServiceManager
         'route'        => 'example_route',          // available route
         'text_domain'  => __NAMESPACE__,            // form translator text domain
-        'instructionset' => array(                  // instructionset to expand instructions
+        'instructionset' => [                       // instructionset to expand instructions
 
-        ),
-        'instructions' => array(                    // sub-instructions to decorate the form
+        ],
+        'instructions' => [                         // sub-instructions to decorate the form
                                                     // add different helper instructions
-        ),
-        'trigger' => array(                         // trigger event passes form to the event parameters
+        ],
+        'trigger' => [                              // trigger event passes form to the event parameters
             'form-example.event',                   // event name per item, identificator = WebinoDraw
-        ),
+        ],
         'cache' => '',                              // string|array cache tags
-    ),
+    ],
 
   Assume form template:
 
@@ -539,47 +541,47 @@
 
   If you do not have any form you can create one easily:
 
-    'di' => array(
-        'instance' => array(
-            'alias' => array(
+    'di' => [
+        'instance' => [
+            'alias' => [
                 'exampleForm' => 'WebinoDraw\Form\DiForm',
-            ),
-            'exampleForm' => array(
-                'parameters' => array(
-                    'config' => array(
+            ],
+            'exampleForm' => [
+                'parameters' => [
+                    'config' => [
                         'hydrator' => 'Zend\Stdlib\Hydrator\ArraySerializable',
-                        'attributes' => array(
+                        'attributes' => [
                             'method' => 'post',
                             'class' => 'example-form',
-                        ),
-                        'elements' => array(
-                            array(
-                                'spec' => array(
+                        ],
+                        'elements' => [
+                            [
+                                'spec' => [
                                     'name'    => 'example_text_element',
-                                    'options' => array(
+                                    'options' => [
                                         'label' => 'Label example',
-                                    ),
-                                    'attributes' => array(
+                                    ],
+                                    'attributes' => [
                                         'type'        => 'text',
                                         'placeholder' => 'Type something ...',
-                                    ),
-                                ),
-                            ),
-                        ),
-                        'input_filter' => array(
-                            'example_text_element' => array(
+                                    ],
+                                ],
+                            ],
+                        ],
+                        'input_filter' => [
+                            'example_text_element' => [
                                 'name'       => 'example_text_element',
                                 'required'   => true,
-                                'validators' => array(
+                                'validators' => [
 
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        ),
-    ),
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ],
 
 
   *NOTE: DiForm form is just like an ordinary Zend Form, but it could be instantiated via DI.*
@@ -590,19 +592,19 @@
 
   Absolutize the relative URLs (default attributes: src, href, action).
 
-    'absolutize' => array(
+    'absolutize' => [
         'stackIndex' => '9999998',
         'helper' => 'WebinoDrawAbsolutize',
-        'locator' => \WebinoDraw\View\Helper\DrawAbsolutize::getDefaultLocator(),
-    ),
+        'locator' => \WebinoDraw\View\Helper\DrawAbsolutize::getDefaultLocator(],
+    ],
 
   Extend locator with the *my-attr* attribute:
 
-    'absolutize' => array(
-        'locator' => array(
+    'absolutize' => [
+        'locator' => [
             'my-attr' => 'xpath=//@my-attr' . \WebinoDraw\View\Helper\DrawAbsolutize::LOCATOR_CONDITION,
-        ),
-    ),
+        ],
+    ],
 
   *NOTE: Now you do not have to prepend URLs with a `$this->view->basePath()`.*
 
