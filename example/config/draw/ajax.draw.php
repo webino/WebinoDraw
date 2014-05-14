@@ -13,7 +13,7 @@ namespace WebinoDraw;
 return [
     'ajax-example-prepare' => [
         'locator' => 'head',
-        'html'    => '{$_innerHtml}<script>jQuery(document).on("click", ".ajax-example a", function(){ jQuery.get($(this).attr("href"], function(data) { jQuery.each(data.fragment, function(selector, html) { jQuery(selector).replaceWith(html); }); if (data.extraTest) { $(".ajax-log").html(data.extraTest); } }, "json"); return false; });</script>',
+        'html'    => '{$_innerHtml}<script>jQuery(document).on("click", ".ajax-example a", function(){ jQuery.get($(this).attr("href"), function(data) { jQuery.each(data.fragment, function(selector, html) { jQuery(selector).replaceWith(html); }); if (data.extraTest) { $(".ajax-log").html(data.extraTest); } }, "json"); return false; });</script>',
     ],
     'ajax-example' => [
         'locator' => '.jumbotron',
