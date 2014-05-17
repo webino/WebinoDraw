@@ -32,4 +32,21 @@ return [
             ],
         ],
     ],
+
+    'translate-draw-helper-example-prepare' => [
+        'locator' => '.jumbotron',
+        'html'    => '{$_innerHtml}<p class="translate-draw-helper-example"'
+                     . ' title="this should be translated by draw helper">'
+                     . ' this should be translated by draw helper</p>',
+    ],
+    'translate-draw-helper-example' => [
+        'locator'     => '.translate-draw-helper-example',
+        'helper'      => 'WebinoDrawTranslate',
+        'text_domain' => 'test',
+        'value'       => '{$_nodeValue}',
+
+        'attribs' => [
+            'title' => '{$_title}',
+        ],
+    ],
 ];

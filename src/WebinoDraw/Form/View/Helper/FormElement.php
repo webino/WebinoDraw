@@ -20,7 +20,7 @@ use Zend\I18n\View\Helper\AbstractTranslatorHelper;
 class FormElement extends AbstractTranslatorHelper
 {
     /**
-     * Render an element
+     * Returns an element
      *
      * Introspects the element type and attributes to determine which
      * helper to utilize when rendering.
@@ -30,55 +30,54 @@ class FormElement extends AbstractTranslatorHelper
      */
     public function resolveHelper(ElementInterface $element)
     {
-        $renderer = $this->getView();
-        if (!method_exists($renderer, 'plugin')) {
-            // Bail early if renderer is not pluggable
-            return null;
+        $view = $this->getView();
+        if (!method_exists($view, 'plugin')) {
+            throw new \RuntimeException('Expected injected View');
         }
 
         // View helper option
         $viewHelper = $element->getOption('view_helper');
         if ($viewHelper) {
-            return $renderer->plugin($viewHelper);
+            return $view->plugin($viewHelper);
         }
 
         // Determine the view helper
         if ($element instanceof Element\Button) {
-            return $renderer->plugin('form_button');
+            return $view->plugin('form_button');
         }
 
         if ($element instanceof Element\Captcha) {
-            return $renderer->plugin('form_captcha');
+            return $view->plugin('form_captcha');
         }
 
         if ($element instanceof Element\Csrf) {
-            return $renderer->plugin('form_hidden');
+            return $view->plugin('form_hidden');
         }
 
         if ($element instanceof Element\Collection) {
-            return $renderer->plugin('form_collection');
+            return $view->plugin('form_collection');
         }
 
         if ($element instanceof Element\DateTimeSelect) {
-            return $renderer->plugin('form_date_time_select');
+            return $view->plugin('form_date_time_select');
         }
 
         if ($element instanceof Element\DateSelect) {
-            return $renderer->plugin('form_date_select');
+            return $view->plugin('form_date_select');
         }
 
         if ($element instanceof Element\MonthSelect) {
-            return $renderer->plugin('form_month_select');
+            return $view->plugin('form_month_select');
         }
 
         $type = $element->getAttribute('type');
 
         switch ($type) {
             case 'datetime':
-                return $renderer->plugin('form_date_time');
+                return $view->plugin('form_date_time');
 
             case 'datetime-local':
-                return $renderer->plugin('form_date_time_local');
+                return $view->plugin('form_date_time_local');
 
             case 'checkbox':
             case 'color':
@@ -103,7 +102,7 @@ class FormElement extends AbstractTranslatorHelper
             case 'time':
             case 'url':
             case 'week':
-                return $renderer->plugin('form_' . $type);
+                return $view->plugin('form_' . $type);
         }
 
         throw new \OutOfRangeException(
@@ -123,10 +122,6 @@ class FormElement extends AbstractTranslatorHelper
     public function render(ElementInterface $element)
     {
         $helper = $this->resolveHelper($element);
-        if (empty($helper)) {
-            return '';
-        }
-
         $helper->setTranslatorEnabled($this->isTranslatorEnabled());
         $helper->setTranslatorTextDomain($this->getTranslatorTextDomain());
 
@@ -146,7 +141,6 @@ class FormElement extends AbstractTranslatorHelper
         if (empty($element)) {
             return $this;
         }
-
         return $this->render($element);
     }
 }

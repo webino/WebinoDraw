@@ -14,7 +14,7 @@ use PHPWebDriver_WebDriver;
 use RuntimeException;
 
 /**
- * 
+ *
  */
 abstract class AbstractBase extends \PHPUnit_Framework_TestCase
 {

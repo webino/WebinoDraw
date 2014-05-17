@@ -10,6 +10,7 @@
 
 namespace WebinoDraw\View\Strategy;
 
+use Zend\Http\PhpEnvironment\Response;
 use Zend\View\ViewEvent;
 
 /**
@@ -29,14 +30,24 @@ class DrawStrategy extends AbstractDrawStrategy
 
         $options  = $this->service->getOptions();
         $response = $event->getResponse();
-        $dom      = $this->service->createDom($response->getBody());
 
-        $this->service->drawDom(
-            $dom->documentElement,
-            $options->getInstructions(),
-            $this->collectModelVariables($event->getModel())
+        $response->setContent(
+            $this->service->draw(
+                $response->getBody(),
+                $options->getInstructions(),
+                $this->collectModelVariables($event->getModel()),
+                $this->resolveIsXml($response)
+            )
         );
+    }
 
-        $response->setContent($dom->saveHTML());
+    private function resolveIsXml(Response $response)
+    {
+        $contentType = $response->getHeaders()->get('content-type');
+        if (empty($contentType)) {
+            return false;
+        }
+
+        return 'text/xml' === $contentType->getMediaType();
     }
 }

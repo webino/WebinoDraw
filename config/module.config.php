@@ -19,28 +19,36 @@ return [
             'compiler' => [
                 __DIR__ . '/../data/di/definition.php',
                 __DIR__ . '/../data/di/DiForm.definition.php',
-            ],
-            'class' => [
-                'WebinoDraw\View\Helper\DrawForm' => [
-                    'methods' => [
-                        'setTranslatorTextDomain' => [
-                            'textDomain' => ['default' => null],
-                        ],
-                        'setRenderErrors' => [
-                            'bool' => ['default' => null],
-                        ],
-                    ],
-                ],
+                __DIR__ . '/../data/di/InstructionsRenderer.definition.php',
             ],
         ],
         'instance' => [
             'alias' => [
-                'WebinoDraw'           => 'WebinoDraw\WebinoDraw',
-                'WebinoDrawCache'      => 'Zend\Cache\Storage\Adapter\Filesystem',
-                'WebinoDrawElement'    => 'WebinoDraw\View\Helper\DrawElement',
-                'WebinoDrawForm'       => 'WebinoDraw\View\Helper\DrawForm',
-                'WebinoDrawPagination' => 'WebinoDraw\View\Helper\DrawPagination',
-                'WebinoDrawTranslate'  => 'WebinoDraw\View\Helper\DrawTranslate',
+                'WebinoDraw'                    => 'WebinoDraw\WebinoDraw',
+                'WebinoDrawOptions'             => 'WebinoDraw\WebinoDrawOptions',
+                'WebinoDrawInstructionsFactory' => 'WebinoDraw\Instructions\InstructionsFactory',
+                'WebinoDrawCache'               => 'Zend\Cache\Storage\Adapter\Filesystem',
+                'WebinoDrawTranslate'           => 'WebinoDraw\Helper\DrawTranslate',
+                'WebinoDrawPagination'          => 'WebinoDraw\Helper\DrawPagination',
+                'WebinoDrawFormCollection'      => 'Zend\Form\View\Helper\FormCollection',
+                'WebinoDrawFormRow'             => 'WebinoDraw\Form\View\Helper\FormRow',
+                'WebinoDrawFormElement'         => 'WebinoDraw\Form\View\Helper\FormElement',
+            ],
+            'WebinoDraw' => [
+                'parameters' => [
+                    'options' => 'WebinoDrawOptions',
+                ],
+            ],
+            'WebinoDraw\Instructions\InstructionsRenderer' => [
+                'parameters' => [
+                    'drawOptions' => 'WebinoDrawOptions',
+                ],
+            ],
+            'WebinoDrawVarTranslator' => [
+                'parameters' => [
+                    'helpers' => 'ViewHelperManager',
+                    'filters' => 'FilterManager',
+                ],
             ],
             'WebinoDrawCache' => [
                 'parameters' => [
@@ -50,28 +58,23 @@ return [
                     ],
                 ],
             ],
-            'WebinoDrawElement' => [
+            'WebinoDrawFormCollection' => [
                 'injections' => [
-                    'FilterManager',
-                    'WebinoDrawCache',
+                    'setDefaultElementHelper' => [
+                        'defaultSubHelper' => 'webinodrawformrow',
+                    ],
                 ],
             ],
-            'WebinoDrawForm' => [
+            'WebinoDrawFormRow' => [
                 'injections' => [
-                    'FilterManager',
-                    'WebinoDrawCache',
+                    'setElementHelper' => [
+                        'elementHelper' => 'WebinoDrawFormElement',
+                    ],
                 ],
             ],
-            'WebinoDrawPagination' => [
+            'WebinoDrawFormElement' => [
                 'injections' => [
-                    'FilterManager',
-                    'WebinoDrawCache',
-                ],
-            ],
-            'WebinoDrawTranslate' => [
-                'injections' => [
-                    'FilterManager',
-                    'WebinoDrawCache',
+                    'View',
                 ],
             ],
             'WebinoDraw\Form\DiForm' => [
@@ -79,31 +82,85 @@ return [
                     'formFactory' => 'FormFactory',
                 ],
             ],
+            'WebinoDraw\Manipulator\Plugin\Value' => [
+                'parameters' => [
+                    'escapeHtml' => 'Zend\View\Helper\EscapeHtml',
+                ],
+            ],
+            'WebinoDraw\Manipulator\Manipulator' => [
+                'injections' => [
+                    'setPlugin' => [
+                        [
+                            'plugin'   => 'WebinoDraw\Manipulator\Plugin\Loop',
+                            'priority' => 500,
+                        ],
+                        [
+                            'plugin'   => 'WebinoDraw\Manipulator\Plugin\Render',
+                            'priority' => 110,
+                        ],
+                        [
+                            'plugin'   => 'WebinoDraw\Manipulator\Plugin\Fragments',
+                            'priority' => 100,
+                        ],
+                        [
+                            'plugin'   => 'WebinoDraw\Manipulator\Plugin\NodeTranslation',
+                            'priority' => 90,
+                        ],
+                        [
+                            'plugin'   => 'WebinoDraw\Manipulator\Plugin\VarTranslation',
+                            'priority' => 80,
+                        ],
+                        [
+                            'plugin'   => 'WebinoDraw\Manipulator\Plugin\Remove',
+                            'priority' => 70,
+                        ],
+                        [
+                            'plugin'   => 'WebinoDraw\Manipulator\Plugin\Replace',
+                            'priority' => 60,
+                        ],
+                        [
+                            'plugin'   => 'WebinoDraw\Manipulator\Plugin\Attribs',
+                            'priority' => 50,
+                        ],
+                        [
+                            'plugin'   => 'WebinoDraw\Manipulator\Plugin\Value',
+                            'priority' => 40,
+                        ],
+                        [
+                            'plugin'   => 'WebinoDraw\Manipulator\Plugin\Html',
+                            'priority' => 30,
+                        ],
+                        [
+                            'plugin'   => 'WebinoDraw\Manipulator\Plugin\Cdata',
+                            'priority' => 20,
+                        ],
+                        [
+                            'plugin'   => 'WebinoDraw\Manipulator\Plugin\OnVar',
+                            'priority' => 10,
+                        ],
+                        [
+                            'plugin'   => 'WebinoDraw\Manipulator\Plugin\OnEmpty',
+                            'priority' => -100,
+                        ],
+                        [
+                            'plugin'   => 'WebinoDraw\Manipulator\Plugin\SubInstructions',
+                            'priority' => -500,
+                        ],
+                    ],
+                ],
+            ],
         ],
     ],
     'service_manager' => [
         'factories' => [
-            'WebinoDraw'         => 'WebinoDraw\Mvc\Service\WebinoDrawFactory',
-            'WebinoDrawStrategy' => 'WebinoDraw\Mvc\Service\DrawStrategyFactory',
-        ],
-    ],
-    'view_helpers' => [
-        'factories'  => [
-            'WebinoDrawElement'    => 'WebinoDraw\Mvc\Service\ServiceViewHelperFactory',
-            'WebinoDrawForm'       => 'WebinoDraw\Mvc\Service\ServiceViewHelperFactory',
-            'WebinoDrawPagination' => 'WebinoDraw\Mvc\Service\ServiceViewHelperFactory',
-            'WebinoDrawTranslate'  => 'WebinoDraw\Mvc\Service\ServiceViewHelperFactory',
-        ],
-        'invokables' => [
-            'WebinoDrawAbsolutize'     => 'WebinoDraw\View\Helper\DrawAbsolutize',
-            'WebinoDrawFormRow'        => 'WebinoDraw\Form\View\Helper\FormRow',
-            'WebinoDrawFormElement'    => 'WebinoDraw\Form\View\Helper\FormElement',
-            'WebinoDrawFormCollection' => 'Zend\Form\View\Helper\FormCollection',
+            'WebinoDrawOptions'  => 'WebinoDraw\Mvc\Service\WebinoDrawOptionsFactory',
+            'WebinoDrawStrategy' => 'WebinoDraw\View\Strategy\DrawStrategyFactory',
         ],
     ],
     'view_manager' => [
-        'doctype'      => 'XHTML5', // !!!XML REQUIRED
-        'strategies'   => ['WebinoDrawStrategy'],
+        'doctype'    => 'XHTML5', // !!!XML REQUIRED
+        'strategies' => ['WebinoDrawStrategy'],
+
         'template_map' => [
             'webino-draw/snippet/pagination' => __DIR__ . '/../view/webino-draw/snippet/pagination.html',
         ],

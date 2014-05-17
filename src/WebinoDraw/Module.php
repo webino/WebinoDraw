@@ -12,6 +12,8 @@ namespace WebinoDraw;
 
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
+use Zend\ModuleManager\ModuleEvent;
+use Zend\ModuleManager\ModuleManagerInterface;
 
 /**
  *
@@ -20,6 +22,53 @@ class Module implements
     AutoloaderProviderInterface,
     ConfigProviderInterface
 {
+    public function init(ModuleManagerInterface $manager)
+    {
+        $services = $manager->getEvent()->getParam('ServiceManager');
+
+        // Register draw helper manager
+        $services->setFactory(
+            'WebinoDrawHelperManager',
+            'WebinoDraw\Mvc\Service\WebinoDrawHelperManagerFactory'
+        );
+        $services->get('ServiceListener')->addServiceManager(
+            'WebinoDrawHelperManager',
+            'webino_draw_helpers',
+            'WebinoDraw\ModuleManager\Feature\WebinoDrawHelperProviderInterface',
+            'getWebinoDrawHelperConfig'
+        );
+
+        //
+        $manager->getEventManager()->attach(
+            ModuleEvent::EVENT_LOAD_MODULES_POST,
+            function (ModuleEvent $event) {
+                $services  = $event->getParam('ServiceManager');
+                $instances = $services->get('Di')->instanceManager();
+
+                // todo ?
+                $instances->addSharedInstance(
+                    $services->get('ViewHelperManager'),
+                    'Zend\View\HelperPluginManager'
+                );
+                $services->get('ViewHelperManager')->addPeeringServiceManager($services);
+
+                // todo ?
+                $instances->addSharedInstance(
+                    $services->get('FilterManager'),
+                    'Zend\Filter\FilterPluginManager'
+                );
+                $services->get('FilterManager')->addPeeringServiceManager($services);
+
+                // todo ?
+                $instances->addSharedInstance(
+                    $services->get('WebinoDrawHelperManager'),
+                    'WebinoDraw\HelperPluginManager'
+                );
+                $services->get('WebinoDrawHelperManager')->addPeeringServiceManager($services);
+            }
+        );
+    }
+
     /**
      * @return array
      */

@@ -13,7 +13,7 @@ namespace WebinoDraw\Dom;
 /**
  * Extended DOMElement
  */
-class Element extends \DOMElement
+class Element extends \DOMElement implements NodeInterface
 {
     const NODE_VALUE_PROPERTY = 'nodeValue';
 

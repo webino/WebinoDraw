@@ -13,6 +13,9 @@ namespace WebinoDraw\Form\View\Helper;
 use Zend\Form\View\Helper\FormRow as BaseFormRow;
 use Zend\View\Helper\AbstractHelper;
 
+/**
+ *
+ */
 class FormRow extends BaseFormRow
 {
     /**

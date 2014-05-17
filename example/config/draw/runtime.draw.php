@@ -23,6 +23,5 @@ return [
      */
     'runtime-example' => [
         'locator' => '.runtime-example',
-        'helper'  => 'WebinoDrawElement',
     ],
 ];

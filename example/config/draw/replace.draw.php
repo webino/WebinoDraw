@@ -11,8 +11,12 @@
 namespace WebinoDraw;
 
 return [
+    'replace-example-prepare' => [
+        'locator' => '.jumbotron',
+        'html'    => '<strong class="replace-example">REPLACE PREPARE</strong>{$_innerHtml}',
+    ],
     'replace-example' => [
-        'locator' => '.jumbotron p[1]',
+        'locator' => '.replace-example',
         'replace' => '<strong>TEST REPLACE</strong>',
     ],
 ];

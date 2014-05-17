@@ -14,7 +14,7 @@ use ArrayAccess;
 use ArrayObject;
 use WebinoDraw\Exception;
 use WebinoDraw\Stdlib\ArrayFetchInterface;
-use Zend\ServiceManager\AbstractPluginManager;
+use Zend\View\HelperPluginManager;
 use Zend\Filter\FilterPluginManager;
 use Zend\View\Helper\HelperInterface;
 
@@ -30,78 +30,23 @@ use Zend\View\Helper\HelperInterface;
 class VarTranslator
 {
     /**
-     * Pattern of variable
+     * @var HelperPluginManager
      */
-    const VAR_PATTERN = '{$%s}';
+    protected $helpers;
 
     /**
-     * Match {$var} regular pattern
-     *
-     * @return string
+     * @var FilterPluginManager
      */
-    protected function createVarPregPattern()
-    {
-        $pattern = str_replace('%s', '[^\}]+', preg_quote(self::VAR_PATTERN));
-        return '~' . $pattern . '~';
-    }
+    protected $filters;
 
     /**
-     * Transform varname into {$varname}.
-     *
-     * @param string $key
-     * @return string
+     * @param HelperPluginManager $helpers
+     * @param FilterPluginManager $filters
      */
-    public function makeVar($key)
+    public function __construct(HelperPluginManager $helpers, FilterPluginManager $filters)
     {
-        return sprintf(self::VAR_PATTERN, $key);
-    }
-
-    /**
-     * Return true if {$var} is in the string
-     *
-     * @param string $string
-     * @return bool
-     */
-    public function containsVar($string)
-    {
-        return (bool) preg_match($this->createVarPregPattern(), $string);
-    }
-
-    /**
-     * Remove vars from string
-     *
-     * @param string $string
-     * @return bool
-     */
-    public function removeVars($string)
-    {
-        if (!is_string($string)
-            || !$this->containsVar($string)
-        ) {
-            return $string;
-        }
-
-        $sanitized = preg_replace($this->createVarPregPattern(), '', $string);
-        return trim($sanitized);
-    }
-
-    /**
-     * Transform subject keys to {$var} like
-     *
-     * @param ArrayAccess $subject
-     * @return ArrayAccess
-     */
-    public function makeVarKeys(ArrayAccess $subject)
-    {
-        $subjectClone = clone $subject;
-
-        foreach ($subject as $key => $value) {
-
-            $subjectClone->offsetSet($this->makeVar($key), $value);
-            $subjectClone->offsetUnset($key);
-        }
-
-        return $subjectClone;
+        $this->helpers = $helpers;
+        $this->filters = $filters;
     }
 
     /**
@@ -121,7 +66,7 @@ class VarTranslator
         }
 
         $match = [];
-        preg_match_all($this->createVarPregPattern(), $str, $match);
+        preg_match_all($translation->getVarPregPattern(), $str, $match);
 
         if (empty($match[0])) {
             return $str;
@@ -155,7 +100,7 @@ class VarTranslator
      *
      * @param string|array $subject
      * @param ArrayAcess $translation
-     * @return VarTranslator
+     * @return self
      */
     public function translate(&$subject, ArrayAccess $translation)
     {
@@ -188,17 +133,14 @@ class VarTranslator
     /**
      * @param ArrayAccess $translation
      * @param array $values
-     * @return VarTranslator
+     * @return self
      */
     public function translationMerge(ArrayAccess $translation, array $values)
     {
         foreach ($values as $key => $value) {
-
-            $varTranslation = $this->makeVarKeys($translation);
-            $this->translate($value, $varTranslation);
+            $this->translate($value, $translation->getVarTranslation());
             $translation[$key] = $value;
         }
-
         return $this;
     }
 
@@ -219,8 +161,7 @@ class VarTranslator
                 continue;
             }
 
-            $varTranslation = $this->makeVarKeys($translation);
-            $this->translate($value, $varTranslation);
+            $this->translate($value, $translation->getVarTranslation());
             $translation[$key] = $value;
         }
 
@@ -250,16 +191,15 @@ class VarTranslator
      *
      * @param array $translation
      * @param array $options
-     * @return VarTranslator
+     * @return self
      */
     public function translationFetch(ArrayFetchInterface $translation, array $options)
     {
         foreach ($options as $key => $basepath) {
             $translation[$key] = $translation->fetch(
-                $this->translateString($basepath, $this->makeVarKeys($translation))
+                $this->translateString($basepath, $translation->getVarTranslation())
             );
         }
-
         return $this;
     }
 
@@ -270,10 +210,9 @@ class VarTranslator
      *
      * @param ArrayAccess $translation Variables with values to modify
      * @param array $spec Helper options
-     * @param AbstractPluginManager $pluginManager Helper loader
-     * @return VarTranslator
+     * @return self
      */
-    public function applyHelper(ArrayAccess $translation, array $spec, AbstractPluginManager $pluginManager)
+    public function applyHelper(ArrayAccess $translation, array $spec)
     {
         $results = new ArrayObject;
 
@@ -302,13 +241,13 @@ class VarTranslator
                     // php functions first
 
                     $translation->merge($results->getArrayCopy());
-                    $this->translate($options, $this->makeVarKeys($translation));
+                    $this->translate($options, $translation->getVarTranslation());
 
                     $results[$key] = call_user_func_array($helper, $options);
 
                 } else {
                     // zf helpers
-                    $plugin = $pluginManager->get($helper);
+                    $plugin = $this->helpers->get($helper);
 
                     foreach ($options as $func => $calls) {
                         if (null === $calls) {
@@ -321,7 +260,7 @@ class VarTranslator
                             }
 
                             $translation->merge($results->getArrayCopy());
-                            $this->translate($params, $this->makeVarKeys($translation));
+                            $this->translate($params, $translation->getVarTranslation());
 
                             $plugin = call_user_func_array([$plugin, $func], $params);
                             if (is_string($plugin)) {
@@ -364,10 +303,9 @@ class VarTranslator
      *
      * @param  ArrayAccess $translation Variables with values to modify.
      * @param  array $spec Filter options.
-     * @param  FilterPluginManager $pluginManager Filter loader.
-     * @return VarTranslator
+     * @return self
      */
-    public function applyFilter(ArrayAccess $translation, array $spec, FilterPluginManager $pluginManager)
+    public function applyFilter(ArrayAccess $translation, array $spec)
     {
         foreach ($spec as $key => $subSpec) {
             if (!array_key_exists($key, $translation)) {
@@ -379,12 +317,12 @@ class VarTranslator
 
                 if (function_exists($helper)) {
                     // php functions first
-                    $this->translate($options, $this->makeVarKeys($translation));
+                    $this->translate($options, $translation->getVarTranslation());
                     $translation[$key] = call_user_func_array($helper, $options);
 
                 } else {
                     // zf filter
-                    $this->translate($options, $this->makeVarKeys($translation));
+                    $this->translate($options, $translation->getVarTranslation());
 
                     if (empty($options[0])) {
                         $translation[$key] = '';
@@ -394,7 +332,7 @@ class VarTranslator
                     !empty($options[1]) or
                         $options[1] = [];
 
-                    $translation[$key] = $pluginManager
+                    $translation[$key] = $this->filters
                                             ->get($helper, $options[1])
                                             ->filter($options[0]);
                 }
@@ -412,23 +350,20 @@ class VarTranslator
      * @param ArrayAccess $varTranslation
      * @param array $spec
      * @param Callable $callback
-     * @return VarTranslator
+     * @return self
      * @throws Exception\InvalidInstructionException
      */
     public function applyOnVar(ArrayAccess $varTranslation, array $spec, $callback)
     {
-        foreach ($spec as $key => $spec) {
+        foreach ($spec as $spec) {
             if (!array_key_exists('var', $spec)) {
                 throw new Exception\InvalidInstructionException(
                     'Expected `var` option in ' . print_r($spec, true)
                 );
             }
 
-            $value = $this->removeVars(
-                $this->translateString(
-                    $spec['var'],
-                    $varTranslation
-                )
+            $value = $varTranslation->removeVars(
+                $this->translateString($spec['var'], $varTranslation)
             );
 
             !array_key_exists('equalTo', $spec) or
@@ -491,7 +426,7 @@ class VarTranslator
      */
     private function performOnVar(ArrayAccess $varTranslation, $value, $expected, $callback)
     {
-        $expected = $this->removeVars(
+        $expected = $varTranslation->removeVars(
             $this->translateString(
                 $expected,
                 $varTranslation
@@ -499,7 +434,6 @@ class VarTranslator
         );
 
         $this->onVarFixTypes($value, $expected);
-
         $callback($value, $expected);
     }
 
@@ -529,6 +463,32 @@ class VarTranslator
             $valB = (string) $valB;
             return $this;
         }
+
+        return $this;
+    }
+
+    public function apply(ArrayAccess $translation, array $spec)
+    {
+        empty($spec['var']['default']) or
+            $this->translationDefaults($translation, $spec['var']['default']);
+
+        empty($spec['var']['set']) or
+            $this->translationMerge($translation, $spec['var']['set']);
+
+        empty($spec['var']['fetch']) or
+            $this->translationFetch($translation, $spec['var']['fetch']);
+
+        empty($spec['var']['filter']['pre']) or
+            $this->applyFilter($translation, $spec['var']['filter']['pre']);
+
+        empty($spec['var']['helper']) or
+            $this->applyHelper($translation, $spec['var']['helper']);
+
+        empty($spec['var']['filter']['post']) or
+            $this->applyFilter($translation, $spec['var']['filter']['post']);
+
+        empty($spec['var']['default']) or
+            $this->translationDefaults($translation, $spec['var']['default']);
 
         return $this;
     }

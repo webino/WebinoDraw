@@ -26,6 +26,14 @@ $diCompiler->addDirectory(__DIR__ . '/../src');
 foreach ([
     // add files
     $vendorDir . '/zendframework/zendframework/library/Zend/Form/Factory.php',
+    $vendorDir . '/zendframework/zendframework/library/Zend/Form/View/Helper/FormCollection.php',
+    $vendorDir . '/zendframework/zendframework/library/Zend/Form/View/Helper/FormElement.php',
+    $vendorDir . '/zendframework/zendframework/library/Zend/Form/View/Helper/FormRow.php',
+    $vendorDir . '/zendframework/zendframework/library/Zend/Filter/FilterPluginManager.php',
+    $vendorDir . '/zendframework/zendframework/library/Zend/View/HelperPluginManager.php',
+    $vendorDir . '/zendframework/zendframework/library/Zend/View/Helper/BasePath.php',
+    $vendorDir . '/zendframework/zendframework/library/Zend/View/Helper/EscapeHtml.php',
+    $vendorDir . '/zendframework/zendframework/library/Zend/View/Helper/ServerUrl.php',
 
 ] as $file) {
     $diCompiler->addCodeScannerFile(new CodeFileScanner($file));

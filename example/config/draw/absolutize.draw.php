@@ -10,7 +10,7 @@
 
 namespace WebinoDraw;
 
-use WebinoDraw\View\Helper\DrawAbsolutize;
+use WebinoDraw\Helper\DrawAbsolutize;
 
 return [
     'absolutize-example-prepare' => [

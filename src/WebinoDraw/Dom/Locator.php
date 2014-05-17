@@ -28,27 +28,26 @@ class Locator extends ArrayObject
      * @param string|array $input
      * @throws UnexpectedValueException
      */
-    public function __construct($input = null)
+    public function __construct(Transformator $transformator, $input = null)
     {
-        if (null !== $input) {
+        $this->transformator = $transformator;
+
+        empty($input) or
             $this->set($input);
-        }
     }
 
     /**
      * @param string|array $input
-     * @return Locator
+     * @return self
      * @throws UnexpectedValueException
      */
     public function set($input)
     {
         if (is_string($input)) {
-
             $this->exchangeArray([$input]);
             return $this;
 
         } elseif (is_array($input)) {
-
             $this->exchangeArray($input);
             return $this;
 
@@ -60,40 +59,30 @@ class Locator extends ArrayObject
     }
 
     /**
-     * @return Transformator
+     * @param Element $node
+     * @param string $locator
+     * @return Element
+     * @throws \InvalidArgumentException
      */
-    public function getTransformator()
+    public function locate(Element $node, $locator)
     {
-        if (null == $this->transformator) {
-            $this->setTransformator(new Transformator);
+        if (empty($node->ownerDocument->xpath)) {
+            throw new \InvalidArgumentException('Expects DOM document with XPATH');
         }
 
-        return $this->transformator;
-    }
-
-    /**
-     * @param Transformator $transformator
-     * @return Locator
-     */
-    public function setTransformator(Transformator $transformator)
-    {
-        $this->transformator = $transformator;
-        return $this;
+        return $node->ownerDocument->xpath->query(
+            $this->set($locator)->xpathMatchAny(),
+            $node
+        );
     }
 
     /**
      * @param array $array
-     * @return Locator
+     * @return self
      */
     public function merge(array $array)
     {
-        $this->exchangeArray(
-            array_merge(
-                $this->getArrayCopy(),
-                $array
-            )
-        );
-
+        $this->exchangeArray(array_merge($this->getArrayCopy(), $array));
         return $this;
     }
 
@@ -104,11 +93,9 @@ class Locator extends ArrayObject
      */
     public function xpathMatchAny()
     {
-        $strategy = $this->getTransformator();
-        $xpath    = [];
-
+        $xpath = [];
         foreach ($this->getArrayCopy() as $locator) {
-            $xpath[] = $strategy->locator2Xpath(
+            $xpath[] = $this->transformator->locator2Xpath(
                 $this->normalizeLocator($locator)
             );
         }
@@ -118,13 +105,13 @@ class Locator extends ArrayObject
 
     /**
      * @param string $locator
+     * @return string
      */
     private function normalizeLocator($locator)
     {
         if (false === strpos($locator, PHP_EOL)) {
             return $locator;
         }
-
         return preg_replace('~[[:space:]]+~', ' ', $locator);
     }
 }

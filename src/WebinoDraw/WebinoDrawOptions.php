@@ -10,8 +10,8 @@
 
 namespace WebinoDraw;
 
-use WebinoDraw\Stdlib\DrawInstructions;
-use WebinoDraw\Stdlib\DrawInstructionsInterface;
+use WebinoDraw\Instructions\Instructions;
+use WebinoDraw\Instructions\InstructionsInterface;
 use Zend\Stdlib\AbstractOptions;
 
 /**
@@ -20,7 +20,7 @@ use Zend\Stdlib\AbstractOptions;
 class WebinoDrawOptions extends AbstractOptions
 {
     /**
-     * @var DrawInstructionsInterface
+     * @var InstructionsInterface
      */
     protected $instructions;
 
@@ -40,56 +40,20 @@ class WebinoDrawOptions extends AbstractOptions
     protected $ajaxFragmentXpath = '//*[contains(@class, "ajax-fragment") and @id]';
 
     /**
-     * @param array $instructions
-     * @return DrawInstructions
-     */
-    public function createInstructions(array $instructions = [])
-    {
-        return new DrawInstructions($instructions);
-    }
-
-    /**
-     * @return DrawInstructions
+     * @return Instructions
      */
     public function getInstructions()
     {
-        if (null === $this->instructions) {
-            $this->setInstructions($this->createInstructions());
-        }
-
         return $this->instructions;
     }
 
     /**
-     * @param array|DrawInstructionsInterface $instructions
+     * @param InstructionsInterface $instructions
      * @return WebinoDrawOptions
      */
-    public function setInstructions($instructions)
+    public function setInstructions(InstructionsInterface $instructions)
     {
-        if (is_array($instructions)) {
-
-            $this->instructions = $this->getInstructions();
-            $this->instructions->merge($instructions);
-            return $this;
-        }
-
-        if ($instructions instanceof DrawInstructionsInterface) {
-
-            $this->instructions = $instructions;
-            return $this;
-        }
-
-        throw new \UnexpectedValueException(
-            'Expected array|DrawInstructionsInterface'
-        );
-    }
-
-    /**
-     * @return WebinoDrawOptions
-     */
-    public function clearInstructions()
-    {
-        $this->instructions = null;
+        $this->instructions = $instructions;
         return $this;
     }
 

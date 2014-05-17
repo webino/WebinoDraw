@@ -46,6 +46,955 @@ return array (
       ),
     ),
   ),
+  'Zend\\Form\\View\\Helper\\FormCollection' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'Zend\\View\\Helper\\HelperInterface',
+      1 => 'Zend\\I18n\\Translator\\TranslatorAwareInterface',
+      2 => 'Zend\\Form\\View\\Helper\\AbstractHelper',
+      3 => 'Zend\\I18n\\Translator\\TranslatorAwareInterface',
+      4 => 'Zend\\View\\Helper\\HelperInterface',
+      5 => 'Zend\\I18n\\View\\Helper\\AbstractTranslatorHelper',
+      6 => 'Zend\\View\\Helper\\HelperInterface',
+      7 => 'Zend\\I18n\\Translator\\TranslatorAwareInterface',
+      8 => 'Zend\\View\\Helper\\AbstractHelper',
+      9 => 'Zend\\View\\Helper\\HelperInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      'setShouldWrap' => 0,
+      'setDefaultElementHelper' => 0,
+      'setElementHelper' => 0,
+      'setFieldsetHelper' => 0,
+      'setWrapper' => 0,
+      'setLabelWrapper' => 0,
+      'setTemplateWrapper' => 0,
+      'setDoctype' => 0,
+      'setEncoding' => 0,
+      'setTranslator' => 3,
+      'setTranslatorEnabled' => 3,
+      'setTranslatorTextDomain' => 3,
+      'setView' => 0,
+    ),
+    'parameters' => 
+    array (
+      'setShouldWrap' => 
+      array (
+        'Zend\\Form\\View\\Helper\\FormCollection::setShouldWrap:0' => 
+        array (
+          0 => 'wrap',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setDefaultElementHelper' => 
+      array (
+        'Zend\\Form\\View\\Helper\\FormCollection::setDefaultElementHelper:0' => 
+        array (
+          0 => 'defaultSubHelper',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setElementHelper' => 
+      array (
+        'Zend\\Form\\View\\Helper\\FormCollection::setElementHelper:0' => 
+        array (
+          0 => 'elementHelper',
+          1 => 'Zend\\Form\\View\\Helper\\AbstractHelper',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setFieldsetHelper' => 
+      array (
+        'Zend\\Form\\View\\Helper\\FormCollection::setFieldsetHelper:0' => 
+        array (
+          0 => 'fieldsetHelper',
+          1 => 'Zend\\Form\\View\\Helper\\AbstractHelper',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setWrapper' => 
+      array (
+        'Zend\\Form\\View\\Helper\\FormCollection::setWrapper:0' => 
+        array (
+          0 => 'wrapper',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setLabelWrapper' => 
+      array (
+        'Zend\\Form\\View\\Helper\\FormCollection::setLabelWrapper:0' => 
+        array (
+          0 => 'labelWrapper',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setTemplateWrapper' => 
+      array (
+        'Zend\\Form\\View\\Helper\\FormCollection::setTemplateWrapper:0' => 
+        array (
+          0 => 'templateWrapper',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setDoctype' => 
+      array (
+        'Zend\\Form\\View\\Helper\\FormCollection::setDoctype:0' => 
+        array (
+          0 => 'doctype',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEncoding' => 
+      array (
+        'Zend\\Form\\View\\Helper\\FormCollection::setEncoding:0' => 
+        array (
+          0 => 'encoding',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setTranslator' => 
+      array (
+        'Zend\\Form\\View\\Helper\\FormCollection::setTranslator:0' => 
+        array (
+          0 => 'translator',
+          1 => 'Zend\\I18n\\Translator\\TranslatorInterface',
+          2 => false,
+          3 => NULL,
+        ),
+        'Zend\\Form\\View\\Helper\\FormCollection::setTranslator:1' => 
+        array (
+          0 => 'textDomain',
+          1 => NULL,
+          2 => false,
+          3 => NULL,
+        ),
+      ),
+      'setTranslatorEnabled' => 
+      array (
+        'Zend\\Form\\View\\Helper\\FormCollection::setTranslatorEnabled:0' => 
+        array (
+          0 => 'enabled',
+          1 => NULL,
+          2 => false,
+          3 => true,
+        ),
+      ),
+      'setTranslatorTextDomain' => 
+      array (
+        'Zend\\Form\\View\\Helper\\FormCollection::setTranslatorTextDomain:0' => 
+        array (
+          0 => 'textDomain',
+          1 => NULL,
+          2 => false,
+          3 => 'default',
+        ),
+      ),
+      'setView' => 
+      array (
+        'Zend\\Form\\View\\Helper\\FormCollection::setView:0' => 
+        array (
+          0 => 'view',
+          1 => 'Zend\\View\\Renderer\\RendererInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'Zend\\Form\\View\\Helper\\FormElement' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'Zend\\View\\Helper\\HelperInterface',
+      1 => 'Zend\\View\\Helper\\AbstractHelper',
+      2 => 'Zend\\View\\Helper\\HelperInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      'setDefaultHelper' => 0,
+      'setView' => 0,
+    ),
+    'parameters' => 
+    array (
+      'setDefaultHelper' => 
+      array (
+        'Zend\\Form\\View\\Helper\\FormElement::setDefaultHelper:0' => 
+        array (
+          0 => 'name',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setView' => 
+      array (
+        'Zend\\Form\\View\\Helper\\FormElement::setView:0' => 
+        array (
+          0 => 'view',
+          1 => 'Zend\\View\\Renderer\\RendererInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'Zend\\Form\\View\\Helper\\FormRow' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'Zend\\View\\Helper\\HelperInterface',
+      1 => 'Zend\\I18n\\Translator\\TranslatorAwareInterface',
+      2 => 'Zend\\Form\\View\\Helper\\AbstractHelper',
+      3 => 'Zend\\I18n\\Translator\\TranslatorAwareInterface',
+      4 => 'Zend\\View\\Helper\\HelperInterface',
+      5 => 'Zend\\I18n\\View\\Helper\\AbstractTranslatorHelper',
+      6 => 'Zend\\View\\Helper\\HelperInterface',
+      7 => 'Zend\\I18n\\Translator\\TranslatorAwareInterface',
+      8 => 'Zend\\View\\Helper\\AbstractHelper',
+      9 => 'Zend\\View\\Helper\\HelperInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      'setInputErrorClass' => 0,
+      'setLabelAttributes' => 0,
+      'setLabelPosition' => 0,
+      'setRenderErrors' => 0,
+      'setPartial' => 0,
+      'setDoctype' => 0,
+      'setEncoding' => 0,
+      'setTranslator' => 3,
+      'setTranslatorEnabled' => 3,
+      'setTranslatorTextDomain' => 3,
+      'setView' => 0,
+    ),
+    'parameters' => 
+    array (
+      'setInputErrorClass' => 
+      array (
+        'Zend\\Form\\View\\Helper\\FormRow::setInputErrorClass:0' => 
+        array (
+          0 => 'inputErrorClass',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setLabelAttributes' => 
+      array (
+        'Zend\\Form\\View\\Helper\\FormRow::setLabelAttributes:0' => 
+        array (
+          0 => 'labelAttributes',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setLabelPosition' => 
+      array (
+        'Zend\\Form\\View\\Helper\\FormRow::setLabelPosition:0' => 
+        array (
+          0 => 'labelPosition',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setRenderErrors' => 
+      array (
+        'Zend\\Form\\View\\Helper\\FormRow::setRenderErrors:0' => 
+        array (
+          0 => 'renderErrors',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setPartial' => 
+      array (
+        'Zend\\Form\\View\\Helper\\FormRow::setPartial:0' => 
+        array (
+          0 => 'partial',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setDoctype' => 
+      array (
+        'Zend\\Form\\View\\Helper\\FormRow::setDoctype:0' => 
+        array (
+          0 => 'doctype',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEncoding' => 
+      array (
+        'Zend\\Form\\View\\Helper\\FormRow::setEncoding:0' => 
+        array (
+          0 => 'encoding',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setTranslator' => 
+      array (
+        'Zend\\Form\\View\\Helper\\FormRow::setTranslator:0' => 
+        array (
+          0 => 'translator',
+          1 => 'Zend\\I18n\\Translator\\TranslatorInterface',
+          2 => false,
+          3 => NULL,
+        ),
+        'Zend\\Form\\View\\Helper\\FormRow::setTranslator:1' => 
+        array (
+          0 => 'textDomain',
+          1 => NULL,
+          2 => false,
+          3 => NULL,
+        ),
+      ),
+      'setTranslatorEnabled' => 
+      array (
+        'Zend\\Form\\View\\Helper\\FormRow::setTranslatorEnabled:0' => 
+        array (
+          0 => 'enabled',
+          1 => NULL,
+          2 => false,
+          3 => true,
+        ),
+      ),
+      'setTranslatorTextDomain' => 
+      array (
+        'Zend\\Form\\View\\Helper\\FormRow::setTranslatorTextDomain:0' => 
+        array (
+          0 => 'textDomain',
+          1 => NULL,
+          2 => false,
+          3 => 'default',
+        ),
+      ),
+      'setView' => 
+      array (
+        'Zend\\Form\\View\\Helper\\FormRow::setView:0' => 
+        array (
+          0 => 'view',
+          1 => 'Zend\\View\\Renderer\\RendererInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'Zend\\Filter\\FilterPluginManager' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
+      1 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
+      2 => 'Zend\\ServiceManager\\AbstractPluginManager',
+      3 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
+      4 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
+      5 => 'Zend\\ServiceManager\\ServiceManager',
+      6 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+      'setService' => 0,
+      'setServiceLocator' => 3,
+      'setAllowOverride' => 0,
+      'setShareByDefault' => 0,
+      'setThrowExceptionInCreate' => 0,
+      'setRetrieveFromPeeringManagerFirst' => 0,
+      'setInvokableClass' => 0,
+      'setFactory' => 0,
+      'setShared' => 0,
+      'setAlias' => 0,
+      'setCanonicalNames' => 0,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'Zend\\Filter\\FilterPluginManager::__construct:0' => 
+        array (
+          0 => 'configuration',
+          1 => 'Zend\\ServiceManager\\ConfigInterface',
+          2 => false,
+          3 => NULL,
+        ),
+      ),
+      'setService' => 
+      array (
+        'Zend\\Filter\\FilterPluginManager::setService:0' => 
+        array (
+          0 => 'name',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'Zend\\Filter\\FilterPluginManager::setService:1' => 
+        array (
+          0 => 'service',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'Zend\\Filter\\FilterPluginManager::setService:2' => 
+        array (
+          0 => 'shared',
+          1 => NULL,
+          2 => false,
+          3 => true,
+        ),
+      ),
+      'setServiceLocator' => 
+      array (
+        'Zend\\Filter\\FilterPluginManager::setServiceLocator:0' => 
+        array (
+          0 => 'serviceLocator',
+          1 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setAllowOverride' => 
+      array (
+        'Zend\\Filter\\FilterPluginManager::setAllowOverride:0' => 
+        array (
+          0 => 'allowOverride',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setShareByDefault' => 
+      array (
+        'Zend\\Filter\\FilterPluginManager::setShareByDefault:0' => 
+        array (
+          0 => 'shareByDefault',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setThrowExceptionInCreate' => 
+      array (
+        'Zend\\Filter\\FilterPluginManager::setThrowExceptionInCreate:0' => 
+        array (
+          0 => 'throwExceptionInCreate',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setRetrieveFromPeeringManagerFirst' => 
+      array (
+        'Zend\\Filter\\FilterPluginManager::setRetrieveFromPeeringManagerFirst:0' => 
+        array (
+          0 => 'retrieveFromPeeringManagerFirst',
+          1 => NULL,
+          2 => false,
+          3 => true,
+        ),
+      ),
+      'setInvokableClass' => 
+      array (
+        'Zend\\Filter\\FilterPluginManager::setInvokableClass:0' => 
+        array (
+          0 => 'name',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'Zend\\Filter\\FilterPluginManager::setInvokableClass:1' => 
+        array (
+          0 => 'invokableClass',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'Zend\\Filter\\FilterPluginManager::setInvokableClass:2' => 
+        array (
+          0 => 'shared',
+          1 => NULL,
+          2 => false,
+          3 => NULL,
+        ),
+      ),
+      'setFactory' => 
+      array (
+        'Zend\\Filter\\FilterPluginManager::setFactory:0' => 
+        array (
+          0 => 'name',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'Zend\\Filter\\FilterPluginManager::setFactory:1' => 
+        array (
+          0 => 'factory',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'Zend\\Filter\\FilterPluginManager::setFactory:2' => 
+        array (
+          0 => 'shared',
+          1 => NULL,
+          2 => false,
+          3 => NULL,
+        ),
+      ),
+      'setShared' => 
+      array (
+        'Zend\\Filter\\FilterPluginManager::setShared:0' => 
+        array (
+          0 => 'name',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'Zend\\Filter\\FilterPluginManager::setShared:1' => 
+        array (
+          0 => 'isShared',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setAlias' => 
+      array (
+        'Zend\\Filter\\FilterPluginManager::setAlias:0' => 
+        array (
+          0 => 'alias',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'Zend\\Filter\\FilterPluginManager::setAlias:1' => 
+        array (
+          0 => 'nameOrAlias',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setCanonicalNames' => 
+      array (
+        'Zend\\Filter\\FilterPluginManager::setCanonicalNames:0' => 
+        array (
+          0 => 'canonicalNames',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'Zend\\View\\HelperPluginManager' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
+      1 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
+      2 => 'Zend\\ServiceManager\\AbstractPluginManager',
+      3 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
+      4 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
+      5 => 'Zend\\ServiceManager\\ServiceManager',
+      6 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+      'setRenderer' => 0,
+      'setService' => 0,
+      'setServiceLocator' => 3,
+      'setAllowOverride' => 0,
+      'setShareByDefault' => 0,
+      'setThrowExceptionInCreate' => 0,
+      'setRetrieveFromPeeringManagerFirst' => 0,
+      'setInvokableClass' => 0,
+      'setFactory' => 0,
+      'setShared' => 0,
+      'setAlias' => 0,
+      'setCanonicalNames' => 0,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'Zend\\View\\HelperPluginManager::__construct:0' => 
+        array (
+          0 => 'configuration',
+          1 => 'Zend\\ServiceManager\\ConfigInterface',
+          2 => false,
+          3 => NULL,
+        ),
+      ),
+      'setRenderer' => 
+      array (
+        'Zend\\View\\HelperPluginManager::setRenderer:0' => 
+        array (
+          0 => 'renderer',
+          1 => 'Zend\\View\\Renderer\\RendererInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setService' => 
+      array (
+        'Zend\\View\\HelperPluginManager::setService:0' => 
+        array (
+          0 => 'name',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'Zend\\View\\HelperPluginManager::setService:1' => 
+        array (
+          0 => 'service',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'Zend\\View\\HelperPluginManager::setService:2' => 
+        array (
+          0 => 'shared',
+          1 => NULL,
+          2 => false,
+          3 => true,
+        ),
+      ),
+      'setServiceLocator' => 
+      array (
+        'Zend\\View\\HelperPluginManager::setServiceLocator:0' => 
+        array (
+          0 => 'serviceLocator',
+          1 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setAllowOverride' => 
+      array (
+        'Zend\\View\\HelperPluginManager::setAllowOverride:0' => 
+        array (
+          0 => 'allowOverride',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setShareByDefault' => 
+      array (
+        'Zend\\View\\HelperPluginManager::setShareByDefault:0' => 
+        array (
+          0 => 'shareByDefault',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setThrowExceptionInCreate' => 
+      array (
+        'Zend\\View\\HelperPluginManager::setThrowExceptionInCreate:0' => 
+        array (
+          0 => 'throwExceptionInCreate',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setRetrieveFromPeeringManagerFirst' => 
+      array (
+        'Zend\\View\\HelperPluginManager::setRetrieveFromPeeringManagerFirst:0' => 
+        array (
+          0 => 'retrieveFromPeeringManagerFirst',
+          1 => NULL,
+          2 => false,
+          3 => true,
+        ),
+      ),
+      'setInvokableClass' => 
+      array (
+        'Zend\\View\\HelperPluginManager::setInvokableClass:0' => 
+        array (
+          0 => 'name',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'Zend\\View\\HelperPluginManager::setInvokableClass:1' => 
+        array (
+          0 => 'invokableClass',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'Zend\\View\\HelperPluginManager::setInvokableClass:2' => 
+        array (
+          0 => 'shared',
+          1 => NULL,
+          2 => false,
+          3 => NULL,
+        ),
+      ),
+      'setFactory' => 
+      array (
+        'Zend\\View\\HelperPluginManager::setFactory:0' => 
+        array (
+          0 => 'name',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'Zend\\View\\HelperPluginManager::setFactory:1' => 
+        array (
+          0 => 'factory',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'Zend\\View\\HelperPluginManager::setFactory:2' => 
+        array (
+          0 => 'shared',
+          1 => NULL,
+          2 => false,
+          3 => NULL,
+        ),
+      ),
+      'setShared' => 
+      array (
+        'Zend\\View\\HelperPluginManager::setShared:0' => 
+        array (
+          0 => 'name',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'Zend\\View\\HelperPluginManager::setShared:1' => 
+        array (
+          0 => 'isShared',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setAlias' => 
+      array (
+        'Zend\\View\\HelperPluginManager::setAlias:0' => 
+        array (
+          0 => 'alias',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'Zend\\View\\HelperPluginManager::setAlias:1' => 
+        array (
+          0 => 'nameOrAlias',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setCanonicalNames' => 
+      array (
+        'Zend\\View\\HelperPluginManager::setCanonicalNames:0' => 
+        array (
+          0 => 'canonicalNames',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'Zend\\View\\Helper\\BasePath' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'Zend\\View\\Helper\\HelperInterface',
+      1 => 'Zend\\View\\Helper\\AbstractHelper',
+      2 => 'Zend\\View\\Helper\\HelperInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      'setBasePath' => 0,
+      'setView' => 0,
+    ),
+    'parameters' => 
+    array (
+      'setBasePath' => 
+      array (
+        'Zend\\View\\Helper\\BasePath::setBasePath:0' => 
+        array (
+          0 => 'basePath',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setView' => 
+      array (
+        'Zend\\View\\Helper\\BasePath::setView:0' => 
+        array (
+          0 => 'view',
+          1 => 'Zend\\View\\Renderer\\RendererInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'Zend\\View\\Helper\\EscapeHtml' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'Zend\\View\\Helper\\HelperInterface',
+      1 => 'Zend\\View\\Helper\\Escaper\\AbstractHelper',
+      2 => 'Zend\\View\\Helper\\HelperInterface',
+      3 => 'Zend\\View\\Helper\\AbstractHelper',
+      4 => 'Zend\\View\\Helper\\HelperInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      'setEncoding' => 0,
+      'setEscaper' => 0,
+      'setView' => 0,
+    ),
+    'parameters' => 
+    array (
+      'setEncoding' => 
+      array (
+        'Zend\\View\\Helper\\EscapeHtml::setEncoding:0' => 
+        array (
+          0 => 'encoding',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEscaper' => 
+      array (
+        'Zend\\View\\Helper\\EscapeHtml::setEscaper:0' => 
+        array (
+          0 => 'escaper',
+          1 => 'Zend\\Escaper\\Escaper',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setView' => 
+      array (
+        'Zend\\View\\Helper\\EscapeHtml::setView:0' => 
+        array (
+          0 => 'view',
+          1 => 'Zend\\View\\Renderer\\RendererInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'Zend\\View\\Helper\\ServerUrl' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'Zend\\View\\Helper\\HelperInterface',
+      1 => 'Zend\\View\\Helper\\AbstractHelper',
+      2 => 'Zend\\View\\Helper\\HelperInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      'setHost' => 0,
+      'setPort' => 0,
+      'setScheme' => 0,
+      'setUseProxy' => 0,
+      'setView' => 0,
+    ),
+    'parameters' => 
+    array (
+      'setHost' => 
+      array (
+        'Zend\\View\\Helper\\ServerUrl::setHost:0' => 
+        array (
+          0 => 'host',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setPort' => 
+      array (
+        'Zend\\View\\Helper\\ServerUrl::setPort:0' => 
+        array (
+          0 => 'port',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setScheme' => 
+      array (
+        'Zend\\View\\Helper\\ServerUrl::setScheme:0' => 
+        array (
+          0 => 'scheme',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setUseProxy' => 
+      array (
+        'Zend\\View\\Helper\\ServerUrl::setUseProxy:0' => 
+        array (
+          0 => 'useProxy',
+          1 => NULL,
+          2 => false,
+          3 => false,
+        ),
+      ),
+      'setView' => 
+      array (
+        'Zend\\View\\Helper\\ServerUrl::setView:0' => 
+        array (
+          0 => 'view',
+          1 => 'Zend\\View\\Renderer\\RendererInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
   'WebinoDraw\\Form\\DiForm' => 
   array (
     'supertypes' => 
@@ -599,7 +1548,7 @@ return array (
         'WebinoDraw\\DrawEvent::setHelper:0' => 
         array (
           0 => 'helper',
-          1 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
+          1 => 'WebinoDraw\\Helper\\DrawHelperInterface',
           2 => true,
           3 => NULL,
         ),
@@ -832,6 +1781,379 @@ return array (
       ),
     ),
   ),
+  'WebinoDraw\\HelperPluginManager' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
+      1 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
+      2 => 'Zend\\ServiceManager\\AbstractPluginManager',
+      3 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
+      4 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
+      5 => 'Zend\\ServiceManager\\ServiceManager',
+      6 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+      'setService' => 0,
+      'setServiceLocator' => 3,
+      'setAllowOverride' => 0,
+      'setShareByDefault' => 0,
+      'setThrowExceptionInCreate' => 0,
+      'setRetrieveFromPeeringManagerFirst' => 0,
+      'setInvokableClass' => 0,
+      'setFactory' => 0,
+      'setShared' => 0,
+      'setAlias' => 0,
+      'setCanonicalNames' => 0,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\HelperPluginManager::__construct:0' => 
+        array (
+          0 => 'configuration',
+          1 => 'Zend\\ServiceManager\\ConfigInterface',
+          2 => false,
+          3 => NULL,
+        ),
+      ),
+      'setService' => 
+      array (
+        'WebinoDraw\\HelperPluginManager::setService:0' => 
+        array (
+          0 => 'name',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\HelperPluginManager::setService:1' => 
+        array (
+          0 => 'service',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\HelperPluginManager::setService:2' => 
+        array (
+          0 => 'shared',
+          1 => NULL,
+          2 => false,
+          3 => true,
+        ),
+      ),
+      'setServiceLocator' => 
+      array (
+        'WebinoDraw\\HelperPluginManager::setServiceLocator:0' => 
+        array (
+          0 => 'serviceLocator',
+          1 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setAllowOverride' => 
+      array (
+        'WebinoDraw\\HelperPluginManager::setAllowOverride:0' => 
+        array (
+          0 => 'allowOverride',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setShareByDefault' => 
+      array (
+        'WebinoDraw\\HelperPluginManager::setShareByDefault:0' => 
+        array (
+          0 => 'shareByDefault',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setThrowExceptionInCreate' => 
+      array (
+        'WebinoDraw\\HelperPluginManager::setThrowExceptionInCreate:0' => 
+        array (
+          0 => 'throwExceptionInCreate',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setRetrieveFromPeeringManagerFirst' => 
+      array (
+        'WebinoDraw\\HelperPluginManager::setRetrieveFromPeeringManagerFirst:0' => 
+        array (
+          0 => 'retrieveFromPeeringManagerFirst',
+          1 => NULL,
+          2 => false,
+          3 => true,
+        ),
+      ),
+      'setInvokableClass' => 
+      array (
+        'WebinoDraw\\HelperPluginManager::setInvokableClass:0' => 
+        array (
+          0 => 'name',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\HelperPluginManager::setInvokableClass:1' => 
+        array (
+          0 => 'invokableClass',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\HelperPluginManager::setInvokableClass:2' => 
+        array (
+          0 => 'shared',
+          1 => NULL,
+          2 => false,
+          3 => NULL,
+        ),
+      ),
+      'setFactory' => 
+      array (
+        'WebinoDraw\\HelperPluginManager::setFactory:0' => 
+        array (
+          0 => 'name',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\HelperPluginManager::setFactory:1' => 
+        array (
+          0 => 'factory',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\HelperPluginManager::setFactory:2' => 
+        array (
+          0 => 'shared',
+          1 => NULL,
+          2 => false,
+          3 => NULL,
+        ),
+      ),
+      'setShared' => 
+      array (
+        'WebinoDraw\\HelperPluginManager::setShared:0' => 
+        array (
+          0 => 'name',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\HelperPluginManager::setShared:1' => 
+        array (
+          0 => 'isShared',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setAlias' => 
+      array (
+        'WebinoDraw\\HelperPluginManager::setAlias:0' => 
+        array (
+          0 => 'alias',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\HelperPluginManager::setAlias:1' => 
+        array (
+          0 => 'nameOrAlias',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setCanonicalNames' => 
+      array (
+        'WebinoDraw\\HelperPluginManager::setCanonicalNames:0' => 
+        array (
+          0 => 'canonicalNames',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\ModuleManager\\Feature\\WebinoDrawHelperProviderInterface' => 
+  array (
+    'supertypes' => 
+    array (
+    ),
+    'instantiator' => NULL,
+    'methods' => 
+    array (
+    ),
+    'parameters' => 
+    array (
+    ),
+  ),
+  'WebinoDraw\\Instructions\\InstructionsRenderer' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'WebinoDraw\\Instructions\\InstructionsRendererInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\Instructions\\InstructionsRenderer::__construct:0' => 
+        array (
+          0 => 'drawHelpers',
+          1 => 'WebinoDraw\\HelperPluginManager',
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Instructions\\InstructionsRenderer::__construct:1' => 
+        array (
+          0 => 'locator',
+          1 => 'WebinoDraw\\Dom\\Locator',
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Instructions\\InstructionsRenderer::__construct:2' => 
+        array (
+          0 => 'nodeListFactory',
+          1 => 'WebinoDraw\\Dom\\NodeListFactory',
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Instructions\\InstructionsRenderer::__construct:3' => 
+        array (
+          0 => 'instructionsFactory',
+          1 => 'WebinoDraw\\Instructions\\InstructionsFactory',
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Instructions\\InstructionsRenderer::__construct:4' => 
+        array (
+          0 => 'drawOptions',
+          1 => 'WebinoDraw\\WebinoDrawOptions',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\Instructions\\InstructionsInterface' => 
+  array (
+    'supertypes' => 
+    array (
+    ),
+    'instantiator' => NULL,
+    'methods' => 
+    array (
+    ),
+    'parameters' => 
+    array (
+    ),
+  ),
+  'WebinoDraw\\Instructions\\InstructionsFactory' => 
+  array (
+    'supertypes' => 
+    array (
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+    ),
+    'parameters' => 
+    array (
+    ),
+  ),
+  'WebinoDraw\\Instructions\\Instructions' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'Countable',
+      1 => 'Serializable',
+      2 => 'ArrayAccess',
+      3 => 'Traversable',
+      4 => 'IteratorAggregate',
+      5 => 'WebinoDraw\\Instructions\\InstructionsInterface',
+      6 => 'ArrayObject',
+      7 => 'IteratorAggregate',
+      8 => 'Traversable',
+      9 => 'ArrayAccess',
+      10 => 'Serializable',
+      11 => 'Countable',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+      'setFlags' => 0,
+      'setIteratorClass' => 0,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\Instructions\\Instructions::__construct:0' => 
+        array (
+          0 => 'array',
+          1 => NULL,
+          2 => false,
+          3 => 
+          array (
+          ),
+        ),
+      ),
+      'setFlags' => 
+      array (
+        'WebinoDraw\\Instructions\\Instructions::setFlags:0' => 
+        array (
+          0 => 'flags',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setIteratorClass' => 
+      array (
+        'WebinoDraw\\Instructions\\Instructions::setIteratorClass:0' => 
+        array (
+          0 => 'iteratorClass',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\Instructions\\InstructionsRendererInterface' => 
+  array (
+    'supertypes' => 
+    array (
+    ),
+    'instantiator' => NULL,
+    'methods' => 
+    array (
+    ),
+    'parameters' => 
+    array (
+    ),
+  ),
   'WebinoDraw\\WebinoDraw' => 
   array (
     'supertypes' => 
@@ -841,7 +2163,6 @@ return array (
     'methods' => 
     array (
       '__construct' => 3,
-      'setOptions' => 0,
       'setInstructions' => 0,
     ),
     'parameters' => 
@@ -850,25 +2171,22 @@ return array (
       array (
         'WebinoDraw\\WebinoDraw::__construct:0' => 
         array (
-          0 => 'renderer',
-          1 => 'Zend\\View\\Renderer\\PhpRenderer',
+          0 => 'options',
+          1 => 'WebinoDraw\\WebinoDrawOptions',
           2 => true,
           3 => NULL,
         ),
         'WebinoDraw\\WebinoDraw::__construct:1' => 
         array (
-          0 => 'options',
-          1 => 'WebinoDraw\\WebinoDrawOptions',
-          2 => false,
+          0 => 'instructionsFactory',
+          1 => 'WebinoDraw\\Instructions\\InstructionsFactory',
+          2 => true,
           3 => NULL,
         ),
-      ),
-      'setOptions' => 
-      array (
-        'WebinoDraw\\WebinoDraw::setOptions:0' => 
+        'WebinoDraw\\WebinoDraw::__construct:2' => 
         array (
-          0 => 'options',
-          1 => 'WebinoDraw\\WebinoDrawOptions',
+          0 => 'instructionsRenderer',
+          1 => 'WebinoDraw\\Instructions\\InstructionsRenderer',
           2 => true,
           3 => NULL,
         ),
@@ -880,6 +2198,48 @@ return array (
           0 => 'instructions',
           1 => NULL,
           2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\Exception\\InvalidHelperException' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'WebinoDraw\\Exception\\ExceptionInterface',
+      1 => 'InvalidArgumentException',
+      2 => 'LogicException',
+      3 => 'Exception',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\Exception\\InvalidHelperException::__construct:0' => 
+        array (
+          0 => 'message',
+          1 => NULL,
+          2 => false,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Exception\\InvalidHelperException::__construct:1' => 
+        array (
+          0 => 'code',
+          1 => NULL,
+          2 => false,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Exception\\InvalidHelperException::__construct:2' => 
+        array (
+          0 => 'previous',
+          1 => NULL,
+          2 => false,
           3 => NULL,
         ),
       ),
@@ -1231,11 +2591,13 @@ return array (
       ),
     ),
   ),
-  'WebinoDraw\\Mvc\\Service\\DrawStrategyFactory' => 
+  'WebinoDraw\\Mvc\\Service\\WebinoDrawHelperManagerFactory' => 
   array (
     'supertypes' => 
     array (
       0 => 'Zend\\ServiceManager\\FactoryInterface',
+      1 => 'Zend\\Mvc\\Service\\AbstractPluginManagerFactory',
+      2 => 'Zend\\ServiceManager\\FactoryInterface',
     ),
     'instantiator' => '__construct',
     'methods' => 
@@ -1245,21 +2607,7 @@ return array (
     array (
     ),
   ),
-  'WebinoDraw\\Mvc\\Service\\ServiceViewHelperFactory' => 
-  array (
-    'supertypes' => 
-    array (
-      0 => 'Zend\\ServiceManager\\FactoryInterface',
-    ),
-    'instantiator' => '__construct',
-    'methods' => 
-    array (
-    ),
-    'parameters' => 
-    array (
-    ),
-  ),
-  'WebinoDraw\\Mvc\\Service\\WebinoDrawFactory' => 
+  'WebinoDraw\\Mvc\\Service\\WebinoDrawOptionsFactory' => 
   array (
     'supertypes' => 
     array (
@@ -1338,7 +2686,7 @@ return array (
         'WebinoDraw\\DrawFormEvent::setHelper:0' => 
         array (
           0 => 'helper',
-          1 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
+          1 => 'WebinoDraw\\Helper\\DrawHelperInterface',
           2 => true,
           3 => NULL,
         ),
@@ -1443,99 +2791,6 @@ return array (
     array (
     ),
   ),
-  'WebinoDraw\\Stdlib\\DrawInstructionsInterface' => 
-  array (
-    'supertypes' => 
-    array (
-    ),
-    'instantiator' => NULL,
-    'methods' => 
-    array (
-    ),
-    'parameters' => 
-    array (
-    ),
-  ),
-  'WebinoDraw\\Stdlib\\DrawInstructions' => 
-  array (
-    'supertypes' => 
-    array (
-      0 => 'Countable',
-      1 => 'Serializable',
-      2 => 'ArrayAccess',
-      3 => 'Traversable',
-      4 => 'IteratorAggregate',
-      5 => 'WebinoDraw\\Stdlib\\DrawInstructionsInterface',
-      6 => 'ArrayObject',
-      7 => 'IteratorAggregate',
-      8 => 'Traversable',
-      9 => 'ArrayAccess',
-      10 => 'Serializable',
-      11 => 'Countable',
-    ),
-    'instantiator' => '__construct',
-    'methods' => 
-    array (
-      '__construct' => 3,
-      'setLocator' => 0,
-      'setNodeListPrototype' => 0,
-      'setFlags' => 0,
-      'setIteratorClass' => 0,
-    ),
-    'parameters' => 
-    array (
-      '__construct' => 
-      array (
-        'WebinoDraw\\Stdlib\\DrawInstructions::__construct:0' => 
-        array (
-          0 => 'array',
-          1 => NULL,
-          2 => false,
-          3 => NULL,
-        ),
-      ),
-      'setLocator' => 
-      array (
-        'WebinoDraw\\Stdlib\\DrawInstructions::setLocator:0' => 
-        array (
-          0 => 'locator',
-          1 => 'WebinoDraw\\Dom\\Locator',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setNodeListPrototype' => 
-      array (
-        'WebinoDraw\\Stdlib\\DrawInstructions::setNodeListPrototype:0' => 
-        array (
-          0 => 'nodeListPrototype',
-          1 => 'WebinoDraw\\Dom\\NodeList',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setFlags' => 
-      array (
-        'WebinoDraw\\Stdlib\\DrawInstructions::setFlags:0' => 
-        array (
-          0 => 'flags',
-          1 => NULL,
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setIteratorClass' => 
-      array (
-        'WebinoDraw\\Stdlib\\DrawInstructions::setIteratorClass:0' => 
-        array (
-          0 => 'iteratorClass',
-          1 => NULL,
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-    ),
-  ),
   'WebinoDraw\\Stdlib\\ArrayMergeInterface' => 
   array (
     'supertypes' => 
@@ -1617,9 +2872,27 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
+      '__construct' => 3,
     ),
     'parameters' => 
     array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\Stdlib\\VarTranslator::__construct:0' => 
+        array (
+          0 => 'helpers',
+          1 => 'Zend\\View\\HelperPluginManager',
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Stdlib\\VarTranslator::__construct:1' => 
+        array (
+          0 => 'filters',
+          1 => 'Zend\\Filter\\FilterPluginManager',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
     ),
   ),
   'WebinoDraw\\View\\Renderer\\DrawRenderer' => 
@@ -1665,1144 +2938,6 @@ return array (
       ),
     ),
   ),
-  'WebinoDraw\\View\\Helper\\AbstractDrawElement' => 
-  array (
-    'supertypes' => 
-    array (
-      0 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
-      1 => 'Zend\\EventManager\\EventsCapableInterface',
-      2 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      3 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      4 => 'Zend\\View\\Helper\\HelperInterface',
-      5 => 'WebinoDraw\\View\\Helper\\AbstractDrawHelper',
-      6 => 'Zend\\View\\Helper\\HelperInterface',
-      7 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      8 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      9 => 'Zend\\EventManager\\EventsCapableInterface',
-      10 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
-      11 => 'Zend\\View\\Helper\\AbstractHelper',
-      12 => 'Zend\\View\\Helper\\HelperInterface',
-    ),
-    'instantiator' => NULL,
-    'methods' => 
-    array (
-      'setCache' => 0,
-      'setDraw' => 0,
-      'setEvent' => 0,
-      'setEventManager' => 3,
-      'setFilterPluginManager' => 0,
-      'setServiceLocator' => 3,
-      'setVars' => 0,
-      'setVarTranslator' => 0,
-      'setTranslationPrototype' => 0,
-      'setInstructionsPrototype' => 0,
-      'setView' => 0,
-    ),
-    'parameters' => 
-    array (
-      'setCache' => 
-      array (
-        'WebinoDraw\\View\\Helper\\AbstractDrawElement::setCache:0' => 
-        array (
-          0 => 'cache',
-          1 => 'Zend\\Cache\\Storage\\StorageInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setDraw' => 
-      array (
-        'WebinoDraw\\View\\Helper\\AbstractDrawElement::setDraw:0' => 
-        array (
-          0 => 'draw',
-          1 => 'WebinoDraw\\WebinoDraw',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setEvent' => 
-      array (
-        'WebinoDraw\\View\\Helper\\AbstractDrawElement::setEvent:0' => 
-        array (
-          0 => 'event',
-          1 => 'WebinoDraw\\DrawEvent',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setEventManager' => 
-      array (
-        'WebinoDraw\\View\\Helper\\AbstractDrawElement::setEventManager:0' => 
-        array (
-          0 => 'eventManager',
-          1 => 'Zend\\EventManager\\EventManagerInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setFilterPluginManager' => 
-      array (
-        'WebinoDraw\\View\\Helper\\AbstractDrawElement::setFilterPluginManager:0' => 
-        array (
-          0 => 'filterManager',
-          1 => 'Zend\\Filter\\FilterPluginManager',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setServiceLocator' => 
-      array (
-        'WebinoDraw\\View\\Helper\\AbstractDrawElement::setServiceLocator:0' => 
-        array (
-          0 => 'serviceLocator',
-          1 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setVars' => 
-      array (
-        'WebinoDraw\\View\\Helper\\AbstractDrawElement::setVars:0' => 
-        array (
-          0 => 'vars',
-          1 => NULL,
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setVarTranslator' => 
-      array (
-        'WebinoDraw\\View\\Helper\\AbstractDrawElement::setVarTranslator:0' => 
-        array (
-          0 => 'varTranslator',
-          1 => 'WebinoDraw\\Stdlib\\VarTranslator',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setTranslationPrototype' => 
-      array (
-        'WebinoDraw\\View\\Helper\\AbstractDrawElement::setTranslationPrototype:0' => 
-        array (
-          0 => 'translationPrototype',
-          1 => NULL,
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setInstructionsPrototype' => 
-      array (
-        'WebinoDraw\\View\\Helper\\AbstractDrawElement::setInstructionsPrototype:0' => 
-        array (
-          0 => 'instructionsPrototype',
-          1 => 'WebinoDraw\\Stdlib\\DrawInstructions',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setView' => 
-      array (
-        'WebinoDraw\\View\\Helper\\AbstractDrawElement::setView:0' => 
-        array (
-          0 => 'view',
-          1 => 'Zend\\View\\Renderer\\RendererInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-    ),
-  ),
-  'WebinoDraw\\View\\Helper\\DrawTranslate' => 
-  array (
-    'supertypes' => 
-    array (
-      0 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
-      1 => 'Zend\\EventManager\\EventsCapableInterface',
-      2 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      3 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      4 => 'Zend\\View\\Helper\\HelperInterface',
-      5 => 'WebinoDraw\\View\\Helper\\DrawElement',
-      6 => 'Zend\\View\\Helper\\HelperInterface',
-      7 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      8 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      9 => 'Zend\\EventManager\\EventsCapableInterface',
-      10 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
-      11 => 'WebinoDraw\\View\\Helper\\AbstractDrawElement',
-      12 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
-      13 => 'Zend\\EventManager\\EventsCapableInterface',
-      14 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      15 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      16 => 'Zend\\View\\Helper\\HelperInterface',
-      17 => 'WebinoDraw\\View\\Helper\\AbstractDrawHelper',
-      18 => 'Zend\\View\\Helper\\HelperInterface',
-      19 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      20 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      21 => 'Zend\\EventManager\\EventsCapableInterface',
-      22 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
-      23 => 'Zend\\View\\Helper\\AbstractHelper',
-      24 => 'Zend\\View\\Helper\\HelperInterface',
-    ),
-    'instantiator' => '__construct',
-    'methods' => 
-    array (
-      'setCache' => 0,
-      'setDraw' => 0,
-      'setEvent' => 0,
-      'setEventManager' => 3,
-      'setFilterPluginManager' => 0,
-      'setServiceLocator' => 3,
-      'setVars' => 0,
-      'setVarTranslator' => 0,
-      'setTranslationPrototype' => 0,
-      'setInstructionsPrototype' => 0,
-      'setView' => 0,
-    ),
-    'parameters' => 
-    array (
-      'setCache' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawTranslate::setCache:0' => 
-        array (
-          0 => 'cache',
-          1 => 'Zend\\Cache\\Storage\\StorageInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setDraw' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawTranslate::setDraw:0' => 
-        array (
-          0 => 'draw',
-          1 => 'WebinoDraw\\WebinoDraw',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setEvent' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawTranslate::setEvent:0' => 
-        array (
-          0 => 'event',
-          1 => 'WebinoDraw\\DrawEvent',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setEventManager' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawTranslate::setEventManager:0' => 
-        array (
-          0 => 'eventManager',
-          1 => 'Zend\\EventManager\\EventManagerInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setFilterPluginManager' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawTranslate::setFilterPluginManager:0' => 
-        array (
-          0 => 'filterManager',
-          1 => 'Zend\\Filter\\FilterPluginManager',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setServiceLocator' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawTranslate::setServiceLocator:0' => 
-        array (
-          0 => 'serviceLocator',
-          1 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setVars' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawTranslate::setVars:0' => 
-        array (
-          0 => 'vars',
-          1 => NULL,
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setVarTranslator' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawTranslate::setVarTranslator:0' => 
-        array (
-          0 => 'varTranslator',
-          1 => 'WebinoDraw\\Stdlib\\VarTranslator',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setTranslationPrototype' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawTranslate::setTranslationPrototype:0' => 
-        array (
-          0 => 'translationPrototype',
-          1 => NULL,
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setInstructionsPrototype' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawTranslate::setInstructionsPrototype:0' => 
-        array (
-          0 => 'instructionsPrototype',
-          1 => 'WebinoDraw\\Stdlib\\DrawInstructions',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setView' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawTranslate::setView:0' => 
-        array (
-          0 => 'view',
-          1 => 'Zend\\View\\Renderer\\RendererInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-    ),
-  ),
-  'WebinoDraw\\View\\Helper\\DrawPagination' => 
-  array (
-    'supertypes' => 
-    array (
-      0 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
-      1 => 'Zend\\EventManager\\EventsCapableInterface',
-      2 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      3 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      4 => 'Zend\\View\\Helper\\HelperInterface',
-      5 => 'WebinoDraw\\View\\Helper\\DrawElement',
-      6 => 'Zend\\View\\Helper\\HelperInterface',
-      7 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      8 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      9 => 'Zend\\EventManager\\EventsCapableInterface',
-      10 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
-      11 => 'WebinoDraw\\View\\Helper\\AbstractDrawElement',
-      12 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
-      13 => 'Zend\\EventManager\\EventsCapableInterface',
-      14 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      15 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      16 => 'Zend\\View\\Helper\\HelperInterface',
-      17 => 'WebinoDraw\\View\\Helper\\AbstractDrawHelper',
-      18 => 'Zend\\View\\Helper\\HelperInterface',
-      19 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      20 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      21 => 'Zend\\EventManager\\EventsCapableInterface',
-      22 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
-      23 => 'Zend\\View\\Helper\\AbstractHelper',
-      24 => 'Zend\\View\\Helper\\HelperInterface',
-    ),
-    'instantiator' => '__construct',
-    'methods' => 
-    array (
-      'setServiceLocator' => 3,
-      'setCache' => 0,
-      'setDraw' => 0,
-      'setEvent' => 0,
-      'setEventManager' => 3,
-      'setFilterPluginManager' => 0,
-      'setVars' => 0,
-      'setVarTranslator' => 0,
-      'setTranslationPrototype' => 0,
-      'setInstructionsPrototype' => 0,
-      'setView' => 0,
-    ),
-    'parameters' => 
-    array (
-      'setServiceLocator' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawPagination::setServiceLocator:0' => 
-        array (
-          0 => 'serviceLocator',
-          1 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setCache' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawPagination::setCache:0' => 
-        array (
-          0 => 'cache',
-          1 => 'Zend\\Cache\\Storage\\StorageInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setDraw' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawPagination::setDraw:0' => 
-        array (
-          0 => 'draw',
-          1 => 'WebinoDraw\\WebinoDraw',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setEvent' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawPagination::setEvent:0' => 
-        array (
-          0 => 'event',
-          1 => 'WebinoDraw\\DrawEvent',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setEventManager' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawPagination::setEventManager:0' => 
-        array (
-          0 => 'eventManager',
-          1 => 'Zend\\EventManager\\EventManagerInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setFilterPluginManager' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawPagination::setFilterPluginManager:0' => 
-        array (
-          0 => 'filterManager',
-          1 => 'Zend\\Filter\\FilterPluginManager',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setVars' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawPagination::setVars:0' => 
-        array (
-          0 => 'vars',
-          1 => NULL,
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setVarTranslator' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawPagination::setVarTranslator:0' => 
-        array (
-          0 => 'varTranslator',
-          1 => 'WebinoDraw\\Stdlib\\VarTranslator',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setTranslationPrototype' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawPagination::setTranslationPrototype:0' => 
-        array (
-          0 => 'translationPrototype',
-          1 => NULL,
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setInstructionsPrototype' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawPagination::setInstructionsPrototype:0' => 
-        array (
-          0 => 'instructionsPrototype',
-          1 => 'WebinoDraw\\Stdlib\\DrawInstructions',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setView' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawPagination::setView:0' => 
-        array (
-          0 => 'view',
-          1 => 'Zend\\View\\Renderer\\RendererInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-    ),
-  ),
-  'WebinoDraw\\View\\Helper\\DrawForm' => 
-  array (
-    'supertypes' => 
-    array (
-      0 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
-      1 => 'Zend\\EventManager\\EventsCapableInterface',
-      2 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      3 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      4 => 'Zend\\View\\Helper\\HelperInterface',
-      5 => 'WebinoDraw\\View\\Helper\\AbstractDrawHelper',
-      6 => 'Zend\\View\\Helper\\HelperInterface',
-      7 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      8 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      9 => 'Zend\\EventManager\\EventsCapableInterface',
-      10 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
-      11 => 'Zend\\View\\Helper\\AbstractHelper',
-      12 => 'Zend\\View\\Helper\\HelperInterface',
-    ),
-    'instantiator' => '__construct',
-    'methods' => 
-    array (
-      'setEvent' => 0,
-      'setFormCollectionHelper' => 0,
-      'setFormRowHelper' => 0,
-      'setFormElementHelper' => 0,
-      'setTranslatorTextDomain' => 0,
-      'setRenderErrors' => 0,
-      'setCache' => 0,
-      'setDraw' => 0,
-      'setEventManager' => 3,
-      'setFilterPluginManager' => 0,
-      'setServiceLocator' => 3,
-      'setVars' => 0,
-      'setVarTranslator' => 0,
-      'setTranslationPrototype' => 0,
-      'setInstructionsPrototype' => 0,
-      'setView' => 0,
-    ),
-    'parameters' => 
-    array (
-      'setEvent' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawForm::setEvent:0' => 
-        array (
-          0 => 'event',
-          1 => 'WebinoDraw\\DrawEvent',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setFormCollectionHelper' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawForm::setFormCollectionHelper:0' => 
-        array (
-          0 => 'helper',
-          1 => 'Zend\\Form\\View\\Helper\\FormCollection',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setFormRowHelper' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawForm::setFormRowHelper:0' => 
-        array (
-          0 => 'helper',
-          1 => 'Zend\\Form\\View\\Helper\\FormRow',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setFormElementHelper' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawForm::setFormElementHelper:0' => 
-        array (
-          0 => 'helper',
-          1 => 'Zend\\I18n\\View\\Helper\\AbstractTranslatorHelper',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setTranslatorTextDomain' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawForm::setTranslatorTextDomain:0' => 
-        array (
-          0 => 'textDomain',
-          1 => NULL,
-          2 => false,
-          3 => 'default',
-        ),
-      ),
-      'setRenderErrors' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawForm::setRenderErrors:0' => 
-        array (
-          0 => 'bool',
-          1 => NULL,
-          2 => false,
-          3 => true,
-        ),
-      ),
-      'setCache' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawForm::setCache:0' => 
-        array (
-          0 => 'cache',
-          1 => 'Zend\\Cache\\Storage\\StorageInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setDraw' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawForm::setDraw:0' => 
-        array (
-          0 => 'draw',
-          1 => 'WebinoDraw\\WebinoDraw',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setEventManager' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawForm::setEventManager:0' => 
-        array (
-          0 => 'eventManager',
-          1 => 'Zend\\EventManager\\EventManagerInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setFilterPluginManager' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawForm::setFilterPluginManager:0' => 
-        array (
-          0 => 'filterManager',
-          1 => 'Zend\\Filter\\FilterPluginManager',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setServiceLocator' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawForm::setServiceLocator:0' => 
-        array (
-          0 => 'serviceLocator',
-          1 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setVars' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawForm::setVars:0' => 
-        array (
-          0 => 'vars',
-          1 => NULL,
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setVarTranslator' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawForm::setVarTranslator:0' => 
-        array (
-          0 => 'varTranslator',
-          1 => 'WebinoDraw\\Stdlib\\VarTranslator',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setTranslationPrototype' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawForm::setTranslationPrototype:0' => 
-        array (
-          0 => 'translationPrototype',
-          1 => NULL,
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setInstructionsPrototype' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawForm::setInstructionsPrototype:0' => 
-        array (
-          0 => 'instructionsPrototype',
-          1 => 'WebinoDraw\\Stdlib\\DrawInstructions',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setView' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawForm::setView:0' => 
-        array (
-          0 => 'view',
-          1 => 'Zend\\View\\Renderer\\RendererInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-    ),
-  ),
-  'WebinoDraw\\View\\Helper\\DrawHelperInterface' => 
-  array (
-    'supertypes' => 
-    array (
-    ),
-    'instantiator' => NULL,
-    'methods' => 
-    array (
-      'setVars' => 0,
-    ),
-    'parameters' => 
-    array (
-      'setVars' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawHelperInterface::setVars:0' => 
-        array (
-          0 => 'vars',
-          1 => NULL,
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-    ),
-  ),
-  'WebinoDraw\\View\\Helper\\DrawAbsolutize' => 
-  array (
-    'supertypes' => 
-    array (
-      0 => 'Zend\\View\\Helper\\HelperInterface',
-      1 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      2 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      3 => 'Zend\\EventManager\\EventsCapableInterface',
-      4 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
-      5 => 'WebinoDraw\\View\\Helper\\AbstractDrawElement',
-      6 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
-      7 => 'Zend\\EventManager\\EventsCapableInterface',
-      8 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      9 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      10 => 'Zend\\View\\Helper\\HelperInterface',
-      11 => 'WebinoDraw\\View\\Helper\\AbstractDrawHelper',
-      12 => 'Zend\\View\\Helper\\HelperInterface',
-      13 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      14 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      15 => 'Zend\\EventManager\\EventsCapableInterface',
-      16 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
-      17 => 'Zend\\View\\Helper\\AbstractHelper',
-      18 => 'Zend\\View\\Helper\\HelperInterface',
-    ),
-    'instantiator' => '__construct',
-    'methods' => 
-    array (
-      'setCache' => 0,
-      'setDraw' => 0,
-      'setEvent' => 0,
-      'setEventManager' => 3,
-      'setFilterPluginManager' => 0,
-      'setServiceLocator' => 3,
-      'setVars' => 0,
-      'setVarTranslator' => 0,
-      'setTranslationPrototype' => 0,
-      'setInstructionsPrototype' => 0,
-      'setView' => 0,
-    ),
-    'parameters' => 
-    array (
-      'setCache' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawAbsolutize::setCache:0' => 
-        array (
-          0 => 'cache',
-          1 => 'Zend\\Cache\\Storage\\StorageInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setDraw' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawAbsolutize::setDraw:0' => 
-        array (
-          0 => 'draw',
-          1 => 'WebinoDraw\\WebinoDraw',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setEvent' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawAbsolutize::setEvent:0' => 
-        array (
-          0 => 'event',
-          1 => 'WebinoDraw\\DrawEvent',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setEventManager' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawAbsolutize::setEventManager:0' => 
-        array (
-          0 => 'eventManager',
-          1 => 'Zend\\EventManager\\EventManagerInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setFilterPluginManager' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawAbsolutize::setFilterPluginManager:0' => 
-        array (
-          0 => 'filterManager',
-          1 => 'Zend\\Filter\\FilterPluginManager',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setServiceLocator' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawAbsolutize::setServiceLocator:0' => 
-        array (
-          0 => 'serviceLocator',
-          1 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setVars' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawAbsolutize::setVars:0' => 
-        array (
-          0 => 'vars',
-          1 => NULL,
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setVarTranslator' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawAbsolutize::setVarTranslator:0' => 
-        array (
-          0 => 'varTranslator',
-          1 => 'WebinoDraw\\Stdlib\\VarTranslator',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setTranslationPrototype' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawAbsolutize::setTranslationPrototype:0' => 
-        array (
-          0 => 'translationPrototype',
-          1 => NULL,
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setInstructionsPrototype' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawAbsolutize::setInstructionsPrototype:0' => 
-        array (
-          0 => 'instructionsPrototype',
-          1 => 'WebinoDraw\\Stdlib\\DrawInstructions',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setView' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawAbsolutize::setView:0' => 
-        array (
-          0 => 'view',
-          1 => 'Zend\\View\\Renderer\\RendererInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-    ),
-  ),
-  'WebinoDraw\\View\\Helper\\DrawElement' => 
-  array (
-    'supertypes' => 
-    array (
-      0 => 'Zend\\View\\Helper\\HelperInterface',
-      1 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      2 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      3 => 'Zend\\EventManager\\EventsCapableInterface',
-      4 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
-      5 => 'WebinoDraw\\View\\Helper\\AbstractDrawElement',
-      6 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
-      7 => 'Zend\\EventManager\\EventsCapableInterface',
-      8 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      9 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      10 => 'Zend\\View\\Helper\\HelperInterface',
-      11 => 'WebinoDraw\\View\\Helper\\AbstractDrawHelper',
-      12 => 'Zend\\View\\Helper\\HelperInterface',
-      13 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      14 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      15 => 'Zend\\EventManager\\EventsCapableInterface',
-      16 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
-      17 => 'Zend\\View\\Helper\\AbstractHelper',
-      18 => 'Zend\\View\\Helper\\HelperInterface',
-    ),
-    'instantiator' => '__construct',
-    'methods' => 
-    array (
-      'setCache' => 0,
-      'setDraw' => 0,
-      'setEvent' => 0,
-      'setEventManager' => 3,
-      'setFilterPluginManager' => 0,
-      'setServiceLocator' => 3,
-      'setVars' => 0,
-      'setVarTranslator' => 0,
-      'setTranslationPrototype' => 0,
-      'setInstructionsPrototype' => 0,
-      'setView' => 0,
-    ),
-    'parameters' => 
-    array (
-      'setCache' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawElement::setCache:0' => 
-        array (
-          0 => 'cache',
-          1 => 'Zend\\Cache\\Storage\\StorageInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setDraw' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawElement::setDraw:0' => 
-        array (
-          0 => 'draw',
-          1 => 'WebinoDraw\\WebinoDraw',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setEvent' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawElement::setEvent:0' => 
-        array (
-          0 => 'event',
-          1 => 'WebinoDraw\\DrawEvent',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setEventManager' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawElement::setEventManager:0' => 
-        array (
-          0 => 'eventManager',
-          1 => 'Zend\\EventManager\\EventManagerInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setFilterPluginManager' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawElement::setFilterPluginManager:0' => 
-        array (
-          0 => 'filterManager',
-          1 => 'Zend\\Filter\\FilterPluginManager',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setServiceLocator' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawElement::setServiceLocator:0' => 
-        array (
-          0 => 'serviceLocator',
-          1 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setVars' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawElement::setVars:0' => 
-        array (
-          0 => 'vars',
-          1 => NULL,
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setVarTranslator' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawElement::setVarTranslator:0' => 
-        array (
-          0 => 'varTranslator',
-          1 => 'WebinoDraw\\Stdlib\\VarTranslator',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setTranslationPrototype' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawElement::setTranslationPrototype:0' => 
-        array (
-          0 => 'translationPrototype',
-          1 => NULL,
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setInstructionsPrototype' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawElement::setInstructionsPrototype:0' => 
-        array (
-          0 => 'instructionsPrototype',
-          1 => 'WebinoDraw\\Stdlib\\DrawInstructions',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setView' => 
-      array (
-        'WebinoDraw\\View\\Helper\\DrawElement::setView:0' => 
-        array (
-          0 => 'view',
-          1 => 'Zend\\View\\Renderer\\RendererInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-    ),
-  ),
-  'WebinoDraw\\View\\Helper\\AbstractDrawHelper' => 
-  array (
-    'supertypes' => 
-    array (
-      0 => 'Zend\\View\\Helper\\HelperInterface',
-      1 => 'WebinoDraw\\View\\Helper\\DrawHelperInterface',
-      2 => 'Zend\\EventManager\\EventManagerAwareInterface',
-      3 => 'Zend\\EventManager\\EventsCapableInterface',
-      4 => 'Zend\\ServiceManager\\ServiceLocatorAwareInterface',
-      5 => 'Zend\\View\\Helper\\AbstractHelper',
-      6 => 'Zend\\View\\Helper\\HelperInterface',
-    ),
-    'instantiator' => NULL,
-    'methods' => 
-    array (
-      'setCache' => 0,
-      'setDraw' => 0,
-      'setEvent' => 0,
-      'setEventManager' => 3,
-      'setFilterPluginManager' => 0,
-      'setServiceLocator' => 3,
-      'setVars' => 0,
-      'setVarTranslator' => 0,
-      'setTranslationPrototype' => 0,
-      'setInstructionsPrototype' => 0,
-      'setView' => 0,
-    ),
-    'parameters' => 
-    array (
-      'setCache' => 
-      array (
-        'WebinoDraw\\View\\Helper\\AbstractDrawHelper::setCache:0' => 
-        array (
-          0 => 'cache',
-          1 => 'Zend\\Cache\\Storage\\StorageInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setDraw' => 
-      array (
-        'WebinoDraw\\View\\Helper\\AbstractDrawHelper::setDraw:0' => 
-        array (
-          0 => 'draw',
-          1 => 'WebinoDraw\\WebinoDraw',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setEvent' => 
-      array (
-        'WebinoDraw\\View\\Helper\\AbstractDrawHelper::setEvent:0' => 
-        array (
-          0 => 'event',
-          1 => 'WebinoDraw\\DrawEvent',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setEventManager' => 
-      array (
-        'WebinoDraw\\View\\Helper\\AbstractDrawHelper::setEventManager:0' => 
-        array (
-          0 => 'eventManager',
-          1 => 'Zend\\EventManager\\EventManagerInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setFilterPluginManager' => 
-      array (
-        'WebinoDraw\\View\\Helper\\AbstractDrawHelper::setFilterPluginManager:0' => 
-        array (
-          0 => 'filterManager',
-          1 => 'Zend\\Filter\\FilterPluginManager',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setServiceLocator' => 
-      array (
-        'WebinoDraw\\View\\Helper\\AbstractDrawHelper::setServiceLocator:0' => 
-        array (
-          0 => 'serviceLocator',
-          1 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setVars' => 
-      array (
-        'WebinoDraw\\View\\Helper\\AbstractDrawHelper::setVars:0' => 
-        array (
-          0 => 'vars',
-          1 => NULL,
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setVarTranslator' => 
-      array (
-        'WebinoDraw\\View\\Helper\\AbstractDrawHelper::setVarTranslator:0' => 
-        array (
-          0 => 'varTranslator',
-          1 => 'WebinoDraw\\Stdlib\\VarTranslator',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setTranslationPrototype' => 
-      array (
-        'WebinoDraw\\View\\Helper\\AbstractDrawHelper::setTranslationPrototype:0' => 
-        array (
-          0 => 'translationPrototype',
-          1 => NULL,
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setInstructionsPrototype' => 
-      array (
-        'WebinoDraw\\View\\Helper\\AbstractDrawHelper::setInstructionsPrototype:0' => 
-        array (
-          0 => 'instructionsPrototype',
-          1 => 'WebinoDraw\\Stdlib\\DrawInstructions',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setView' => 
-      array (
-        'WebinoDraw\\View\\Helper\\AbstractDrawHelper::setView:0' => 
-        array (
-          0 => 'view',
-          1 => 'Zend\\View\\Renderer\\RendererInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-    ),
-  ),
   'WebinoDraw\\View\\Strategy\\AbstractDrawStrategy' => 
   array (
     'supertypes' => 
@@ -2841,6 +2976,20 @@ return array (
           3 => NULL,
         ),
       ),
+    ),
+  ),
+  'WebinoDraw\\View\\Strategy\\DrawStrategyFactory' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'Zend\\ServiceManager\\FactoryInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+    ),
+    'parameters' => 
+    array (
     ),
   ),
   'WebinoDraw\\View\\Strategy\\DrawAjaxJsonStrategy' => 
@@ -3091,6 +3240,1566 @@ return array (
       ),
     ),
   ),
+  'WebinoDraw\\Helper\\DrawAbsolutizeFactory' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'Zend\\ServiceManager\\FactoryInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+    ),
+    'parameters' => 
+    array (
+    ),
+  ),
+  'WebinoDraw\\Helper\\AbstractDrawElement' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'Zend\\EventManager\\EventsCapableInterface',
+      1 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      2 => 'WebinoDraw\\Helper\\DrawHelperInterface',
+      3 => 'WebinoDraw\\Helper\\AbstractDrawHelper',
+      4 => 'WebinoDraw\\Helper\\DrawHelperInterface',
+      5 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      6 => 'Zend\\EventManager\\EventsCapableInterface',
+    ),
+    'instantiator' => NULL,
+    'methods' => 
+    array (
+      'setCache' => 0,
+      'setEvent' => 0,
+      'setEventManager' => 3,
+      'setManipulator' => 0,
+      'setSpec' => 0,
+      'setVars' => 0,
+      'setVarTranslator' => 0,
+      'setTranslationPrototype' => 0,
+    ),
+    'parameters' => 
+    array (
+      'setCache' => 
+      array (
+        'WebinoDraw\\Helper\\AbstractDrawElement::setCache:0' => 
+        array (
+          0 => 'cache',
+          1 => 'Zend\\Cache\\Storage\\StorageInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEvent' => 
+      array (
+        'WebinoDraw\\Helper\\AbstractDrawElement::setEvent:0' => 
+        array (
+          0 => 'event',
+          1 => 'WebinoDraw\\DrawEvent',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEventManager' => 
+      array (
+        'WebinoDraw\\Helper\\AbstractDrawElement::setEventManager:0' => 
+        array (
+          0 => 'eventManager',
+          1 => 'Zend\\EventManager\\EventManagerInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setManipulator' => 
+      array (
+        'WebinoDraw\\Helper\\AbstractDrawElement::setManipulator:0' => 
+        array (
+          0 => 'manipulator',
+          1 => 'WebinoDraw\\Manipulator\\Manipulator',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setSpec' => 
+      array (
+        'WebinoDraw\\Helper\\AbstractDrawElement::setSpec:0' => 
+        array (
+          0 => 'spec',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setVars' => 
+      array (
+        'WebinoDraw\\Helper\\AbstractDrawElement::setVars:0' => 
+        array (
+          0 => 'vars',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setVarTranslator' => 
+      array (
+        'WebinoDraw\\Helper\\AbstractDrawElement::setVarTranslator:0' => 
+        array (
+          0 => 'varTranslator',
+          1 => 'WebinoDraw\\Stdlib\\VarTranslator',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setTranslationPrototype' => 
+      array (
+        'WebinoDraw\\Helper\\AbstractDrawElement::setTranslationPrototype:0' => 
+        array (
+          0 => 'translationPrototype',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\Helper\\DrawTranslate' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'Zend\\EventManager\\EventsCapableInterface',
+      1 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      2 => 'WebinoDraw\\Helper\\DrawHelperInterface',
+      3 => 'WebinoDraw\\Helper\\DrawElement',
+      4 => 'WebinoDraw\\Helper\\DrawHelperInterface',
+      5 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      6 => 'Zend\\EventManager\\EventsCapableInterface',
+      7 => 'WebinoDraw\\Helper\\AbstractDrawElement',
+      8 => 'Zend\\EventManager\\EventsCapableInterface',
+      9 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      10 => 'WebinoDraw\\Helper\\DrawHelperInterface',
+      11 => 'WebinoDraw\\Helper\\AbstractDrawHelper',
+      12 => 'WebinoDraw\\Helper\\DrawHelperInterface',
+      13 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      14 => 'Zend\\EventManager\\EventsCapableInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+      'setCache' => 0,
+      'setEvent' => 0,
+      'setEventManager' => 3,
+      'setManipulator' => 0,
+      'setSpec' => 0,
+      'setVars' => 0,
+      'setVarTranslator' => 0,
+      'setTranslationPrototype' => 0,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\Helper\\DrawTranslate::__construct:0' => 
+        array (
+          0 => 'translator',
+          1 => 'Zend\\I18n\\Translator\\TranslatorInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setCache' => 
+      array (
+        'WebinoDraw\\Helper\\DrawTranslate::setCache:0' => 
+        array (
+          0 => 'cache',
+          1 => 'Zend\\Cache\\Storage\\StorageInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEvent' => 
+      array (
+        'WebinoDraw\\Helper\\DrawTranslate::setEvent:0' => 
+        array (
+          0 => 'event',
+          1 => 'WebinoDraw\\DrawEvent',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEventManager' => 
+      array (
+        'WebinoDraw\\Helper\\DrawTranslate::setEventManager:0' => 
+        array (
+          0 => 'eventManager',
+          1 => 'Zend\\EventManager\\EventManagerInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setManipulator' => 
+      array (
+        'WebinoDraw\\Helper\\DrawTranslate::setManipulator:0' => 
+        array (
+          0 => 'manipulator',
+          1 => 'WebinoDraw\\Manipulator\\Manipulator',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setSpec' => 
+      array (
+        'WebinoDraw\\Helper\\DrawTranslate::setSpec:0' => 
+        array (
+          0 => 'spec',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setVars' => 
+      array (
+        'WebinoDraw\\Helper\\DrawTranslate::setVars:0' => 
+        array (
+          0 => 'vars',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setVarTranslator' => 
+      array (
+        'WebinoDraw\\Helper\\DrawTranslate::setVarTranslator:0' => 
+        array (
+          0 => 'varTranslator',
+          1 => 'WebinoDraw\\Stdlib\\VarTranslator',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setTranslationPrototype' => 
+      array (
+        'WebinoDraw\\Helper\\DrawTranslate::setTranslationPrototype:0' => 
+        array (
+          0 => 'translationPrototype',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\Helper\\DrawPagination' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'Zend\\EventManager\\EventsCapableInterface',
+      1 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      2 => 'WebinoDraw\\Helper\\DrawHelperInterface',
+      3 => 'WebinoDraw\\Helper\\DrawElement',
+      4 => 'WebinoDraw\\Helper\\DrawHelperInterface',
+      5 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      6 => 'Zend\\EventManager\\EventsCapableInterface',
+      7 => 'WebinoDraw\\Helper\\AbstractDrawElement',
+      8 => 'Zend\\EventManager\\EventsCapableInterface',
+      9 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      10 => 'WebinoDraw\\Helper\\DrawHelperInterface',
+      11 => 'WebinoDraw\\Helper\\AbstractDrawHelper',
+      12 => 'WebinoDraw\\Helper\\DrawHelperInterface',
+      13 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      14 => 'Zend\\EventManager\\EventsCapableInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+      'setCache' => 0,
+      'setEvent' => 0,
+      'setEventManager' => 3,
+      'setManipulator' => 0,
+      'setSpec' => 0,
+      'setVars' => 0,
+      'setVarTranslator' => 0,
+      'setTranslationPrototype' => 0,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\Helper\\DrawPagination::__construct:0' => 
+        array (
+          0 => 'services',
+          1 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setCache' => 
+      array (
+        'WebinoDraw\\Helper\\DrawPagination::setCache:0' => 
+        array (
+          0 => 'cache',
+          1 => 'Zend\\Cache\\Storage\\StorageInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEvent' => 
+      array (
+        'WebinoDraw\\Helper\\DrawPagination::setEvent:0' => 
+        array (
+          0 => 'event',
+          1 => 'WebinoDraw\\DrawEvent',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEventManager' => 
+      array (
+        'WebinoDraw\\Helper\\DrawPagination::setEventManager:0' => 
+        array (
+          0 => 'eventManager',
+          1 => 'Zend\\EventManager\\EventManagerInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setManipulator' => 
+      array (
+        'WebinoDraw\\Helper\\DrawPagination::setManipulator:0' => 
+        array (
+          0 => 'manipulator',
+          1 => 'WebinoDraw\\Manipulator\\Manipulator',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setSpec' => 
+      array (
+        'WebinoDraw\\Helper\\DrawPagination::setSpec:0' => 
+        array (
+          0 => 'spec',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setVars' => 
+      array (
+        'WebinoDraw\\Helper\\DrawPagination::setVars:0' => 
+        array (
+          0 => 'vars',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setVarTranslator' => 
+      array (
+        'WebinoDraw\\Helper\\DrawPagination::setVarTranslator:0' => 
+        array (
+          0 => 'varTranslator',
+          1 => 'WebinoDraw\\Stdlib\\VarTranslator',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setTranslationPrototype' => 
+      array (
+        'WebinoDraw\\Helper\\DrawPagination::setTranslationPrototype:0' => 
+        array (
+          0 => 'translationPrototype',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\Helper\\DrawFormFactory' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'Zend\\ServiceManager\\FactoryInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+    ),
+    'parameters' => 
+    array (
+    ),
+  ),
+  'WebinoDraw\\Helper\\DrawForm\\FormProvider' => 
+  array (
+    'supertypes' => 
+    array (
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+    ),
+    'parameters' => 
+    array (
+    ),
+  ),
+  'WebinoDraw\\Helper\\DrawForm\\FormRenderer' => 
+  array (
+    'supertypes' => 
+    array (
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+    ),
+    'parameters' => 
+    array (
+    ),
+  ),
+  'WebinoDraw\\Helper\\DrawForm' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'Zend\\EventManager\\EventsCapableInterface',
+      1 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      2 => 'WebinoDraw\\Helper\\DrawHelperInterface',
+      3 => 'WebinoDraw\\Helper\\AbstractDrawHelper',
+      4 => 'WebinoDraw\\Helper\\DrawHelperInterface',
+      5 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      6 => 'Zend\\EventManager\\EventsCapableInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+      'setEvent' => 0,
+      'setTranslatorTextDomain' => 0,
+      'setRenderErrors' => 0,
+      'setCache' => 0,
+      'setEventManager' => 3,
+      'setManipulator' => 0,
+      'setSpec' => 0,
+      'setVars' => 0,
+      'setVarTranslator' => 0,
+      'setTranslationPrototype' => 0,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\Helper\\DrawForm::__construct:0' => 
+        array (
+          0 => 'forms',
+          1 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Helper\\DrawForm::__construct:1' => 
+        array (
+          0 => 'formRow',
+          1 => 'Zend\\Form\\View\\Helper\\FormRow',
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Helper\\DrawForm::__construct:2' => 
+        array (
+          0 => 'formElement',
+          1 => 'WebinoDraw\\Form\\View\\Helper\\FormElement',
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Helper\\DrawForm::__construct:3' => 
+        array (
+          0 => 'formElementErrors',
+          1 => 'Zend\\Form\\View\\Helper\\FormElementErrors',
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Helper\\DrawForm::__construct:4' => 
+        array (
+          0 => 'formCollection',
+          1 => 'Zend\\Form\\View\\Helper\\FormCollection',
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Helper\\DrawForm::__construct:5' => 
+        array (
+          0 => 'url',
+          1 => 'Zend\\View\\Helper\\Url',
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Helper\\DrawForm::__construct:6' => 
+        array (
+          0 => 'instructionsRenderer',
+          1 => 'WebinoDraw\\Instructions\\InstructionsRenderer',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEvent' => 
+      array (
+        'WebinoDraw\\Helper\\DrawForm::setEvent:0' => 
+        array (
+          0 => 'event',
+          1 => 'WebinoDraw\\DrawEvent',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setTranslatorTextDomain' => 
+      array (
+        'WebinoDraw\\Helper\\DrawForm::setTranslatorTextDomain:0' => 
+        array (
+          0 => 'textDomain',
+          1 => NULL,
+          2 => false,
+          3 => 'default',
+        ),
+      ),
+      'setRenderErrors' => 
+      array (
+        'WebinoDraw\\Helper\\DrawForm::setRenderErrors:0' => 
+        array (
+          0 => 'bool',
+          1 => NULL,
+          2 => false,
+          3 => true,
+        ),
+      ),
+      'setCache' => 
+      array (
+        'WebinoDraw\\Helper\\DrawForm::setCache:0' => 
+        array (
+          0 => 'cache',
+          1 => 'Zend\\Cache\\Storage\\StorageInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEventManager' => 
+      array (
+        'WebinoDraw\\Helper\\DrawForm::setEventManager:0' => 
+        array (
+          0 => 'eventManager',
+          1 => 'Zend\\EventManager\\EventManagerInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setManipulator' => 
+      array (
+        'WebinoDraw\\Helper\\DrawForm::setManipulator:0' => 
+        array (
+          0 => 'manipulator',
+          1 => 'WebinoDraw\\Manipulator\\Manipulator',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setSpec' => 
+      array (
+        'WebinoDraw\\Helper\\DrawForm::setSpec:0' => 
+        array (
+          0 => 'spec',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setVars' => 
+      array (
+        'WebinoDraw\\Helper\\DrawForm::setVars:0' => 
+        array (
+          0 => 'vars',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setVarTranslator' => 
+      array (
+        'WebinoDraw\\Helper\\DrawForm::setVarTranslator:0' => 
+        array (
+          0 => 'varTranslator',
+          1 => 'WebinoDraw\\Stdlib\\VarTranslator',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setTranslationPrototype' => 
+      array (
+        'WebinoDraw\\Helper\\DrawForm::setTranslationPrototype:0' => 
+        array (
+          0 => 'translationPrototype',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\Helper\\DrawHelperInterface' => 
+  array (
+    'supertypes' => 
+    array (
+    ),
+    'instantiator' => NULL,
+    'methods' => 
+    array (
+      'setSpec' => 0,
+      'setVars' => 0,
+    ),
+    'parameters' => 
+    array (
+      'setSpec' => 
+      array (
+        'WebinoDraw\\Helper\\DrawHelperInterface::setSpec:0' => 
+        array (
+          0 => 'spec',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setVars' => 
+      array (
+        'WebinoDraw\\Helper\\DrawHelperInterface::setVars:0' => 
+        array (
+          0 => 'vars',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\Helper\\DrawAbsolutize' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'WebinoDraw\\Helper\\DrawHelperInterface',
+      1 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      2 => 'Zend\\EventManager\\EventsCapableInterface',
+      3 => 'WebinoDraw\\Helper\\AbstractDrawElement',
+      4 => 'Zend\\EventManager\\EventsCapableInterface',
+      5 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      6 => 'WebinoDraw\\Helper\\DrawHelperInterface',
+      7 => 'WebinoDraw\\Helper\\AbstractDrawHelper',
+      8 => 'WebinoDraw\\Helper\\DrawHelperInterface',
+      9 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      10 => 'Zend\\EventManager\\EventsCapableInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+      'setCache' => 0,
+      'setEvent' => 0,
+      'setEventManager' => 3,
+      'setManipulator' => 0,
+      'setSpec' => 0,
+      'setVars' => 0,
+      'setVarTranslator' => 0,
+      'setTranslationPrototype' => 0,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\Helper\\DrawAbsolutize::__construct:0' => 
+        array (
+          0 => 'varTranslator',
+          1 => 'WebinoDraw\\Stdlib\\VarTranslator',
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Helper\\DrawAbsolutize::__construct:1' => 
+        array (
+          0 => 'serverUrl',
+          1 => 'Zend\\View\\Helper\\ServerUrl',
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Helper\\DrawAbsolutize::__construct:2' => 
+        array (
+          0 => 'basePath',
+          1 => 'Zend\\View\\Helper\\BasePath',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setCache' => 
+      array (
+        'WebinoDraw\\Helper\\DrawAbsolutize::setCache:0' => 
+        array (
+          0 => 'cache',
+          1 => 'Zend\\Cache\\Storage\\StorageInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEvent' => 
+      array (
+        'WebinoDraw\\Helper\\DrawAbsolutize::setEvent:0' => 
+        array (
+          0 => 'event',
+          1 => 'WebinoDraw\\DrawEvent',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEventManager' => 
+      array (
+        'WebinoDraw\\Helper\\DrawAbsolutize::setEventManager:0' => 
+        array (
+          0 => 'eventManager',
+          1 => 'Zend\\EventManager\\EventManagerInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setManipulator' => 
+      array (
+        'WebinoDraw\\Helper\\DrawAbsolutize::setManipulator:0' => 
+        array (
+          0 => 'manipulator',
+          1 => 'WebinoDraw\\Manipulator\\Manipulator',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setSpec' => 
+      array (
+        'WebinoDraw\\Helper\\DrawAbsolutize::setSpec:0' => 
+        array (
+          0 => 'spec',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setVars' => 
+      array (
+        'WebinoDraw\\Helper\\DrawAbsolutize::setVars:0' => 
+        array (
+          0 => 'vars',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setVarTranslator' => 
+      array (
+        'WebinoDraw\\Helper\\DrawAbsolutize::setVarTranslator:0' => 
+        array (
+          0 => 'varTranslator',
+          1 => 'WebinoDraw\\Stdlib\\VarTranslator',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setTranslationPrototype' => 
+      array (
+        'WebinoDraw\\Helper\\DrawAbsolutize::setTranslationPrototype:0' => 
+        array (
+          0 => 'translationPrototype',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\Helper\\DrawElement' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'WebinoDraw\\Helper\\DrawHelperInterface',
+      1 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      2 => 'Zend\\EventManager\\EventsCapableInterface',
+      3 => 'WebinoDraw\\Helper\\AbstractDrawElement',
+      4 => 'Zend\\EventManager\\EventsCapableInterface',
+      5 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      6 => 'WebinoDraw\\Helper\\DrawHelperInterface',
+      7 => 'WebinoDraw\\Helper\\AbstractDrawHelper',
+      8 => 'WebinoDraw\\Helper\\DrawHelperInterface',
+      9 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      10 => 'Zend\\EventManager\\EventsCapableInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      'setCache' => 0,
+      'setEvent' => 0,
+      'setEventManager' => 3,
+      'setManipulator' => 0,
+      'setSpec' => 0,
+      'setVars' => 0,
+      'setVarTranslator' => 0,
+      'setTranslationPrototype' => 0,
+    ),
+    'parameters' => 
+    array (
+      'setCache' => 
+      array (
+        'WebinoDraw\\Helper\\DrawElement::setCache:0' => 
+        array (
+          0 => 'cache',
+          1 => 'Zend\\Cache\\Storage\\StorageInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEvent' => 
+      array (
+        'WebinoDraw\\Helper\\DrawElement::setEvent:0' => 
+        array (
+          0 => 'event',
+          1 => 'WebinoDraw\\DrawEvent',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEventManager' => 
+      array (
+        'WebinoDraw\\Helper\\DrawElement::setEventManager:0' => 
+        array (
+          0 => 'eventManager',
+          1 => 'Zend\\EventManager\\EventManagerInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setManipulator' => 
+      array (
+        'WebinoDraw\\Helper\\DrawElement::setManipulator:0' => 
+        array (
+          0 => 'manipulator',
+          1 => 'WebinoDraw\\Manipulator\\Manipulator',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setSpec' => 
+      array (
+        'WebinoDraw\\Helper\\DrawElement::setSpec:0' => 
+        array (
+          0 => 'spec',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setVars' => 
+      array (
+        'WebinoDraw\\Helper\\DrawElement::setVars:0' => 
+        array (
+          0 => 'vars',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setVarTranslator' => 
+      array (
+        'WebinoDraw\\Helper\\DrawElement::setVarTranslator:0' => 
+        array (
+          0 => 'varTranslator',
+          1 => 'WebinoDraw\\Stdlib\\VarTranslator',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setTranslationPrototype' => 
+      array (
+        'WebinoDraw\\Helper\\DrawElement::setTranslationPrototype:0' => 
+        array (
+          0 => 'translationPrototype',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\Helper\\AbstractDrawHelper' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'WebinoDraw\\Helper\\DrawHelperInterface',
+      1 => 'Zend\\EventManager\\EventManagerAwareInterface',
+      2 => 'Zend\\EventManager\\EventsCapableInterface',
+    ),
+    'instantiator' => NULL,
+    'methods' => 
+    array (
+      'setCache' => 0,
+      'setEvent' => 0,
+      'setEventManager' => 3,
+      'setManipulator' => 0,
+      'setSpec' => 0,
+      'setVars' => 0,
+      'setVarTranslator' => 0,
+      'setTranslationPrototype' => 0,
+    ),
+    'parameters' => 
+    array (
+      'setCache' => 
+      array (
+        'WebinoDraw\\Helper\\AbstractDrawHelper::setCache:0' => 
+        array (
+          0 => 'cache',
+          1 => 'Zend\\Cache\\Storage\\StorageInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEvent' => 
+      array (
+        'WebinoDraw\\Helper\\AbstractDrawHelper::setEvent:0' => 
+        array (
+          0 => 'event',
+          1 => 'WebinoDraw\\DrawEvent',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEventManager' => 
+      array (
+        'WebinoDraw\\Helper\\AbstractDrawHelper::setEventManager:0' => 
+        array (
+          0 => 'eventManager',
+          1 => 'Zend\\EventManager\\EventManagerInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setManipulator' => 
+      array (
+        'WebinoDraw\\Helper\\AbstractDrawHelper::setManipulator:0' => 
+        array (
+          0 => 'manipulator',
+          1 => 'WebinoDraw\\Manipulator\\Manipulator',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setSpec' => 
+      array (
+        'WebinoDraw\\Helper\\AbstractDrawHelper::setSpec:0' => 
+        array (
+          0 => 'spec',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setVars' => 
+      array (
+        'WebinoDraw\\Helper\\AbstractDrawHelper::setVars:0' => 
+        array (
+          0 => 'vars',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setVarTranslator' => 
+      array (
+        'WebinoDraw\\Helper\\AbstractDrawHelper::setVarTranslator:0' => 
+        array (
+          0 => 'varTranslator',
+          1 => 'WebinoDraw\\Stdlib\\VarTranslator',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setTranslationPrototype' => 
+      array (
+        'WebinoDraw\\Helper\\AbstractDrawHelper::setTranslationPrototype:0' => 
+        array (
+          0 => 'translationPrototype',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\Manipulator\\Manipulator' => 
+  array (
+    'supertypes' => 
+    array (
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+      'setPlugin' => 0,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\Manipulator\\Manipulator::__construct:0' => 
+        array (
+          0 => 'varTranslator',
+          1 => 'WebinoDraw\\Stdlib\\VarTranslator',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setPlugin' => 
+      array (
+        'WebinoDraw\\Manipulator\\Manipulator::setPlugin:0' => 
+        array (
+          0 => 'plugin',
+          1 => 'WebinoDraw\\Manipulator\\Plugin\\PluginInterface',
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Manipulator\\Manipulator::setPlugin:1' => 
+        array (
+          0 => 'priority',
+          1 => NULL,
+          2 => false,
+          3 => 1,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\Manipulator\\Plugin\\Html' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'WebinoDraw\\Manipulator\\Plugin\\InLoopPluginInterface',
+      1 => 'WebinoDraw\\Manipulator\\Plugin\\PluginInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\Manipulator\\Plugin\\Html::__construct:0' => 
+        array (
+          0 => 'varTranslator',
+          1 => 'WebinoDraw\\Stdlib\\VarTranslator',
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Manipulator\\Plugin\\Html::__construct:1' => 
+        array (
+          0 => 'instructionsRenderer',
+          1 => 'WebinoDraw\\Instructions\\InstructionsRenderer',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\Manipulator\\Plugin\\OnVar' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'WebinoDraw\\Manipulator\\Plugin\\InLoopPluginInterface',
+      1 => 'WebinoDraw\\Manipulator\\Plugin\\PluginInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\Manipulator\\Plugin\\OnVar::__construct:0' => 
+        array (
+          0 => 'varTranslator',
+          1 => 'WebinoDraw\\Stdlib\\VarTranslator',
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Manipulator\\Plugin\\OnVar::__construct:1' => 
+        array (
+          0 => 'instructionsRenderer',
+          1 => 'WebinoDraw\\Instructions\\InstructionsRenderer',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\Manipulator\\Plugin\\Replace' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'WebinoDraw\\Manipulator\\Plugin\\InLoopPluginInterface',
+      1 => 'WebinoDraw\\Manipulator\\Plugin\\PluginInterface',
+      2 => 'WebinoDraw\\Manipulator\\Plugin\\PostLoopPluginInterface',
+      3 => 'WebinoDraw\\Manipulator\\Plugin\\AbstractPlugin',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+    ),
+    'parameters' => 
+    array (
+    ),
+  ),
+  'WebinoDraw\\Manipulator\\Plugin\\Fragments' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'WebinoDraw\\Manipulator\\Plugin\\InLoopPluginInterface',
+      1 => 'WebinoDraw\\Manipulator\\Plugin\\PluginInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\Manipulator\\Plugin\\Fragments::__construct:0' => 
+        array (
+          0 => 'locator',
+          1 => 'WebinoDraw\\Dom\\Locator',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\Manipulator\\Plugin\\Remove' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'WebinoDraw\\Manipulator\\Plugin\\InLoopPluginInterface',
+      1 => 'WebinoDraw\\Manipulator\\Plugin\\PluginInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\Manipulator\\Plugin\\Remove::__construct:0' => 
+        array (
+          0 => 'locator',
+          1 => 'WebinoDraw\\Dom\\Locator',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\Manipulator\\Plugin\\Attribs' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'WebinoDraw\\Manipulator\\Plugin\\InLoopPluginInterface',
+      1 => 'WebinoDraw\\Manipulator\\Plugin\\PluginInterface',
+      2 => 'WebinoDraw\\Manipulator\\Plugin\\AbstractPlugin',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+    ),
+    'parameters' => 
+    array (
+    ),
+  ),
+  'WebinoDraw\\Manipulator\\Plugin\\Loop' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'WebinoDraw\\Manipulator\\Plugin\\PreLoopPluginInterface',
+      1 => 'WebinoDraw\\Manipulator\\Plugin\\PluginInterface',
+      2 => 'WebinoDraw\\Manipulator\\Plugin\\AbstractPlugin',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\Manipulator\\Plugin\\Loop::__construct:0' => 
+        array (
+          0 => 'varTranslator',
+          1 => 'WebinoDraw\\Stdlib\\VarTranslator',
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Manipulator\\Plugin\\Loop::__construct:1' => 
+        array (
+          0 => 'instructionsRenderer',
+          1 => 'WebinoDraw\\Instructions\\InstructionsRenderer',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\Manipulator\\Plugin\\PluginArgument' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'Zend\\Stdlib\\ParameterObjectInterface',
+      1 => 'Zend\\Stdlib\\AbstractOptions',
+      2 => 'Zend\\Stdlib\\ParameterObjectInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+      'setHelper' => 0,
+      'setNodes' => 0,
+      'setSpec' => 0,
+      'setTranslation' => 0,
+      'setVarTranslation' => 0,
+      'setFromArray' => 0,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\Manipulator\\Plugin\\PluginArgument::__construct:0' => 
+        array (
+          0 => 'options',
+          1 => NULL,
+          2 => false,
+          3 => NULL,
+        ),
+      ),
+      'setHelper' => 
+      array (
+        'WebinoDraw\\Manipulator\\Plugin\\PluginArgument::setHelper:0' => 
+        array (
+          0 => 'helper',
+          1 => 'WebinoDraw\\Helper\\DrawHelperInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setNodes' => 
+      array (
+        'WebinoDraw\\Manipulator\\Plugin\\PluginArgument::setNodes:0' => 
+        array (
+          0 => 'nodes',
+          1 => 'WebinoDraw\\Dom\\NodeList',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setSpec' => 
+      array (
+        'WebinoDraw\\Manipulator\\Plugin\\PluginArgument::setSpec:0' => 
+        array (
+          0 => 'spec',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setTranslation' => 
+      array (
+        'WebinoDraw\\Manipulator\\Plugin\\PluginArgument::setTranslation:0' => 
+        array (
+          0 => 'translation',
+          1 => 'WebinoDraw\\Stdlib\\Translation',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setVarTranslation' => 
+      array (
+        'WebinoDraw\\Manipulator\\Plugin\\PluginArgument::setVarTranslation:0' => 
+        array (
+          0 => 'varTranslation',
+          1 => 'WebinoDraw\\Stdlib\\Translation',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setFromArray' => 
+      array (
+        'WebinoDraw\\Manipulator\\Plugin\\PluginArgument::setFromArray:0' => 
+        array (
+          0 => 'options',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\Manipulator\\Plugin\\PluginInterface' => 
+  array (
+    'supertypes' => 
+    array (
+    ),
+    'instantiator' => NULL,
+    'methods' => 
+    array (
+    ),
+    'parameters' => 
+    array (
+    ),
+  ),
+  'WebinoDraw\\Manipulator\\Plugin\\PostLoopPluginInterface' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'WebinoDraw\\Manipulator\\Plugin\\PluginInterface',
+    ),
+    'instantiator' => NULL,
+    'methods' => 
+    array (
+    ),
+    'parameters' => 
+    array (
+    ),
+  ),
+  'WebinoDraw\\Manipulator\\Plugin\\VarTranslation' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'WebinoDraw\\Manipulator\\Plugin\\InLoopPluginInterface',
+      1 => 'WebinoDraw\\Manipulator\\Plugin\\PluginInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\Manipulator\\Plugin\\VarTranslation::__construct:0' => 
+        array (
+          0 => 'varTranslator',
+          1 => 'WebinoDraw\\Stdlib\\VarTranslator',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\Manipulator\\Plugin\\SubInstructions' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'WebinoDraw\\Manipulator\\Plugin\\InLoopPluginInterface',
+      1 => 'WebinoDraw\\Manipulator\\Plugin\\PluginInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\Manipulator\\Plugin\\SubInstructions::__construct:0' => 
+        array (
+          0 => 'instructionsRenderer',
+          1 => 'WebinoDraw\\Instructions\\InstructionsRenderer',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\Manipulator\\Plugin\\NodeTranslation' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'WebinoDraw\\Manipulator\\Plugin\\InLoopPluginInterface',
+      1 => 'WebinoDraw\\Manipulator\\Plugin\\PluginInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+    ),
+    'parameters' => 
+    array (
+    ),
+  ),
+  'WebinoDraw\\Manipulator\\Plugin\\InLoopPluginInterface' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'WebinoDraw\\Manipulator\\Plugin\\PluginInterface',
+    ),
+    'instantiator' => NULL,
+    'methods' => 
+    array (
+    ),
+    'parameters' => 
+    array (
+    ),
+  ),
+  'WebinoDraw\\Manipulator\\Plugin\\Render' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'WebinoDraw\\Manipulator\\Plugin\\PreLoopPluginInterface',
+      1 => 'WebinoDraw\\Manipulator\\Plugin\\PluginInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\Manipulator\\Plugin\\Render::__construct:0' => 
+        array (
+          0 => 'renderer',
+          1 => 'Zend\\View\\Renderer\\PhpRenderer',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\Manipulator\\Plugin\\PreLoopPluginInterface' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'WebinoDraw\\Manipulator\\Plugin\\PluginInterface',
+    ),
+    'instantiator' => NULL,
+    'methods' => 
+    array (
+    ),
+    'parameters' => 
+    array (
+    ),
+  ),
+  'WebinoDraw\\Manipulator\\Plugin\\OnEmpty' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'WebinoDraw\\Manipulator\\Plugin\\InLoopPluginInterface',
+      1 => 'WebinoDraw\\Manipulator\\Plugin\\PluginInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\Manipulator\\Plugin\\OnEmpty::__construct:0' => 
+        array (
+          0 => 'instructionsRenderer',
+          1 => 'WebinoDraw\\Instructions\\InstructionsRenderer',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\Manipulator\\Plugin\\Value' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'WebinoDraw\\Manipulator\\Plugin\\InLoopPluginInterface',
+      1 => 'WebinoDraw\\Manipulator\\Plugin\\PluginInterface',
+      2 => 'WebinoDraw\\Manipulator\\Plugin\\AbstractPlugin',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\Manipulator\\Plugin\\Value::__construct:0' => 
+        array (
+          0 => 'escapeHtml',
+          1 => 'Zend\\View\\Helper\\EscapeHtml',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\Manipulator\\Plugin\\Cdata' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'WebinoDraw\\Manipulator\\Plugin\\InLoopPluginInterface',
+      1 => 'WebinoDraw\\Manipulator\\Plugin\\PluginInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\Manipulator\\Plugin\\Cdata::__construct:0' => 
+        array (
+          0 => 'instructionsRenderer',
+          1 => 'WebinoDraw\\Instructions\\InstructionsRenderer',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\Manipulator\\Plugin\\AbstractPlugin' => 
+  array (
+    'supertypes' => 
+    array (
+    ),
+    'instantiator' => NULL,
+    'methods' => 
+    array (
+    ),
+    'parameters' => 
+    array (
+    ),
+  ),
+  'WebinoDraw\\Dom\\NodeInterface' => 
+  array (
+    'supertypes' => 
+    array (
+    ),
+    'instantiator' => NULL,
+    'methods' => 
+    array (
+    ),
+    'parameters' => 
+    array (
+    ),
+  ),
   'WebinoDraw\\Dom\\Locator' => 
   array (
     'supertypes' => 
@@ -3111,7 +4820,6 @@ return array (
     'methods' => 
     array (
       '__construct' => 3,
-      'setTransformator' => 0,
       'setFlags' => 0,
       'setIteratorClass' => 0,
     ),
@@ -3121,19 +4829,16 @@ return array (
       array (
         'WebinoDraw\\Dom\\Locator::__construct:0' => 
         array (
-          0 => 'input',
-          1 => NULL,
-          2 => false,
-          3 => NULL,
-        ),
-      ),
-      'setTransformator' => 
-      array (
-        'WebinoDraw\\Dom\\Locator::setTransformator:0' => 
-        array (
           0 => 'transformator',
           1 => 'WebinoDraw\\Dom\\Locator\\Transformator',
           2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Dom\\Locator::__construct:1' => 
+        array (
+          0 => 'input',
+          1 => NULL,
+          2 => false,
           3 => NULL,
         ),
       ),
@@ -3172,7 +4877,6 @@ return array (
       '__construct' => 3,
       'setNodes' => 0,
       'setEscapeHtml' => 0,
-      'setLocator' => 0,
       'setValue' => 0,
       'setHtml' => 0,
       'setAttribs' => 0,
@@ -3182,6 +4886,13 @@ return array (
       '__construct' => 
       array (
         'WebinoDraw\\Dom\\NodeList::__construct:0' => 
+        array (
+          0 => 'locator',
+          1 => 'WebinoDraw\\Dom\\Locator',
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Dom\\NodeList::__construct:1' => 
         array (
           0 => 'nodes',
           1 => NULL,
@@ -3205,16 +4916,6 @@ return array (
         array (
           0 => 'escapeHtml',
           1 => 'Zend\\View\\Helper\\EscapeHtml',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
-      'setLocator' => 
-      array (
-        'WebinoDraw\\Dom\\NodeList::setLocator:0' => 
-        array (
-          0 => 'locator',
-          1 => 'WebinoDraw\\Dom\\Locator',
           2 => true,
           3 => NULL,
         ),
@@ -3276,8 +4977,9 @@ return array (
   array (
     'supertypes' => 
     array (
-      0 => 'DOMElement',
-      1 => 'DOMNode',
+      0 => 'WebinoDraw\\Dom\\NodeInterface',
+      1 => 'DOMElement',
+      2 => 'DOMNode',
     ),
     'instantiator' => '__construct',
     'methods' => 
@@ -3568,8 +5270,10 @@ return array (
         array (
           0 => 'array',
           1 => NULL,
-          2 => true,
-          3 => NULL,
+          2 => false,
+          3 => 
+          array (
+          ),
         ),
       ),
       'setStrategyFactory' => 
@@ -3598,6 +5302,89 @@ return array (
         array (
           0 => 'iteratorClass',
           1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\Dom\\Attr' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'WebinoDraw\\Dom\\NodeInterface',
+      1 => 'DOMAttr',
+      2 => 'DOMNode',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+      'setUserData' => 0,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\Dom\\Attr::__construct:0' => 
+        array (
+          0 => 'name',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Dom\\Attr::__construct:1' => 
+        array (
+          0 => 'value',
+          1 => NULL,
+          2 => false,
+          3 => NULL,
+        ),
+      ),
+      'setUserData' => 
+      array (
+        'WebinoDraw\\Dom\\Attr::setUserData:0' => 
+        array (
+          0 => 'key',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Dom\\Attr::setUserData:1' => 
+        array (
+          0 => 'data',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Dom\\Attr::setUserData:2' => 
+        array (
+          0 => 'handler',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\Dom\\NodeListFactory' => 
+  array (
+    'supertypes' => 
+    array (
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\Dom\\NodeListFactory::__construct:0' => 
+        array (
+          0 => 'services',
+          1 => 'Zend\\ServiceManager\\ServiceLocatorInterface',
           2 => true,
           3 => NULL,
         ),
@@ -3639,7 +5426,7 @@ return array (
         'WebinoDraw\\WebinoDrawOptions::setInstructions:0' => 
         array (
           0 => 'instructions',
-          1 => NULL,
+          1 => 'WebinoDraw\\Instructions\\InstructionsInterface',
           2 => true,
           3 => NULL,
         ),

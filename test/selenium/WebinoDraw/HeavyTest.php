@@ -13,7 +13,7 @@ namespace WebinoDraw;
 use PHPWebDriver_WebDriverBy as By;
 
 /**
- * 
+ *
  */
 class HeavyTest extends AbstractBase
 {

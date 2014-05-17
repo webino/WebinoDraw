@@ -23,6 +23,14 @@ class Transformator extends ArrayObject implements
     protected $strategyFactory;
 
     /**
+     * @param array $array
+     */
+    public function __construct(array $array = [])
+    {
+        parent::__construct($array);
+    }
+
+    /**
      * @return StrategyFactory
      */
     public function getStrategyFactory()

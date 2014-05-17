@@ -14,7 +14,7 @@ use ArrayObject;
 use RuntimeException;
 use UnexpectedValueException;
 use WebinoDraw\Dom\NodeList;
-use WebinoDraw\View\Helper\DrawHelperInterface;
+use WebinoDraw\Helper\DrawHelperInterface;
 use Zend\EventManager\Event;
 
 /**

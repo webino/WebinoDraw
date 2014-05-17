@@ -1,0 +1,5 @@
+<root>
+    <child>XML TEST</child>
+    <cdataExample/>
+    <cdataOnEmptyExample/>
+</root>

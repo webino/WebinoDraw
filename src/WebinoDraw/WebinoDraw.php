@@ -11,14 +11,14 @@
 namespace WebinoDraw;
 
 use DOMDocument;
-use DOMElement;
 use DOMXPath;
 use WebinoDraw\Exception\DOMCreationException;
 use WebinoDraw\Exception\DrawException;
 use WebinoDraw\Exception\InvalidArgumentException;
-use WebinoDraw\Stdlib\DrawInstructionsInterface;
+use WebinoDraw\Instructions\InstructionsFactory;
+use WebinoDraw\Instructions\InstructionsInterface;
+use WebinoDraw\Instructions\InstructionsRenderer;
 use WebinoDraw\WebinoDrawOptions;
-use Zend\View\Renderer\PhpRenderer;
 
 /**
  *
@@ -26,51 +26,32 @@ use Zend\View\Renderer\PhpRenderer;
 class WebinoDraw
 {
     /**
-     * @var PhpRenderer
-     */
-    protected $renderer;
-
-    /**
      * @var WebinoDrawOptions
      */
     protected $options;
 
-    /**
-     * @var DOMDocument
-     */
-    protected $domPrototype;
+    protected $instructionsFactory;
+
+    protected $instructionsRenderer;
 
     /**
-     * @param PhpRenderer $renderer
      * @param WebinoDrawOptions $options
      */
-    public function __construct(PhpRenderer $renderer, WebinoDrawOptions $options = null)
+    public function __construct(WebinoDrawOptions $options, InstructionsFactory $instructionsFactory,
+                                InstructionsRenderer $instructionsRenderer)
     {
-        $this->renderer = $renderer;
-
-        if (null === $options) {
-            $this->setOptions(new WebinoDrawOptions);
-        } else {
-            $this->setOptions($options);
-        }
+        $this->options              = $options;
+        $this->instructionsFactory  = $instructionsFactory;
+        $this->instructionsRenderer = $instructionsRenderer;
     }
 
     /**
      * @return WebinoDrawOptions
      */
+    // todo deprecated, remove
     public function getOptions()
     {
         return $this->options;
-    }
-
-    /**
-     * @param WebinoDrawOptions $options
-     * @return WebinoDraw
-     */
-    public function setOptions(WebinoDrawOptions $options)
-    {
-        $this->options = $options;
-        return $this;
     }
 
     /**
@@ -87,7 +68,7 @@ class WebinoDraw
      */
     public function setInstructions(array $instructions)
     {
-        $this->options->setInstructions($instructions);
+        $this->options->getInstructions()->merge($instructions);
         return $this;
     }
 
@@ -96,7 +77,7 @@ class WebinoDraw
      */
     public function clearInstructions()
     {
-        $this->options->clearInstructions();
+        $this->options->getInstructions()->exchangeArray([]);
         return $this;
     }
 
@@ -122,9 +103,7 @@ class WebinoDraw
     public function createDom($xhtml, $isXml = false)
     {
         if (empty($xhtml) || !is_string($xhtml)) {
-            throw new InvalidArgumentException(
-                'Expects valid XHTML'
-            );
+            throw new InvalidArgumentException('Expects valid XHTML');
         }
 
         // hack HTML5
@@ -132,9 +111,12 @@ class WebinoDraw
 
         $dom = new DOMDocument;
         $dom->registerNodeClass('DOMElement', 'WebinoDraw\Dom\Element');
-        $isXml ? $dom->loadXml($xhtml) : $dom->loadHtml(mb_convert_encoding($xhtml, 'HTML-ENTITIES', 'UTF-8'));
-        $dom->xpath = new DOMXPath($dom);
+        $dom->registerNodeClass('DOMAttr', 'WebinoDraw\Dom\Attr');
 
+        $isXml ? $dom->loadXml($xhtml)
+               : $dom->loadHtml(mb_convert_encoding($xhtml, 'HTML-ENTITIES', 'UTF-8'));
+
+        $dom->xpath = new DOMXPath($dom);
         return $dom;
     }
 
@@ -144,32 +126,19 @@ class WebinoDraw
     }
 
     /**
-     * @param DOMElement $element Element with owner document
-     * @param array|DrawInstructionsInterface $instructions Draw instructions
+     * @param Dom\Element $element Element with owner document
+     * @param array|InstructionsInterface $instructions Draw instructions
      * @param array $vars Variables to substitute instructions parameters
      * @return WebinoDraw
      * @throws DrawException
      */
-    public function drawDom(DOMElement $element, $instructions, array $vars)
+    public function drawDom(Dom\Element $element, $instructions, array $vars)
     {
         try {
-            $resolvedInstructions = $this->resolveInstructions($instructions);
-        } catch (\InvalidArgumentException $exc) {
-            throw new \InvalidArgumentException($exc->getMessage(), $exc->getCode(), $exc);
-        }
-
-        try {
-
-            $resolvedInstructions->render(
-                $element,
-                $this->renderer,
-                $vars
-            );
-
+            $this->instructionsRenderer->render($instructions, $element, $vars);
         } catch (\Exception $exc) {
             throw new DrawException($exc->getMessage(), $exc->getCode(), $exc);
         }
-
         return $this;
     }
 
@@ -177,7 +146,7 @@ class WebinoDraw
      * Render XHTML string
      *
      * @param string $xhtml XHTML template.
-     * @param array|DrawInstructionsInterface $instructions Options how to render.
+     * @param array|InstructionsInterface $instructions Options how to render.
      * @param array $vars Data variables.
      * @param bool $isXml Load as XML
      * @return string Rendered HTML.
@@ -185,15 +154,15 @@ class WebinoDraw
     public function draw($xhtml, $instructions, array $vars, $isXml = false)
     {
         try {
-            $resolvedInstructions = $this->resolveInstructions($instructions);
+            $drawInstructions = $this->createInstructions($instructions);
         } catch (\InvalidArgumentException $exc) {
             throw new \InvalidArgumentException($exc->getMessage(), $exc->getCode(), $exc);
         }
 
-        $dom = $isXml ? $this->createXmlDom($xhtml) : $this->createDom($xhtml) ;
+        $dom = $isXml ? $this->createXmlDom($xhtml) : $this->createDom($xhtml);
         $this->drawDom(
             $dom->documentElement,
-            $resolvedInstructions,
+            $drawInstructions,
             $vars
         );
 
@@ -202,18 +171,21 @@ class WebinoDraw
 
     /**
      *
-     * @param array|DrawInstructionsInterface $instructions
-     * @return DrawInstructionsInterface
+     * @param array|InstructionsInterface $instructions
+     * @return InstructionsInterface
      * @throws \InvalidArgumentException
      */
-    protected function resolveInstructions($instructions)
+    protected function createInstructions($instructions)
     {
-        if (!is_array($instructions)
-            && !($instructions instanceof DrawInstructionsInterface)
+        if (!($instructions instanceof InstructionsInterface)
+            && !is_array($instructions)
         ) {
-            throw new \InvalidArgumentException('Expected instructions as array|DrawInstructionsInterface');
+            throw new \InvalidArgumentException(
+                'Expected instructions as array|InstructionsInterface'
+            );
         }
 
-        return is_array($instructions) ? $this->options->createInstructions($instructions) : $instructions;
+        return is_array($instructions) ? $this->instructionsFactory->create($instructions)
+                                       : $instructions;
     }
 }
