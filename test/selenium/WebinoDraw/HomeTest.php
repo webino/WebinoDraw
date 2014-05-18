@@ -18,6 +18,11 @@ use PHPWebDriver_WebDriverBy as By;
 class HomeTest extends AbstractBase
 {
     /**
+     * Property to store the cached value
+     */
+    private static $cachedValue;
+
+    /**
      *
      */
     public function testHome()
@@ -210,7 +215,67 @@ class HomeTest extends AbstractBase
         // /subInstructions
 
         // TODO test ajax
-        // TODO test cache
+        // ajax
+        $ajaxTime = $this->session->element(By::ID, 'ajax-time')->text();
+        $this->assertNotEmpty($ajaxTime);
+
+        $ajaxRand = $this->session->element(By::ID, 'ajax-rand')->text();
+        $this->assertNotEmpty($ajaxRand);
+
+        // click ajax
+        $loc = '//*[@class="ajax-example"]/a[1]';
+        $elm = $this->session->element(By::XPATH, $loc);
+        $elm->click();
+        $this->waitForAjax();
+
+        $ajaxTime2 = $this->session->element(By::ID, 'ajax-time')->text();
+        $this->assertNotEmpty($ajaxTime2);
+
+        $ajaxRand2 = $this->session->element(By::ID, 'ajax-rand')->text();
+        $this->assertNotEmpty($ajaxRand2);
+
+        $this->assertNotEquals($ajaxTime, $ajaxTime2);
+        $this->assertNotEquals($ajaxRand, $ajaxRand2);
+
+        // click ajax single
+        $loc = '//*[@class="ajax-example"]/a[2]';
+        $elm = $this->session->element(By::XPATH, $loc);
+        $elm->click();
+        $this->waitForAjax();
+
+        $ajaxTime3 = $this->session->element(By::ID, 'ajax-time')->text();
+        $this->assertNotEmpty($ajaxTime3);
+        $this->assertEquals($ajaxTime2, $ajaxTime3);
+
+        $ajaxRand3 = $this->session->element(By::ID, 'ajax-rand')->text();
+        $this->assertNotEmpty($ajaxRand3);
+        $this->assertNotEquals($ajaxRand2, $ajaxRand3);
+
+        // click ajax extra
+        $loc = '//*[@class="ajax-example"]/a[3]';
+        $elm = $this->session->element(By::XPATH, $loc);
+        $elm->click();
+        $this->waitForAjax();
+
+        $ajaxTime4 = $this->session->element(By::ID, 'ajax-time')->text();
+        $this->assertNotEmpty($ajaxTime4);
+        $this->assertNotEquals($ajaxTime3, $ajaxTime4);
+
+        $ajaxRand4 = $this->session->element(By::ID, 'ajax-rand')->text();
+        $this->assertNotEmpty($ajaxRand4);
+        $this->assertNotEquals($ajaxRand3, $ajaxRand4);
+
+        $loc = 'ajax-log';
+        $elm = $this->session->element(By::CLASS_NAME, $loc);
+        $this->assertStringStartsWith('ajax extra random ', $elm->text());
+        // /ajax
+
+        // cache
+        $loc = 'cache-example';
+        $elm = $this->session->element(By::CLASS_NAME, $loc);
+        $this::$cachedValue = $elm->text();
+        $this->assertStringStartsWith('CACHED? ', $this::$cachedValue);
+        // /cache
 
         // custom-helper
         $loc = 'custom-helper-example';
@@ -222,6 +287,51 @@ class HomeTest extends AbstractBase
         $this->assertContains('VALUE FROM CUSTOM DI HELPER', $elm->text());
         // /custom-helper
 
-        // TODO test pagination
+        // pagination
+        // TODO do not use ?1 on the first page by default
+        $loc = '//*[@class="pagination-example"]/ul/li[1]/a[@href="?1"]';
+        $elm = $this->session->element(By::XPATH, $loc);
+        $this->assertEquals('«', $elm->text());
+
+        // TODO do not use ?1 on the first page by default
+        $loc = '//*[@class="pagination-example"]/ul/li[2]/a[@href="?1"]';
+        $elm = $this->session->element(By::XPATH, $loc);
+        $this->assertEquals('1', $elm->text());
+
+        $loc = '//*[@class="pagination-example"]/ul/li[3]/a[@href="?2"]';
+        $elm = $this->session->element(By::XPATH, $loc);
+        $this->assertEquals('2', $elm->text());
+
+        $loc = '//*[@class="pagination-example"]/ul/li[4]/a[@href="?3"]';
+        $elm = $this->session->element(By::XPATH, $loc);
+        $this->assertEquals('3', $elm->text());
+
+        $loc = '//*[@class="pagination-example"]/ul/li[5]/a[@href="?3"]';
+        $elm = $this->session->element(By::XPATH, $loc);
+        $this->assertEquals('»', $elm->text());
+        // /pagination
+    }
+
+    /**
+     *
+     */
+    public function testCache()
+    {
+        $this->session->open($this->uri);
+        $this->assertNotContains('Server Error', $this->session->title());
+
+        $loc = 'cache-example';
+        $elm = $this->session->element(By::CLASS_NAME, $loc);
+        $this->assertEquals($this::$cachedValue, $elm->text());
+
+        // clear cache test
+        $this->session->open($this->uri . '?clearcache');
+        $this->assertNotContains('Server Error', $this->session->title());
+
+        $loc = 'cache-example';
+        $elm = $this->session->element(By::CLASS_NAME, $loc);
+        $this->assertNotEmpty($elm->text());
+        $this->assertNotEquals($this::$cachedValue, $elm->text());
+        $this::$cachedValue = null;
     }
 }
