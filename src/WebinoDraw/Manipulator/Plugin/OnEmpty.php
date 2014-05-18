@@ -3,7 +3,6 @@
 namespace WebinoDraw\Manipulator\Plugin;
 
 use DOMText as DomText;
-use WebinoDraw\Dom\NodeInterface;
 use WebinoDraw\Instructions\InstructionsRenderer;
 
 /**
@@ -18,13 +17,14 @@ class OnEmpty implements InLoopPluginInterface
         $this->instructionsRenderer = $instructionsRenderer;
     }
 
-    public function inLoop(NodeInterface $node, PluginArgument $arg)
+    public function inLoop(PluginArgument $arg)
     {
         $spec = $arg->getSpec();
         if (empty($spec['onEmpty'])) {
             return;
         }
 
+        $node = $arg->getNode();
         if (($node instanceof NodeInterface && !$node->isEmpty())
             || ($node instanceof DomText && '' !== trim($node->nodeValue))
         ) {

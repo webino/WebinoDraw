@@ -13,14 +13,15 @@ namespace WebinoDraw;
 return [
     'custom-helper-example-prepare' => [
         'locator' => '.jumbotron',
-        'html'    => '{$_innerHtml}<div class="custom-helper-example"></div><div class="custom-dihelper-example"></div>',
+        'html'    => '{$_innerHtml}<div class="custom-helper-example">'
+                     . '</div><div class="custom-di-helper-example"></div>',
     ],
     'custom-helper-example' => [
         'locator' => '.custom-helper-example',
         'helper'  => 'CustomHelper',
     ],
-    'custom-dihelper-example' => [
-        'locator' => '.custom-dihelper-example',
+    'custom-di-helper-example' => [
+        'locator' => '.custom-di-helper-example',
         'helper'  => 'CustomDiHelper',
     ],
 ];

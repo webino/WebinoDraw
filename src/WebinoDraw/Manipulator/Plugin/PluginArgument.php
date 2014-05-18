@@ -2,6 +2,7 @@
 
 namespace WebinoDraw\Manipulator\Plugin;
 
+use WebinoDraw\Dom\NodeInterface;
 use WebinoDraw\Dom\NodeList;
 use WebinoDraw\Helper\DrawHelperInterface;
 use WebinoDraw\Stdlib\Translation;
@@ -13,6 +14,7 @@ use Zend\Stdlib\AbstractOptions;
 class PluginArgument extends AbstractOptions
 {
     protected $helper;
+    protected $node;
     protected $nodes;
     protected $spec = [];
     protected $translation;
@@ -27,6 +29,17 @@ class PluginArgument extends AbstractOptions
     public function setHelper(DrawHelperInterface $helper)
     {
         $this->helper = $helper;
+        return $this;
+    }
+
+    public function getNode()
+    {
+        return $this->node;
+    }
+
+    public function setNode(NodeInterface $node)
+    {
+        $this->node = $node;
         return $this;
     }
 

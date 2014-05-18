@@ -56,10 +56,12 @@ class Manipulator
         }
 
         foreach ($arg->getNodes() as $node) {
+            $arg->setNode($node);
+
             $this->eachPlugin(
                 __NAMESPACE__ . '\Plugin\InLoopPluginInterface',
-                function ($plugin) use ($node, $arg) {
-                    $plugin->inLoop($node, $arg);
+                function ($plugin) use ($arg) {
+                    $plugin->inLoop($arg);
                 }
             );
 

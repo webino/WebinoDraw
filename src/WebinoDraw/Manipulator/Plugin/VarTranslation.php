@@ -3,7 +3,6 @@
 namespace WebinoDraw\Manipulator\Plugin;
 
 use WebinoDraw\Stdlib\VarTranslator;
-use WebinoDraw\Dom\NodeInterface;
 
 class VarTranslation implements InLoopPluginInterface
 {
@@ -16,7 +15,7 @@ class VarTranslation implements InLoopPluginInterface
     }
 
 
-    public function inLoop(NodeInterface $node, PluginArgument $arg)
+    public function inLoop(PluginArgument $arg)
     {
         $translation = $arg->getTranslation();
         // create variables translation

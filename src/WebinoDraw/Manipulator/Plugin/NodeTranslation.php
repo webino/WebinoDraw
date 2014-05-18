@@ -3,14 +3,14 @@
 namespace WebinoDraw\Manipulator\Plugin;
 
 use WebinoDraw\Dom\Element;
-use WebinoDraw\Dom\NodeInterface;
 
 class NodeTranslation implements InLoopPluginInterface
 {
     protected $lastNodeTranslation = [];
 
-    public function inLoop(NodeInterface $node, PluginArgument $arg)
+    public function inLoop(PluginArgument $arg)
     {
+        $node = $arg->getNode();
         if (!$node instanceof Element) {
             return;
         }

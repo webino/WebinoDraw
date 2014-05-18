@@ -18,5 +18,9 @@ return [
     'replace-example' => [
         'locator' => '.replace-example',
         'replace' => '<strong>TEST REPLACE</strong>',
+
+        'attribs' => [
+            'class' => '{$_class}',
+        ],
     ],
 ];

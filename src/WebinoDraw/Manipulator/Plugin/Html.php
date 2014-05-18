@@ -2,7 +2,6 @@
 
 namespace WebinoDraw\Manipulator\Plugin;
 
-use WebinoDraw\Dom\NodeInterface;
 use WebinoDraw\Instructions\InstructionsRenderer;
 use WebinoDraw\Stdlib\VarTranslator;
 
@@ -17,7 +16,7 @@ class Html implements InLoopPluginInterface
         $this->instructionsRenderer = $instructionsRenderer;
     }
 
-    public function inLoop(NodeInterface $node, PluginArgument $arg)
+    public function inLoop(PluginArgument $arg)
     {
         $spec = $arg->getSpec();
         if (!array_key_exists('html', $spec)
@@ -27,6 +26,7 @@ class Html implements InLoopPluginInterface
         }
 
         $translatedHtml  = $arg->getHelper()->translateValue($spec['html'], $arg->getVarTranslation());
+        $node = $arg->getNode();
         $node->nodeValue = '';
 
         if (empty($translatedHtml)) {

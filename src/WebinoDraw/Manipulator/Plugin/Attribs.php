@@ -9,7 +9,7 @@ use WebinoDraw\Dom\NodeInterface;
  */
 class Attribs extends AbstractPlugin implements InLoopPluginInterface
 {
-    public function inLoop(NodeInterface $node, PluginArgument $arg)
+    public function inLoop(PluginArgument $arg)
     {
         $spec = $arg->getSpec();
         if (empty($spec['attribs'])) {
@@ -17,6 +17,7 @@ class Attribs extends AbstractPlugin implements InLoopPluginInterface
         }
 
         $helper         = $arg->getHelper();
+        $node           = $arg->getNode();
         $varTranslation = $arg->getVarTranslation();
 
         foreach ($spec['attribs'] as $attribName => $attribValue) {

@@ -3,7 +3,6 @@
 namespace WebinoDraw\Manipulator\Plugin;
 
 use WebinoDraw\Dom\Element;
-use WebinoDraw\Dom\NodeInterface;
 use Zend\View\Helper\EscapeHtml;
 
 class Value extends AbstractPlugin implements InLoopPluginInterface
@@ -15,9 +14,11 @@ class Value extends AbstractPlugin implements InLoopPluginInterface
         $this->escapeHtml = $escapeHtml;
     }
 
-    public function inLoop(NodeInterface $node, PluginArgument $arg)
+    public function inLoop(PluginArgument $arg)
     {
         $spec = $arg->getSpec();
+        $node = $arg->getNode();
+        
         if (!($node instanceof Element)
             || !array_key_exists('value', $spec)
             || null === $spec['value']

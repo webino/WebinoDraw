@@ -4467,6 +4467,7 @@ return array (
     array (
       '__construct' => 3,
       'setHelper' => 0,
+      'setNode' => 0,
       'setNodes' => 0,
       'setSpec' => 0,
       'setTranslation' => 0,
@@ -4491,6 +4492,16 @@ return array (
         array (
           0 => 'helper',
           1 => 'WebinoDraw\\Helper\\DrawHelperInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setNode' => 
+      array (
+        'WebinoDraw\\Manipulator\\Plugin\\PluginArgument::setNode:0' => 
+        array (
+          0 => 'node',
+          1 => 'WebinoDraw\\Dom\\NodeInterface',
           2 => true,
           3 => NULL,
         ),

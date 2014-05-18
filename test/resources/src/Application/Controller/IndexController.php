@@ -277,7 +277,7 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
 
                 'onEmpty' => [
                     'locator' => 'xpath=.',
-                    'cdata'   => 'CDATA ON EMPTY EXAMPLE',
+                    'cdata'   => '<p>CDATA ON EMPTY EXAMPLE</p>',
                 ],
             ],
         ]);

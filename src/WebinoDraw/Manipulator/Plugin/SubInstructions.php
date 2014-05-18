@@ -2,7 +2,6 @@
 
 namespace WebinoDraw\Manipulator\Plugin;
 
-use WebinoDraw\Dom\NodeInterface;
 use WebinoDraw\Instructions\InstructionsRenderer;
 
 class SubInstructions implements InLoopPluginInterface
@@ -14,9 +13,10 @@ class SubInstructions implements InLoopPluginInterface
         $this->instructionsRenderer = $instructionsRenderer;
     }
 
-    public function inLoop(NodeInterface $node, PluginArgument $arg)
+    public function inLoop(PluginArgument $arg)
     {
         $spec = $arg->getSpec();
+        $node = $arg->getNode();
         $this->instructionsRenderer->expandInstructions($spec);
         if (empty($spec['instructions']) || empty($node->ownerDocument)) {
             return;

@@ -2,15 +2,13 @@
 
 namespace WebinoDraw\Manipulator\Plugin;
 
-use WebinoDraw\Dom\NodeInterface;
-
 class Replace extends AbstractPlugin implements
     InLoopPluginInterface,
     PostLoopPluginInterface
 {
     protected $nodesToRemove = [];
 
-    public function inLoop(NodeInterface $node, PluginArgument $arg)
+    public function inLoop(PluginArgument $arg)
     {
         $spec = $arg->getSpec();
         if (!array_key_exists('replace', $spec)
@@ -19,17 +17,19 @@ class Replace extends AbstractPlugin implements
             return;
         }
 
-        $varTranslation  = $arg->getVarTranslation();
-        $translatedHtml  = $arg->getHelper()->translateValue($spec['replace'], $varTranslation);
+        $varTranslation = $arg->getVarTranslation();
+        $translatedHtml = $arg->getHelper()->translateValue($spec['replace'], $varTranslation);
+        $node = $arg->getNode();
         $node->nodeValue = '';
 
         if (!empty($translatedHtml)) {
             $frag = $node->ownerDocument->createDocumentFragment();
             $frag->appendXml($translatedHtml);
 
+            // insert new node remove old later
             $newNode = $node->parentNode->insertBefore($frag, $node);
+            $arg->setNode($newNode);
             $this->nodesToRemove[] = $node;
-            $node = $newNode;
         }
 
         $this->updateNodeVarTranslation($node, $arg);

@@ -36,29 +36,39 @@ class HomeTest extends AbstractBase
         $this->session->element(By::XPATH, $loc);
         // /absolutize
 
+        // value
+        $loc = 'Fork WebinoDraw on GitHub »';
+        $elm = $this->session->element(By::LINK_TEXT, $loc);
+        $this->assertEquals('https://github.com/webino/WebinoDraw', $elm->attribute('href'));
+        // /value
+
+        // html
         $loc = 'h1';
         $elm = $this->session->element(By::TAG_NAME, $loc);
         $this->assertEquals('Welcome to Webino', $elm->text());
-
-        $loc = 'zf-green';
-        $elm = $this->session->element(By::CLASS_NAME, $loc);
-        $this->assertEquals('Webino', $elm->text());
-
-        $loc = '.jumbotron > span';
-        $elm = $this->session->element(By::CSS_SELECTOR, $loc);
-        $this->assertEquals('TEST ADD BEFORE', $elm->text());
-
-        $loc = 'replace-example';
-        $elm = $this->session->element(By::CLASS_NAME, $loc);
-        $this->assertEquals('TEST REPLACE', $elm->text());
 
         $loc = 'html-on-empty-example';
         $elm = $this->session->element(By::CLASS_NAME, $loc);
         $this->assertEquals('HTML ON EMPTY', $elm->text());
 
-        $loc = 'Fork WebinoDraw on GitHub »';
-        $this->session->element(By::LINK_TEXT, $loc);
+        $loc = 'zf-green';
+        $elm = $this->session->element(By::CLASS_NAME, $loc);
+        $this->assertEquals('Webino', $elm->text());
+        // /html
 
+        // replace
+        $loc = 'replace-example';
+        $elm = $this->session->element(By::CLASS_NAME, $loc);
+        $this->assertEquals('TEST REPLACE', $elm->text());
+        // /replace
+
+        // add
+        $loc = '.jumbotron > span';
+        $elm = $this->session->element(By::CSS_SELECTOR, $loc);
+        $this->assertEquals('TEST ADD BEFORE', $elm->text());
+        // //add
+
+        // remove
         $loc = 'remove-me-single';
         $this->assertEquals(0, count($this->session->elements(By::CLASS_NAME, $loc)));
 
@@ -67,7 +77,9 @@ class HomeTest extends AbstractBase
 
         $loc = 'remove-me-xpath';
         $this->assertEquals(0, count($this->session->elements(By::CLASS_NAME, $loc)));
+        // /remove
 
+        // var
         $loc = 'h2[title="ORIGCONTENT NODEVARATTRIBTEST ORIGATTRIB"]';
         $elm = $this->session->element(By::CSS_SELECTOR, $loc);
         $this->assertEquals('ORIGCONTENT NODEVARTEST ORIGATTRIB', $elm->text());
@@ -75,7 +87,9 @@ class HomeTest extends AbstractBase
         $loc = 'viewvar-example';
         $elm = $this->session->element(By::CLASS_NAME, $loc);
         $this->assertEquals('TESTVIEWVAR DEPTHVAR', $elm->text());
+        // /onVar
 
+        // onVar
         $loc = 'on-var-equal-to-example';
         $elm = $this->session->element(By::CLASS_NAME, $loc);
         $this->assertEquals('ON VAR VALUE EQUAL TO', $elm->text());
@@ -83,11 +97,15 @@ class HomeTest extends AbstractBase
         $loc = 'on-var-not-equal-to-example';
         $elm = $this->session->element(By::CLASS_NAME, $loc);
         $this->assertEquals('ON VAR VALUE NOT EQUAL TO', $elm->text());
+        // /onVar
 
+        // filter
         $loc = 'filter-example';
         $elm = $this->session->element(By::CLASS_NAME, $loc);
         $this->assertEquals('THIS SHOULD BE UPPER CASE', $elm->text());
+        // /filter
 
+        // translate
         $loc = 'translate-example';
         $elm = $this->session->element(By::CLASS_NAME, $loc);
         $this->assertEquals('toto by malo byť preložené', $elm->text());
@@ -99,7 +117,9 @@ class HomeTest extends AbstractBase
         $loc = 'translate-draw-helper-example';
         $elm = $this->session->element(By::CLASS_NAME, $loc);
         $this->assertEquals('toto by malo byť preložené cez draw helper', $elm->attribute('title'));
+        // /translate
 
+        // loop
         $loc = 'ul.loop-example > li:first-child';
         $elm = $this->session->element(By::CSS_SELECTOR, $loc);
         $this->assertEquals('BEFORE', $elm->text());
@@ -140,10 +160,12 @@ class HomeTest extends AbstractBase
         $elm = $this->session->element(By::XPATH, $loc);
         $this->assertEquals('AFTER', $elm->text());
 
-        $loc = '//p[4]';
-        $elm = $this->session->element(By::XPATH, $loc);
+        $loc = '.loop-empty-example.no-items';
+        $elm = $this->session->element(By::CSS_SELECTOR, $loc);
         $this->assertEquals('YOU HAVE NO ITEMS', $elm->text());
+        // /loop
 
+        // form
         $loc = 'label span';
         $elm = $this->session->element(By::CSS_SELECTOR, $loc);
         $this->assertEquals('Ukážka popisky', $elm->text());
@@ -159,15 +181,21 @@ class HomeTest extends AbstractBase
         $loc = '//label[2]/span';
         $elm = $this->session->element(By::XPATH, $loc);
         $this->assertEquals('Label example2', $elm->text());
+        // /form
 
+        // runtime
         $loc = 'runtime-example';
         $elm = $this->session->element(By::CLASS_NAME, $loc);
         $this->assertEquals('RUNTIME EXAMPLE VALUE', $elm->text());
+        // /runtime
 
+        // event
         $loc = 'event-example';
         $elm = $this->session->element(By::CLASS_NAME, $loc);
         $this->assertEquals('EVENT EXAMPLE VALUE', $elm->text());
+        // /event
 
+        // subInstructions
         $loc = 'subinstructions-example';
         $elm = $this->session->element(By::CLASS_NAME, $loc);
         $this->assertContains('SUB-INSTRUCTIONS(TEST) EXAMPLE VALUE', $elm->text());
@@ -176,10 +204,15 @@ class HomeTest extends AbstractBase
         $elm = $this->session->element(By::CSS_SELECTOR, $loc);
         $this->assertEquals('Ukážka popisky*(TEST)', $elm->text());
 
-        $loc = '//div[4]/form/label[2]/span';
+        $loc = '//*[@class="subinstructions-example"]/form[@class="example-form"]/label[2]/span';
         $elm = $this->session->element(By::XPATH, $loc);
         $this->assertEquals('Label example2*(TEST)', $elm->text());
+        // /subInstructions
 
+        // TODO test ajax
+        // TODO test cache
+
+        // custom-helper
         $loc = 'custom-helper-example';
         $elm = $this->session->element(By::CLASS_NAME, $loc);
         $this->assertContains('VALUE FROM CUSTOM HELPER', $elm->text());
@@ -187,5 +220,8 @@ class HomeTest extends AbstractBase
         $loc = 'custom-di-helper-example';
         $elm = $this->session->element(By::CLASS_NAME, $loc);
         $this->assertContains('VALUE FROM CUSTOM DI HELPER', $elm->text());
+        // /custom-helper
+
+        // TODO test pagination
     }
 }

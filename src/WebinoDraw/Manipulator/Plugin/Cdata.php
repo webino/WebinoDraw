@@ -3,7 +3,6 @@
 namespace WebinoDraw\Manipulator\Plugin;
 
 use WebinoDraw\Instructions\InstructionsRenderer;
-use WebinoDraw\Dom\NodeInterface;
 
 /**
  *
@@ -17,7 +16,7 @@ class Cdata implements InLoopPluginInterface
         $this->instructionsRenderer = $instructionsRenderer;
     }
 
-    public function inLoop(NodeInterface $node, PluginArgument $arg)
+    public function inLoop(PluginArgument $arg)
     {
         $spec = $arg->getSpec();
         if (!array_key_exists('cdata', $spec)
@@ -26,6 +25,7 @@ class Cdata implements InLoopPluginInterface
             return;
         }
 
+        $node = $arg->getNode();
         $node->nodeValue = '';
         $translatedCdata = $arg->getHelper()->translateValue($spec['cdata'], $arg->getVarTranslation());
 
@@ -33,7 +33,8 @@ class Cdata implements InLoopPluginInterface
             return;
         }
 
-        $cdata = $node->ownerDocument->createCdataSection($translatedCdata);
-        $node->appendChild($cdata);
+        $node->appendChild(
+            $node->ownerDocument->createCdataSection($translatedCdata)
+        );
     }
 }

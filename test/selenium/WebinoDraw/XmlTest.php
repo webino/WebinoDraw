@@ -10,7 +10,8 @@
 
 namespace WebinoDraw;
 
-use PHPWebDriver_WebDriverBy as By;
+use DOMDocument as DomDocument;
+use DOMXPath as DomXpath;
 
 /**
  *
@@ -22,14 +23,16 @@ class XmlTest extends AbstractBase
      */
     public function testXml()
     {
-        $this->session->open($this->uri . 'xml');
+        $dom = new DomDocument;
+        $dom->load($this->uri . 'xml');
+        $dom->xpath = new DomXpath($dom);
 
         $loc = '/root/cdataExample';
-        $elm = $this->session->element(By::XPATH, $loc);
-        $this->assertEquals('<![CDATA[ <p>CDATA EXAMPLE</p> ]]>', $elm->text());
+        $elm = $dom->xpath->query($loc)->item(0);
+        $this->assertEquals('<p>CDATA EXAMPLE</p>', $elm->nodeValue);
 
         $loc = '/root/cdataOnEmptyExample';
-        $elm = $this->session->element(By::XPATH, $loc);
-        $this->assertEquals('<![CDATA[ <p>CDATA ON EMPTY EXAMPLE</p> ]]>', $elm->text());
+        $elm = $dom->xpath->query($loc)->item(0);
+        $this->assertEquals('<p>CDATA ON EMPTY EXAMPLE</p>', $elm->nodeValue);
     }
 }

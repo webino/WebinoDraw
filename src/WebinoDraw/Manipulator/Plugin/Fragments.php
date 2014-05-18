@@ -3,7 +3,6 @@
 namespace WebinoDraw\Manipulator\Plugin;
 
 use WebinoDraw\Dom\Locator;
-use WebinoDraw\Dom\NodeInterface;
 
 class Fragments implements InLoopPluginInterface
 {
@@ -17,13 +16,14 @@ class Fragments implements InLoopPluginInterface
         $this->locator = $locator;
     }
 
-    public function inLoop(NodeInterface $node, PluginArgument $arg)
+    public function inLoop(PluginArgument $arg)
     {
         $spec = $arg->getSpec();
         if (empty($spec['fragments'])) {
             return;
         }
 
+        $node        = $arg->getNode();
         $translation = $arg->getTranslation();
         $nodeXpath   = $node->ownerDocument->xpath;
 

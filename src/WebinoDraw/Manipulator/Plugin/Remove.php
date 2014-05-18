@@ -3,7 +3,6 @@
 namespace WebinoDraw\Manipulator\Plugin;
 
 use WebinoDraw\Dom\Locator;
-use WebinoDraw\Dom\NodeInterface;
 
 class Remove implements InLoopPluginInterface
 {
@@ -15,14 +14,16 @@ class Remove implements InLoopPluginInterface
         $this->locator = $locator;
     }
 
-    public function inLoop(NodeInterface $node, PluginArgument $arg)
+    public function inLoop(PluginArgument $arg)
     {
         $spec = $arg->getSpec();
         if (empty($spec['remove'])) {
             return;
         }
 
+        $node      = $arg->getNode();
         $nodeXpath = $node->ownerDocument->xpath;
+
         foreach ((array) $spec['remove'] as $removeLocator) {
 
             $removeXpath = $this->locator->set($removeLocator)->xpathMatchAny();

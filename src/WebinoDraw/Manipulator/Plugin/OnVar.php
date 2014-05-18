@@ -2,7 +2,6 @@
 
 namespace WebinoDraw\Manipulator\Plugin;
 
-use WebinoDraw\Dom\NodeInterface;
 use WebinoDraw\Instructions\InstructionsRenderer;
 use WebinoDraw\Stdlib\VarTranslator;
 
@@ -16,7 +15,7 @@ class OnVar  implements InLoopPluginInterface
         $this->instructionsRenderer = $instructionsRenderer;
     }
 
-    public function inLoop(NodeInterface $node, PluginArgument $arg)
+    public function inLoop(PluginArgument $arg)
     {
         $spec = $arg->getSpec();
         if (empty($spec['onVar'])) {
