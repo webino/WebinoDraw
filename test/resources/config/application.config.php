@@ -20,8 +20,8 @@ require __DIR__ . '/../init_autoloader.php';
  */
 return [
     'modules' => [
-         'ZF2NetteDebug', // todo: conflict with nette library
-//        'ZendDeveloperTools',
+        'ZF2NetteDebug',
+        'ZendDeveloperTools',
         'Application',
         'WebinoDraw',
     ],
