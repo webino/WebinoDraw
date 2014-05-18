@@ -15,10 +15,6 @@ namespace WebinoDraw;
  */
 require __DIR__ . '/../init_autoloader.php';
 
-// TODO
-ini_set('error_log', __DIR__ . '/error.log');
-error_log('TEST');
-
 /**
  * WebinoDraw application test config
  */
