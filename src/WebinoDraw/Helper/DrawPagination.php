@@ -53,6 +53,7 @@ class DrawPagination extends DrawElement
                     'title' => '{$last}',
                 ],
             ],
+            // TODO do not use ?1 on the first page by default
             'pages' => [
                 'locator' => 'xpath=.//li[2]',
                 'loop' => [
