@@ -151,6 +151,7 @@ class DrawPagination extends DrawElement implements ServiceLocatorAwareInterface
                 $this->getVars(),
                 (array) $pages,
                 [
+                    'current'      => $curPageNo,
                     'pagesInRange' => $pagesInRange,
                     'params'       => !empty($this->params)
                                       ? '&amp;' . http_build_query($this->params, '', '&amp;')
