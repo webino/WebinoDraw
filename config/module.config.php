@@ -45,8 +45,11 @@ return [
             'WebinoDrawCache' => [
                 'parameters' => [
                     'options' => [
-                        'namespace' => 'webinodraw',
-                        'cacheDir'  => 'data/cache',
+                        'namespace'      => 'webinodraw',
+                        'cacheDir'       => 'data/cache',
+                        'dirPermission'  => false,
+                        'filePermission' => false,
+                        'umask'          => 7,
                     ],
                 ],
             ],
