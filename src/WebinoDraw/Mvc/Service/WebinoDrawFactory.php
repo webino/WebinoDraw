@@ -26,11 +26,12 @@ class WebinoDrawFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $services)
     {
-        $config = $services->get('Config');
+        $config     = $services->get('Config');
+        $drawConfig = !empty($config['webino_draw']) ? $config['webino_draw'] : [];
 
         return new WebinoDraw(
             $services->get('ViewRenderer'),
-            new WebinoDrawOptions($config['webino_draw'])
+            new WebinoDrawOptions($drawConfig)
         );
     }
 }
