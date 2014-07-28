@@ -82,6 +82,11 @@ return [
                     'formFactory' => 'FormFactory',
                 ],
             ],
+            'WebinoDraw\Listener\AjaxFragmentListener' => [
+                'parameters' => [
+                    'request' => 'Request',
+                ],
+            ],
         ],
     ],
     'service_manager' => [
