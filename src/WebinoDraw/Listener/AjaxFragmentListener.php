@@ -35,7 +35,7 @@ class AjaxFragmentListener implements SharedListenerAggregateInterface
         $this->request = $request;
     }
 
-        /**
+    /**
      * @param SharedEventManagerInterface $events
      */
     public function attachShared(SharedEventManagerInterface $events)
@@ -59,6 +59,9 @@ class AjaxFragmentListener implements SharedListenerAggregateInterface
         }
     }
 
+    /**
+     * @param AjaxEvent $event
+     */
     public function ajaxFragment(AjaxEvent $event)
     {
         $id = $this->request->getQuery()->fragmentId;
