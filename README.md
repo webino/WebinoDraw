@@ -46,7 +46,7 @@
 
   1. Add `"minimum-stability": "dev"` to your composer.json, because this module is under development
 
-  2. Run `php composer.phar require webino/webino-draw:dev-develop`
+  2. Run `php composer.phar require webino/webino-draw:0.2.0`
 
   3. Add `WebinoDraw` to the enabled modules list
 
