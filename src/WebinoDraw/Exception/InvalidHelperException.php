@@ -13,8 +13,7 @@ namespace WebinoDraw\Exception;
 /**
  *
  */
-class InvalidHelperException extends \InvalidArgumentException implements
-    ExceptionInterface
+class InvalidHelperException extends \InvalidArgumentException implements ExceptionInterface
 {
 
 }

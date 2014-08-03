@@ -1,8 +1,18 @@
 <?php
+/**
+ * Webino (http://webino.sk)
+ *
+ * @link        https://github.com/webino/WebinoDraw for the canonical source repository
+ * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @author      Peter Bačinský <peter@bacinsky.sk>
+ * @license     BSD-3-Clause
+ */
 
 namespace WebinoDraw\Manipulator;
 
-use WebinoDraw\Stdlib\VarTranslator;
+use WebinoDraw\Manipulator\Plugin\PluginArgument;
+use WebinoDraw\Manipulator\Plugin\PluginInterface;
+use WebinoDraw\VarTranslator\VarTranslator;
 use Zend\Stdlib\PriorityQueue;
 
 /**
@@ -11,7 +21,6 @@ use Zend\Stdlib\PriorityQueue;
 class Manipulator
 {
     /**
-     *
      * @var VarTranslator
      */
     protected $varTranslator;
@@ -22,7 +31,7 @@ class Manipulator
     protected $plugins;
 
     /**
-     *
+     * @param VarTranslator $varTranslator
      */
     public function __construct(VarTranslator $varTranslator)
     {
@@ -31,15 +40,20 @@ class Manipulator
     }
 
     /**
-     * @param Plugin\PluginInterface $plugin
+     * @param PluginInterface $plugin
      * @param int $priority
+     * @return self
      */
-    public function setPlugin(Plugin\PluginInterface $plugin, $priority = 1)
+    public function setPlugin(PluginInterface $plugin, $priority = 1)
     {
         $this->plugins->insert($plugin, $priority);
         return $this;
     }
 
+    /**
+     * @param array $options
+     * @return self
+     */
     public function manipulate(array $options)
     {
         $arg = $this->createPluginArgument($options);
@@ -80,11 +94,20 @@ class Manipulator
         return $this;
     }
 
+    /**
+     * @param array $options
+     * @return PluginArgument
+     */
     protected function createPluginArgument(array $options)
     {
-        return new Plugin\PluginArgument($options);
+        return new PluginArgument($options);
     }
 
+    /**
+     * @param string $className
+     * @param callable $callback
+     * @return self
+     */
     protected function eachPlugin($className, callable $callback)
     {
         foreach ($this->plugins as $plugin) {

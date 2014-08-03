@@ -11,32 +11,30 @@
 namespace WebinoDraw\View\Strategy;
 
 use DOMDocument;
-use WebinoDraw\AjaxEvent;
+use WebinoDraw\Event\AjaxEvent;
+use WebinoDraw\Exception;
 
 /**
  * Draw matched containers and return the JSON XHTML of matched fragments
  */
 class DrawAjaxHtmlStrategy extends AbstractDrawAjaxStrategy
 {
-
     /**
      * Return XHTML parts of nodes matched by XPath
      *
      * @param DOMDocument $dom
      * @param string $xpath
      * @return array
-     * @throws Exception
+     * @throws Exception\RuntimeException
      */
     public function createMarkup(DOMDocument $dom, $xpath)
     {
         $markup = '';
-
         foreach ($dom->xpath->query($xpath) as $item) {
 
             $itemId = $item->getAttribute('id');
-
             if (empty($itemId)) {
-                throw new \RuntimeException('Required ajax fragment element id');
+                throw new Exception\RuntimeException('Required ajax fragment element id');
             }
 
             $markup.= $dom->saveHTML($item);
@@ -48,18 +46,13 @@ class DrawAjaxHtmlStrategy extends AbstractDrawAjaxStrategy
     /**
      * @param DOMDocument $dom
      * @param string $xpath
-     * @return \WebinoDraw\Ajax\Json
+     * @return string
      */
     protected function respond(DOMDocument $dom, $xpath)
     {
         $ajaxEvent = $this->getEvent();
         $ajaxEvent->setFragmentXpath($xpath);
-
         $this->getEventManager()->trigger(AjaxEvent::EVENT_AJAX, $ajaxEvent);
-
-        return $this->createMarkup(
-            $dom,
-            $ajaxEvent->getFragmentXpath()
-        );
+        return $this->createMarkup($dom, $ajaxEvent->getFragmentXpath());
     }
 }

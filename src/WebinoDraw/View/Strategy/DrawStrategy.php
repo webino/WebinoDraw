@@ -20,7 +20,6 @@ class DrawStrategy extends AbstractDrawStrategy
 {
     /**
      * @param ViewEvent $event
-     * @return bool Exit
      */
     public function injectResponse(ViewEvent $event)
     {
@@ -28,11 +27,11 @@ class DrawStrategy extends AbstractDrawStrategy
             return;
         }
 
-        $options  = $this->service->getOptions();
+        $options  = $this->draw->getOptions();
         $response = $event->getResponse();
 
         $response->setContent(
-            $this->service->draw(
+            $this->draw->draw(
                 $response->getBody(),
                 $options->getInstructions(),
                 $this->collectModelVariables($event->getModel()),
@@ -41,6 +40,10 @@ class DrawStrategy extends AbstractDrawStrategy
         );
     }
 
+    /**
+     * @param Response $response
+     * @return bool
+     */
     private function resolveIsXml(Response $response)
     {
         $contentType = $response->getHeaders()->get('content-type');
@@ -48,6 +51,6 @@ class DrawStrategy extends AbstractDrawStrategy
             return false;
         }
 
-        return 'text/xml' === $contentType->getMediaType();
+        return ('text/xml' === $contentType->getMediaType());
     }
 }

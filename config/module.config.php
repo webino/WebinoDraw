@@ -24,15 +24,14 @@ return [
         ],
         'instance' => [
             'alias' => [
-                'WebinoDraw'                    => 'WebinoDraw\WebinoDraw',
-                'WebinoDrawOptions'             => 'WebinoDraw\WebinoDrawOptions',
-                'WebinoDrawInstructionsFactory' => 'WebinoDraw\Instructions\InstructionsFactory',
-                'WebinoDrawCache'               => 'Zend\Cache\Storage\Adapter\Filesystem',
-                'WebinoDrawTranslate'           => 'WebinoDraw\Helper\DrawTranslate',
-                'WebinoDrawPagination'          => 'WebinoDraw\Helper\DrawPagination',
-                'WebinoDrawFormCollection'      => 'Zend\Form\View\Helper\FormCollection',
-                'WebinoDrawFormRow'             => 'WebinoDraw\Form\View\Helper\FormRow',
-                'WebinoDrawFormElement'         => 'WebinoDraw\Form\View\Helper\FormElement',
+                'WebinoDraw'               => 'WebinoDraw\Service\DrawService',
+                'WebinoDrawOptions'        => 'WebinoDraw\Options\ModuleOptions',
+                'WebinoDrawCache'          => 'Zend\Cache\Storage\Adapter\Filesystem',
+                'WebinoDrawTranslate'      => 'WebinoDraw\Draw\Helper\Translate',
+                'WebinoDrawPagination'     => 'WebinoDraw\Draw\Helper\Pagination',
+                'WebinoDrawFormCollection' => 'Zend\Form\View\Helper\FormCollection',
+                'WebinoDrawFormRow'        => 'WebinoDraw\Form\View\Helper\FormRow',
+                'WebinoDrawFormElement'    => 'WebinoDraw\Form\View\Helper\FormElement',
             ],
             'WebinoDraw' => [
                 'parameters' => [
@@ -53,8 +52,11 @@ return [
             'WebinoDrawCache' => [
                 'parameters' => [
                     'options' => [
-                        'namespace' => 'webinodraw',
-                        'cacheDir'  => 'data/cache',
+                        'namespace'      => 'webinodraw',
+                        'cacheDir'       => 'data/cache',
+                        'dirPermission'  => false,
+                        'filePermission' => false,
+                        'umask'          => 7,
                     ],
                 ],
             ],
@@ -149,12 +151,44 @@ return [
                     ],
                 ],
             ],
+            'WebinoDraw\VarTranslator\Operation\OnVar' => [
+                'injections' => [
+                    'setPlugin' => [
+                        [
+                            'plugin'   => 'WebinoDraw\VarTranslator\Operation\OnVar\EqualTo',
+                            'priority' => 100,
+                        ],
+                        [
+                            'plugin'   => 'WebinoDraw\VarTranslator\Operation\OnVar\NotEqualTo',
+                            'priority' => 90,
+                        ],
+                        [
+                            'plugin'   => 'WebinoDraw\VarTranslator\Operation\OnVar\GreaterThan',
+                            'priority' => 80,
+                        ],
+                        [
+                            'plugin'   => 'WebinoDraw\VarTranslator\Operation\OnVar\LessThan',
+                            'priority' => 70,
+                        ],
+                    ],
+                ],
+            ],
+            'WebinoDraw\View\Renderer\DrawRenderer' => [
+                'parameters' => [
+                    'draw' => 'WebinoDraw',
+                ],
+            ],
+            'WebinoDraw\Listener\AjaxFragmentListener' => [
+                'parameters' => [
+                    'request' => 'Request',
+                ],
+            ],
         ],
     ],
     'service_manager' => [
         'factories' => [
-            'WebinoDrawOptions'  => 'WebinoDraw\Mvc\Service\WebinoDrawOptionsFactory',
-            'WebinoDrawStrategy' => 'WebinoDraw\View\Strategy\DrawStrategyFactory',
+            'WebinoDrawOptions'  => 'WebinoDraw\Factory\ModuleOptionsFactory',
+            'WebinoDrawStrategy' => 'WebinoDraw\Factory\DrawStrategyFactory',
         ],
     ],
     'view_manager' => [

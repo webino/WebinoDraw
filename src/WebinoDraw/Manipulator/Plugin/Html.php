@@ -1,21 +1,26 @@
 <?php
+/**
+ * Webino (http://webino.sk)
+ *
+ * @link        https://github.com/webino/WebinoDraw for the canonical source repository
+ * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @author      Peter Bačinský <peter@bacinsky.sk>
+ * @license     BSD-3-Clause
+ */
 
 namespace WebinoDraw\Manipulator\Plugin;
 
-use WebinoDraw\Instructions\InstructionsRenderer;
-use WebinoDraw\Stdlib\VarTranslator;
+use WebinoDraw\Exception\RuntimeException;
 
+/**
+ *
+ */
 class Html implements InLoopPluginInterface
 {
-    protected $varTranslator;
-    protected $instructionsRenderer;
-
-    public function __construct(VarTranslator $varTranslator, InstructionsRenderer $instructionsRenderer)
-    {
-        $this->varTranslator        = $varTranslator;
-        $this->instructionsRenderer = $instructionsRenderer;
-    }
-
+    /**
+     * @param PluginArgument $arg
+     * @throws Exception\RuntimeException
+     */
     public function inLoop(PluginArgument $arg)
     {
         $spec = $arg->getSpec();
@@ -25,7 +30,7 @@ class Html implements InLoopPluginInterface
             return;
         }
 
-        $translatedHtml  = $arg->getHelper()->translateValue($spec['html'], $arg->getVarTranslation());
+        $translatedHtml = $arg->getHelper()->translateValue($spec['html'], $arg->getVarTranslation());
         $node = $arg->getNode();
         $node->nodeValue = '';
 
@@ -36,7 +41,7 @@ class Html implements InLoopPluginInterface
         $frag = $node->ownerDocument->createDocumentFragment();
         $frag->appendXml($translatedHtml);
         if (!$frag->hasChildNodes()) {
-            throw new \RuntimeException('Invalid XHTML ' . $translatedHtml);
+            throw new RuntimeException('Invalid XHTML ' . $translatedHtml);
         }
         $node->appendChild($frag);
     }

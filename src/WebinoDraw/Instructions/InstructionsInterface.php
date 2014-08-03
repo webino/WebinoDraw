@@ -10,8 +10,6 @@
 
 namespace WebinoDraw\Instructions;
 
-use WebinoDraw\Dom\Element;
-
 /**
  *
  */
@@ -20,7 +18,6 @@ interface InstructionsInterface
     /**
      * Merge draw instructions
      *
-     * @param array $instructions Merge with
      * @param array $instructions Merge from
      * @return array Merged instructions
      */

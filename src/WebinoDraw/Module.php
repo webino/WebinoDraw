@@ -10,7 +10,6 @@
 
 namespace WebinoDraw;
 
-use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\ModuleManager\ModuleEvent;
 use Zend\ModuleManager\ModuleManagerInterface;
@@ -18,10 +17,11 @@ use Zend\ModuleManager\ModuleManagerInterface;
 /**
  *
  */
-class Module implements
-    AutoloaderProviderInterface,
-    ConfigProviderInterface
+class Module implements ConfigProviderInterface
 {
+    /**
+     * @param ModuleManagerInterface $manager
+     */
     public function init(ModuleManagerInterface $manager)
     {
         $services = $manager->getEvent()->getParam('ServiceManager');
@@ -29,7 +29,7 @@ class Module implements
         // Register draw helper manager
         $services->setFactory(
             'WebinoDrawHelperManager',
-            'WebinoDraw\Mvc\Service\WebinoDrawHelperManagerFactory'
+            'WebinoDraw\Factory\HelperPluginManagerFactory'
         );
         $services->get('ServiceListener')->addServiceManager(
             'WebinoDrawHelperManager',
@@ -38,33 +38,49 @@ class Module implements
             'getWebinoDrawHelperConfig'
         );
 
+        // Register draw loop helper manager
+        $services->setFactory(
+            'WebinoDrawLoopHelperManager',
+            'WebinoDraw\Factory\LoopHelperPluginManagerFactory'
+        );
+        $services->get('ServiceListener')->addServiceManager(
+            'WebinoDrawLoopHelperManager',
+            'webino_draw_loop_helpers',
+            'WebinoDraw\ModuleManager\Feature\WebinoDrawLoopHelperProviderInterface',
+            'getWebinoDrawLoopHelperConfig'
+        );
+
         //
         $manager->getEventManager()->attach(
             ModuleEvent::EVENT_LOAD_MODULES_POST,
-            function (ModuleEvent $event) {
-                $services  = $event->getParam('ServiceManager');
+            function () use ($services) {
+
+                // TODO: ZF2 issue
+                // @link https://github.com/zendframework/zf2/issues/4573
+                $services->get('FilterManager')->addPeeringServiceManager($services);
+                $services->get('ViewHelperManager')->addPeeringServiceManager($services);
+                $services->get('ValidatorManager')->addPeeringServiceManager($services);
+
                 $instances = $services->get('Di')->instanceManager();
 
-                // todo ?
+                // TODO: ZF2 DI issue
+                // @link https://github.com/zendframework/zf2/issues/6290
                 $instances->addSharedInstance(
                     $services->get('ViewHelperManager'),
                     'Zend\View\HelperPluginManager'
                 );
-                $services->get('ViewHelperManager')->addPeeringServiceManager($services);
-
-                // todo ?
                 $instances->addSharedInstance(
                     $services->get('FilterManager'),
                     'Zend\Filter\FilterPluginManager'
                 );
-                $services->get('FilterManager')->addPeeringServiceManager($services);
-
-                // todo ?
                 $instances->addSharedInstance(
                     $services->get('WebinoDrawHelperManager'),
-                    'WebinoDraw\HelperPluginManager'
+                    'WebinoDraw\Draw\HelperPluginManager'
                 );
-                $services->get('WebinoDrawHelperManager')->addPeeringServiceManager($services);
+                $instances->addSharedInstance(
+                    $services->get('WebinoDrawLoopHelperManager'),
+                    'WebinoDraw\Draw\LoopHelperPluginManager'
+                );
             }
         );
     }
@@ -75,37 +91,5 @@ class Module implements
     public function getConfig()
     {
         return include __DIR__ . '/../../config/module.config.php';
-    }
-
-    /**
-     * @return array
-     */
-    public function getServiceConfig()
-    {
-        return [
-            'factories' => [
-                'WebinoDraw\View\Renderer\DrawRenderer' => function ($services) {
-                    return new View\Renderer\DrawRenderer(
-                        $services->get('WebinoDraw'),
-                        $services->get('ViewRenderer')
-                    );
-                },
-            ],
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    public function getAutoloaderConfig()
-    {
-        return [
-            'Zend\Loader\ClassMapAutoloader' => [
-                __DIR__ . '/autoload_classmap.php',
-            ],
-            'Zend\Loader\StandardAutoloader' => [
-                'namespaces' => [__NAMESPACE__ => __DIR__],
-            ],
-        ];
     }
 }

@@ -20,9 +20,9 @@ interface InstructionsRendererInterface
     /**
      * Render the DOMElement ownerDocument
      *
-     * @param Instructions $instructions WebinoDraw instructions
      * @param Element $node WebinoDraw DOMDocument element
+     * @param array|Instructions $instructions WebinoDraw instructions
      * @param array $vars Variables to render
      */
-    public function render($instructions, Element $node, array $vars);
+    public function render(Element $node, $instructions, array $vars);
 }

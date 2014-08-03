@@ -11,15 +11,14 @@
 namespace WebinoDraw\Instructions;
 
 use ArrayAccess;
-use WebinoDraw\Exception\InvalidArgumentException;
-use WebinoDraw\Exception\InvalidInstructionException;
 use WebinoDraw\Dom\Element;
+use WebinoDraw\Dom\Factory\NodeListFactory;
 use WebinoDraw\Dom\Locator;
 use WebinoDraw\Dom\NodeList;
-use WebinoDraw\Dom\NodeListFactory;
-use WebinoDraw\HelperPluginManager as DrawHelperManager;
-use WebinoDraw\Instructions\InstructionsFactory;
-use WebinoDraw\WebinoDrawOptions as DrawOptions;
+use WebinoDraw\Draw\HelperPluginManager;
+use WebinoDraw\Exception\InvalidArgumentException;
+use WebinoDraw\Factory\InstructionsFactory;
+use WebinoDraw\Options\ModuleOptions;
 
 /**
  *
@@ -31,16 +30,45 @@ class InstructionsRenderer implements InstructionsRendererInterface
      */
     const DEFAULT_DRAW_HELPER = 'WebinoDrawElement';
 
+    /**
+     * @var HelperPluginManager
+     */
     protected $drawHelpers;
+
+    /**
+     * @var Locator
+     */
     protected $locator;
+
+    /**
+     * @var NodeListFactory
+     */
     protected $nodeListFactory;
+
+    /**
+     * @var InstructionsFactory
+     */
     protected $instructionsFactory;
+
+    /**
+     * @var ModuleOptions
+     */
     protected $drawOptions;
 
-    public function __construct(DrawHelperManager $drawHelpers, Locator $locator,
-                                NodeListFactory $nodeListFactory,
-                                InstructionsFactory $instructionsFactory, DrawOptions $drawOptions)
-    {
+    /**
+     * @param HelperPluginManager $drawHelpers
+     * @param Locator $locator
+     * @param NodeListFactory $nodeListFactory
+     * @param InstructionsFactory $instructionsFactory
+     * @param ModuleOptions $drawOptions
+     */
+    public function __construct(
+        HelperPluginManager $drawHelpers,
+        Locator $locator,
+        NodeListFactory $nodeListFactory,
+        InstructionsFactory $instructionsFactory,
+        ModuleOptions $drawOptions
+    ) {
         $this->drawHelpers         = $drawHelpers;
         $this->locator             = $locator;
         $this->nodeListFactory     = $nodeListFactory;
@@ -51,20 +79,19 @@ class InstructionsRenderer implements InstructionsRendererInterface
     /**
      * Render the DOMElement ownerDocument
      *
-     * @param Instructions $instructions WebinoDraw instructions
      * @param Element $node DOMDocument element
+     * @param array|Instructions $instructions WebinoDraw instructions
      * @param array $vars Variables to render
      * @throws InvalidArgumentException
-     * @throws InvalidInstructionException
      */
-    public function render($instructions, Element $node, array $vars)
+    public function render(Element $node, $instructions, array $vars)
     {
         $drawInstructions  = is_array($instructions)
                            ? $this->instructionsFactory->create($instructions)
                            : $instructions;
 
         if (!($drawInstructions instanceof Instructions)) {
-            throw new \InvalidArgumentException('Expected instructions as array|Instructions');
+            throw new InvalidArgumentException('Expected instructions as array|Instructions');
         }
 
         foreach ($drawInstructions->getSortedArrayCopy() as $specs) {
@@ -87,8 +114,7 @@ class InstructionsRenderer implements InstructionsRendererInterface
             $this->drawHelpers->get($helper)
                 ->setSpec($spec)
                 ->setVars($vars)
-                // todo deprecated spec argument
-                ->__invoke($this->nodeListFactory->create($nodes), $spec);
+                ->__invoke($this->nodeListFactory->create($nodes));
         }
     }
 
@@ -102,14 +128,14 @@ class InstructionsRenderer implements InstructionsRendererInterface
     {
         $nodeList = is_array($nodes) ? $this->nodeListFactory->create($nodes) : $nodes;
         if (!($nodeList instanceof NodeList)) {
-            throw new \InvalidArgumentException('Expected nodes as array|NodeList');
+            throw new InvalidArgumentException('Expected nodes as array|NodeList');
         }
 
         $drawInstructions = $this->instructionsFactory->create($instructions);
         $vars = $translation->getArrayCopy();
 
         foreach ($nodeList as $node) {
-            $this->render($drawInstructions, $node, $vars);
+            $this->render($node, $drawInstructions, $vars);
         }
 
         return $this;
@@ -126,13 +152,11 @@ class InstructionsRenderer implements InstructionsRendererInterface
         }
 
         $instructions = $this->instructionsFactory->create([]);
-
         foreach ($spec['instructionset'] as $instructionset) {
             $instructions->merge($this->drawOptions->instructionsFromSet($instructionset));
         }
 
         unset($spec['instructionset']);
-
         foreach ($instructions->getSortedArrayCopy() as $instruction) {
             $spec['instructions'][key($instruction)] = current($instruction);
         }

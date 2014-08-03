@@ -13,8 +13,7 @@ namespace WebinoDraw\Exception;
 /**
  *
  */
-class DrawException extends \RuntimeException implements
-    ExceptionInterface
+class DrawException extends \RuntimeException implements ExceptionInterface
 {
 
 }

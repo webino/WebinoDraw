@@ -49,10 +49,8 @@ class Element extends \DOMElement implements NodeInterface
     public function getInnerHtml()
     {
         $innerHtml = '';
-
         foreach ($this->childNodes as $child) {
-
-            $childHtml = trim($child->ownerDocument->saveXML($child));
+            $childHtml = $child->ownerDocument->saveXML($child);
 
             empty($childHtml) or
                 $innerHtml.= $childHtml;

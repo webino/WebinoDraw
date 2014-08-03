@@ -2,9 +2,6 @@
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
             <directory>../src</directory>
-            <exclude>
-                <file>../src/WebinoDraw/autoload_classmap.php</file>
-            </exclude>
         </whitelist>
     </filter>
     <testsuites>

@@ -1,10 +1,20 @@
 <?php
+/**
+ * Webino (http://webino.sk)
+ *
+ * @link        https://github.com/webino/WebinoDraw for the canonical source repository
+ * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @author      Peter Bačinský <peter@bacinsky.sk>
+ * @license     BSD-3-Clause
+ */
 
 namespace WebinoDraw\Manipulator\Plugin;
 
-use ArrayAccess;
 use Zend\View\Renderer\PhpRenderer;
 
+/**
+ *
+ */
 class Render implements PreLoopPluginInterface
 {
     /**
@@ -12,11 +22,17 @@ class Render implements PreLoopPluginInterface
      */
     protected $renderer;
 
+    /**
+     * @param PhpRenderer $renderer
+     */
     public function __construct(PhpRenderer $renderer)
     {
         $this->renderer = $renderer;
     }
 
+    /**
+     * @param PluginArgument $arg
+     */
     public function preLoop(PluginArgument $arg)
     {
         $spec = $arg->getSpec();

@@ -11,14 +11,18 @@
 namespace WebinoDraw\Dom\Locator;
 
 use ArrayObject;
-use WebinoDraw\Dom\Locator\StrategyFactory;
+use WebinoDraw\Dom\Factory\LocatorStrategyFactory;
 use WebinoDraw\Dom\Locator\TransformatorInterface;
+use WebinoDraw\Exception;
 
+/**
+ * 
+ */
 class Transformator extends ArrayObject implements
     TransformatorInterface
 {
     /**
-     * @var StrategyFactory
+     * @var LocatorStrategyFactory
      */
     protected $strategyFactory;
 
@@ -31,22 +35,22 @@ class Transformator extends ArrayObject implements
     }
 
     /**
-     * @return StrategyFactory
+     * @return LocatorStrategyFactory
      */
     public function getStrategyFactory()
     {
         if (null === $this->strategyFactory) {
-            $this->setStrategyFactory(new StrategyFactory);
+            $this->setStrategyFactory(new LocatorStrategyFactory);
         }
 
         return $this->strategyFactory;
     }
 
     /**
-     * @param StrategyFactory $factory
+     * @param LocatorStrategyFactory $factory
      * @return Transformator
      */
-    public function setStrategyFactory(StrategyFactory $factory)
+    public function setStrategyFactory(LocatorStrategyFactory $factory)
     {
         $this->strategyFactory = $factory;
         return $this;
@@ -73,13 +77,12 @@ class Transformator extends ArrayObject implements
      *
      * @param string $index Strategy type
      * @param TransformatorInterface $strategy
-     * @return void
-     * @throws \UnexpectedValueException
+     * @throws Exception\UnexpectedValueException
      */
     public function offsetSet($index, $strategy)
     {
         if (!($strategy instanceof TransformatorInterface)) {
-            throw new \UnexpectedValueException(
+            throw new Exception\UnexpectedValueException(
                 'Expected newval as TransformatorInterface, but provided ' . gettype($strategy)
             );
         }

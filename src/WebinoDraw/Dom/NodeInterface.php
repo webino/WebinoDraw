@@ -10,7 +10,9 @@
 
 namespace WebinoDraw\Dom;
 
-
+/**
+ * 
+ */
 interface NodeInterface
 {
 

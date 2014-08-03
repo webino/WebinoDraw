@@ -15,22 +15,15 @@ use WebinoDraw\Stdlib\ArrayMergeInterface;
 /**
  *
  */
-class Json extends ArrayObject implements
-    ArrayMergeInterface
+class Json extends ArrayObject implements ArrayMergeInterface
 {
     /**
      * @param array $array
-     * @return Json
+     * @return self
      */
     public function merge(array $array)
     {
-        $this->exchangeArray(
-            array_replace_recursive(
-                $this->getArrayCopy(),
-                $array
-            )
-        );
-
+        $this->exchangeArray(array_replace_recursive($this->getArrayCopy(), $array));
         return $this;
     }
 

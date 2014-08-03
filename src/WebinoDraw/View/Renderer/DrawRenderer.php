@@ -10,7 +10,8 @@
 
 namespace WebinoDraw\View\Renderer;
 
-use WebinoDraw\WebinoDraw;
+use WebinoDraw\Exception\InvalidArgumentException;
+use WebinoDraw\Service\DrawService;
 use Zend\View\Model\ModelInterface;
 use Zend\View\Renderer\RendererInterface;
 use Zend\View\Resolver\ResolverInterface;
@@ -21,9 +22,9 @@ use Zend\View\Resolver\ResolverInterface;
 class DrawRenderer implements RendererInterface
 {
     /**
-     * @var WebinoDraw
+     * @var DrawService
      */
-    protected $webinoDraw;
+    protected $draw;
 
     /**
      * @var RendererInterface
@@ -31,12 +32,13 @@ class DrawRenderer implements RendererInterface
     protected $renderer;
 
     /**
+     * @param DrawService $draw
      * @param RendererInterface $renderer
      */
-    public function __construct(WebinoDraw $webinoDraw, RendererInterface $renderer)
+    public function __construct(DrawService $draw, RendererInterface $renderer)
     {
-        $this->webinoDraw = $webinoDraw;
-        $this->renderer   = $renderer;
+        $this->draw     = $draw;
+        $this->renderer = $renderer;
     }
 
     /**
@@ -48,7 +50,7 @@ class DrawRenderer implements RendererInterface
     }
 
     /**
-     * @param  ResolverInterface $resolver
+     * @param ResolverInterface $resolver
      * @return RendererInterface
      */
     public function setResolver(ResolverInterface $resolver)
@@ -59,19 +61,19 @@ class DrawRenderer implements RendererInterface
     /**
      * Render & draw the template
      *
-     * @param  string|ModelInterface   $nameOrModel The script/resource process, or a view model
-     * @param  null|array|\ArrayAccess $values      Values to use during rendering
-     * @return string The script output.
+     * @param string|ModelInterface $nameOrModel The script/resource process, or a view model
+     * @param null|array|\ArrayAccess $values Values to use during rendering
+     * @return string The script output
      */
     public function render($nameOrModel, $values = null)
     {
         $isModel = $nameOrModel instanceof ModelInterface;
         if (!is_string($nameOrModel) && !$isModel) {
-            throw new \InvalidArgumentException('Expected string|ModelInterface');
+            throw new InvalidArgumentException('Expected string|ModelInterface');
         }
 
         $template     = $this->renderer->render($nameOrModel, $values);
-        $instructions = clone $this->webinoDraw->getInstructions();
+        $instructions = clone $this->draw->getInstructions();
         $instructions->exchangeArray([]);
 
         if ($isModel) {
@@ -84,7 +86,7 @@ class DrawRenderer implements RendererInterface
         $modelVars = $isModel ? $nameOrModel->getVariables()->getArrayCopy() : [];
         $variables = array_merge($modelVars, (array) $values);
 
-        return $this->webinoDraw->draw(
+        return $this->draw->draw(
             $template,
             $instructions,
             $variables,

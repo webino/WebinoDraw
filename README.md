@@ -491,7 +491,7 @@
             'offset'   => '0',                           // items offset (optional)
             'length'   => '0',                           // items length (optional)
             'shuffle'  => false,                         // shuffle items
-            'callback' => function(                      // called on each item (optional)
+            'helper'   => function(                      // LoopHelper|callable, called on each item (optional)
                 $loopArgument, array $options
             ){},
             'onEmpty'  => [                              // custom options if items array is empty
@@ -679,7 +679,7 @@ Setting up development environment of the package.
   4. To check module integration with the skeleton application open following directory via web browser:
      `._test/ZendSkeletonApplication/public/`
 
-     e.g. [http://localhost/webino/WebinoDraw/._test/ZendSkeletonApplication/public/](http://localhost/webino/WebinoDraw/._test/ZendSkeletonApplication/public/)
+     e.g. [http://localhost/webino/modules/WebinoDraw/._test/ZendSkeletonApplication/public/](http://localhost/webino/modules/WebinoDraw/._test/ZendSkeletonApplication/public/)
 
   5. Integration test resources are in directory: `test/resources`
 

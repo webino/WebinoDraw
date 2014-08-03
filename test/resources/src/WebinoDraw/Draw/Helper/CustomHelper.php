@@ -11,18 +11,17 @@
 namespace WebinoDraw\Draw\Helper;
 
 use WebinoDraw\Dom\NodeList;
-use WebinoDraw\Helper\DrawElement as AbstractElement;
+use WebinoDraw\Draw\Helper\Element;
 
 /**
  * Custom helper for test & example purposes
  */
-class CustomHelper extends AbstractElement
+class CustomHelper extends Element
 {
     /**
      * @param NodeList $nodes
-     * @param array $spec
      */
-    public function drawNodes(NodeList $nodes, array $spec)
+    public function drawNodes(NodeList $nodes)
     {
         $nodes->setValue('VALUE FROM CUSTOM HELPER');
     }

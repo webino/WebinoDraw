@@ -13,8 +13,7 @@ namespace WebinoDraw\Exception;
 /**
  *
  */
-class InvalidInstructionException extends InvalidArgumentException implements
-    ExceptionInterface
+class InvalidInstructionException extends InvalidArgumentException implements ExceptionInterface
 {
 
 }

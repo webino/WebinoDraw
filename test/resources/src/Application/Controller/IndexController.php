@@ -9,9 +9,9 @@
 
 namespace Application\Controller;
 
-use WebinoDraw\AjaxEvent;
-use WebinoDraw\DrawEvent;
-use WebinoDraw\DrawFormEvent;
+use WebinoDraw\Event\AjaxEvent;
+use WebinoDraw\Event\DrawEvent;
+use WebinoDraw\Event\DrawFormEvent;
 use Zend\I18n\Translator\TextDomain;
 use Zend\I18n\Translator\Loader\RemoteLoaderInterface;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -27,8 +27,8 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
     /**
      * Test translation
      *
-     * @param  string $locale
-     * @param  string $textDomain
+     * @param string $locale
+     * @param string $textDomain
      * @return TextDomain
      */
     public function load($locale, $textDomain)
@@ -261,7 +261,7 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
     /**
      * Xml testing
      *
-     * @return string
+     * @return ViewModel
      */
     public function xmlAction()
     {

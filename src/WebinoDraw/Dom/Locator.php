@@ -11,7 +11,8 @@
 namespace WebinoDraw\Dom;
 
 use ArrayObject;
-use UnexpectedValueException;
+use WebinoDraw\Exception\InvalidArgumentException;
+use WebinoDraw\Exception\UnexpectedValueException;
 use WebinoDraw\Dom\Locator\Transformator;
 
 /**
@@ -25,13 +26,12 @@ class Locator extends ArrayObject
     protected $transformator;
 
     /**
+     * @param Transformator $transformator
      * @param string|array $input
-     * @throws UnexpectedValueException
      */
     public function __construct(Transformator $transformator, $input = null)
     {
         $this->transformator = $transformator;
-
         empty($input) or
             $this->set($input);
     }
@@ -53,27 +53,21 @@ class Locator extends ArrayObject
 
         }
 
-        throw new UnexpectedValueException(
-            'Expected input as string or array, but provided ' . gettype($input)
-        );
+        throw new UnexpectedValueException('Expected input as string or array, but provided ' . gettype($input));
     }
 
     /**
      * @param Element $node
      * @param string $locator
-     * @return Element
-     * @throws \InvalidArgumentException
+     * @return \DOMNodeList
+     * @throws InvalidArgumentException
      */
     public function locate(Element $node, $locator)
     {
         if (empty($node->ownerDocument->xpath)) {
-            throw new \InvalidArgumentException('Expects DOM document with XPATH');
+            throw new InvalidArgumentException('Expects DOM document with XPATH');
         }
-
-        return $node->ownerDocument->xpath->query(
-            $this->set($locator)->xpathMatchAny(),
-            $node
-        );
+        return $node->ownerDocument->xpath->query($this->set($locator)->xpathMatchAny(), $node);
     }
 
     /**
@@ -95,9 +89,7 @@ class Locator extends ArrayObject
     {
         $xpath = [];
         foreach ($this->getArrayCopy() as $locator) {
-            $xpath[] = $this->transformator->locator2Xpath(
-                $this->normalizeLocator($locator)
-            );
+            $xpath[] = $this->transformator->locator2Xpath($this->normalizeLocator($locator));
         }
 
         return join('|', $xpath);
