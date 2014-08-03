@@ -446,9 +446,9 @@
                 'customvar' => [
                     '_join_result' => false,             // bool, disable the string result joining, default true
                     'customhelper' => [                  // zend helper
-                        '__invoke' => [[)],              // zend helper methods with params
+                        '__invoke' => [[]],              // zend helper methods with params
                     ],
-                    'customfunction' => [[)],            // use php function with params
+                    'customfunction' => [[]],            // use php function with params
                 ],
             ],
             'filter' => [                                // filter variables
