@@ -13,6 +13,6 @@
         "grunt-todos": "0.2.*",
         "grunt-browser-sync": "0.5.*",
         "grunt-contrib-watch": "0.4.*",
-        "grunt-contrib-clean": "0.5.*"
+        "grunt-contrib-clean": "0.6.*"
     }
 }
