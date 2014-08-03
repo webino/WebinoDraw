@@ -13,7 +13,7 @@ namespace WebinoDraw\Exception;
 /**
  *
  */
-class UnexpectedValueException extends \OutOfBoundsException implements ExceptionInterface
+class OutOfBoundsException extends \OutOfBoundsException implements ExceptionInterface
 {
 
 }
