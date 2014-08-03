@@ -14,6 +14,13 @@ namespace WebinoDraw;
  * Test config
  */
 return [
+    'di' => [
+        'instance' => [
+            'alias' => [
+                'CustomDiHelper' => 'WebinoDraw\Draw\Helper\CustomDiHelper',
+            ],
+        ],
+    ],
     'service_manager' => [
         'factories' => [
             'Zend\I18n\Translator\TranslatorInterface' => 'Zend\I18n\Translator\TranslatorServiceFactory',
@@ -41,6 +48,16 @@ return [
                     ],
                 ],
             ],
+            'xml-test-route' => [
+                'type' => 'segment',
+                'options' => [
+                    'route' => '/xml',
+                    'defaults' => [
+                        'controller' => 'Application\Controller\Index',
+                        'action'     => 'xml',
+                    ],
+                ],
+            ],
         ],
     ],
     'webino_draw' => [
@@ -50,23 +67,38 @@ return [
                 'html'    => '{$_innerHtml}<li><a href="{$href}">HEAVY TEST</a></li>',
 
                 'var' => [
-                    'set' => [
-                        'href' => '',
-                    ],
+                    'set' => ['href' => ''],
                     'helper' => [
                         'href' => [
-                            'url' => [
-                                '__invoke' => [['heavy-test-route']],
-                            ],
+                            'url' => ['__invoke' => [['heavy-test-route']]],
+                        ],
+                    ],
+                ],
+            ],
+            'xml-test-link' => [
+                'locator' => '.nav li[1]',
+                'html'    => '{$_innerHtml}<li><a href="{$href}">XML TEST</a></li>',
+
+                'var' => [
+                    'set' => ['href' => ''],
+                    'helper' => [
+                        'href' => [
+                            'url' => ['__invoke' => [['xml-test-route']]],
                         ],
                     ],
                 ],
             ],
         ],
     ],
+    'webino_draw_helpers' => [
+        'invokables' => [
+            'CustomHelper' => 'WebinoDraw\Draw\Helper\CustomHelper',
+        ],
+    ],
     'view_manager' => [
         'template_map' => [
             'application/index/heavy' => __DIR__ . '/../view/application/index/heavy.html',
+            'application/index/xml'   => __DIR__ . '/../view/application/index/xml.xml',
         ],
     ],
     'translator' => [

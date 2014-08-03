@@ -13,7 +13,7 @@ namespace WebinoDraw\Dom;
 /**
  * Extended DOMElement
  */
-class Element extends \DOMElement
+class Element extends \DOMElement implements NodeInterface
 {
     const NODE_VALUE_PROPERTY = 'nodeValue';
 
@@ -49,10 +49,8 @@ class Element extends \DOMElement
     public function getInnerHtml()
     {
         $innerHtml = '';
-
         foreach ($this->childNodes as $child) {
-
-            $childHtml = trim($child->ownerDocument->saveXML($child));
+            $childHtml = $child->ownerDocument->saveXML($child);
 
             empty($childHtml) or
                 $innerHtml.= $childHtml;

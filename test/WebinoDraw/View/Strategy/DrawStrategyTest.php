@@ -10,8 +10,11 @@
 
 namespace WebinoDraw\View\Strategy;
 
-use ArrayObject;
 use DOMDocument;
+use WebinoDraw\Instructions\Instructions;
+use Zend\Http\Headers as HttpHeaders;
+use Zend\View\Model\ViewModel;
+use Zend\View\ViewEvent;
 
 /**
  * Test class for DrawStrategy.
@@ -25,7 +28,7 @@ class DrawStrategyTest extends \PHPUnit_Framework_TestCase
     protected $object;
 
     /**
-     * @var \WebinoDraw\WebinoDraw
+     * @var \WebinoDraw\Service\DrawService
      */
     protected $service;
 
@@ -35,17 +38,8 @@ class DrawStrategyTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->service = $this->getMock('WebinoDraw\WebinoDraw', [], [], '', null);
+        $this->service = $this->getMock('WebinoDraw\Service\DrawService', [], [], '', null);
         $this->object  = new DrawStrategy($this->service);
-    }
-
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-
     }
 
     /**
@@ -53,23 +47,25 @@ class DrawStrategyTest extends \PHPUnit_Framework_TestCase
      */
     public function testInjectResponse()
     {
-        $event        = $this->getMock('Zend\View\ViewEvent');
-        $response     = $this->getMock('Zend\Http\PhpEnvironment\Response');
-        $responseBody = '<response_body/>';
-        $options      = $this->getMock('WebinoDraw\WebinoDrawOptions');
-        $instructions = $this->getMock('WebinoDraw\Stdlib\DrawInstructions');
-        $xhtml        = '<xhtml></xhtml>' . PHP_EOL;
-        $dom          = new DOMDocument;
+        $response        = $this->getMock('Zend\Http\PhpEnvironment\Response');
+        $responseHeaders = new HttpHeaders;
+        $responseBody    = '<response_body/>';
+        $options         = $this->getMock('WebinoDraw\Options\ModuleOptions');
+        $instructions    = new Instructions;
+        $xhtml           = '<xhtml></xhtml>' . PHP_EOL;
+        $dom             = new DOMDocument;
         $dom->loadXML($xhtml);
-        $model        = $this->getMock('Zend\View\Model\ViewModel');
+        $model           = new ViewModel;
+        $event           = new ViewEvent;
 
-        $event->expects($this->once())
-            ->method('getRenderer')
-            ->will($this->returnValue($this->getMock('Zend\View\Renderer\PhpRenderer')));
+        $event
+            ->setRenderer(new \Zend\View\Renderer\PhpRenderer)
+            ->setResponse($response)
+            ->setModel($model);
 
-        $event->expects($this->any())
-            ->method('getResponse')
-            ->will($this->returnValue($response));
+        $response->expects($this->any())
+            ->method('getHeaders')
+            ->will($this->returnValue($responseHeaders));
 
         $response->expects($this->any())
             ->method('getBody')
@@ -86,25 +82,9 @@ class DrawStrategyTest extends \PHPUnit_Framework_TestCase
 
         $this->service
             ->expects($this->once())
-            ->method('createDom')
-            ->with($this->equalTo($responseBody))
-            ->will($this->returnValue($dom));
-
-        $event->expects($this->any())
-            ->method('getModel')
-            ->will($this->returnValue($model));
-
-        $model->expects($this->any())
-            ->method('getVariables')
-            ->will($this->returnValue(new ArrayObject));
-
-        $model->expects($this->any())
-            ->method('getChildren')
-            ->will($this->returnValue([]));
-
-        $this->service
-            ->expects($this->once())
-            ->method('drawDom');
+            ->method('draw')
+            ->with($responseBody, $instructions, [], false)
+            ->will($this->returnValue($xhtml));
 
         $response->expects($this->once())
             ->method('setContent')

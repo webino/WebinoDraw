@@ -11,32 +11,30 @@
 namespace WebinoDraw\View\Strategy;
 
 use DOMDocument;
-use WebinoDraw\AjaxEvent;
+use WebinoDraw\Event\AjaxEvent;
+use WebinoDraw\Exception\RuntimeException;
 
 /**
  * Draw matched containers and return the JSON XHTML of matched fragments
  */
 class DrawAjaxJsonStrategy extends AbstractDrawAjaxStrategy
 {
-
     /**
      * Return XHTML parts of nodes matched by XPath
      *
      * @param DOMDocument $dom
      * @param string $xpath
      * @return array
-     * @throws Exception
+     * @throws Exception\RuntimeException
      */
     public function createFragments(DOMDocument $dom, $xpath)
     {
         $data = [];
-
         foreach ($dom->xpath->query($xpath) as $item) {
 
             $itemId = $item->getAttribute('id');
-
             if (empty($itemId)) {
-                throw new \RuntimeException('Required ajax fragment element id');
+                throw new RuntimeException('Required ajax fragment element id');
             }
 
             $data['fragment']['#' . $itemId] = $dom->saveHTML($item);
@@ -58,12 +56,7 @@ class DrawAjaxJsonStrategy extends AbstractDrawAjaxStrategy
         $this->getEventManager()->trigger(AjaxEvent::EVENT_AJAX, $ajaxEvent);
 
         return $ajaxEvent->getJson()
-            ->merge(
-                $this->createFragments(
-                    $dom,
-                    $ajaxEvent->getFragmentXpath()
-                )
-            )
+            ->merge($this->createFragments($dom, $ajaxEvent->getFragmentXpath()))
             ->jsonSerialize();
     }
 }

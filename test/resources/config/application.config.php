@@ -10,15 +10,17 @@
 
 namespace WebinoDraw;
 
-// Overrdides application controller
-require __DIR__ . '/../IndexController.php';
+/**
+ * Initialize test resources autoloader
+ */
+require __DIR__ . '/../init_autoloader.php';
 
 /**
  * WebinoDraw application test config
  */
 return [
     'modules' => [
-        // 'ZF2NetteDebug', // todo: conflict with nette library
+        'ZF2NetteDebug',
         'ZendDeveloperTools',
         'Application',
         'WebinoDraw',

@@ -41,12 +41,11 @@ class NodeList implements IteratorAggregate
 
     /**
      * @param array|DOMNodeList $nodes DOMNodes in array or DOMNodelist
-     * @return void
-     * @throws InvalidArgumentException
      */
-    public function __construct($nodes = null)
+    public function __construct(Locator $locator, $nodes = null)
     {
-        (null === $nodes) or
+        $this->locator = $locator;
+        empty($nodes) or
             $this->setNodes($nodes);
     }
 
@@ -54,9 +53,9 @@ class NodeList implements IteratorAggregate
      * @param array|DOMNodeList $nodes DOMNodes in array or DOMNodelist
      * @return NodeList
      */
-    public function createNodeList($nodes)
+    public function create($nodes)
     {
-        return new self($nodes);
+        return new self($this->locator, $nodes);
     }
 
     /**
@@ -81,20 +80,16 @@ class NodeList implements IteratorAggregate
             $this->nodes = $nodes;
             return $this;
         }
-
         if (is_array($nodes)) {
             $this->nodes = new IteratorIterator(new ArrayObject($nodes));
             return $this;
         }
-
         if ($nodes instanceof DOMNodeList) {
             $this->nodes = new IteratorIterator($nodes);
             return $this;
         }
 
-        throw new InvalidArgumentException(
-            'Expected nodes as array|DOMNodelist'
-        );
+        throw new InvalidArgumentException('Expected nodes as array|DOMNodelist');
     }
 
     /**
@@ -113,7 +108,6 @@ class NodeList implements IteratorAggregate
         if (null === $this->escapeHtml) {
             $this->setEscapeHtml(new EscapeHtml);
         }
-
         return $this->escapeHtml;
     }
 
@@ -127,27 +121,6 @@ class NodeList implements IteratorAggregate
     }
 
     /**
-     * @return Locator
-     */
-    public function getLocator()
-    {
-        if (null === $this->locator) {
-            $this->setLocator(new Locator);
-        }
-        return $this->locator;
-    }
-
-    /**
-     * @param Locator $locator
-     * @return DrawInstructions
-     */
-    public function setLocator(Locator $locator)
-    {
-        $this->locator = $locator;
-        return $this;
-    }
-
-    /**
      * Set nodes text value
      *
      * @param string $value
@@ -157,16 +130,8 @@ class NodeList implements IteratorAggregate
     public function setValue($value, $preSet = null)
     {
         $escapeHtml = $this->getEscapeHtml();
-
         foreach ($this as $node) {
-
-            if (is_callable($preSet)) {
-
-                $nodeValue = $preSet($node, $value, $this);
-            } else {
-                $nodeValue = $value;
-            }
-
+            $nodeValue       = is_callable($preSet) ? $preSet($node, $value, $this) : $value;
             $node->nodeValue = $escapeHtml($nodeValue);
         }
 
@@ -183,14 +148,7 @@ class NodeList implements IteratorAggregate
     public function setHtml($xhtml, $preSet = null)
     {
         foreach ($this as $node) {
-
-            if (is_callable($preSet)) {
-
-                $nodeXhtml = $preSet($node, $xhtml, $this);
-            } else {
-                $nodeXhtml = $xhtml;
-            }
-
+            $nodeXhtml = is_callable($preSet) ? $preSet($node, $xhtml, $this) : $xhtml;
             $node->nodeValue = '';
 
             if (empty($nodeXhtml)) {
@@ -199,7 +157,6 @@ class NodeList implements IteratorAggregate
 
             $frag = $node->ownerDocument->createDocumentFragment();
             $frag->appendXml($nodeXhtml);
-
             $node->appendChild($frag);
         }
 
@@ -218,7 +175,6 @@ class NodeList implements IteratorAggregate
         $childNode = null;
 
         foreach ($this as $node) {
-
             if (empty($childNode)) {
                 $childNode = $node->ownerDocument->createDocumentFragment();
                 $childNode->appendXml($xhtml);
@@ -227,25 +183,23 @@ class NodeList implements IteratorAggregate
             $nodes[] = $node->appendChild(clone $childNode);
         }
 
-        return $this->createNodeList($nodes);
+        return $this->create($nodes);
     }
 
     /**
      * Set nodes attributes
      *
-     * @param  array $attribs Attributes to set
-     * @param  Callable $preSet Modify and return value, assed parameters $node, $value
+     * @param array $attribs Attributes to set
+     * @param Callable $preSet Modify and return value, assed parameters $node, $value
      * @return NodeList
-     * @throws RuntimeException
      */
     public function setAttribs(array $attribs, $preSet = null)
     {
         foreach ($this as $node) {
             // prepare callback
-            $self     = $this; // todo
             $callback = $preSet
-                      ? function ($value) use ($node, $preSet, $self) {
-                            return $preSet($node, $value, $self);
+                      ? function ($value) use ($node, $preSet) {
+                            return $preSet($node, $value, $this);
                       }
                       : null;
 
@@ -268,14 +222,7 @@ class NodeList implements IteratorAggregate
         $nodeList = new ArrayObject;
 
         foreach ($this as $node) {
-
-            if (is_callable($preSet)) {
-
-                $nodeXhtml = $preSet($node, $xhtml, $this);
-            } else {
-                $nodeXhtml = $xhtml;
-            }
-
+            $nodeXhtml = is_callable($preSet) ? $preSet($node, $xhtml, $this) : $xhtml;
             if (empty($nodeXhtml)) {
                 $node->nodeValue = '';
                 continue;
@@ -293,7 +240,6 @@ class NodeList implements IteratorAggregate
         }
 
         $this->nodes = new IteratorIterator($nodeList);
-
         return $this;
     }
 
@@ -310,11 +256,9 @@ class NodeList implements IteratorAggregate
         }
 
         $remove = [];
-
         $this->each(
             $locator,
             function (NodeList $nodes) use (&$remove) {
-
                 $remove = array_merge(
                     $remove,
                     $nodes->getNodes()->getArrayCopy()
@@ -323,7 +267,6 @@ class NodeList implements IteratorAggregate
         );
 
         foreach ($remove as $node) {
-
             empty($node->parentNode) or
                 $node->parentNode->removeChild($node);
         }
@@ -345,18 +288,15 @@ class NodeList implements IteratorAggregate
             return $this;
         }
 
-        $xpath = $this->getLocator()->set($locator)->xpathMatchAny();
-
+        $xpath = $this->locator->set($locator)->xpathMatchAny();
         foreach ($this as $node) {
             if (empty($node->ownerDocument->xpath)) {
-                throw new RuntimeException(
-                    'Expects DOMDocument with xpath'
-                );
+                throw new RuntimeException('Expects DOMDocument with xpath');
             }
 
             $nodes = $node->ownerDocument->xpath->query($xpath, $node);
             foreach ($nodes as $subnode) {
-                $callback($this->createNodeList([$subnode]));
+                $callback($this->create([$subnode]));
             }
         }
 

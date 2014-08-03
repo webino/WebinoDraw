@@ -23,13 +23,8 @@ return [
             'filter' => [
                 'pre' => [
                     '_nodeValue' => [
-                        'stringToUpper' => [
-                            '{$_nodeValue}',
-                        ],
-                        'trim' => [
-                            '{$_nodeValue}',
-                            '-',
-                        ],
+                        'stringToUpper' => ['{$_nodeValue}'],
+                        'trim'          => ['{$_nodeValue}', '-'],
                     ],
                 ],
             ],

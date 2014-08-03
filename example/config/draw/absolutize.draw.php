@@ -10,7 +10,7 @@
 
 namespace WebinoDraw;
 
-use WebinoDraw\View\Helper\DrawAbsolutize;
+use WebinoDraw\Draw\Helper\Absolutize\AbsolutizeLocator;
 
 return [
     'absolutize-example-prepare' => [
@@ -28,6 +28,6 @@ return [
     'absolutize-example' => [
         'stackIndex' => 9999998,
         'helper'     => 'WebinoDrawAbsolutize',
-        'locator'    => DrawAbsolutize::getDefaultLocator(),
+        'locator'    => (new AbsolutizeLocator)->getLocator(),
     ],
 ];

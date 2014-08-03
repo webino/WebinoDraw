@@ -35,6 +35,7 @@ return [
             require __DIR__ . '/draw/add.draw.php',
             require __DIR__ . '/draw/remove.draw.php',
             require __DIR__ . '/draw/var.draw.php',
+            require __DIR__ . '/draw/onVar.draw.php',
             require __DIR__ . '/draw/filter.draw.php',
             require __DIR__ . '/draw/translate.draw.php',
             require __DIR__ . '/draw/loop.draw.php',
@@ -43,7 +44,9 @@ return [
             require __DIR__ . '/draw/event.draw.php',
             require __DIR__ . '/draw/subInstructions.draw.php',
             require __DIR__ . '/draw/ajax.draw.php',
-            require __DIR__ . '/draw/cache.draw.php'
+            require __DIR__ . '/draw/cache.draw.php',
+            require __DIR__ . '/draw/custom-helper.draw.php',
+            require __DIR__ . '/draw/pagination.draw.php'
         ),
         /**
          * The Instruction Set Example

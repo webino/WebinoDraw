@@ -46,7 +46,7 @@
 
   1. Add `"minimum-stability": "dev"` to your composer.json, because this module is under development
 
-  2. Run `php composer.phar require webino/webino-draw:0.2.0`
+  2. Run `php composer.phar require webino/webino-draw:dev-develop`
 
   3. Add `WebinoDraw` to the enabled modules list
 
@@ -491,7 +491,7 @@
             'offset'   => '0',                           // items offset (optional)
             'length'   => '0',                           // items length (optional)
             'shuffle'  => false,                         // shuffle items
-            'callback' => function(                      // called on each item (optional)
+            'helper'   => function(                      // LoopHelper|callable, called on each item (optional)
                 $loopArgument, array $options
             ){},
             'onEmpty'  => [                              // custom options if items array is empty
@@ -679,7 +679,7 @@ Setting up development environment of the package.
   4. To check module integration with the skeleton application open following directory via web browser:
      `._test/ZendSkeletonApplication/public/`
 
-     e.g. [http://localhost/webino/WebinoDraw/._test/ZendSkeletonApplication/public/](http://localhost/webino/WebinoDraw/._test/ZendSkeletonApplication/public/)
+     e.g. [http://localhost/webino/modules/WebinoDraw/._test/ZendSkeletonApplication/public/](http://localhost/webino/modules/WebinoDraw/._test/ZendSkeletonApplication/public/)
 
   5. Integration test resources are in directory: `test/resources`
 
@@ -722,7 +722,7 @@ Setting up development environment of the package.
   - Write tests for spec instructionset to expand instructions
   - Disable the var helpers multiple methods call on the same variable auto join the result, BC break
   - Redesign var helpers and filters API, cos helper/filter name as a key causes issues when we wan to override via config merge, BC break
-  - Write loop callback manual + tests
+  - Write loop helper manual + tests
 
 ## Addendum
 

@@ -1,0 +1,58 @@
+<?php
+/**
+ * Webino (http://webino.sk)
+ *
+ * @link        https://github.com/webino/WebinoDraw for the canonical source repository
+ * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @author      Peter Bačinský <peter@bacinsky.sk>
+ * @license     BSD-3-Clause
+ */
+
+namespace WebinoDraw\Manipulator\Plugin;
+
+use WebinoDraw\Dom\Locator;
+
+/**
+ *
+ */
+class Remove implements InLoopPluginInterface
+{
+    /**
+     * @var Locator
+     */
+    protected $locator;
+
+    /**
+     * @param Locator $locator
+     */
+    public function __construct(Locator $locator)
+    {
+        $this->locator = $locator;
+    }
+
+    /**
+     *
+     * @param PluginArgument $arg
+     */
+    public function inLoop(PluginArgument $arg)
+    {
+        $spec = $arg->getSpec();
+        if (empty($spec['remove'])) {
+            return;
+        }
+
+        $node      = $arg->getNode();
+        $nodeXpath = $node->ownerDocument->xpath;
+
+        foreach ((array) $spec['remove'] as $removeLocator) {
+
+            $removeXpath = $this->locator->set($removeLocator)->xpathMatchAny();
+            $removeNodes = $nodeXpath->query($removeXpath, $node);
+
+            foreach ($removeNodes as $removeSubNode) {
+                empty($removeSubNode->parentNode) or
+                    $removeSubNode->parentNode->removeChild($removeSubNode);
+            }
+        }
+    }
+}

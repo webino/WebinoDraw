@@ -10,7 +10,7 @@
 
 namespace WebinoDraw\View\Strategy;
 
-use WebinoDraw\WebinoDraw as DrawService;
+use WebinoDraw\Service\DrawService;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Http\PhpEnvironment\Response as PhpResponse;
 use Zend\View\Model\ViewModel;
@@ -24,24 +24,21 @@ use Zend\View\ViewEvent;
 abstract class AbstractDrawStrategy extends PhpRendererStrategy
 {
     /**
-     * @var WebinoDraw $service
+     * @var DrawService $draw
      */
-    protected $service;
+    protected $draw;
 
     /**
-     * @param WebinoDraw $service
+     * @param DrawService $draw
      */
-    public function __construct(DrawService $service)
+    public function __construct(DrawService $draw)
     {
-        $this->service = $service;
+        $this->draw = $draw;
     }
 
     /**
-     * Attach the aggregate to the specified event manager.
-     *
-     * @param  EventManagerInterface $events
-     * @param  int $priority
-     * @return void
+     * @param EventManagerInterface $events
+     * @param int $priority
      */
     public function attach(EventManagerInterface $events, $priority = 1)
     {
@@ -55,7 +52,6 @@ abstract class AbstractDrawStrategy extends PhpRendererStrategy
     public function shouldRespond(ViewEvent $event)
     {
         $response = $event->getResponse();
-
         if ($event->getRenderer() instanceof PhpRenderer
             && $response instanceof PhpResponse
             && trim($response->getBody())
@@ -75,12 +71,10 @@ abstract class AbstractDrawStrategy extends PhpRendererStrategy
     public function collectModelVariables(ViewModel $model)
     {
         $vars = $model->getVariables();
-
         !method_exists($vars, 'getArrayCopy') or
             $vars = $vars->getArrayCopy();
 
         foreach ($model->getChildren() as $child) {
-
             $childVars = $this->collectModelVariables($child);
             $vars      = array_replace($vars, $childVars);
         }

@@ -31,9 +31,10 @@ return [
         'html'    => '{$_innerHtml}<form class="form-template-example"><ul><li><input name="example_text_element"/></li><li><input name="example_text_element2"/></li></ul><input name="send"/></form>',
     ],
     'form-template-example' => [
-        'locator' => '.form-template-example',
-        'helper'  => 'WebinoDrawForm',
-        'form'    => 'exampleForm',
+        'locator'     => '.form-template-example',
+        'helper'      => 'WebinoDrawForm',
+        'form'        => 'exampleForm',
+        'text_domain' => 'test',
 
         'instructions' => [
             'form-decorator' => [

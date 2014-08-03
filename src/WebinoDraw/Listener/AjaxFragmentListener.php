@@ -10,11 +10,14 @@
 
 namespace WebinoDraw\Listener;
 
-use WebinoDraw\AjaxEvent;
+use WebinoDraw\Event\AjaxEvent;
 use Zend\EventManager\SharedEventManagerInterface;
 use Zend\EventManager\SharedListenerAggregateInterface;
 use Zend\Http\Request;
 
+/**
+ *
+ */
 class AjaxFragmentListener implements SharedListenerAggregateInterface
 {
     /**
@@ -65,7 +68,6 @@ class AjaxFragmentListener implements SharedListenerAggregateInterface
     public function ajaxFragment(AjaxEvent $event)
     {
         $id = $this->request->getQuery()->fragmentId;
-
         empty($id) or
             $event->setFragmentXpath('//*[@id="' . $id . '"]');
     }

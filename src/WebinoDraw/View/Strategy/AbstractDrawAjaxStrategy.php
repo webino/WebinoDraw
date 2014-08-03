@@ -11,7 +11,7 @@
 namespace WebinoDraw\View\Strategy;
 
 use DOMDocument;
-use WebinoDraw\AjaxEvent;
+use WebinoDraw\Event\AjaxEvent;
 use Zend\EventManager\EventManager;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerInterface;
@@ -20,8 +20,7 @@ use Zend\View\ViewEvent;
 /**
  * Draw matched containers and return the JSON XHTML of matched fragments
  */
-abstract class AbstractDrawAjaxStrategy extends AbstractDrawStrategy implements
-    EventManagerAwareInterface
+abstract class AbstractDrawAjaxStrategy extends AbstractDrawStrategy implements EventManagerAwareInterface
 {
     /**
      * @var AjaxEvent
@@ -34,10 +33,6 @@ abstract class AbstractDrawAjaxStrategy extends AbstractDrawStrategy implements
     protected $eventManager;
 
     /**
-     * Get the attached event
-     *
-     * Will create a new Event if none provided.
-     *
      * @return AjaxEvent
      */
     public function getEvent()
@@ -49,10 +44,7 @@ abstract class AbstractDrawAjaxStrategy extends AbstractDrawStrategy implements
     }
 
     /**
-     * Set an event to use during dispatch
-     *
      * @param AjaxEvent $event
-     * @return void
      */
     public function setEvent(AjaxEvent $event)
     {
@@ -73,7 +65,7 @@ abstract class AbstractDrawAjaxStrategy extends AbstractDrawStrategy implements
 
     /**
      * @param EventManagerInterface $eventManager
-     * @return DrawAjaxStrategy
+     * @return self
      */
     public function setEventManager(EventManagerInterface $eventManager)
     {
@@ -92,9 +84,7 @@ abstract class AbstractDrawAjaxStrategy extends AbstractDrawStrategy implements
     public function createContainer(DOMDocument $dom, $xpath)
     {
         $code = '';
-
         foreach ($dom->xpath->query($xpath) as $node) {
-
             if (empty($node)) {
                 continue;
             }
@@ -107,7 +97,6 @@ abstract class AbstractDrawAjaxStrategy extends AbstractDrawStrategy implements
 
     /**
      * @param ViewEvent $event
-     * @return bool Exit
      */
     public function injectResponse(ViewEvent $event)
     {
@@ -116,24 +105,22 @@ abstract class AbstractDrawAjaxStrategy extends AbstractDrawStrategy implements
         }
 
         $response = $event->getResponse();
-        $options  = $this->service->getOptions();
+        $options  = $this->draw->getOptions();
 
-        $dom = $this->service->createDom(
+        $dom = $this->draw->createDom(
             $this->createContainer(
-                $this->service->createDom($response->getBody()),
+                $this->draw->createDom($response->getBody()),
                 $options->getAjaxContainerXpath()
             )
         );
 
-        $this->service->drawDom(
+        $this->draw->drawDom(
             $dom->documentElement,
             $options->getInstructions(),
             $this->collectModelVariables($event->getModel())
         );
 
-        $response->setContent(
-            $this->respond($dom, $options->getAjaxFragmentXpath())
-        );
+        $response->setContent($this->respond($dom, $options->getAjaxFragmentXpath()));
     }
 
     /**

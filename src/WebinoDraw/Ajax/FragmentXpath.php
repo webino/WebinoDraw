@@ -10,6 +10,8 @@
 
 namespace WebinoDraw\Ajax;
 
+use WebinoDraw\Exception\UnexpectedValueException;
+
 /**
  *
  */
@@ -32,14 +34,12 @@ class FragmentXpath
     /**
      * @param string $string
      * @return FragmentXpath
-     * @throws \UnexpectedValueException
+     * @throws UnexpectedValueException
      */
     public function set($string)
     {
         if (!is_string($string)) {
-            throw new \UnexpectedValueException(
-                'Expected string, but provided ' . gettype($string)
-            );
+            throw new UnexpectedValueException('Expected string, but provided ' . gettype($string));
         }
 
         $this->content = $string;

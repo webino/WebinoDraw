@@ -30,4 +30,18 @@ return [
             ],
         ],
     ],
+
+    'html-on-empty-example-prepare' => [
+        'locator' => '.jumbotron',
+        'html'    => '<div class="html-on-empty-example">NOT EMPTY HTML ON EMPTY</div>{$_innerHtml}',
+    ],
+    'html-on-empty-example' => [
+        'locator' => '.html-on-empty-example',
+        'html'    => '',
+
+        'onEmpty' => [
+            'locator' => 'xpath=.',
+            'html'    => '<p>HTML ON EMPTY</p>',
+        ],
+    ],
 ];

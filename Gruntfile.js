@@ -2,7 +2,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
         basedir: require("path").resolve("."),
-        test_app_uri: "http://localhost/webino/<%= pkg.name %>/._test/ZendSkeletonApplication/public/",
+        test_app_uri: "http://localhost/webino/modules/<%= pkg.name %>/._test/ZendSkeletonApplication/public/",
         clean: {
             log: {
                 src: ["._log"]
@@ -15,6 +15,22 @@ module.exports = function(grunt) {
             },
             test_app_cfg: {
                 src: ["._test/ZendSkeletonApplication/config/application.config.php"]
+            },
+            test_app_theme_css: {
+                options: {force: false},
+                src: ["._test/ZendSkeletonApplication/public/assets/webino-draw/css"]
+            },
+            test_app_theme_js: {
+                options: {force: false},
+                src: ["._test/ZendSkeletonApplication/public/assets/webino-draw/js"]
+            },
+            test_app_theme_img: {
+                options: {force: false},
+                src: ["._test/ZendSkeletonApplication/public/assets/webino-draw/img"]
+            },
+            test_app_theme_lib: {
+                options: {force: false},
+                src: ["._test/ZendSkeletonApplication/public/assets/webino-draw/lib"]
             }
         },
         mkdir: {
@@ -26,11 +42,18 @@ module.exports = function(grunt) {
                         "._log/coverage"
                     ]
                 }
+            },
+            test_app_log: {
+                options: {
+                    create: [
+                        "<%= basedir %>/._test/ZendSkeletonApplication/data/log",
+                    ]
+                }
             }
         },
         exec: {
-            classmap: {
-                cmd: "php vendor/bin/classmap_generator.php -l src/<%= pkg.name %>"
+            preview: {
+                cmd: "google-chrome http://localhost/webino/modules/WebinoDraw/._test/ZendSkeletonApplication/public"
             },
             didef: {
                 cmd: "php bin/definition_generator.php"
@@ -58,9 +81,6 @@ module.exports = function(grunt) {
             },
             link_precommit: {
                 cmd: "ln -s <%= basedir %>/pre-commit <%= basedir %>/.git/hooks/pre-commit && chmod +x <%= basedir %>/pre-commit"
-            },
-            add_classmap: {
-                cmd: "git add src/<%= pkg.name %>/autoload_classmap.php"
             },
             add_didef: {
                 cmd: "git add data/di"
@@ -138,30 +158,30 @@ module.exports = function(grunt) {
         },
         todos: {
             options: {
-                priorities : {
-                    low : null,
-                    med : /(TODO|todo)/,
-                    high : /(FIXME|fixme)/
+                priorities: {
+                    low: null,
+                    med: /(TODO|todo)/,
+                    high: /(FIXME|fixme)/
                 },
                 reporter: {
-                    header: function (options) {
+                    header: function(options) {
                         grunt.file.write("._log/todos.txt", "");
                         return "-- Begin Task List --\n";
                     },
-                    fileTasks: function (file, tasks, options) {
+                    fileTasks: function(file, tasks, options) {
                         if (!tasks.length) {
                             return "";
                         }
                         var result = "";
                         result += "For " + file + "\n";
-                        tasks.forEach(function (task) {
+                        tasks.forEach(function(task) {
                             result += "[" + task.lineNumber + " - " + task.priority + "] " + task.line + "\n";
                         });
                         result += "\n";
                         grunt.file.write("._log/todos.txt", grunt.file.read("._log/todos.txt") + result);
                         return result;
                     },
-                    footer: function () {
+                    footer: function() {
                         return "-- End Task List--\n";
                     }
                 },
@@ -170,9 +190,63 @@ module.exports = function(grunt) {
             package: {
                 src: ["src/**/*.php"]
             }
+        },
+        watch: {
+            css: {
+                files: ['public/assets/*/css/*.css', 'public/assets/*/css/*/*.css'],
+                tasks: ['clean:test_app_theme_css']
+            },
+            js: {
+                files: ['public/assets/*/js/*.js', 'public/assets/*/js/*/*.js'],
+                tasks: ['clean:test_app_theme_js']
+            },
+            img: {
+                files: ['public/assets/*/img/*', 'public/assets/*/img/*/*'],
+                tasks: ['clean:test_app_theme_img']
+            },
+            lib: {
+                files: ['public/assets/*/lib/*', 'public/assets/*/lib/*/*'],
+                tasks: ['clean:test_app_theme_lib']
+            }
+        },
+        browser_sync: {
+            dev: {
+                bsFiles: {
+                    src: [
+                        'public/assets/*/css/*.css',
+                        'public/assets/*/css/*/*.css',
+                        'public/assets/*/js/*.js'
+                    ]
+                },
+                options: {
+                    watchTask: true,
+                    debugInfo: true,
+                    ghostMode: {
+                        clicks: true,
+                        scroll: true,
+                        links: true,
+                        forms: true
+                    }
+                }
+            }
         }
     });
     //
+    grunt.registerTask(
+        "preview",
+        "Preview the package in a web browser",
+        [
+            "exec:preview",
+        ]
+    );
+    grunt.registerTask(
+        "regen",
+        "Regenerate package",
+        [
+            "exec:didef",
+            "exec:add_didef"
+        ]
+    );
     grunt.registerTask(
         "build",
         "Build the package",
@@ -195,7 +269,16 @@ module.exports = function(grunt) {
             "exec:test_app_link_vendor",
             "exec:composer_update_dev",
             "clean:test_app_cfg",
-            "exec:test_app_link_cfg"
+            "exec:test_app_link_cfg",
+            "mkdir:test_app_log"
+        ]
+    );
+    grunt.registerTask(
+        "dev",
+        "Develop the package",
+        [
+            "browser_sync",
+            "watch"
         ]
     );
     grunt.registerTask(
@@ -254,11 +337,8 @@ module.exports = function(grunt) {
         "precommit",
         "Git pre-commit",
         [
-            "exec:classmap",
             "test",
-            "exec:didef",
-            "exec:add_classmap",
-            "exec:add_didef"
+            "regen"
         ]
     );
     grunt.registerTask(
@@ -289,7 +369,6 @@ module.exports = function(grunt) {
     );
     //
     grunt.loadNpmTasks("grunt-exec");
-    grunt.loadNpmTasks("grunt-contrib-clean");
     grunt.loadNpmTasks("grunt-mkdir");
     grunt.loadNpmTasks("grunt-phplint");
     grunt.loadNpmTasks("grunt-phpunit");
@@ -297,4 +376,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-phpmd");
     grunt.loadNpmTasks("grunt-phpcpd");
     grunt.loadNpmTasks("grunt-todos");
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks("grunt-contrib-clean");
+    grunt.loadNpmTasks("grunt-browser-sync");
 };

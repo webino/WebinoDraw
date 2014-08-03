@@ -13,6 +13,7 @@ namespace WebinoDraw\Dom;
 use ArrayObject;
 use DOMDocument;
 use WebinoDraw\Dom\Element as DOMElement;
+use WebinoDraw\Dom\Locator;
 use DOMNode;
 use DOMXpath;
 use PHPUnit_Framework_Assert as PhpUnitAssert;
@@ -30,21 +31,18 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
     protected $object;
 
     /**
+     * @var Locator
+     */
+    protected $locator;
+
+    /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
     protected function setUp()
     {
-        $this->object = new NodeList;
-    }
-
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-
+        $this->locator = $this->getMock('WebinoDraw\Dom\Locator', [], [], '', false);
+        $this->object  = new NodeList($this->locator);
     }
 
     /**
@@ -58,16 +56,16 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers WebinoDraw\Dom\NodeList::createNodeList
+     * @covers WebinoDraw\Dom\NodeList::create
      */
-    public function testCreateNodeList()
+    public function testCreate()
     {
-        $nodeList = new NodeList([]);
+        $nodeList = new NodeList($this->locator, []);
 
         $nodeOne = new DOMElement('testOne');
         $nodeTwo = new DOMElement('testTwo');
 
-        $newNodeList = $nodeList->createNodeList([$nodeOne, $nodeTwo]);
+        $newNodeList = $nodeList->create([$nodeOne, $nodeTwo]);
 
         $this->assertThat(
             $newNodeList,
@@ -169,7 +167,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
         $value    = 'TestValue';
         $expected = '<box><dummyOne>' . $value . '</dummyOne>'
             . '<dummyTwo>' . $value . '</dummyTwo></box>';
-        $nodeList = new NodeList($dom->firstChild->childNodes);
+        $nodeList = new NodeList($this->locator, $dom->firstChild->childNodes);
 
         $nodeList->setValue($value);
 
@@ -189,7 +187,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
         $value    = 'TestValue';
         $expected = '<box><dummyOne>' . $value . 'Modified</dummyOne>'
             . '<dummyTwo>' . $value . 'Modified</dummyTwo></box>';
-        $nodeList = new NodeList($dom->firstChild->childNodes);
+        $nodeList = new NodeList($this->locator, $dom->firstChild->childNodes);
 
         $nodeList->setValue(
             $value,
@@ -215,7 +213,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
         $escapedValue = htmlspecialchars('<testnode/>');
         $expected     = '<box><dummyOne>' . $escapedValue . '</dummyOne>'
             . '<dummyTwo>' . $escapedValue . '</dummyTwo></box>';
-        $nodeList     = new NodeList($dom->firstChild->childNodes);
+        $nodeList     = new NodeList($this->locator, $dom->firstChild->childNodes);
 
         $nodeList->setValue($value);
 
@@ -235,7 +233,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
         $html     = '<testnode/>';
         $expected = '<box><dummyOne>' . $html . '</dummyOne>'
             . '<dummyTwo>' . $html . '</dummyTwo></box>';
-        $nodeList = new NodeList($dom->firstChild->childNodes);
+        $nodeList = new NodeList($this->locator, $dom->firstChild->childNodes);
 
         $nodeList->setHtml($html);
 
@@ -255,7 +253,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
         $html     = '<testnode/>';
         $expected = '<box><dummyOne>' . $html . '<modified/></dummyOne>'
             . '<dummyTwo>' . $html . '<modified/></dummyTwo></box>';
-        $nodeList = new NodeList($dom->firstChild->childNodes);
+        $nodeList = new NodeList($this->locator, $dom->firstChild->childNodes);
 
         $nodeList->setHtml(
             $html,
@@ -280,7 +278,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
         $html     = '<testnode/>';
         $expected = '<box><dummyOne>' . $html . '</dummyOne>'
             . '<dummyTwo><dummyTwoFc/>' . $html . '</dummyTwo></box>';
-        $nodeList = new NodeList($dom->firstChild->childNodes);
+        $nodeList = new NodeList($this->locator, $dom->firstChild->childNodes);
 
         $result = $nodeList->appendHtml($html);
 
@@ -301,7 +299,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
         $attribs  = 'attr0="val0" attr1="0"';
         $expected = '<box><dummyOne ' . $attribs . '/>'
             . '<dummyTwo ' . $attribs . '/></box>';
-        $nodeList = new NodeList($dom->firstChild->childNodes);
+        $nodeList = new NodeList($this->locator, $dom->firstChild->childNodes);
 
         $nodeList->setAttribs(['attr0' => 'val0', 'attr1' => '0', 'attr2' => '']);
 
@@ -321,7 +319,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
         $_attribs = 'attr0="val0modified" attr1="val1modified"';
         $expected = '<box><dummyOne ' . $_attribs . '/>'
             . '<dummyTwo ' . $_attribs . '/></box>';
-        $nodeList = new NodeList($dom->firstChild->childNodes);
+        $nodeList = new NodeList($this->locator, $dom->firstChild->childNodes);
 
         $nodeList->setAttribs(
             ['attr0' => 'val0', 'attr1' => 'val1'],
@@ -345,7 +343,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
         $dom->loadXML('<box><dummyReplaced/><dummyeplaced/></box>');
         $html     = '<dummyeplaced/>';
         $expected = '<box>' . $html . $html . '</box>';
-        $nodeList = new NodeList($dom->firstChild->childNodes);
+        $nodeList = new NodeList($this->locator, $dom->firstChild->childNodes);
 
         $nodeList->replace($html);
 
@@ -365,7 +363,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
         $html     = '<dummyReplaced/>';
         $expected = '<box>' . $html . '<modified/>'
             . $html . '<modified/>' . '</box>';
-        $nodeList = new NodeList($dom->firstChild->childNodes);
+        $nodeList = new NodeList($this->locator, $dom->firstChild->childNodes);
 
         $nodeList->replace(
             $html,
@@ -389,18 +387,16 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
         $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
         $expected   = '<box/>';
         $dom->xpath = new DOMXpath($dom);
-        $nodeList   = new NodeList($dom->firstChild->childNodes);
-        $locator    = $this->getMock('WebinoDraw\Dom\Locator');
-        $nodeList->setLocator($locator);
+        $nodeList   = new NodeList($this->locator, $dom->firstChild->childNodes);
         $xpath      = '.';
         $target     = 'xpath=' . $xpath;
 
-        $locator->expects($this->once())
+        $this->locator->expects($this->once())
             ->method('set')
             ->with($this->equalTo($target))
-            ->will($this->returnValue($locator));
+            ->will($this->returnValue($this->locator));
 
-        $locator->expects($this->once())
+        $this->locator->expects($this->once())
             ->method('xpathMatchAny')
             ->will($this->returnValue($xpath));
 
@@ -421,18 +417,16 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
         $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
         $expected   = '<box><dummyOne/></box>';
         $dom->xpath = new DOMXpath($dom);
-        $nodeList   = new NodeList([$dom->firstChild->firstChild]);
-        $locator    = $this->getMock('WebinoDraw\Dom\Locator');
-        $nodeList->setLocator($locator);
+        $nodeList   = new NodeList($this->locator, [$dom->firstChild->firstChild]);
         $xpath      = '//dummyTwo';
         $target     = 'xpath=' . $xpath;
 
-        $locator->expects($this->once())
+        $this->locator->expects($this->once())
             ->method('set')
             ->with($this->equalTo($target))
-            ->will($this->returnValue($locator));
+            ->will($this->returnValue($this->locator));
 
-        $locator->expects($this->once())
+        $this->locator->expects($this->once())
             ->method('xpathMatchAny')
             ->will($this->returnValue($xpath));
 
@@ -453,7 +447,12 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
 
         $dom      = $this->createDomDocument();
         $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
-        $nodeList = new NodeList([$dom->firstChild->firstChild]);
+        $nodeList = new NodeList($this->locator, [$dom->firstChild->firstChild]);
+
+        $this->locator->expects($this->once())
+            ->method('set')
+            ->with($this->equalTo('xpath=.'))
+            ->will($this->returnValue($this->locator));
 
         $nodeList->remove();
     }
@@ -466,19 +465,17 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
         $dom        = new DOMDocument;
         $dom->loadXML('<box><dummyOne><child/><child/></dummyOne><dummyTwo><child/><child/></dummyTwo></box>');
         $dom->xpath = new DOMXpath($dom);
-        $nodeList   = new NodeList($dom->firstChild->childNodes);
-        $locator    = $this->getMock('WebinoDraw\Dom\Locator');
-        $nodeList->setLocator($locator);
+        $nodeList   = new NodeList($this->locator, $dom->firstChild->childNodes);
         $xpath      = './child';
         $target     = 'xpath=' . $xpath;
         $testCase   = $this; // todo PHP 5.4
 
-        $locator->expects($this->once())
+        $this->locator->expects($this->once())
             ->method('set')
             ->with($this->equalTo($target))
-            ->will($this->returnValue($locator));
+            ->will($this->returnValue($this->locator));
 
-        $locator->expects($this->once())
+        $this->locator->expects($this->once())
             ->method('xpathMatchAny')
             ->will($this->returnValue($xpath));
 

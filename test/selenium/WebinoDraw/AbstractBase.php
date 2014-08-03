@@ -14,7 +14,7 @@ use PHPWebDriver_WebDriver;
 use RuntimeException;
 
 /**
- * 
+ *
  */
 abstract class AbstractBase extends \PHPUnit_Framework_TestCase
 {
@@ -69,5 +69,15 @@ abstract class AbstractBase extends \PHPUnit_Framework_TestCase
         }
 
         return $uri;
+    }
+
+    /**
+     * Ajax wait
+     */
+    protected function waitForAjax()
+    {
+        do {
+            sleep(2);
+        } while ($this->session->execute(['script' => 'return jQuery.active', 'args' => []]));
     }
 }

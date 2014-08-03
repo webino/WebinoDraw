@@ -63,6 +63,10 @@ return [
             'onEmpty' => [
                 'locator' => '//.loop-empty-example',
                 'replace' => '<p>YOU HAVE NO ITEMS</p>',
+
+                'attribs' => [
+                    'class' => '{$_class} no-items',
+                ],
             ],
             'instructions' => [],
         ],
