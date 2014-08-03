@@ -11,7 +11,7 @@
 namespace WebinoDraw\Draw\Helper;
 
 use ArrayAccess;
-use DOMAttr as Attrib;
+use WebinoDraw\Dom\Attr;
 use WebinoDraw\Dom\NodeList;
 use Zend\I18n\Translator\TranslatorInterface;
 
@@ -74,7 +74,7 @@ class Translate extends Element
     {
         $remainNodes = [];
         foreach ($nodes as $node) {
-            if ($node instanceof Attrib && !$node->isEmpty()) {
+            if ($node instanceof Attr && !$node->isEmpty()) {
                 $node->nodeValue = $this->translator->translate($node->nodeValue, $textDomain);
             }
 
@@ -86,7 +86,7 @@ class Translate extends Element
 
     /**
      * @param array $spec
-     * @return bool
+     * @return string
      */
     protected function resolveTextDomain(array $spec)
     {
