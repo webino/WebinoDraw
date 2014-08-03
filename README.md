@@ -10,7 +10,6 @@
   [![Latest Stable Version](https://poser.pugx.org/webino/webino-draw/v/stable.png)](https://packagist.org/packages/webino/webino-draw "Latest Stable Version")
   [![Latest Unstable Version](https://poser.pugx.org/webino/webino-draw/v/unstable.png)](https://packagist.org/packages/webino/webino-draw "Latest Unstable Version")
   [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/webino/WebinoDraw/badges/quality-score.png?s=65f766be2d200ae47c60adbd062bce6e65d6823f)](https://scrutinizer-ci.com/g/webino/WebinoDraw/ "Quality Score")
-  [![Daily Downloads](https://poser.pugx.org/webino/webino-draw/d/daily.png)](https://packagist.org/packages/webino/webino-draw "Daily Downloads")
   [![Montly Downloads](https://poser.pugx.org/webino/webino-draw/d/monthly.png)](https://packagist.org/packages/webino/webino-draw "Monthly Downloads")
   [![Total Downloads](https://poser.pugx.org/webino/webino-draw/downloads.png)](https://packagist.org/packages/webino/webino-draw "Total Downloads")
 
@@ -95,7 +94,7 @@
   - To specify priority of each instruction use **stackIndex** option:
 
         'draw-node-example' => [
-            'stackIndex' => '9',
+            'stackIndex' => 9,
             'locator'    => 'body',
             'value'      => 'Hello Webino!',
         ],
@@ -125,7 +124,7 @@
             'attribs' => [
                 'title' => '{$_nodeValue} {$_href}',
                 'href'  => '{$_href}#customfragment',
-             ],
+            ],
         ],
 
     *NOTE: Node variables are prefixed with the underscore to avoid conflicts.*
@@ -171,7 +170,8 @@
         'draw-node-example' => [
             'locator' => 'body',
             'value'   => '{$viewvar}',
-            'var'     => [
+
+            'var' => [
                 'default' => [
                     'viewvar' => 'defaultval',
                 ],
@@ -185,7 +185,8 @@
         'draw-node-example' => [
             'locator' => 'body',
             'value'   => '{$customvar}',
-            'var'     => [
+
+            'var' => [
                 'helper' => [
                     'customvar' => [
                         'customhelper' => [
@@ -219,9 +220,6 @@
                     'locator' => 'ul',
                     'replace' => '<p>You have no items.</p>',
                 ],
-            ],
-            'attribs' => [
-                'title' => '{$property}',
             ],
         ],
 
@@ -649,6 +647,8 @@
 [Check out wiki for more examples](https://github.com/webino/WebinoDraw/wiki)
 
 ## Develop
+
+[![Dependency Status](https://www.versioneye.com/user/projects/52f494eaec1375d0a6000023/badge.png)](https://www.versioneye.com/user/projects/52f494eaec1375d0a6000023)
 
 This package uses Grunt task runner to automating the development.
 
