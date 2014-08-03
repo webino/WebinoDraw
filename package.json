@@ -10,9 +10,9 @@
         "grunt-phpcs": "0.2.*",
         "grunt-phpmd": "0.1.*",
         "grunt-phpcpd": "0.1.*",
-        "grunt-todos": "0.2.*",
-        "grunt-browser-sync": "0.5.*",
-        "grunt-contrib-watch": "0.4.*",
+        "grunt-todos": "0.3.*",
+        "grunt-browser-sync": "1.3.*",
+        "grunt-contrib-watch": "0.6.*",
         "grunt-contrib-clean": "0.6.*"
     }
 }
