@@ -1,24 +1,23 @@
 <?php
+/**
+ * Webino (http://webino.sk)
+ *
+ * @link        https://github.com/webino/WebinoDraw for the canonical source repository
+ * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @author      Peter Bačinský <peter@bacinsky.sk>
+ * @license     BSD-3-Clause
+ */
 
-use WebinoDrawTest\TestCase;
-use Zend\Loader\StandardAutoloader;
+namespace WebinoDraw\Test;
+
+use RuntimeException;
 
 chdir(__DIR__);
 
-$autoloader = array(
-    __DIR__ . '/../../../autoload.php',
-    __DIR__ . '/../../../vendor/autoload.php',
-    'autoload.php',
-);
-
-foreach ($autoloader as $path) {
-    $loader = @include $path;
-    if ($loader) break;
-}
-
-if (!class_exists('Composer\Autoload\ClassLoader')) {
+$loader = @include __DIR__ . '/../vendor/autoload.php';
+if (empty($loader)) {
     throw new RuntimeException('Unable to load. Run `php composer.phar install`.');
 }
 
 $loader->add('WebinoDraw', __DIR__ . '/../src');
-$loader->add('WebinoDrawTest', __DIR__ .  '/../test');
+$loader->add('WebinoDraw', __DIR__);

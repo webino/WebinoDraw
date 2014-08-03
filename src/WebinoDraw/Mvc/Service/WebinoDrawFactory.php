@@ -1,0 +1,37 @@
+<?php
+/**
+ * Webino (http://webino.sk)
+ *
+ * @link        https://github.com/webino/WebinoDraw for the canonical source repository
+ * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @author      Peter Bačinský <peter@bacinsky.sk>
+ * @license     BSD-3-Clause
+ */
+
+namespace WebinoDraw\Mvc\Service;
+
+use WebinoDraw\WebinoDraw;
+use WebinoDraw\WebinoDrawOptions;
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
+
+/**
+ *
+ */
+class WebinoDrawFactory implements FactoryInterface
+{
+    /**
+     * @param  ServiceLocatorInterface $services
+     * @return WebinoDraw
+     */
+    public function createService(ServiceLocatorInterface $services)
+    {
+        $config     = $services->get('Config');
+        $drawConfig = !empty($config['webino_draw']) ? $config['webino_draw'] : [];
+
+        return new WebinoDraw(
+            $services->get('ViewRenderer'),
+            new WebinoDrawOptions($drawConfig)
+        );
+    }
+}

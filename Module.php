@@ -1,47 +1,10 @@
 <?php
 /**
- * Webino (http://zf.webino.org/)
+ * Webino (http://webino.sk/)
  *
- * @copyright   Copyright (c) 2012 Peter Bačinský (http://www.bacinsky.sk/)
- * @license     New BSD License
- * @package     WebinoDraw
+ * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
+ * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk/)
+ * @license     BSD-3-Clause
  */
 
-namespace WebinoDraw;
-
-/**
- * @category    Webino
- * @package     WebinoDraw
- * @author      Peter Bačinský <peter@bacinsky.sk>
- */
-class Module
-{
-    /**
-     * Module default config
-     *
-     * @return array
-     */
-    public function getConfig()
-    {
-        return include __DIR__ . '/config/module.config.php';
-    }
-
-    /**
-     * Default autoloader config
-     *
-     * @return array
-     */
-    public function getAutoloaderConfig()
-    {
-        return array(
-            'Zend\Loader\ClassMapAutoloader' => array(
-                __DIR__ . '/autoload_classmap.php',
-            ),
-            'Zend\Loader\StandardAutoloader' => array(
-                'namespaces' => array(
-                    __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
-                ),
-            ),
-        );
-    }
-}
+include __DIR__ . '/src/WebinoDraw/Module.php';

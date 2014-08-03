@@ -1,12 +1,15 @@
-<phpunit bootstrap="./bootstrap.php" colors="true">
+<phpunit bootstrap="bootstrap.php" colors="true">
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
             <directory>../src</directory>
+            <exclude>
+                <file>../src/WebinoDraw/autoload_classmap.php</file>
+            </exclude>
         </whitelist>
     </filter>
     <testsuites>
         <testsuite name="WebinoDraw Test Suite">
-            <directory>./</directory>
+            <directory>WebinoDraw</directory>
         </testsuite>
     </testsuites>
 </phpunit>

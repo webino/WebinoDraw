@@ -1,19 +1,18 @@
 language: php
 
 php:
-  - 5.3.3
-  - 5.3
   - 5.4
-  
+  - 5.5
+
 before_script:
-  - cd ..
-  - git clone git://github.com/zendframework/ZendSkeletonApplication.git
-  - cd ZendSkeletonApplication
-  - php composer.phar self-update
-  - php composer.phar install
-  - mkdir -p vendor/webino/webino-draw
-  - cp -r ../WebinoDraw/* vendor/webino/webino-draw
+  - composer install
 
 script:
-  - cd vendor/webino/webino-draw/test
-  - phpunit
+  - mkdir -p build/logs
+  - cd test
+  - phpunit --coverage-clover ../build/logs/clover.xml
+  - cd ..
+  - vendor/bin/phpcs --standard=PSR2 src test
+
+after_script:
+  - vendor/bin/coveralls -v
