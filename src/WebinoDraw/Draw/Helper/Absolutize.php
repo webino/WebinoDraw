@@ -23,6 +23,21 @@ use Zend\View\Helper\BasePath;
 class Absolutize extends AbstractHelper
 {
     /**
+     * @var VarTranslator
+     */
+    protected $varTranslator;
+
+    /**
+     * @var ServerUrl
+     */
+    protected $serverUrl;
+
+    /**
+     * @var BasePath
+     */
+    protected $basePath;
+
+    /**
      * @param VarTranslator $varTranslator
      * @param ServerUrl $serverUrl
      * @param BasePath $basePath
