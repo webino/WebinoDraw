@@ -165,9 +165,7 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
                 'target'     => $this,
             ]);
 
-            if ($this->itemsLoop($items, $arg, $loopArg, $nodeClone)) {
-                continue;
-            }
+            $this->itemsLoop($items, $arg, $loopArg, $nodeClone);
 
             empty($spec['instructions']) or
                 $this->instructionsRenderer->subInstructions(
@@ -185,7 +183,7 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
      * @param PluginArgument $arg
      * @param ArrayObject $loopArg
      * @param Element $nodeClone
-     * @return bool
+     * @return self
      */
     protected function itemsLoop(array $items, PluginArgument $arg, ArrayObject $loopArg, Element $nodeClone)
     {
@@ -203,7 +201,7 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
             $loopArg['node'] = clone $nodeClone;
 
             if ($this->invokeLoopHelpers($spec['loop'], $loopArg)) {
-                return true;
+                continue;
             }
 
             $loopArg['item'][$translation->makeExtraVarKey('key')]   = (string) $loopArg['key'];
@@ -238,7 +236,7 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
                 );
         }
 
-        return false;
+        return $this;
     }
 
     /**
