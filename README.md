@@ -120,7 +120,6 @@
             'value'   => 'customprefix {$_nodeValue} customsuffix',
             'html'    => '<custom>{$_innerHtml}</custom>',
             'replace' => '{$_outerHtml}<custom/>',
-
             'attribs' => [
                 'title' => '{$_nodeValue} {$_href}',
                 'href'  => '{$_href}#customfragment',
@@ -143,7 +142,6 @@
         'draw-node-example' => [
             'locator' => 'body',
             'value'   => '{$viewvar}',
-
             'var' => [
                 'set' => [
                     'viewvar' => 'customval',
@@ -156,7 +154,6 @@
         'draw-node-example' => [
             'locator' => 'body',
             'value'   => '{$depthvar}',
-
             'var' => [
                 'fetch' => [
                     'depthvar' => 'value.in.the.depth',
@@ -170,7 +167,6 @@
         'draw-node-example' => [
             'locator' => 'body',
             'value'   => '{$viewvar}',
-
             'var' => [
                 'default' => [
                     'viewvar' => 'defaultval',
@@ -185,7 +181,6 @@
         'draw-node-example' => [
             'locator' => 'body',
             'value'   => '{$customvar}',
-
             'var' => [
                 'helper' => [
                     'customvar' => [
@@ -212,7 +207,6 @@
         'draw-node-example' => [
             'locator' => 'ul li',
             'value'   => '{$_key} {$_index} {$property}',
-
             'loop' => [
                 'base'    => 'array.in.the.depth',
                 'index'   => '0',
@@ -277,7 +271,6 @@
             'locator'   => 'body',
             'cache'     => 'exampleCacheTag',
             'cache_key' => ['{$var}'],
-
             'cache_key_trigger' => [
                 'draw.cache.byPage',
             ],
@@ -331,9 +324,8 @@
   1. Set up the Ajax handler. Use the following jQuery script:
 
         jQuery(document).ready(function($){
-
-            $(document).on("click", ".ajax-link", function() {
-
+            $(document).on("click", ".ajax-link", function(event) {
+                event.preventDefault();
                 $.get($(this).attr("href"), function(data) {
 
                     // replace element HTML with each received fragment
@@ -345,10 +337,7 @@
                     if (data.extraExample) {
                         $(".my-ajax-data").html(data.extraExample);
                     }
-
                 }, "json");
-
-                return false;
             });
         });
 
@@ -371,18 +360,18 @@
 
   The Ajax request triggers the Ajax event, then you can add custom JSON data and change the XPath of fragments to render.
 
-        $this->getEventManager()->getSharedManager()->attach(
-            'WebinoDraw',
-            AjaxEvent::EVENT_AJAX,
-            function(AjaxEvent $event) {
+    $this->getEventManager()->getSharedManager()->attach(
+        'WebinoDraw',
+        AjaxEvent::EVENT_AJAX,
+        function(AjaxEvent $event) {
 
-                // add custom JSON data
-                $event->setJson(['extraExample' => 'my extra ajax']);
+            // add custom JSON data
+            $event->setJson(['extraExample' => 'my extra ajax']);
 
-                // change XPath of fragments to render
-                $event->setFragmentXpath('//*[contains(@class, "my-ajax-fragment"])');
-            }
-        );
+            // change XPath of fragments to render
+            $event->setFragmentXpath('//*[contains(@class, "my-ajax-fragment"])');
+        }
+    );
 
   *NOTE: AjaxEvent will not be triggered if you use JsonModel as a MvcEvent response.*
 
@@ -390,13 +379,13 @@
 
   There are default settings to configure the Ajax support:
 
-        'webino_draw' => [
-            // container is the area to render (in the layout)
-            'ajax_container_xpath' => '//body',
+    'webino_draw' => [
+        // container is the area to render (in the layout)
+        'ajax_container_xpath' => '//body',
 
-            // fragment is the part of the container to receive
-            'ajax_fragment_xpath' => '//*[contains(@class, "ajax-fragment") and @id]',
-        ],
+        // fragment is the part of the container to receive
+        'ajax_fragment_xpath' => '//*[contains(@class, "ajax-fragment") and @id]',
+    ],
 
   *NOTE: Only elements matched with container XPath will be rendered.*
 
@@ -423,14 +412,14 @@
         'helper'  => 'WebinoDrawElement',                // default (not required to set)
 
         // Helper options:
-        'value'   => 'Draw element example value',       // set node value
-        'render'  => [
+        'value' => 'Draw element example value',         // set node value
+        'render' => [
             'script' => 'script/path'                    // render view script to variable
         ],
         'fragments' => [                                 // HTML fragments of the template to variables
             'frag' => '.frag-class'                      // pairs of customName => locator, gives us fragOuterHtml and fragInnerHtml variables
         ],
-        'html'    => '<span>HTML value</span>{$script}', // set node XHTML
+        'html' => '<span>HTML value</span>{$script}',    // set node XHTML
         'attribs' => [                                   // set attributes
             'title' => 'Attribute example'
         ],
@@ -463,8 +452,8 @@
         ],
         'onVar' => [                                     // variables logic
             'customIndex => [                            // options per variable
-                'var' => '{$customvar}',                 // test variable value
-                'equalTo' => '',                         // condition method (or)
+                'var'        => '{$customvar}',          // test variable value
+                'equalTo'    => '',                      // condition method (or)
                 'notEqualTo' => '',                      // condition method
                 'instructionset' => [                    // sub-instructionset to expand instructions
 
@@ -484,12 +473,12 @@
             'event-example.test',                        // event name per item, identificator = WebinoDraw
         ],
         'loop' => [                                      // loop node by view array items
-            'base'     => 'depth.items',                 // path to view array
-            'index'    => '0',                           // index start point (optional)
-            'offset'   => '0',                           // items offset (optional)
-            'length'   => '0',                           // items length (optional)
-            'shuffle'  => false,                         // shuffle items
-            'helper'   => function(                      // LoopHelper|callable, called on each item (optional)
+            'base'    => 'depth.items',                  // path to view array
+            'index'   => '0',                            // index start point (optional)
+            'offset'  => '0',                            // items offset (optional)
+            'length'  => '0',                            // items length (optional)
+            'shuffle' => false,                          // shuffle items
+            'helper' => function(                        // LoopHelper|callable, called on each item (optional)
                 $loopArgument, array $options
             ){},
             'onEmpty'  => [                              // custom options if items array is empty
@@ -515,9 +504,9 @@
         'helper'   => 'WebinoDrawForm',
 
         // Helper options:
-        'form'         => 'exampleForm',            // form available via ServiceManager
-        'route'        => 'example_route',          // available route
-        'text_domain'  => __NAMESPACE__,            // form translator text domain
+        'form'        => 'exampleForm',             // form available via ServiceManager
+        'route'       => 'example_route',           // available route
+        'text_domain' => __NAMESPACE__,             // form translator text domain
         'instructionset' => [                       // instructionset to expand instructions
 
         ],
@@ -550,12 +539,12 @@
                         'hydrator' => 'Zend\Stdlib\Hydrator\ArraySerializable',
                         'attributes' => [
                             'method' => 'post',
-                            'class' => 'example-form',
+                            'class'  => 'example-form',
                         ],
                         'elements' => [
                             [
                                 'spec' => [
-                                    'name'    => 'example_text_element',
+                                    'name' => 'example_text_element',
                                     'options' => [
                                         'label' => 'Label example',
                                     ],
@@ -568,8 +557,8 @@
                         ],
                         'input_filter' => [
                             'example_text_element' => [
-                                'name'       => 'example_text_element',
-                                'required'   => true,
+                                'name'     => 'example_text_element',
+                                'required' => true,
                                 'validators' => [
 
                                 ],
@@ -591,16 +580,16 @@
   Absolutize the relative URLs (default attributes: src, href, action).
 
     'absolutize' => [
-        'stackIndex' => '9999998',
-        'helper' => 'WebinoDrawAbsolutize',
-        'locator' => \WebinoDraw\View\Helper\DrawAbsolutize::getDefaultLocator(],
+        'stackIndex' => 9999998,
+        'helper'     => 'WebinoDrawAbsolutize',
+        'locator'    => (new \WebinoDraw\Draw\Helper\Absolutize\AbsolutizeLocator)->getLocator(),
     ],
 
   Extend locator with the *my-attr* attribute:
 
     'absolutize' => [
         'locator' => [
-            'my-attr' => 'xpath=//@my-attr' . \WebinoDraw\View\Helper\DrawAbsolutize::LOCATOR_CONDITION,
+            'my-attr' => 'xpath=//@my-attr' . (new \WebinoDraw\Draw\Helper\Absolutize\AbsolutizeLocator)->getCondition(),
         ],
     ],
 
