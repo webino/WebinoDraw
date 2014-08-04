@@ -12,10 +12,10 @@ namespace WebinoDraw\Dom;
 
 use ArrayObject;
 use DOMDocument;
-use WebinoDraw\Dom\Element as DOMElement;
+use WebinoDraw\Dom\Document;
+use WebinoDraw\Dom\Element;
 use WebinoDraw\Dom\Locator;
 use DOMNode;
-use DOMXpath;
 use PHPUnit_Framework_Assert as PhpUnitAssert;
 use ReflectionProperty;
 
@@ -46,24 +46,14 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return DOMDocument
-     */
-    private function createDomDocument()
-    {
-        $dom = new DOMDocument;
-        $dom->registerNodeClass('DOMElement', 'WebinoDraw\Dom\Element');
-        return $dom;
-    }
-
-    /**
      * @covers WebinoDraw\Dom\NodeList::create
      */
     public function testCreate()
     {
         $nodeList = new NodeList($this->locator, []);
 
-        $nodeOne = new DOMElement('testOne');
-        $nodeTwo = new DOMElement('testTwo');
+        $nodeOne = new Element('testOne');
+        $nodeTwo = new Element('testTwo');
 
         $newNodeList = $nodeList->create([$nodeOne, $nodeTwo]);
 
@@ -97,7 +87,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetNodesArray()
     {
-        $nodes = [$this->getMock('DOMElement', [], [], '', false)];
+        $nodes = [$this->getMock('Element', [], [], '', false)];
 
         // test fluent
         $this->assertSame($this->object, $this->object->setNodes($nodes));
@@ -162,7 +152,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetValue()
     {
-        $dom      = $this->createDomDocument();
+        $dom      = new Document;
         $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
         $value    = 'TestValue';
         $expected = '<box><dummyOne>' . $value . '</dummyOne>'
@@ -182,7 +172,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetValueWithPreSet()
     {
-        $dom      = $this->createDomDocument();
+        $dom      = new Document;
         $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
         $value    = 'TestValue';
         $expected = '<box><dummyOne>' . $value . 'Modified</dummyOne>'
@@ -191,7 +181,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
 
         $nodeList->setValue(
             $value,
-            function (DOMElement $node, $value) {
+            function (Element $node, $value) {
                 return $value . 'Modified';
             }
         );
@@ -207,7 +197,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetValueEscapeHtml()
     {
-        $dom          = $this->createDomDocument();
+        $dom          = new Document;
         $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
         $value        = '<testnode/>';
         $escapedValue = htmlspecialchars('<testnode/>');
@@ -228,7 +218,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetHtml()
     {
-        $dom      = $this->createDomDocument();
+        $dom      = new Document;
         $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
         $html     = '<testnode/>';
         $expected = '<box><dummyOne>' . $html . '</dummyOne>'
@@ -248,7 +238,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetHtmlWithPreSet()
     {
-        $dom      = $this->createDomDocument();
+        $dom      = new Document;
         $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
         $html     = '<testnode/>';
         $expected = '<box><dummyOne>' . $html . '<modified/></dummyOne>'
@@ -273,7 +263,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
      */
     public function testAppendHtml()
     {
-        $dom      = $this->createDomDocument();
+        $dom      = new Document;
         $dom->loadXML('<box><dummyOne/><dummyTwo><dummyTwoFc/></dummyTwo></box>');
         $html     = '<testnode/>';
         $expected = '<box><dummyOne>' . $html . '</dummyOne>'
@@ -294,7 +284,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetAttribs()
     {
-        $dom      = $this->createDomDocument();
+        $dom      = new Document;
         $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
         $attribs  = 'attr0="val0" attr1="0"';
         $expected = '<box><dummyOne ' . $attribs . '/>'
@@ -314,7 +304,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetAttribsWithPreSet()
     {
-        $dom      = $this->createDomDocument();
+        $dom      = new Document;
         $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
         $_attribs = 'attr0="val0modified" attr1="val1modified"';
         $expected = '<box><dummyOne ' . $_attribs . '/>'
@@ -339,7 +329,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
      */
     public function testReplace()
     {
-        $dom      = $this->createDomDocument();
+        $dom      = new Document;
         $dom->loadXML('<box><dummyReplaced/><dummyeplaced/></box>');
         $html     = '<dummyeplaced/>';
         $expected = '<box>' . $html . $html . '</box>';
@@ -358,7 +348,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
      */
     public function testReplaceWithPreSet()
     {
-        $dom      = $this->createDomDocument();
+        $dom      = new Document;
         $dom->loadXML('<box><dummyReplaced/><dummyReplaced/></box>');
         $html     = '<dummyReplaced/>';
         $expected = '<box>' . $html . '<modified/>'
@@ -383,10 +373,9 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemove()
     {
-        $dom        = $this->createDomDocument();
+        $dom        = new Document;
         $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
         $expected   = '<box/>';
-        $dom->xpath = new DOMXpath($dom);
         $nodeList   = new NodeList($this->locator, $dom->firstChild->childNodes);
         $xpath      = '.';
         $target     = 'xpath=' . $xpath;
@@ -413,10 +402,9 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemoveByXpath()
     {
-        $dom        = $this->createDomDocument();
+        $dom        = new Document;
         $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
         $expected   = '<box><dummyOne/></box>';
-        $dom->xpath = new DOMXpath($dom);
         $nodeList   = new NodeList($this->locator, [$dom->firstChild->firstChild]);
         $xpath      = '//dummyTwo';
         $target     = 'xpath=' . $xpath;
@@ -445,7 +433,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('WebinoDraw\Exception\RuntimeException');
 
-        $dom      = $this->createDomDocument();
+        $dom      = new DOMDocument;
         $dom->loadXML('<box><dummyOne/><dummyTwo/></box>');
         $nodeList = new NodeList($this->locator, [$dom->firstChild->firstChild]);
 
@@ -462,9 +450,8 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
      */
     public function testEach()
     {
-        $dom        = new DOMDocument;
+        $dom        = new Document;
         $dom->loadXML('<box><dummyOne><child/><child/></dummyOne><dummyTwo><child/><child/></dummyTwo></box>');
-        $dom->xpath = new DOMXpath($dom);
         $nodeList   = new NodeList($this->locator, $dom->firstChild->childNodes);
         $xpath      = './child';
         $target     = 'xpath=' . $xpath;

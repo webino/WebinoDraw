@@ -10,7 +10,6 @@
 
 namespace WebinoDraw\Service;
 
-use DOMXPath;
 use WebinoDraw\Dom\Document;
 use WebinoDraw\Dom\Element;
 use WebinoDraw\Exception\DrawException;
@@ -111,7 +110,6 @@ class DrawService
         $isXml ? $dom->loadXml($xhtml)
                : $dom->loadHtml(mb_convert_encoding($xhtml, 'HTML-ENTITIES', 'UTF-8'));
 
-        $dom->setXpath(new DOMXPath($dom));
         return $dom;
     }
 

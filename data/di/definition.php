@@ -5485,6 +5485,7 @@ return array (
     array (
       0 => 'WebinoDraw\\Manipulator\\Plugin\\InLoopPluginInterface',
       1 => 'WebinoDraw\\Manipulator\\Plugin\\PluginInterface',
+      2 => 'WebinoDraw\\Manipulator\\Plugin\\AbstractPlugin',
     ),
     'instantiator' => '__construct',
     'methods' => 

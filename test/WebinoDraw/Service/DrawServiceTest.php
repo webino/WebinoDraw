@@ -134,8 +134,8 @@ class DrawServiceTest extends \PHPUnit_Framework_TestCase
         $dom  = $this->object->createDom('<xhtml attr="attr">text</xhtml>');
         $node = $dom->getElementsByTagName('xhtml')->item(0);
 
-        $this->assertThat($dom, $this->isInstanceOf('DOMDocument'));
-        $this->assertThat($dom->xpath, $this->isInstanceOf('DOMXPath'));
+        $this->assertThat($dom, $this->isInstanceOf('WebinoDraw\Dom\Document'));
+        $this->assertThat($dom->getXpath(), $this->isInstanceOf('DOMXPath'));
         $this->assertThat($node, $this->isInstanceOf('WebinoDraw\Dom\Element'));
         $this->assertThat($node->getAttributeNode('attr'), $this->isInstanceOf('WebinoDraw\Dom\Attr'));
         $this->assertThat($node->firstChild, $this->isInstanceOf('WebinoDraw\Dom\Text'));

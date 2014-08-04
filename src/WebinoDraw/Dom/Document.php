@@ -39,6 +39,9 @@ class Document extends \DOMDocument
      */
     public function getXpath()
     {
+        if (null == $this->xpath) {
+            $this->setXpath(new DOMXPath($this));
+        }
         return $this->xpath;
     }
 

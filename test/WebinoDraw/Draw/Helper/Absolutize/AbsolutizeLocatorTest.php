@@ -10,8 +10,7 @@
 
 namespace WebinoDraw\Draw\Helper\Absolutize;
 
-use DOMDocument;
-use DOMXPath;
+use WebinoDraw\Dom\Document;
 use WebinoDraw\Dom\Locator;
 use WebinoDraw\Dom\Locator\Transformator;
 
@@ -47,10 +46,9 @@ class AbsolutizeLocatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDefaultLocator()
     {
-        $dom = new DOMDocument;
+        $dom = new Document;
         $dom->registerNodeClass('DOMElement', 'WebinoDraw\Dom\Element');
         $dom->loadXML('<node src="test-src" href="test-href" action="test-action"/>');
-        $dom->xpath = new DOMXPath($dom);
         $locator    = $this->object->getLocator();
 
         $this->assertSame(
@@ -72,11 +70,10 @@ class AbsolutizeLocatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDefaultLocatorDoNoMatchHttp()
     {
-        $dom = new DOMDocument;
+        $dom     = new Document;
         $dom->registerNodeClass('DOMElement', 'WebinoDraw\Dom\Element');
         $dom->loadXML('<node src="http://test-src" href="http://test-href" action="http://test-action"/>');
-        $dom->xpath = new DOMXPath($dom);
-        $locator    = $this->object->getLocator();
+        $locator = $this->object->getLocator();
 
         $this->assertFalse((bool) $this->locator->locate($dom->documentElement, $locator)->length);
     }
@@ -86,11 +83,10 @@ class AbsolutizeLocatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDefaultLocatorDoNoMatchRelativeSharp()
     {
-        $dom = new DOMDocument;
+        $dom     = new Document;
         $dom->registerNodeClass('DOMElement', 'WebinoDraw\Dom\Element');
         $dom->loadXML('<node src="#test-src" href="#test-href" action="#test-action"/>');
-        $dom->xpath = new DOMXPath($dom);
-        $locator    = $this->object->getLocator();
+        $locator = $this->object->getLocator();
 
         $this->assertFalse((bool) $this->locator->locate($dom->documentElement, $locator)->length);
     }
@@ -100,11 +96,10 @@ class AbsolutizeLocatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDefaultLocatorDoNoMatchRelativeQueryParams()
     {
-        $dom = new DOMDocument;
+        $dom     = new Document;
         $dom->registerNodeClass('DOMElement', 'WebinoDraw\Dom\Element');
         $dom->loadXML('<node src="?test-src" href="?test-href" action="?test-action"/>');
-        $dom->xpath = new DOMXPath($dom);
-        $locator    = $this->object->getLocator();
+        $locator = $this->object->getLocator();
 
         $this->assertFalse((bool) $this->locator->locate($dom->documentElement, $locator)->length);
     }
@@ -114,11 +109,10 @@ class AbsolutizeLocatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDefaultLocatorDoNoMatchAbsolutePath()
     {
-        $dom = new DOMDocument;
+        $dom     = new Document;
         $dom->registerNodeClass('DOMElement', 'WebinoDraw\Dom\Element');
         $dom->loadXML('<node src="/test-src" href="/test-href" action="/test-action"/>');
-        $dom->xpath = new DOMXPath($dom);
-        $locator    = $this->object->getLocator();
+        $locator = $this->object->getLocator();
 
         $this->assertFalse((bool) $this->locator->locate($dom->documentElement, $locator)->length);
     }
@@ -128,11 +122,10 @@ class AbsolutizeLocatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDefaultLocatorDoNoMatchMailto()
     {
-        $dom = new DOMDocument;
+        $dom     = new Document;
         $dom->registerNodeClass('DOMElement', 'WebinoDraw\Dom\Element');
         $dom->loadXML('<node src="mailto:test-src" href="mailto:test-href" action="mailto:test-action"/>');
-        $dom->xpath = new DOMXPath($dom);
-        $locator    = $this->object->getLocator();
+        $locator = $this->object->getLocator();
 
         $this->assertFalse((bool) $this->locator->locate($dom->documentElement, $locator)->length);
     }
@@ -142,11 +135,10 @@ class AbsolutizeLocatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDefaultLocatorDoNoMatchJavascript()
     {
-        $dom = new DOMDocument;
+        $dom     = new Document;
         $dom->registerNodeClass('DOMElement', 'WebinoDraw\Dom\Element');
         $dom->loadXML('<node src="javascript:test-src" href="javascript:test-href" action="javascript:test-action"/>');
-        $dom->xpath = new DOMXPath($dom);
-        $locator    = $this->object->getLocator();
+        $locator = $this->object->getLocator();
 
         $this->assertFalse((bool) $this->locator->locate($dom->documentElement, $locator)->length);
     }
@@ -156,11 +148,10 @@ class AbsolutizeLocatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDefaultLocatorDoNoMatchDisabledAbsolutize()
     {
-        $dom = new DOMDocument;
+        $dom     = new Document;
         $dom->registerNodeClass('DOMElement', 'WebinoDraw\Dom\Element');
         $dom->loadXML('<node src="test-src" href="test-href" action="test-action" data-webino-draw-absolutize="no"/>');
-        $dom->xpath = new DOMXPath($dom);
-        $locator    = $this->object->getLocator();
+        $locator = $this->object->getLocator();
 
         $this->assertFalse((bool) $this->locator->locate($dom->documentElement, $locator)->length);
     }
