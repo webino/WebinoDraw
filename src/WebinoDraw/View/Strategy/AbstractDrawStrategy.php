@@ -51,6 +51,7 @@ abstract class AbstractDrawStrategy extends PhpRendererStrategy
      */
     public function shouldRespond(ViewEvent $event)
     {
+        /* @var $response PhpResponse */
         $response = $event->getResponse();
         if ($event->getRenderer() instanceof PhpRenderer
             && $response instanceof PhpResponse
@@ -70,13 +71,9 @@ abstract class AbstractDrawStrategy extends PhpRendererStrategy
      */
     public function collectModelVariables(ViewModel $model)
     {
-        $vars = $model->getVariables();
-        !method_exists($vars, 'getArrayCopy') or
-            $vars = $vars->getArrayCopy();
-
+        $vars = (array) $model->getVariables();
         foreach ($model->getChildren() as $child) {
-            $childVars = $this->collectModelVariables($child);
-            $vars      = array_replace($vars, $childVars);
+            $vars = array_replace($vars, $this->collectModelVariables($child));
         }
 
         return $vars;
