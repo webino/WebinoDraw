@@ -1376,6 +1376,48 @@ return array (
       ),
     ),
   ),
+  'WebinoDraw\\Exception\\LogicException' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'WebinoDraw\\Exception\\ExceptionInterface',
+      1 => 'InvalidArgumentException',
+      2 => 'LogicException',
+      3 => 'Exception',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\Exception\\LogicException::__construct:0' => 
+        array (
+          0 => 'message',
+          1 => NULL,
+          2 => false,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Exception\\LogicException::__construct:1' => 
+        array (
+          0 => 'code',
+          1 => NULL,
+          2 => false,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Exception\\LogicException::__construct:2' => 
+        array (
+          0 => 'previous',
+          1 => NULL,
+          2 => false,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
   'WebinoDraw\\Exception\\InvalidArgumentException' => 
   array (
     'supertypes' => 
