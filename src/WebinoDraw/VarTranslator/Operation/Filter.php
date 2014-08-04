@@ -10,7 +10,7 @@
 
 namespace WebinoDraw\VarTranslator\Operation;
 
-use ArrayAccess;
+use WebinoDraw\VarTranslator\Translation;
 use Zend\Filter\FilterPluginManager;
 
 class Filter
@@ -34,11 +34,11 @@ class Filter
      * Call user function if exists else call filter.
      *
      * @todo refactor
-     * @param ArrayAccess $translation Variables with values to modify
+     * @param Translation $translation Variables with values to modify
      * @param array $spec Filter options
      * @return self
      */
-    public function apply(ArrayAccess $translation, array $spec)
+    public function apply(Translation $translation, array $spec)
     {
         foreach ($spec as $key => $subSpec) {
             if (!array_key_exists($key, $translation)) {
