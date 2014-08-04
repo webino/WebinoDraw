@@ -12,6 +12,7 @@ namespace WebinoDraw\Manipulator\Plugin;
 
 use DOMElement;
 use WebinoDraw\Exception;
+use WebinoDraw\Dom\Document;
 
 /**
  *
@@ -72,7 +73,7 @@ class Replace extends AbstractPlugin implements
             if (!($node instanceof DOMElement)) {
                 throw new Exception\LogicException('Expected node of type DOMElement');
             }
-            
+
             empty($node->parentNode) or
                 $node->parentNode->removeChild($node);
         }
