@@ -63,7 +63,7 @@ class Absolutize extends AbstractHelper
 
             $nodeValue = $node->nodeValue;
             $translationVars->translate($nodeValue);
-            $node->nodeValue = $serverUrl . $this->removeDotSegments($basePath . '/' . ltrim($nodeValue, '/'));
+            $node->nodeValue = $serverUrl . $this->removeDotSegments($basePath . '/' . ltrim((string) $nodeValue, '/'));
         }
     }
 
