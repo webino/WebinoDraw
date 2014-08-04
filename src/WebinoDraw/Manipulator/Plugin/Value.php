@@ -10,6 +10,7 @@
 
 namespace WebinoDraw\Manipulator\Plugin;
 
+use DOMElement;
 use Zend\View\Helper\EscapeHtml;
 
 /**
@@ -36,10 +37,13 @@ class Value extends AbstractPlugin implements InLoopPluginInterface
     public function inLoop(PluginArgument $arg)
     {
         $spec = $arg->getSpec();
-        $node = $arg->getNode();
-
         if (!array_key_exists('value', $spec) || null === $spec['value']) {
             return;
+        }
+
+        $node = $arg->getNode();
+        if (!($node instanceof DOMElement)) {
+            throw new Exception\LogicException('Expected node of type DOMElement');
         }
 
         $varTranslation  = $arg->getVarTranslation();
