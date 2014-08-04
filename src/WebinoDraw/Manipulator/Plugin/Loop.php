@@ -15,8 +15,7 @@ use WebinoDraw\Cache\DrawCache;
 use WebinoDraw\Dom\Element;
 use WebinoDraw\Dom\NodeList;
 use WebinoDraw\Draw\LoopHelperPluginManager;
-use WebinoDraw\Exception\InvalidLoopHelperException;
-use WebinoDraw\Exception\MissingPropertyException;
+use WebinoDraw\Exception;
 use WebinoDraw\Instructions\InstructionsRenderer;
 
 /**
@@ -43,7 +42,6 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
      * @param InstructionsRenderer $instructionsRenderer
      * @param LoopHelperPluginManager $loopHelpers
      * @param DrawCache $cache
-     * @throws MissingPropertyException
      */
     public function __construct(
         InstructionsRenderer $instructionsRenderer,
@@ -93,13 +91,13 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
 
     /**
      * @param PluginArgument $arg
-     * @throws MissingPropertyException
+     * @throws Exception\MissingPropertyException
      */
     protected function preLoopInternal(PluginArgument $arg)
     {
         $spec = $arg->getSpec();
         if (empty($spec['loop']['base'])) {
-            throw new MissingPropertyException(sprintf('Loop base expected in: %s', print_r($spec, 1)));
+            throw new Exception\MissingPropertyException(sprintf('Loop base expected in: %s', print_r($spec, true)));
         }
 
         $arg->stopManipulation();
@@ -298,14 +296,14 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
      * @param array $helperOptions
      * @param ArrayObject $loopArg
      * @return self
-     * @throws InvalidLoopHelperException
+     * @throws Exception\InvalidLoopHelperException
      */
     protected function invokeLoopHelper(array $helperOptions, ArrayObject $loopArg)
     {
         $helper = current($helperOptions);
         if (is_string($helper)) {
             if (!$this->loopHelpers->has($helper)) {
-                throw new InvalidLoopHelperException('Loop helper `' . $helper . '` not found');
+                throw new Exception\InvalidLoopHelperException('Loop helper `' . $helper . '` not found');
             }
 
             $loopHelper = $this->loopHelpers->get($helper);
@@ -317,6 +315,6 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
             return $this;
         }
 
-        throw new InvalidLoopHelperException('Loop helper can\'t execute');
+        throw new Exception\InvalidLoopHelperException('Loop helper can\'t execute');
     }
 }
