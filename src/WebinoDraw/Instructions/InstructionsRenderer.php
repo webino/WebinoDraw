@@ -10,7 +10,7 @@
 
 namespace WebinoDraw\Instructions;
 
-use ArrayAccess;
+use ArrayObject;
 use WebinoDraw\Dom\Element;
 use WebinoDraw\Dom\Factory\NodeListFactory;
 use WebinoDraw\Dom\Locator;
@@ -118,10 +118,10 @@ class InstructionsRenderer implements InstructionsRendererInterface
     /**
      * @param array|NodeList $nodes
      * @param array $instructions
-     * @param ArrayAccess $translation
+     * @param ArrayObject $translation
      * @return self
      */
-    public function subInstructions($nodes, array $instructions, ArrayAccess $translation)
+    public function subInstructions($nodes, array $instructions, ArrayObject $translation)
     {
         $nodeList = is_array($nodes) ? $this->nodeListFactory->create($nodes) : $nodes;
         if (!($nodeList instanceof NodeList)) {
