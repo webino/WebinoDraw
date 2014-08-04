@@ -12,8 +12,6 @@ namespace WebinoDraw\VarTranslator;
 
 use ArrayAccess;
 use ArrayObject;
-use WebinoDraw\Dom\Element;
-use WebinoDraw\Dom\NodeInterface;
 use WebinoDraw\Stdlib\ArrayFetchInterface;
 use WebinoDraw\Stdlib\ArrayMergeInterface;
 
@@ -44,6 +42,7 @@ class Translation extends ArrayObject implements
     /**
      * Return value in depth from multidimensional array
      *
+     * @todo refactor
      * @param string $basePath Something like: value.in.the.depth
      * @return mixed Result value
      */
@@ -236,19 +235,20 @@ class Translation extends ArrayObject implements
                 continue;
             }
 
+            $value = $this->offsetGet($key);
             if ($key === $str
-                && (is_object($this[$key])
-                    || is_array($this[$key])
-                    || is_int($this[$key])
-                    || is_float($this[$key]))
+                && (is_object($value)
+                    || is_array($value)
+                    || is_int($value)
+                    || is_float($value))
             ) {
                 // return early for non-strings
                 // this is usefull to pass subjects
                 // to functions, helpers and filters
-                return $this[$key];
+                return $value;
             }
 
-            $str = str_replace($key, $this[$key], $str);
+            $str = str_replace($key, $value, $str);
         }
 
         return $str;
@@ -295,7 +295,7 @@ class Translation extends ArrayObject implements
     {
         foreach ($values as $key => $value) {
             $this->getVarTranslation()->translate($value);
-            $this[$key] = $value;
+            $this->offsetSet($key, $value);
         }
         return $this;
     }
@@ -308,16 +308,14 @@ class Translation extends ArrayObject implements
      */
     public function setDefaults(array $defaults)
     {
-        foreach ($defaults as $key => $value) {
-            if (!empty($this[$key])
-                || (array_key_exists($key, $this)
-                    && is_numeric($this[$key]))
-            ) {
+        foreach ($defaults as $key => $defaultValue) {
+            $value = $this->offsetGet($key);
+            if (!empty($value) || is_numeric($value)) {
                 continue;
             }
 
-            $this->getVarTranslation()->translate($value);
-            $this[$key] = $value;
+            $this->getVarTranslation()->translate($defaultValue);
+            $this->offsetSet($key, $defaultValue);
         }
 
         return $this;
@@ -353,7 +351,7 @@ class Translation extends ArrayObject implements
     public function fetchVars(array $options)
     {
         foreach ($options as $key => $basepath) {
-            $this[$key] = $this->fetch($this->getVarTranslation()->translateString($basepath));
+            $this->offsetSet($key, $this->fetch($this->getVarTranslation()->translateString($basepath)));
         }
         return $this;
     }
