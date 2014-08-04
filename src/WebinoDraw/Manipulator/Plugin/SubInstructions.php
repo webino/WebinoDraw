@@ -38,19 +38,10 @@ class SubInstructions implements InLoopPluginInterface
     {
         $spec = $arg->getSpec();
         $node = $arg->getNode();
-        if (!($node->ownerDocument instanceof Document)) {
-            throw new Exception\LogicException('Expects node ownerDocument of type Dom\Document');
-        }
 
         $this->instructionsRenderer->expandInstructions($spec);
-        if (empty($spec['instructions']) || empty($node->ownerDocument)) {
-            return;
+        if (!empty($spec['instructions']) && ($node->ownerDocument instanceof Document)) {
+            $this->instructionsRenderer->subInstructions([$node], $spec['instructions'], $arg->getTranslation());
         }
-
-        $this->instructionsRenderer->subInstructions(
-            [$node],
-            $spec['instructions'],
-            $arg->getTranslation()
-        );
     }
 }
