@@ -19,6 +19,11 @@ use WebinoDraw\VarTranslator\VarTranslator;
 class OnVar implements InLoopPluginInterface
 {
     /**
+     * @var VarTranslator
+     */
+    protected $varTranslator;
+
+    /**
      * @var InstructionsRenderer
      */
     protected $instructionsRenderer;
