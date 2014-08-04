@@ -10,7 +10,9 @@
 
 namespace WebinoDraw\Manipulator\Plugin;
 
+use WebinoDraw\Dom\Document;
 use WebinoDraw\Dom\Locator;
+use WebinoDraw\Exception;
 
 /**
  *
@@ -41,7 +43,11 @@ class Remove implements InLoopPluginInterface
             return;
         }
 
-        $node      = $arg->getNode();
+        $node = $arg->getNode();
+        if (!($node->ownerDocument instanceof Document)) {
+            throw new Exception\LogicException('Expects node ownerDocument of type Dom\Document');
+        }
+
         $nodeXpath = $node->ownerDocument->getXpath();
 
         foreach ((array) $spec['remove'] as $removeLocator) {
