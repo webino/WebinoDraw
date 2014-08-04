@@ -10,8 +10,10 @@
 
 namespace WebinoDraw;
 
+use WebinoDraw\Exception;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\ModuleManager\ModuleEvent;
+use Zend\ModuleManager\ModuleManager;
 use Zend\ModuleManager\ModuleManagerInterface;
 
 /**
@@ -24,6 +26,10 @@ class Module implements ConfigProviderInterface
      */
     public function init(ModuleManagerInterface $manager)
     {
+        if (!($manager instanceof ModuleManager)) {
+            throw new Exception\LogicException('Expected Zend\ModuleManager\ModuleManager');
+        }
+        
         $services = $manager->getEvent()->getParam('ServiceManager');
 
         // Register draw helper manager
