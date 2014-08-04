@@ -23,8 +23,6 @@ use WebinoDraw\Stdlib\ArrayMergeInterface;
 class Translation extends ArrayObject implements
     ArrayFetchInterface,
     ArrayMergeInterface
-    // TODO implement
-//    NodeTranslationInterface
 {
     /**
      * Pattern of a variable
@@ -116,9 +114,8 @@ class Translation extends ArrayObject implements
     public function unsetKeys(array $keys)
     {
         foreach ($keys as $key) {
-            if (isset($this[$key])) {
-                unset($this[$key]);
-            }
+            !$this->offsetExists($key) or
+                $this->offsetUnset($key);
         }
         return $this;
     }
