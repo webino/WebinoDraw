@@ -259,10 +259,7 @@ class NodeList implements IteratorAggregate
         $this->each(
             $locator,
             function (NodeList $nodes) use (&$remove) {
-                $remove = array_merge(
-                    $remove,
-                    $nodes->getNodes()->getArrayCopy()
-                );
+                $remove = array_merge($remove, (array) $nodes->getIterator());
             }
         );
 
