@@ -13,6 +13,7 @@ namespace WebinoDraw\Draw\Helper;
 use ArrayAccess;
 use WebinoDraw\Dom\Attr;
 use WebinoDraw\Dom\NodeList;
+use WebinoDraw\VarTranslator\Translation;
 use Zend\I18n\Translator\TranslatorInterface;
 
 /**
@@ -51,11 +52,11 @@ class Translate extends Element
 
     /**
      * @param string $value
-     * @param ArrayAccess $varTranslation
+     * @param Translation $varTranslation
      * @param array $spec
      * @return string
      */
-    public function translateValue($value, ArrayAccess $varTranslation, array $spec)
+    public function translateValue($value, Translation $varTranslation, array $spec)
     {
         $varValue = trim(parent::translateValue($value, $varTranslation, $spec));
         if (empty($varValue)) {

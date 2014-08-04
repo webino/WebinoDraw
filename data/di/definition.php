@@ -1993,6 +1993,75 @@ return array (
       ),
     ),
   ),
+  'WebinoDraw\\Dom\\Document' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'DOMDocument',
+      1 => 'DOMNode',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+      'setXpath' => 0,
+      'setUserData' => 0,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\Dom\\Document::__construct:0' => 
+        array (
+          0 => 'version',
+          1 => NULL,
+          2 => false,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Dom\\Document::__construct:1' => 
+        array (
+          0 => 'encoding',
+          1 => NULL,
+          2 => false,
+          3 => NULL,
+        ),
+      ),
+      'setXpath' => 
+      array (
+        'WebinoDraw\\Dom\\Document::setXpath:0' => 
+        array (
+          0 => 'xpath',
+          1 => 'DOMXPath',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setUserData' => 
+      array (
+        'WebinoDraw\\Dom\\Document::setUserData:0' => 
+        array (
+          0 => 'key',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Dom\\Document::setUserData:1' => 
+        array (
+          0 => 'data',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+        'WebinoDraw\\Dom\\Document::setUserData:2' => 
+        array (
+          0 => 'handler',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
   'WebinoDraw\\Dom\\Locator\\TransformatorInterface' => 
   array (
     'supertypes' => 
@@ -3121,7 +3190,7 @@ return array (
         'WebinoDraw\\Cache\\DrawCache::__construct:0' => 
         array (
           0 => 'cache',
-          1 => 'Zend\\Cache\\Storage\\StorageInterface',
+          1 => 'Zend\\Cache\\Storage\\TaggableInterface',
           2 => true,
           3 => NULL,
         ),
@@ -3757,10 +3826,11 @@ return array (
     'methods' => 
     array (
       '__construct' => 3,
-      'setEvent' => 0,
+      'setFormEvent' => 0,
       'setTranslatorTextDomain' => 0,
       'setRenderErrors' => 0,
       'setCache' => 0,
+      'setEvent' => 0,
       'setManipulator' => 0,
       'setVars' => 0,
       'setVarTranslator' => 0,
@@ -3820,12 +3890,12 @@ return array (
           3 => NULL,
         ),
       ),
-      'setEvent' => 
+      'setFormEvent' => 
       array (
-        'WebinoDraw\\Draw\\Helper\\Form::setEvent:0' => 
+        'WebinoDraw\\Draw\\Helper\\Form::setFormEvent:0' => 
         array (
           0 => 'event',
-          1 => 'WebinoDraw\\Event\\DrawEvent',
+          1 => 'WebinoDraw\\Event\\DrawFormEvent',
           2 => true,
           3 => NULL,
         ),
@@ -3856,6 +3926,16 @@ return array (
         array (
           0 => 'cache',
           1 => 'WebinoDraw\\Cache\\DrawCache',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEvent' => 
+      array (
+        'WebinoDraw\\Draw\\Helper\\Form::setEvent:0' => 
+        array (
+          0 => 'event',
+          1 => 'WebinoDraw\\Event\\DrawEvent',
           2 => true,
           3 => NULL,
         ),
@@ -4523,8 +4603,8 @@ return array (
     array (
       '__construct' => 3,
       'setEvent' => 0,
-      'setEventManager' => 3,
       'setContentPlaceholders' => 0,
+      'setEventManager' => 3,
     ),
     'parameters' => 
     array (
@@ -4548,22 +4628,22 @@ return array (
           3 => NULL,
         ),
       ),
-      'setEventManager' => 
-      array (
-        'WebinoDraw\\View\\Strategy\\DrawAjaxHtmlStrategy::setEventManager:0' => 
-        array (
-          0 => 'eventManager',
-          1 => 'Zend\\EventManager\\EventManagerInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
       'setContentPlaceholders' => 
       array (
         'WebinoDraw\\View\\Strategy\\DrawAjaxHtmlStrategy::setContentPlaceholders:0' => 
         array (
           0 => 'contentPlaceholders',
           1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEventManager' => 
+      array (
+        'WebinoDraw\\View\\Strategy\\DrawAjaxHtmlStrategy::setEventManager:0' => 
+        array (
+          0 => 'eventManager',
+          1 => 'Zend\\EventManager\\EventManagerInterface',
           2 => true,
           3 => NULL,
         ),
@@ -4631,8 +4711,8 @@ return array (
     array (
       '__construct' => 3,
       'setEvent' => 0,
-      'setEventManager' => 3,
       'setContentPlaceholders' => 0,
+      'setEventManager' => 3,
     ),
     'parameters' => 
     array (
@@ -4656,22 +4736,22 @@ return array (
           3 => NULL,
         ),
       ),
-      'setEventManager' => 
-      array (
-        'WebinoDraw\\View\\Strategy\\AbstractDrawAjaxStrategy::setEventManager:0' => 
-        array (
-          0 => 'eventManager',
-          1 => 'Zend\\EventManager\\EventManagerInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
       'setContentPlaceholders' => 
       array (
         'WebinoDraw\\View\\Strategy\\AbstractDrawAjaxStrategy::setContentPlaceholders:0' => 
         array (
           0 => 'contentPlaceholders',
           1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEventManager' => 
+      array (
+        'WebinoDraw\\View\\Strategy\\AbstractDrawAjaxStrategy::setEventManager:0' => 
+        array (
+          0 => 'eventManager',
+          1 => 'Zend\\EventManager\\EventManagerInterface',
           2 => true,
           3 => NULL,
         ),
@@ -4701,8 +4781,8 @@ return array (
     array (
       '__construct' => 3,
       'setEvent' => 0,
-      'setEventManager' => 3,
       'setContentPlaceholders' => 0,
+      'setEventManager' => 3,
     ),
     'parameters' => 
     array (
@@ -4726,22 +4806,22 @@ return array (
           3 => NULL,
         ),
       ),
-      'setEventManager' => 
-      array (
-        'WebinoDraw\\View\\Strategy\\DrawAjaxJsonStrategy::setEventManager:0' => 
-        array (
-          0 => 'eventManager',
-          1 => 'Zend\\EventManager\\EventManagerInterface',
-          2 => true,
-          3 => NULL,
-        ),
-      ),
       'setContentPlaceholders' => 
       array (
         'WebinoDraw\\View\\Strategy\\DrawAjaxJsonStrategy::setContentPlaceholders:0' => 
         array (
           0 => 'contentPlaceholders',
           1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setEventManager' => 
+      array (
+        'WebinoDraw\\View\\Strategy\\DrawAjaxJsonStrategy::setEventManager:0' => 
+        array (
+          0 => 'eventManager',
+          1 => 'Zend\\EventManager\\EventManagerInterface',
           2 => true,
           3 => NULL,
         ),

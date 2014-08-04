@@ -16,6 +16,7 @@ use WebinoDraw\Dom\NodeList;
 use WebinoDraw\Event\DrawEvent;
 use WebinoDraw\Exception;
 use WebinoDraw\Manipulator\Manipulator;
+use WebinoDraw\VarTranslator\Translation;
 use WebinoDraw\VarTranslator\VarTranslator;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerAwareTrait;
@@ -187,11 +188,11 @@ abstract class AbstractHelper implements
 
     /**
      * @param string $value
-     * @param ArrayAccess $varTranslation
+     * @param Translation $varTranslation
      * @param array $spec
      * @return string
      */
-    public function translateValue($value, ArrayAccess $varTranslation, array $spec)
+    public function translateValue($value, Translation $varTranslation, array $spec)
     {
         return $varTranslation->translateString($value);
     }
