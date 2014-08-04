@@ -105,9 +105,7 @@ class Instructions extends ArrayObject implements
             }
 
             if (!is_array($spec)) {
-                throw new InvalidInstructionException(
-                    sprintf('Instruction node spec expect array', print_r($spec, 1))
-                );
+                throw new InvalidInstructionException('Instruction node spec expect array');
             }
 
             if (!isset($spec['stackIndex'])) {
@@ -128,9 +126,7 @@ class Instructions extends ArrayObject implements
                 continue;
             }
 
-            throw new InvalidInstructionException(
-                sprintf('Stack index already exists `%s`', print_r($spec, 1))
-            );
+            throw new InvalidInstructionException(sprintf('Stack index already exists `%s`', print_r($spec, true)));
         }
 
         parent::exchangeArray($mergeWith);
