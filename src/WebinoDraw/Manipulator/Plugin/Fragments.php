@@ -10,6 +10,7 @@
 
 namespace WebinoDraw\Manipulator\Plugin;
 
+use WebinoDraw\Dom\Element;
 use WebinoDraw\Dom\Locator;
 
 /**
@@ -40,7 +41,11 @@ class Fragments implements InLoopPluginInterface
             return;
         }
 
-        $node        = $arg->getNode();
+        $node = $arg->getNode();
+        if (!($node instanceof Element)) {
+            throw new Exception\LogicException('Expected node of type Dom\Element');
+        }
+
         $translation = $arg->getTranslation();
         $nodeXpath   = $node->ownerDocument->getXpath();
 
