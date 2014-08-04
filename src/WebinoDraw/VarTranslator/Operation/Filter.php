@@ -13,6 +13,9 @@ namespace WebinoDraw\VarTranslator\Operation;
 use WebinoDraw\VarTranslator\Translation;
 use Zend\Filter\FilterPluginManager;
 
+/**
+ * 
+ */
 class Filter
 {
     /**
@@ -29,11 +32,10 @@ class Filter
     }
 
     /**
-     * Apply filters and functions on variables
+     * Apply functions and filters on variables
      *
-     * Call user function if exists else call filter.
+     * Call function if exists else call filter.
      *
-     * @todo refactor
      * @param Translation $translation Variables with values to modify
      * @param array $spec Filter options
      * @return self
@@ -42,33 +44,44 @@ class Filter
     {
         foreach ($spec as $key => $subSpec) {
             if (!array_key_exists($key, $translation)) {
-                // skip undefined
+                // skip undefined vars
                 continue;
             }
 
             foreach ((array) $subSpec as $helper => $options) {
-                if (function_exists($helper)) {
-                    // php functions first
-                    $translation->getVarTranslation()->translate($options);
+                $translation->getVarTranslation()->translate($options);
+
+                if (is_callable($helper)) {
                     $translation[$key] = call_user_func_array($helper, $options);
-
-                } else {
-                    // zf filter
-                    $translation->getVarTranslation()->translate($options);
-
-                    if (empty($options[0])) {
-                        $translation[$key] = '';
-                        continue;
-                    }
-
-                    !empty($options[1]) or
-                        $options[1] = [];
-
-                    $translation[$key] = $this->filters->get($helper, $options[1])->filter($options[0]);
+                    continue;
                 }
+
+                $this->callFilter($helper, $translation, $options);
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * Call ZF filter
+     *
+     * @param string $filter
+     * @param Translation $translation
+     * @param array $options
+     * @return self
+     */
+    protected function callFilter($filter, Translation $translation, array $options)
+    {
+        if (empty($options[0])) {
+            $translation[$key] = '';
+            return $this;
+        }
+
+        !empty($options[1]) or
+            $options[1] = [];
+
+        $translation[$key] = $this->filters->get($filter, $options[1])->filter($options[0]);
         return $this;
     }
 }
