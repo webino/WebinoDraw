@@ -82,19 +82,20 @@ class Form extends AbstractHelper
 
     /**
      * @param NodeList $nodes
+     * @param array $spec
      */
-    public function __invoke(NodeList $nodes)
+    public function __invoke(NodeList $nodes, array $spec)
     {
-        $spec = $this->getSpec();
-        if ($this->cacheLoad($nodes)) {
+        if ($this->cacheLoad($nodes, $spec)) {
             return;
         }
 
         $form  = $this->createForm($spec);
         $event = $this->getEvent();
 
-        $event->clearSpec()
+        $event
             ->setHelper($this)
+            ->clearSpec()
             ->setSpec($spec)
             ->setNodes($nodes)
             ->setForm($form);
@@ -103,8 +104,7 @@ class Form extends AbstractHelper
             $this->trigger($spec['trigger']);
 
         $this
-            ->setSpec($event->getSpec()->getArrayCopy())
-            ->drawNodes($nodes)
+            ->drawNodes($nodes, $event->getSpec()->getArrayCopy())
             ->cacheSave($nodes, $spec);
     }
 
@@ -247,11 +247,11 @@ class Form extends AbstractHelper
      * @todo refactor
      *
      * @param NodeList $nodes
+     * @param array $spec
      * @return self
      */
-    public function drawNodes(NodeList $nodes)
+    public function drawNodes(NodeList $nodes, array $spec)
     {
-        $spec = $this->getSpec();
         $form = $this->getEvent()->getForm();
 
         // set form attributes without class,

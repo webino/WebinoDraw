@@ -24,14 +24,12 @@ class Html implements InLoopPluginInterface
     public function inLoop(PluginArgument $arg)
     {
         $spec = $arg->getSpec();
-        if (!array_key_exists('html', $spec)
-            || null === $spec['html']
-        ) {
+        if (!array_key_exists('html', $spec) || null === $spec['html']) {
             return;
         }
 
-        $translatedHtml = $arg->getHelper()->translateValue($spec['html'], $arg->getVarTranslation());
-        $node = $arg->getNode();
+        $translatedHtml  = $arg->getHelper()->translateValue($spec['html'], $arg->getVarTranslation(), $spec);
+        $node            = $arg->getNode();
         $node->nodeValue = '';
 
         if (empty($translatedHtml)) {

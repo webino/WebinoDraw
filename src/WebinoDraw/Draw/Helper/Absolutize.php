@@ -51,10 +51,10 @@ class Absolutize extends AbstractHelper
 
     /**
      * @param NodeList $nodes
+     * @param array $spec
      */
-    public function drawNodes(NodeList $nodes)
+    public function drawNodes(NodeList $nodes, array $spec)
     {
-        $spec = $this->getSpec();
         $translation = $this->cloneTranslationPrototype($this->getVars());
         $this->varTranslator->apply($translation, $spec);
 

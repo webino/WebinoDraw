@@ -24,16 +24,15 @@ class Element extends AbstractHelper
 
     /**
      * @param NodeList $nodes
+     * @param array $spec
      */
-    public function __invoke(NodeList $nodes)
+    public function __invoke(NodeList $nodes, array $spec)
     {
-        $spec = $this->getSpec();
-        if (empty($spec['loop']) && $this->cacheLoad($nodes)) {
+        if (empty($spec['loop']) && $this->cacheLoad($nodes, $spec)) {
             return;
         }
 
         $event = $this->getEvent();
-
         $event->clearSpec()
             ->setHelper($this)
             ->setSpec($spec)
@@ -42,11 +41,10 @@ class Element extends AbstractHelper
         !array_key_exists('trigger', $spec) or
             $this->trigger($spec['trigger']);
 
-        $this->setSpec($event->getSpec()->getArrayCopy());
-        $this->drawNodes($nodes);
+        $this->drawNodes($nodes, $event->getSpec()->getArrayCopy());
 
         !empty($spec['loop']) or
-            $this->cacheSave($nodes);
+            $this->cacheSave($nodes, $spec);
 
     }
 }

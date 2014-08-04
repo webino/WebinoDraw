@@ -35,34 +35,34 @@ class Translate extends Element
 
     /**
      * @param NodeList $nodes
+     * @param array $spec
      * @return self
      */
-    public function drawNodes(NodeList $nodes)
+    public function drawNodes(NodeList $nodes, array $spec)
     {
-        $spec        = $this->getSpec();
         $remainNodes = $this->translateAttribNodes($nodes, $this->resolveTextDomain($spec));
-
         if (empty($remainNodes)) {
             // return early when all nodes were attribs
             return $this;
         }
 
-        return parent::drawNodes($nodes->create($remainNodes));
+        return parent::drawNodes($nodes->create($remainNodes), $spec);
     }
 
     /**
      * @param string $value
      * @param ArrayAccess $varTranslation
+     * @param array $spec
      * @return string
      */
-    public function translateValue($value, ArrayAccess $varTranslation)
+    public function translateValue($value, ArrayAccess $varTranslation, array $spec)
     {
-        $varValue = trim(parent::translateValue($value, $varTranslation));
+        $varValue = trim(parent::translateValue($value, $varTranslation, $spec));
         if (empty($varValue)) {
             return '';
         }
 
-        return $this->translator->translate($varValue, $this->resolveTextDomain($this->getSpec()));
+        return $this->translator->translate($varValue, $this->resolveTextDomain($spec));
     }
 
     /**

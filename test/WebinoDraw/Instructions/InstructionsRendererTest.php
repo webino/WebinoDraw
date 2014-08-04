@@ -78,6 +78,7 @@ class InstructionsRendererTest extends \PHPUnit_Framework_TestCase
         $dom->loadXML('<root/>');
         $vars       = ['test_var' => 'test_val'];
         $drawHelper = $this->getMock('WebinoDraw\Draw\Helper\Element');
+        $nodeList   = new NodeList($this->locator, $dom->childNodes);
 
         $spec = [
             'locator' => 'body',
@@ -102,13 +103,7 @@ class InstructionsRendererTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('create')
             ->with($dom->childNodes)
-            ->will($this->returnValue(new NodeList($this->locator, $dom->childNodes)));
-
-        $drawHelper
-            ->expects($this->once())
-            ->method('setSpec')
-            ->with($spec)
-            ->will($this->returnValue($drawHelper));
+            ->will($this->returnValue($nodeList));
 
         $drawHelper
             ->expects($this->once())
@@ -119,7 +114,7 @@ class InstructionsRendererTest extends \PHPUnit_Framework_TestCase
         $drawHelper
             ->expects($this->once())
             ->method('__invoke')
-            ->with($this->anything());
+            ->with($nodeList, $spec);
 
         $this->object->render($dom->documentElement, $instructions, $vars);
     }
@@ -217,18 +212,6 @@ class InstructionsRendererTest extends \PHPUnit_Framework_TestCase
 
         $drawHelper
             ->expects($this->exactly(3))
-            ->method('setSpec')
-            ->with(
-                $this->logicalOr(
-                    $spec,
-                    $spec1,
-                    $spec2
-                )
-            )
-            ->will($this->returnValue($drawHelper));
-
-        $drawHelper
-            ->expects($this->exactly(3))
             ->method('setVars')
             ->with($vars)
             ->will($this->returnValue($drawHelper));
@@ -236,7 +219,14 @@ class InstructionsRendererTest extends \PHPUnit_Framework_TestCase
         $drawHelper
             ->expects($this->exactly(3))
             ->method('__invoke')
-            ->with($nodeList);
+            ->with(
+                $nodeList,
+                $this->logicalOr(
+                    $spec,
+                    $spec1,
+                    $spec2
+                )
+            );
 
         $this->object->render($dom->documentElement, $instructions, $vars);
     }

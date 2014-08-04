@@ -34,9 +34,9 @@ class Replace extends AbstractPlugin implements
             return;
         }
 
-        $varTranslation = $arg->getVarTranslation();
-        $translatedHtml = $arg->getHelper()->translateValue($spec['replace'], $varTranslation);
-        $node = $arg->getNode();
+        $varTranslation  = $arg->getVarTranslation();
+        $translatedHtml  = $arg->getHelper()->translateValue($spec['replace'], $varTranslation, $spec);
+        $node            = $arg->getNode();
         $node->nodeValue = '';
 
         if (!empty($translatedHtml)) {

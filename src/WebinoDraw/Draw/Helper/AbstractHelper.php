@@ -79,10 +79,11 @@ abstract class AbstractHelper implements
 
     /**
      * @param NodeList $nodes
+     * @param array $spec
      */
-    public function __invoke(NodeList $nodes)
+    public function __invoke(NodeList $nodes, array $spec)
     {
-        $this->drawNodes($nodes);
+        $this->drawNodes($nodes, $spec);
     }
 
     /**
@@ -180,24 +181,6 @@ abstract class AbstractHelper implements
     /**
      * @return array
      */
-    public function getSpec()
-    {
-        return $this->spec;
-    }
-
-    /**
-     * @param array $spec
-     * @return self
-     */
-    public function setSpec(array $spec)
-    {
-        $this->spec = $spec;
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
     public function getVars()
     {
         return $this->vars;
@@ -271,14 +254,14 @@ abstract class AbstractHelper implements
     /**
      * Return the cache key
      *
+     * @todo decouple
      * @param array $node
+     * @param array $spec
      * @return string
      */
-    protected function resolveCacheKey(DOMNode $node)
+    public function resolveCacheKey(DOMNode $node, array $spec)
     {
-        $spec     = $this->getSpec();
         $cacheKey = $node->getNodePath();
-
         if (!empty($spec['cache_key'])) {
             // replace vars in the cache key settings
             $this->cloneTranslationPrototype($this->getVars())->getVarTranslation()
@@ -304,13 +287,13 @@ abstract class AbstractHelper implements
     /**
      * Load nodes XHTML from the cache
      *
+     * @todo decouple
      * @param NodeList $nodes
      * @param array $spec
      * @return bool true = loaded
      */
-    protected function cacheLoad(NodeList $nodes)
+    public function cacheLoad(NodeList $nodes, array $spec)
     {
-        $spec = $this->getSpec();
         if (empty($spec['cache'])) {
             return false;
         }
@@ -318,7 +301,7 @@ abstract class AbstractHelper implements
         $cache = $this->getCache();
         foreach ($nodes as $node) {
 
-            $html = $cache->getItem($this->resolveCacheKey($node));
+            $html = $cache->getItem($this->resolveCacheKey($node, $spec));
             if (empty($html)) {
                 return false;
             }
@@ -334,13 +317,13 @@ abstract class AbstractHelper implements
     /**
      * Save nodes XHTML to the cache
      *
+     * @todo decouple
      * @param NodeList $nodes
      * @param array $spec
      * @return self
      */
-    protected function cacheSave(NodeList $nodes)
+    public function cacheSave(NodeList $nodes, array $spec)
     {
-        $spec = $this->getSpec();
         if (empty($spec['cache'])) {
             return $this;
         }
@@ -352,7 +335,7 @@ abstract class AbstractHelper implements
                 continue;
             }
 
-            $key  = $this->resolveCacheKey($node);
+            $key  = $this->resolveCacheKey($node, $spec);
             $html = $node->ownerDocument->saveXml($node);
 
             $cache->setItem($key, $html);
@@ -381,21 +364,23 @@ abstract class AbstractHelper implements
     /**
      * @param string $value
      * @param ArrayAccess $varTranslation
+     * @param array $spec
      * @return string
      */
-    public function translateValue($value, ArrayAccess $varTranslation)
+    public function translateValue($value, ArrayAccess $varTranslation, array $spec)
     {
         return $varTranslation->translateString($value);
     }
 
     /**
      * @param NodeList $nodes
+     * @param array $spec
      * @return self
      */
-    public function drawNodes(NodeList $nodes)
+    public function drawNodes(NodeList $nodes, array $spec)
     {
         $translation = $this->cloneTranslationPrototype($this->getVars());
-        $this->manipulateNodes($nodes, $this->getSpec(), $translation);
+        $this->manipulateNodes($nodes, $spec, $translation);
         return $this;
     }
 

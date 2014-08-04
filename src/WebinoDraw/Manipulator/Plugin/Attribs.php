@@ -30,9 +30,9 @@ class Attribs extends AbstractPlugin implements InLoopPluginInterface
         $varTranslation = $arg->getVarTranslation();
 
         foreach ($spec['attribs'] as $attribName => $attribValue) {
-
+            
             $newAttribValue = $varTranslation->removeVars(
-                $helper->translateValue($attribValue, $varTranslation)
+                $helper->translateValue($attribValue, $varTranslation, $spec)
             );
 
             if (empty($newAttribValue) && !is_numeric($newAttribValue)) {

@@ -57,7 +57,6 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
 
     /**
      * @param PluginArgument $arg
-     * @throws MissingPropertyException
      */
     public function preLoop(PluginArgument $arg)
     {
@@ -66,6 +65,31 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
             return;
         }
 
+        $helper = $arg->getHelper();
+        $nodes  = $arg->getNodes();
+
+        foreach ($nodes as $node) {
+
+            $parentNodes = $nodes->create([$node->parentNode]);
+            if ($helper->cacheLoad($parentNodes, $spec)) {
+                continue;
+            }
+
+            $localArg = clone $arg;
+            $localArg->setNodes($nodes->create([$node]));
+
+            $this->preLoopInternal($localArg);
+            $helper->cacheSave($parentNodes, $spec);
+        }
+    }
+
+    /**
+     * @param PluginArgument $arg
+     * @throws MissingPropertyException
+     */
+    protected function preLoopInternal(PluginArgument $arg)
+    {
+        $spec = $arg->getSpec();
         if (empty($spec['loop']['base'])) {
             throw new MissingPropertyException(sprintf('Loop base expected in: %s', print_r($spec, 1)));
         }

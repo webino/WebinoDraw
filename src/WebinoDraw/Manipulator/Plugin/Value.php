@@ -38,14 +38,12 @@ class Value extends AbstractPlugin implements InLoopPluginInterface
         $spec = $arg->getSpec();
         $node = $arg->getNode();
 
-        if (!array_key_exists('value', $spec)
-            || null === $spec['value']
-        ) {
+        if (!array_key_exists('value', $spec) || null === $spec['value']) {
             return;
         }
 
         $varTranslation  = $arg->getVarTranslation();
-        $translatedValue = $arg->getHelper()->translateValue($spec['value'], $varTranslation);
+        $translatedValue = $arg->getHelper()->translateValue($spec['value'], $varTranslation, $spec);
         $node->nodeValue = $this->escapeHtml->__invoke($varTranslation->removeVars($translatedValue));
 
         $this->updateNodeVarTranslation($node, $arg);

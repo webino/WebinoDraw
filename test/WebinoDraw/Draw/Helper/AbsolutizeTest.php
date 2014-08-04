@@ -72,7 +72,7 @@ class AbsolutizeTest extends \PHPUnit_Framework_TestCase
             ->method('__invoke')
             ->will($this->returnValue($basePath));
 
-        $this->object->drawNodes($this->nodes);
+        $this->object->drawNodes($this->nodes, []);
         $this->assertEquals($expected, $attr->nodeValue);
     }
 
@@ -103,8 +103,7 @@ class AbsolutizeTest extends \PHPUnit_Framework_TestCase
             ->method('__invoke')
             ->will($this->returnValue($serverUrl));
 
-        $this->object->setSpec($spec);
-        $this->object->drawNodes($this->nodes);
+        $this->object->drawNodes($this->nodes, $spec);
 
         $this->assertEquals($expected, $attr->nodeValue);
     }
@@ -128,7 +127,7 @@ class AbsolutizeTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('__invoke');
 
-        $this->object->drawNodes($this->nodes);
+        $this->object->drawNodes($this->nodes, []);
     }
 
     /**
@@ -154,7 +153,7 @@ class AbsolutizeTest extends \PHPUnit_Framework_TestCase
             ->method('__invoke')
             ->will($this->returnValue($basePath));
 
-        $this->object->drawNodes($this->nodes);
+        $this->object->drawNodes($this->nodes, []);
 
         $this->assertEquals($basePath . '/' . $attrValue, $attr->nodeValue);
         $this->assertEquals($basePath . '/' . $attrValue2, $attr2->nodeValue);
@@ -182,7 +181,7 @@ class AbsolutizeTest extends \PHPUnit_Framework_TestCase
             ->method('__invoke')
             ->will($this->returnValue($basePath));
 
-        $this->object->drawNodes($this->nodes);
+        $this->object->drawNodes($this->nodes, []);
         $this->assertEquals($expected, $attr->nodeValue);
     }
 
@@ -207,7 +206,7 @@ class AbsolutizeTest extends \PHPUnit_Framework_TestCase
             ->method('__invoke')
             ->will($this->returnValue($basePath));
 
-        $this->object->drawNodes($this->nodes);
+        $this->object->drawNodes($this->nodes, []);
         $this->assertEquals($expected, $attr->nodeValue);
     }
 
@@ -232,7 +231,7 @@ class AbsolutizeTest extends \PHPUnit_Framework_TestCase
             ->method('__invoke')
             ->will($this->returnValue($basePath));
 
-        $this->object->drawNodes($this->nodes);
+        $this->object->drawNodes($this->nodes, []);
         $this->assertEquals($expected, $attr->nodeValue);
     }
 
@@ -257,7 +256,7 @@ class AbsolutizeTest extends \PHPUnit_Framework_TestCase
             ->method('__invoke')
             ->will($this->returnValue($basePath));
 
-        $this->object->drawNodes($this->nodes);
+        $this->object->drawNodes($this->nodes, []);
         $this->assertEquals($expected, $attr->nodeValue);
     }
 
@@ -282,7 +281,7 @@ class AbsolutizeTest extends \PHPUnit_Framework_TestCase
             ->method('__invoke')
             ->will($this->returnValue($basePath));
 
-        $this->object->drawNodes($this->nodes);
+        $this->object->drawNodes($this->nodes, []);
         $this->assertEquals($expected, $attr->nodeValue);
     }
 
@@ -308,7 +307,7 @@ class AbsolutizeTest extends \PHPUnit_Framework_TestCase
             ->method('__invoke')
             ->will($this->returnValue($basePath));
 
-        $this->object->drawNodes($this->nodes);
+        $this->object->drawNodes($this->nodes, []);
         $this->assertEquals($expected, $attr->nodeValue);
     }
 
@@ -333,7 +332,7 @@ class AbsolutizeTest extends \PHPUnit_Framework_TestCase
             ->method('__invoke')
             ->will($this->returnValue($basePath));
 
-        $this->object->drawNodes($this->nodes);
+        $this->object->drawNodes($this->nodes, []);
         $this->assertEquals($expected, $attr->nodeValue);
     }
 }

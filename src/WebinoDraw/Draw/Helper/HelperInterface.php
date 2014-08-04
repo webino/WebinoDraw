@@ -18,22 +18,18 @@ use WebinoDraw\Dom\NodeList;
 interface HelperInterface
 {
     /**
+     * @param NodeList $nodes Matched DOM nodes
+     * @param array $spec
+     */
+    public function __invoke(NodeList $nodes, array $spec);
+
+    /**
      * Provides manipulation over DOM elements
      *
      * @param NodeList $nodes Matched DOM nodes
-     */
-    public function drawNodes(NodeList $nodes);
-
-    /**
-     * @return array
-     */
-    public function getSpec();
-
-    /**
      * @param array $spec
-     * @return self
      */
-    public function setSpec(array $spec);
+    public function drawNodes(NodeList $nodes, array $spec);
 
     /**
      * @return array

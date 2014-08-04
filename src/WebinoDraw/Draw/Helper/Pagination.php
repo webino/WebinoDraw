@@ -111,12 +111,13 @@ class Pagination extends Element
 
     /**
      * @param NodeList $nodes
+     * @param array $localSpec
      * @return self
      */
-    public function drawNodes(NodeList $nodes)
+    public function drawNodes(NodeList $nodes, array $spec)
     {
-        $spec          = ArrayUtils::merge(self::$defaultSpec, $this->getSpec());
-        $paginatorName = $spec['paginator'];
+        $localSpec     = ArrayUtils::merge(self::$defaultSpec, $spec);
+        $paginatorName = $localSpec['paginator'];
 
         if (!$this->services->has($paginatorName)) {
             $nodes->remove();
@@ -156,7 +157,6 @@ class Pagination extends Element
             )
         );
 
-        $this->setSpec($spec);
-        return parent::drawNodes($nodes);
+        return parent::drawNodes($nodes, $localSpec);
     }
 }

@@ -112,9 +112,8 @@ class InstructionsRenderer implements InstructionsRendererInterface
             $helper = !empty($spec['helper']) ? $spec['helper'] : self::DEFAULT_DRAW_HELPER;
 
             $this->drawHelpers->get($helper)
-                ->setSpec($spec)
                 ->setVars($vars)
-                ->__invoke($this->nodeListFactory->create($nodes));
+                ->__invoke($this->nodeListFactory->create($nodes), $spec);
         }
     }
 

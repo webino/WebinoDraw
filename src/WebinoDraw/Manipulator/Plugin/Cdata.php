@@ -37,16 +37,13 @@ class Cdata implements InLoopPluginInterface
     public function inLoop(PluginArgument $arg)
     {
         $spec = $arg->getSpec();
-        if (!array_key_exists('cdata', $spec)
-            || null === $spec['cdata']
-        ) {
+        if (!array_key_exists('cdata', $spec) || null === $spec['cdata']) {
             return;
         }
 
-        $node = $arg->getNode();
+        $node            = $arg->getNode();
         $node->nodeValue = '';
-        $translatedCdata = $arg->getHelper()->translateValue($spec['cdata'], $arg->getVarTranslation());
-
+        $translatedCdata = $arg->getHelper()->translateValue($spec['cdata'], $arg->getVarTranslation(), $spec);
         if (empty($translatedCdata)) {
             return;
         }

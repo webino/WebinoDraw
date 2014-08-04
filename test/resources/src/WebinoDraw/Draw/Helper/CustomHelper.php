@@ -20,8 +20,9 @@ class CustomHelper extends Element
 {
     /**
      * @param NodeList $nodes
+     * @param array $spec
      */
-    public function drawNodes(NodeList $nodes)
+    public function drawNodes(NodeList $nodes, array $spec)
     {
         $nodes->setValue('VALUE FROM CUSTOM HELPER');
     }
