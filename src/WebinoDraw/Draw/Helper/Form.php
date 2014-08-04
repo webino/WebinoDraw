@@ -10,10 +10,9 @@
 
 namespace WebinoDraw\Draw\Helper;
 
-use WebinoDraw\Event\DrawEvent;
 use WebinoDraw\Event\DrawFormEvent;
 use WebinoDraw\Dom\NodeList;
-use WebinoDraw\Exception\RuntimeException;
+use WebinoDraw\Exception;
 use WebinoDraw\Instructions\InstructionsRenderer;
 use Zend\Form\FormInterface;
 use Zend\Form\View\Helper\FormCollection;
@@ -30,6 +29,11 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 class Form extends AbstractHelper
 {
+    /**
+     * @var DrawFormEvent
+     */
+    private $formEvent;
+
     /**
      * @var ServiceLocatorInterface
      */
@@ -100,7 +104,7 @@ class Form extends AbstractHelper
      */
     public function __invoke(NodeList $nodes, array $spec)
     {
-        $event = $this->getEvent();
+        $event = $this->getFormEvent();
         $event
             ->setHelper($this)
             ->clearSpec()
@@ -116,35 +120,29 @@ class Form extends AbstractHelper
         $event->setForm($form);
 
         !array_key_exists('trigger', $spec) or
-            $this->trigger($spec['trigger']);
+            $this->trigger($spec['trigger'], $event);
 
         $this->drawNodes($nodes, $event->getSpec()->getArrayCopy());
         $cache->save($event);
     }
 
     /**
-     * @return self
+     * @return DrawFormEvent
      */
-    public function getEvent()
+    public function getFormEvent()
     {
-        if (null === $this->event) {
-            $this->setEvent(new DrawFormEvent);
+        if (null === $this->formEvent) {
+            $this->setFormEvent(new DrawFormEvent);
         }
-        return $this->event;
+        return $this->formEvent;
     }
 
     /**
      * @param DrawFormEvent $event
      */
-    public function setEvent(DrawEvent $event)
+    public function setFormEvent(DrawFormEvent $event)
     {
-        if (!($event instanceof DrawFormEvent)) {
-            throw new \UnexpectedValueException(
-                'Expect DrawFormEvent but provided ' . get_class($event)
-            );
-        }
-
-        $this->event = $event;
+        $this->formEvent = $event;
         return $this;
     }
 
@@ -168,12 +166,12 @@ class Form extends AbstractHelper
     /**
      * @param array $spec
      * @return FormInterface
-     * @throws RuntimeException
+     * @throws Exception\RuntimeException
      */
     protected function createForm(array $spec)
     {
         if (empty($spec['form'])) {
-            throw new RuntimeException(
+            throw new Exception\RuntimeException(
                 sprintf('Expected form option in: %s', print_r($spec, true))
             );
         }
@@ -182,7 +180,7 @@ class Form extends AbstractHelper
             $form = $this->forms->get($spec['form']);
 
         } catch (\Exception $exc) {
-            throw new RuntimeException(
+            throw new Exception\RuntimeException(
                 sprintf('Expected form in: %s; ' . $exc->getMessage(), print_r($spec, 1)),
                 $exc->getCode(),
                 $exc
@@ -194,7 +192,7 @@ class Form extends AbstractHelper
                 $routeFormAction = $this->resolveRouteFormAction($spec['route']);
 
             } catch (\Exception $exc) {
-                throw new RuntimeException(
+                throw new Exception\RuntimeException(
                     $exc->getMessage()
                     . sprintf(
                         ' for %s',
@@ -215,7 +213,7 @@ class Form extends AbstractHelper
      * @param string|array $spec
      * @return string
      * @throws \InvalidArgumentException
-     * @throws RuntimeException
+     * @throws Exception\RuntimeException
      */
     protected function resolveRouteFormAction($spec)
     {
@@ -228,7 +226,7 @@ class Form extends AbstractHelper
         $route = is_array($spec) ? $spec : ['name' => $spec];
 
         if (empty($route['name'])) {
-            throw new RuntimeException('Expected route name option');
+            throw new Exception\RuntimeException('Expected route name option');
         }
 
         $params  = !empty($route['params']) ? $route['params'] : [];
@@ -244,7 +242,7 @@ class Form extends AbstractHelper
             );
 
         } catch (\Exception $exc) {
-            throw new RuntimeException(
+            throw new Exception\RuntimeException(
                 sprintf(
                     'Expected route `%s`',
                     $route['name']
@@ -266,7 +264,7 @@ class Form extends AbstractHelper
      */
     public function drawNodes(NodeList $nodes, array $spec)
     {
-        $form = $this->getEvent()->getForm();
+        $form = $this->getFormEvent()->getForm();
 
         // set form attributes without class,
         // it will be appended later
@@ -345,7 +343,7 @@ class Form extends AbstractHelper
 
                 $hiddenNode->appendXml($xhtml);
                 if (!$hiddenNode->hasChildNodes()) {
-                    throw new \RuntimeException('Invalid XHTML ' . $xhtml);
+                    throw new Exception\RuntimeException('Invalid XHTML ' . $xhtml);
                 }
                 $node->appendChild($hiddenNode);
             }

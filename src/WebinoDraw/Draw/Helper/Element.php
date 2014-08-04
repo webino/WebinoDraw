@@ -36,7 +36,7 @@ class Element extends AbstractHelper
         }
 
         !array_key_exists('trigger', $spec) or
-            $this->trigger($spec['trigger']);
+            $this->trigger($spec['trigger'], $event);
 
         $this->drawNodes($nodes, $event->getSpec()->getArrayCopy());
 

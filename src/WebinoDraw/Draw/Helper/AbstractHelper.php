@@ -30,19 +30,19 @@ abstract class AbstractHelper implements
     use EventManagerAwareTrait;
 
     /**
-     * @var DrawCache
-     */
-    private $cache;
-
-    /**
      * @var string
      */
     protected $eventIdentifier = 'WebinoDraw';
 
     /**
+     * @var DrawCache
+     */
+    private $cache;
+
+    /**
      * @var DrawEvent
      */
-    protected $event;
+    private $event;
 
     /**
      * @var Manipulator
@@ -172,13 +172,12 @@ abstract class AbstractHelper implements
 
     /**
      * @param array $triggers
+     * @param DrawEvent
      * @return self
      */
-    protected function trigger(array $triggers)
+    protected function trigger(array $triggers, DrawEvent $event)
     {
-        $event  = $this->getEvent();
         $events = $this->getEventManager();
-
         foreach ($triggers as $eventName) {
             $events->trigger($eventName, $event);
         }
