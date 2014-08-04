@@ -28,12 +28,13 @@ class DrawStrategyFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $services)
     {
+        /* @var $request HttpRequest */
         $request = $services->get('Request');
+        /* @var $service \WebinoDraw\Service\DrawService */
         $service = $services->get('WebinoDraw');
 
-        if (($request instanceof HttpRequest)
-            && $request->isXmlHttpRequest()
-        ) {
+        if (($request instanceof HttpRequest) && $request->isXmlHttpRequest()) {
+
             $acceptHeaders = $request->getHeader('accept')->getPrioritized();
             if ('application/json' === $acceptHeaders[0]->getRaw()) {
                 return new DrawAjaxJsonStrategy($service);
