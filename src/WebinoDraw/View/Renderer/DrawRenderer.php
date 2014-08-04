@@ -83,14 +83,14 @@ class DrawRenderer implements RendererInterface
             }
         }
 
-        $modelVars = $isModel ? $nameOrModel->getVariables()->getArrayCopy() : [];
+        $modelVars = $isModel ? (array) $nameOrModel->getVariables() : [];
         $variables = array_merge($modelVars, (array) $values);
 
         return $this->draw->draw(
             $template,
             $instructions,
             $variables,
-            $isModel ? (bool) $nameOrModel->getOption('isXml') : false
+            $isModel ? (bool) $nameOrModel->getOptions()['isXml'] : false
         );
     }
 }
