@@ -89,7 +89,7 @@ class InstructionsRenderer implements InstructionsRendererInterface
                            : $instructions;
 
         if (!($drawInstructions instanceof Instructions)) {
-            throw new InvalidArgumentException('Expected instructions as array|Instructions');
+            throw new InvalidArgumentException('Expected instructions as array|InstructionsInterface');
         }
 
         foreach ($drawInstructions->getSortedArrayCopy() as $specs) {

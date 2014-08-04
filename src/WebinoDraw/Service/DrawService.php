@@ -12,8 +12,7 @@ namespace WebinoDraw\Service;
 
 use WebinoDraw\Dom\Document;
 use WebinoDraw\Dom\Element;
-use WebinoDraw\Exception\DrawException;
-use WebinoDraw\Exception\InvalidArgumentException;
+use WebinoDraw\Exception;
 use WebinoDraw\Instructions\InstructionsInterface;
 use WebinoDraw\Instructions\InstructionsRenderer;
 use WebinoDraw\Options\ModuleOptions;
@@ -79,9 +78,9 @@ class DrawService
     }
 
     /**
-     * Return instructions from set by key
+     * Return instructions from set by a key
      *
-     * @param array $key
+     * @param string $key
      * @return array
      */
     public function instructionsFromSet($key)
@@ -95,12 +94,12 @@ class DrawService
      * @param string $xhtml XHTML valid string
      * @param bool $isXml Load as XML
      * @return Document
-     * @throws InvalidArgumentException
+     * @throws Exception\InvalidArgumentException
      */
     public function createDom($xhtml, $isXml = false)
     {
         if (empty($xhtml) || !is_string($xhtml)) {
-            throw new InvalidArgumentException('Expects valid XHTML');
+            throw new Exception\InvalidArgumentException('Expects valid XHTML');
         }
 
         // hack HTML5
@@ -127,14 +126,18 @@ class DrawService
      * @param array|InstructionsInterface $instructions Options how to render
      * @param array $vars Variables to substitute instructions parameters
      * @return self
-     * @throws DrawException
+     * @throws Exception\DrawException
      */
     public function drawDom(Element $element, $instructions, array $vars)
     {
+        if (!is_array($instructions) && !($instructions instanceof InstructionsInterface)) {
+            throw new Exception\InvalidArgumentException('Expected instructions as array|InstructionsInterface');
+        }
+
         try {
             $this->instructionsRenderer->render($element, $instructions, $vars);
         } catch (\Exception $exc) {
-            throw new DrawException($exc->getMessage(), $exc->getCode(), $exc);
+            throw new Exception\DrawException($exc->getMessage(), $exc->getCode(), $exc);
         }
         return $this;
     }
@@ -151,7 +154,7 @@ class DrawService
     public function draw($xhtml, $instructions, array $vars, $isXml = false)
     {
         $dom = $isXml ? $this->createXmlDom($xhtml) : $this->createDom($xhtml);
-        $this->drawDom($dom->documentElement, $instructions, $vars);
+        $this->drawDom($dom->getDocumentElement(), $instructions, $vars);
         return $isXml ? $dom->saveXml() : $dom->saveHtml();
     }
 

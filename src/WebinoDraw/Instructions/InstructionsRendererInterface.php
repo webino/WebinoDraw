@@ -18,10 +18,10 @@ use WebinoDraw\Dom\Element;
 interface InstructionsRendererInterface
 {
     /**
-     * Render the DOMElement ownerDocument
+     * Render the Dom\Element
      *
-     * @param Element $node WebinoDraw DOMDocument element
-     * @param array|Instructions $instructions WebinoDraw instructions
+     * @param Element $node Dom\Document element
+     * @param array|InstructionsInterface $instructions Draw instructions
      * @param array $vars Variables to render
      */
     public function render(Element $node, $instructions, array $vars);

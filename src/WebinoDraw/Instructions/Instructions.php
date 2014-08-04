@@ -44,9 +44,7 @@ class Instructions extends ArrayObject implements
     }
 
     /**
-     * Sort by stackIndex
-     *
-     * @return array
+     * {@inheritDoc}
      */
     public function getSortedArrayCopy()
     {

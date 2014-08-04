@@ -16,6 +16,13 @@ namespace WebinoDraw\Instructions;
 interface InstructionsInterface
 {
     /**
+     * Sort by stackIndex
+     *
+     * @return array
+     */
+    public function getSortedArrayCopy();
+
+    /**
      * Merge draw instructions
      *
      * @param array $instructions Merge from

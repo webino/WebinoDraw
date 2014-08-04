@@ -53,4 +53,12 @@ class Document extends \DOMDocument
         $this->xpath = $xpath;
         return $this;
     }
+
+    /**
+     * @return Element
+     */
+    public function getDocumentElement()
+    {
+        return $this->documentElement;
+    }
 }
