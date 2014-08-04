@@ -10,7 +10,8 @@
 
 namespace WebinoDraw\Manipulator\Plugin;
 
-use WebinoDraw\Exception\RuntimeException;
+use DOMElement;
+use WebinoDraw\Exception;
 
 /**
  *
@@ -28,9 +29,13 @@ class Html implements InLoopPluginInterface
             return;
         }
 
-        $translatedHtml  = $arg->getHelper()->translateValue($spec['html'], $arg->getVarTranslation(), $spec);
-        $node            = $arg->getNode();
+        $node = $arg->getNode();
+        if (!($node instanceof DOMElement)) {
+            throw new Exception\LogicException('Expected node of type DOMElement');
+        }
+
         $node->nodeValue = '';
+        $translatedHtml  = $arg->getHelper()->translateValue($spec['html'], $arg->getVarTranslation(), $spec);
 
         if (empty($translatedHtml)) {
             return;
@@ -39,7 +44,7 @@ class Html implements InLoopPluginInterface
         $frag = $node->ownerDocument->createDocumentFragment();
         $frag->appendXml($translatedHtml);
         if (!$frag->hasChildNodes()) {
-            throw new RuntimeException('Invalid XHTML ' . $translatedHtml);
+            throw new Exception\RuntimeException('Invalid XHTML ' . $translatedHtml);
         }
         $node->appendChild($frag);
     }
