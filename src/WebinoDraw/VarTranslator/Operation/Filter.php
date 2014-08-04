@@ -14,7 +14,7 @@ use WebinoDraw\VarTranslator\Translation;
 use Zend\Filter\FilterPluginManager;
 
 /**
- * 
+ *
  */
 class Filter
 {
@@ -56,7 +56,7 @@ class Filter
                     continue;
                 }
 
-                $this->callFilter($helper, $translation, $options);
+                $this->callFilter($helper, $key, $translation, $options);
             }
         }
 
@@ -67,11 +67,12 @@ class Filter
      * Call ZF filter
      *
      * @param string $filter
+     * @param mixed $key
      * @param Translation $translation
      * @param array $options
      * @return self
      */
-    protected function callFilter($filter, Translation $translation, array $options)
+    protected function callFilter($filter, $key, Translation $translation, array $options)
     {
         if (empty($options[0])) {
             $translation[$key] = '';
