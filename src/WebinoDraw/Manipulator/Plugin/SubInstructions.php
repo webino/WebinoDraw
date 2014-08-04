@@ -10,6 +10,7 @@
 
 namespace WebinoDraw\Manipulator\Plugin;
 
+use WebinoDraw\Dom\Document;
 use WebinoDraw\Instructions\InstructionsRenderer;
 
 /**
@@ -37,6 +38,10 @@ class SubInstructions implements InLoopPluginInterface
     {
         $spec = $arg->getSpec();
         $node = $arg->getNode();
+        if (!($node->ownerDocument instanceof Document)) {
+            throw new Exception\LogicException('Expects node ownerDocument of type Dom\Document');
+        }
+
         $this->instructionsRenderer->expandInstructions($spec);
         if (empty($spec['instructions']) || empty($node->ownerDocument)) {
             return;
