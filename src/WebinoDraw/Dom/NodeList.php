@@ -290,11 +290,11 @@ class NodeList implements IteratorAggregate
 
         $xpath = $this->locator->set($locator)->xpathMatchAny();
         foreach ($this as $node) {
-            if (empty($node->ownerDocument->xpath)) {
-                throw new RuntimeException('Expects DOMDocument with xpath');
+            if (!($node->ownerDocument instanceof Document)) {
+                throw new RuntimeException('Expects Dom\Document with xpath');
             }
 
-            $nodes = $node->ownerDocument->xpath->query($xpath, $node);
+            $nodes = $node->ownerDocument->getXpath()->query($xpath, $node);
             foreach ($nodes as $subnode) {
                 $callback($this->create([$subnode]));
             }

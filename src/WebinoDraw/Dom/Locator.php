@@ -64,10 +64,10 @@ class Locator extends ArrayObject
      */
     public function locate(Element $node, $locator)
     {
-        if (empty($node->ownerDocument->xpath)) {
-            throw new InvalidArgumentException('Expects DOM document with XPATH');
+        if (!($node->ownerDocument instanceof Document)) {
+            throw new InvalidArgumentException('Expects Dom\Document');
         }
-        return $node->ownerDocument->xpath->query($this->set($locator)->xpathMatchAny(), $node);
+        return $node->ownerDocument->getXpath()->query($this->set($locator)->xpathMatchAny(), $node);
     }
 
     /**

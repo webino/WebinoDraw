@@ -348,7 +348,7 @@ class Form extends AbstractHelper
                 $node->appendChild($hiddenNode);
             }
 
-            $elementNodes = $node->ownerDocument->xpath->query('.//*[@name]', $node);
+            $elementNodes = $node->ownerDocument->getXpath()->query('.//*[@name]', $node);
 
             $nodePath = $node->getNodePath();
             $toRemove = [];

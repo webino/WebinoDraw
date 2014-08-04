@@ -10,11 +10,10 @@
 
 namespace WebinoDraw\View\Strategy;
 
-use DOMDocument;
+use WebinoDraw\Dom\Document;
 use WebinoDraw\Event\AjaxEvent;
-use Zend\EventManager\EventManager;
 use Zend\EventManager\EventManagerAwareInterface;
-use Zend\EventManager\EventManagerInterface;
+use Zend\EventManager\EventManagerAwareTrait;
 use Zend\View\ViewEvent;
 
 /**
@@ -22,15 +21,17 @@ use Zend\View\ViewEvent;
  */
 abstract class AbstractDrawAjaxStrategy extends AbstractDrawStrategy implements EventManagerAwareInterface
 {
+    use EventManagerAwareTrait;
+
     /**
      * @var AjaxEvent
      */
     protected $event;
 
     /**
-     * @var EventManagerInterface
+     * @var string
      */
-    protected $eventManager;
+    protected $eventIdentifier = 'WebinoDraw';
 
     /**
      * @return AjaxEvent
@@ -53,43 +54,19 @@ abstract class AbstractDrawAjaxStrategy extends AbstractDrawStrategy implements 
     }
 
     /**
-     * @return EventManagerInterface
-     */
-    public function getEventManager()
-    {
-        if (null === $this->eventManager) {
-            $this->setEventManager(new EventManager);
-        }
-        return $this->eventManager;
-    }
-
-    /**
-     * @param EventManagerInterface $eventManager
-     * @return self
-     */
-    public function setEventManager(EventManagerInterface $eventManager)
-    {
-        $eventManager->setIdentifiers([get_class($this), __CLASS__, 'WebinoDraw']);
-        $this->eventManager = $eventManager;
-        return $this;
-    }
-
-    /**
      * Return XHTML of nodes matched by XPath
      *
-     * @param DOMDocument $dom
+     * @param Document $dom
      * @param string $xpath
      * @return string XHTML
      */
-    public function createContainer(DOMDocument $dom, $xpath)
+    public function createContainer(Document $dom, $xpath)
     {
         $code = '';
-        foreach ($dom->xpath->query($xpath) as $node) {
-            if (empty($node)) {
-                continue;
+        foreach ($dom->getXpath()->query($xpath) as $node) {
+            if (!empty($node)) {
+                $code.= $dom->saveHTML($node);
             }
-
-            $code.= $dom->saveHTML($node);
         }
 
         return $code;
@@ -124,9 +101,9 @@ abstract class AbstractDrawAjaxStrategy extends AbstractDrawStrategy implements 
     }
 
     /**
-     * @param DOMDocument $dom
+     * @param Document $dom
      * @param string $xpath
      * @return \WebinoDraw\Ajax\Json
      */
-    abstract protected function respond(DOMDocument $dom, $xpath);
+    abstract protected function respond(Document $dom, $xpath);
 }

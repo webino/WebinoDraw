@@ -10,8 +10,8 @@
 
 namespace WebinoDraw\Service;
 
-use DOMDocument;
 use DOMXPath;
+use WebinoDraw\Dom\Document;
 use WebinoDraw\Dom\Element;
 use WebinoDraw\Exception\DrawException;
 use WebinoDraw\Exception\InvalidArgumentException;
@@ -95,7 +95,7 @@ class DrawService
      *
      * @param string $xhtml XHTML valid string
      * @param bool $isXml Load as XML
-     * @return DOMDocument
+     * @return Document
      * @throws InvalidArgumentException
      */
     public function createDom($xhtml, $isXml = false)
@@ -107,21 +107,17 @@ class DrawService
         // hack HTML5
         libxml_use_internal_errors(true);
 
-        $dom = new DOMDocument;
-        $dom->registerNodeClass('DOMElement', 'WebinoDraw\Dom\Element');
-        $dom->registerNodeClass('DOMText', 'WebinoDraw\Dom\Text');
-        $dom->registerNodeClass('DOMAttr', 'WebinoDraw\Dom\Attr');
-
+        $dom = new Document;
         $isXml ? $dom->loadXml($xhtml)
                : $dom->loadHtml(mb_convert_encoding($xhtml, 'HTML-ENTITIES', 'UTF-8'));
 
-        $dom->xpath = new DOMXPath($dom);
+        $dom->setXpath(new DOMXPath($dom));
         return $dom;
     }
 
     /**
      * @param string $xml
-     * @return DOMDocument
+     * @return Document
      */
     public function createXmlDom($xml)
     {

@@ -42,7 +42,7 @@ class Fragments implements InLoopPluginInterface
 
         $node        = $arg->getNode();
         $translation = $arg->getTranslation();
-        $nodeXpath   = $node->ownerDocument->xpath;
+        $nodeXpath   = $node->ownerDocument->getXpath();
 
         foreach ($spec['fragments'] as $name => $fragmentLocator) {
 

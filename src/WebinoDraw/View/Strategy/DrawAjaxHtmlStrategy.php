@@ -10,7 +10,7 @@
 
 namespace WebinoDraw\View\Strategy;
 
-use DOMDocument;
+use WebinoDraw\Dom\Document;
 use WebinoDraw\Event\AjaxEvent;
 use WebinoDraw\Exception;
 
@@ -22,15 +22,15 @@ class DrawAjaxHtmlStrategy extends AbstractDrawAjaxStrategy
     /**
      * Return XHTML parts of nodes matched by XPath
      *
-     * @param DOMDocument $dom
+     * @param Document $dom
      * @param string $xpath
      * @return array
      * @throws Exception\RuntimeException
      */
-    public function createMarkup(DOMDocument $dom, $xpath)
+    public function createMarkup(Document $dom, $xpath)
     {
         $markup = '';
-        foreach ($dom->xpath->query($xpath) as $item) {
+        foreach ($dom->getXpath()->query($xpath) as $item) {
 
             $itemId = $item->getAttribute('id');
             if (empty($itemId)) {
@@ -44,11 +44,11 @@ class DrawAjaxHtmlStrategy extends AbstractDrawAjaxStrategy
     }
 
     /**
-     * @param DOMDocument $dom
+     * @param Document $dom
      * @param string $xpath
      * @return string
      */
-    protected function respond(DOMDocument $dom, $xpath)
+    protected function respond(Document $dom, $xpath)
     {
         $ajaxEvent = $this->getEvent();
         $ajaxEvent->setFragmentXpath($xpath);

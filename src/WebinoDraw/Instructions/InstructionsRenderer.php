@@ -79,9 +79,7 @@ class InstructionsRenderer implements InstructionsRendererInterface
     /**
      * Render the DOMElement ownerDocument
      *
-     * @param Element $node DOMDocument element
-     * @param array|Instructions $instructions WebinoDraw instructions
-     * @param array $vars Variables to render
+     * {@inheritDocs}
      * @throws InvalidArgumentException
      */
     public function render(Element $node, $instructions, array $vars)

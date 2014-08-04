@@ -42,7 +42,7 @@ class Remove implements InLoopPluginInterface
         }
 
         $node      = $arg->getNode();
-        $nodeXpath = $node->ownerDocument->xpath;
+        $nodeXpath = $node->ownerDocument->getXpath();
 
         foreach ((array) $spec['remove'] as $removeLocator) {
 
