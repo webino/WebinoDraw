@@ -309,15 +309,29 @@ class Translation extends ArrayObject implements
     public function setDefaults(array $defaults)
     {
         foreach ($defaults as $key => $defaultValue) {
-            $value = $this->offsetGet($key);
-            if (!empty($value) || is_numeric($value)) {
+            if (!$this->offsetExists($key)) {
+                $this->setDefault($key, $defaultValue);
                 continue;
             }
 
-            $this->getVarTranslation()->translate($defaultValue);
-            $this->offsetSet($key, $defaultValue);
+            $value = $this->offsetGet($key);
+            if (empty($value) && !is_numeric($value)) {
+                $this->setDefault($key, $defaultValue);
+            }
         }
 
+        return $this;
+    }
+
+    /**
+     * @param mixed $key
+     * @param mixed $value
+     * @return self
+     */
+    protected function setDefault($key, $value)
+    {
+        $this->getVarTranslation()->translate($value);
+        $this->offsetSet($key, $value);
         return $this;
     }
 
