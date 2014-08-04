@@ -121,66 +121,6 @@ class Translation extends ArrayObject implements
     }
 
     /**
-     * @todo Decouple to the node translation
-     * @param NodeInterface $node
-     * @param array $spec
-     * @return self
-     */
-    public function createNodeTranslation(NodeInterface $node, array $spec)
-    {
-        $translation = new self($node->getProperties(self::EXTRA_VAR_PREFIX));
-        if (!($node instanceof Element)) {
-            return $translation;
-        }
-
-        $htmlTranslation = $this->createNodeHtmlTranslation($node, $spec);
-        $translation->merge($htmlTranslation->getArrayCopy());
-        return $translation;
-    }
-
-    /**
-     * @todo Decouple to the node translation
-     * @param Element $node
-     * @param array $spec
-     * @return self
-     */
-    public function createNodeHtmlTranslation(Element $node, array $spec)
-    {
-        $translation  = new self;
-        $innerHtmlKey = $this->makeExtraVarKey('innerHtml');
-        $outerHtmlKey = $this->makeExtraVarKey('outerHtml');
-
-        foreach (['html', 'replace'] as $key) {
-            if (empty($spec[$key])) {
-                continue;
-            }
-
-            if (false !== strpos($spec[$key], $innerHtmlKey)) {
-                // include node innerHTML to the translation
-                $translation[$innerHtmlKey] = $node->getInnerHtml();
-            }
-
-            if (false !== strpos($spec[$key], $outerHtmlKey)) {
-                // include node outerHTML to the translation
-                $translation[$outerHtmlKey] = $node->getOuterHtml();
-            }
-        }
-
-        return $translation;
-    }
-
-    /**
-     * @todo Decouple to the node translation
-     * @param NodeInterface $node
-     * @param array $spec
-     * @return array
-     */
-    public function createNodeVarTranslationArray(NodeInterface $node, array $spec)
-    {
-        return $this->createNodeTranslation($node, $spec)->getVarTranslation()->getArrayCopy();
-    }
-
-    /**
      * @return self
      */
     public function getVarTranslation()

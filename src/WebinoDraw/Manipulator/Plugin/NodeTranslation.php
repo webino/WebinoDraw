@@ -15,7 +15,7 @@ use WebinoDraw\Dom\Element;
 /**
  *
  */
-class NodeTranslation implements InLoopPluginInterface
+class NodeTranslation extends AbstractPlugin implements InLoopPluginInterface
 {
     /**
      * @var array
@@ -34,7 +34,7 @@ class NodeTranslation implements InLoopPluginInterface
 
         $translation = $arg->getTranslation();
         // unset the last node translation then merge current one
-        $nodeTranslation = $translation->createNodeTranslation($node, $arg->getSpec());
+        $nodeTranslation = $this->createNodeTranslation($node, $arg->getSpec());
         $translation->unsetKeys(array_keys($this->lastNodeTranslation));
         $this->lastNodeTranslation = $nodeTranslation->getArrayCopy();
         $translation->merge($this->lastNodeTranslation);
