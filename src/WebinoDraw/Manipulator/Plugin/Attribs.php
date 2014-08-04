@@ -10,7 +10,7 @@
 
 namespace WebinoDraw\Manipulator\Plugin;
 
-use DOMAttr;
+use DOMElement;
 use WebinoDraw\Exception;
 
 /**
@@ -32,12 +32,11 @@ class Attribs extends AbstractPlugin implements InLoopPluginInterface
         $node           = $arg->getNode();
         $varTranslation = $arg->getVarTranslation();
 
-        if (!($node instanceof DOMAttr)) {
+        if (!($node instanceof DOMElement)) {
             throw new Exception\LogicException('Expected node of type DOMAttr');
         }
 
         foreach ($spec['attribs'] as $attribName => $attribValue) {
-
             $newAttribValue = $varTranslation->removeVars(
                 $helper->translateValue($attribValue, $varTranslation, $spec)
             );
