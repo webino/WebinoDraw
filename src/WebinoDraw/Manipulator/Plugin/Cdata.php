@@ -10,6 +10,8 @@
 
 namespace WebinoDraw\Manipulator\Plugin;
 
+use DOMElement;
+use WebinoDraw\Exception;
 use WebinoDraw\Instructions\InstructionsRenderer;
 
 /**
@@ -18,7 +20,6 @@ use WebinoDraw\Instructions\InstructionsRenderer;
 class Cdata implements InLoopPluginInterface
 {
     /**
-     *
      * @var InstructionsRenderer
      */
     protected $instructionsRenderer;
@@ -41,7 +42,11 @@ class Cdata implements InLoopPluginInterface
             return;
         }
 
-        $node            = $arg->getNode();
+        $node = $arg->getNode();
+        if (!($node instanceof DOMElement)) {
+            throw new Exception\LogicException('Expected node of type DOMElement');
+        }
+
         $node->nodeValue = '';
         $translatedCdata = $arg->getHelper()->translateValue($spec['cdata'], $arg->getVarTranslation(), $spec);
         if (empty($translatedCdata)) {
