@@ -10,6 +10,9 @@
 
 namespace WebinoDraw\Manipulator\Plugin;
 
+use DOMElement;
+use WebinoDraw\Exception;
+
 /**
  *
  */
@@ -34,12 +37,20 @@ class Replace extends AbstractPlugin implements
             return;
         }
 
+        $node = $arg->getNode();
+        if (!($node instanceof DOMElement)) {
+            throw new Exception\LogicException('Expected node of type DOMElement');
+        }
+
+        $node->nodeValue = '';
         $varTranslation  = $arg->getVarTranslation();
         $translatedHtml  = $arg->getHelper()->translateValue($spec['replace'], $varTranslation, $spec);
-        $node            = $arg->getNode();
-        $node->nodeValue = '';
 
         if (!empty($translatedHtml)) {
+            if (!($node->ownerDocument instanceof Document)) {
+                throw new Exception\LogicException('Expects node ownerDocument of type Dom\Document');
+            }
+
             $frag = $node->ownerDocument->createDocumentFragment();
             $frag->appendXml($translatedHtml);
 
@@ -58,6 +69,10 @@ class Replace extends AbstractPlugin implements
     public function postLoop(PluginArgument $arg)
     {
         foreach ($this->nodesToRemove as $node) {
+            if (!($node instanceof DOMElement)) {
+                throw new Exception\LogicException('Expected node of type DOMElement');
+            }
+            
             empty($node->parentNode) or
                 $node->parentNode->removeChild($node);
         }
