@@ -10,8 +10,8 @@
 
 namespace WebinoDraw\VarTranslator\Operation;
 
-use ArrayAccess;
 use WebinoDraw\VarTranslator\Operation\OnVar\PluginInterface;
+use WebinoDraw\VarTranslator\Translation;
 use Zend\Stdlib\PriorityQueue;
 
 /**
@@ -42,19 +42,17 @@ class OnVar
     }
 
     /**
-     * @param ArrayAccess $varTranslation
+     * @param Translation $varTranslation
      * @param array $spec
      * @param callable $callback
      * @return self
      * @throws Exception\InvalidInstructionException
      */
-    public function apply(ArrayAccess $varTranslation, array $spec, callable $callback)
+    public function apply(Translation $varTranslation, array $spec, callable $callback)
     {
         foreach ($spec as $spec) {
             if (!array_key_exists('var', $spec)) {
-                throw new Exception\InvalidInstructionException(
-                    'Expected `var` option in ' . print_r($spec, true)
-                );
+                throw new Exception\InvalidInstructionException('Expected `var` option in ' . print_r($spec, true));
             }
 
             $this->invokePlugins($varTranslation, $spec, $callback);
@@ -64,12 +62,12 @@ class OnVar
     }
 
     /**
-     * @param ArrayAccess $varTranslation
+     * @param Translation $varTranslation
      * @param array $spec
      * @param callable $callback
      * @return self
      */
-    protected function invokePlugins(ArrayAccess $varTranslation, array $spec, callable $callback)
+    protected function invokePlugins(Translation $varTranslation, array $spec, callable $callback)
     {
         $value = $varTranslation->removeVars($varTranslation->translateString($spec['var']));
         foreach ($this->plugins as $plugin) {
