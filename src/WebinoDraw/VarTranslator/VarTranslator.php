@@ -10,7 +10,6 @@
 
 namespace WebinoDraw\VarTranslator;
 
-use ArrayAccess;
 use WebinoDraw\VarTranslator\Operation\Filter;
 use WebinoDraw\VarTranslator\Operation\Helper;
 use WebinoDraw\VarTranslator\Operation\OnVar;
@@ -54,11 +53,11 @@ class VarTranslator
     }
 
     /**
-     * @param ArrayAccess $translation
+     * @param Translation $translation
      * @param array $spec
      * @return self
      */
-    public function apply(ArrayAccess $translation, array $spec)
+    public function apply(Translation $translation, array $spec)
     {
         empty($spec['var']['default']) or
             $translation->setDefaults($spec['var']['default']);
@@ -87,12 +86,12 @@ class VarTranslator
     /**
      * Apply variable logic
      *
-     * @param ArrayAccess $varTranslation
+     * @param Translation $varTranslation
      * @param array $spec
      * @param callable $callback
      * @return self
      */
-    public function applyOnVar(ArrayAccess $varTranslation, array $spec, callable $callback)
+    public function applyOnVar(Translation $varTranslation, array $spec, callable $callback)
     {
         $this->onVar->apply($varTranslation, $spec, $callback);
         return $this;
