@@ -10,8 +10,7 @@
 
 namespace WebinoDraw\Manipulator\Plugin;
 
-use DOMDocument;
-use DOMXpath;
+use WebinoDraw\Dom\Document;
 use WebinoDraw\Manipulator\Plugin\PluginArgument;
 use WebinoDraw\VarTranslator\Translation;
 
@@ -40,10 +39,9 @@ class ReplaceTest extends \PHPUnit_Framework_TestCase
      */
     public function testReplace()
     {
-        $dom        = new DOMDocument;
+        $dom        = new Document;
         $dom->registerNodeClass('DOMElement', 'WebinoDraw\Dom\Element');
         $dom->loadXML('<node/>');
-        $dom->xpath = new DOMXpath($dom);
 
         $html           = '<testhtmlreplace/>';
         $spec           = ['replace' => $html];
