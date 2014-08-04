@@ -11,24 +11,19 @@
 namespace WebinoDraw\Manipulator\Plugin;
 
 use ArrayObject;
+use WebinoDraw\Cache\DrawCache;
 use WebinoDraw\Dom\Element;
 use WebinoDraw\Dom\NodeList;
 use WebinoDraw\Draw\LoopHelperPluginManager;
 use WebinoDraw\Exception\InvalidLoopHelperException;
 use WebinoDraw\Exception\MissingPropertyException;
 use WebinoDraw\Instructions\InstructionsRenderer;
-use WebinoDraw\VarTranslator\VarTranslator;
 
 /**
  *
  */
 class Loop extends AbstractPlugin implements PreLoopPluginInterface
 {
-    /**
-     * @var VarTranslator
-     */
-    protected $varTranslator;
-
     /**
      * @var InstructionsRenderer
      */
@@ -40,19 +35,24 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
     protected $loopHelpers;
 
     /**
-     * @param VarTranslator $varTranslator
+     * @var DrawCache
+     */
+    protected $cache;
+
+    /**
      * @param InstructionsRenderer $instructionsRenderer
      * @param LoopHelperPluginManager $loopHelpers
+     * @param DrawCache $cache
      * @throws MissingPropertyException
      */
     public function __construct(
-        VarTranslator $varTranslator,
         InstructionsRenderer $instructionsRenderer,
-        LoopHelperPluginManager $loopHelpers
+        LoopHelperPluginManager $loopHelpers,
+        DrawCache $cache
     ) {
-        $this->varTranslator        = $varTranslator;
         $this->instructionsRenderer = $instructionsRenderer;
         $this->loopHelpers          = $loopHelpers;
+        $this->cache                = $cache;
     }
 
     /**
@@ -65,13 +65,21 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
             return;
         }
 
-        $helper = $arg->getHelper();
-        $nodes  = $arg->getNodes();
+        if (empty($spec['cache'])) {
+            $this->preLoopInternal($arg);
+            return;
+        }
+
+        $event = $arg->getHelper()->getEvent();
+        $nodes = $arg->getNodes();
 
         foreach ($nodes as $node) {
 
             $parentNodes = $nodes->create([$node->parentNode]);
-            if ($helper->cacheLoad($parentNodes, $spec)) {
+            $loopEvent   = clone $event;
+            $loopEvent->setNodes($parentNodes);
+
+            if ($this->cache->load($loopEvent)) {
                 continue;
             }
 
@@ -79,7 +87,7 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
             $localArg->setNodes($nodes->create([$node]));
 
             $this->preLoopInternal($localArg);
-            $helper->cacheSave($parentNodes, $spec);
+            $this->cache->save($loopEvent);
         }
     }
 

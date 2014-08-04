@@ -97,4 +97,13 @@ class VarTranslator
         $this->onVar->apply($varTranslation, $spec, $callback);
         return $this;
     }
+
+    /**
+     * @param array $vars
+     * @return Translation
+     */
+    public function createTranslation(array $vars)
+    {
+        return new Translation($vars);
+    }
 }

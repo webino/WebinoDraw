@@ -23,11 +23,6 @@ use Zend\View\Helper\BasePath;
 class Absolutize extends AbstractHelper
 {
     /**
-     * @var VarTranslator
-     */
-    protected $varTranslator;
-
-    /**
      * @var ServerUrl
      */
     protected $serverUrl;
@@ -38,15 +33,13 @@ class Absolutize extends AbstractHelper
     protected $basePath;
 
     /**
-     * @param VarTranslator $varTranslator
      * @param ServerUrl $serverUrl
      * @param BasePath $basePath
      */
-    public function __construct(VarTranslator $varTranslator, ServerUrl $serverUrl, BasePath $basePath)
+    public function __construct(ServerUrl $serverUrl, BasePath $basePath)
     {
-        $this->varTranslator = $varTranslator;
-        $this->serverUrl     = $serverUrl;
-        $this->basePath      = $basePath;
+        $this->serverUrl = $serverUrl;
+        $this->basePath  = $basePath;
     }
 
     /**
@@ -55,8 +48,9 @@ class Absolutize extends AbstractHelper
      */
     public function drawNodes(NodeList $nodes, array $spec)
     {
-        $translation = $this->cloneTranslationPrototype($this->getVars());
-        $this->varTranslator->apply($translation, $spec);
+        $varTranslator = $this->getVarTranslator();
+        $translation   = $varTranslator->createTranslation($this->getVars());
+        $varTranslator->apply($translation, $spec);
 
         $translationVars = $translation->getVarTranslation();
         $basePath        = $this->basePath->__invoke();

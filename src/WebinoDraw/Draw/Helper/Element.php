@@ -18,25 +18,22 @@ use WebinoDraw\Dom\NodeList;
 class Element extends AbstractHelper
 {
     /**
-     * @var string
-     */
-    protected $eventIdentifier = __CLASS__;
-
-    /**
      * @param NodeList $nodes
      * @param array $spec
      */
     public function __invoke(NodeList $nodes, array $spec)
     {
-        if (empty($spec['loop']) && $this->cacheLoad($nodes, $spec)) {
-            return;
-        }
-
         $event = $this->getEvent();
-        $event->clearSpec()
+        $event
             ->setHelper($this)
+            ->clearSpec()
             ->setSpec($spec)
             ->setNodes($nodes);
+
+        $cache = $this->getCache();
+        if (empty($spec['loop']) && $cache->load($event)) {
+            return;
+        }
 
         !array_key_exists('trigger', $spec) or
             $this->trigger($spec['trigger']);
@@ -44,7 +41,7 @@ class Element extends AbstractHelper
         $this->drawNodes($nodes, $event->getSpec()->getArrayCopy());
 
         !empty($spec['loop']) or
-            $this->cacheSave($nodes, $spec);
+            $cache->save($event);
 
     }
 }

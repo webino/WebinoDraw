@@ -28,7 +28,7 @@ class FormFactory implements FactoryInterface
         $services    = $drawHelpers->getServiceLocator();
         $viewHelpers = $services->get('ViewHelperManager');
 
-        return new Form(
+        $form = new Form(
             $services,
             $viewHelpers->get('WebinoDrawFormRow'),
             $viewHelpers->get('WebinoDrawFormElement'),
@@ -37,5 +37,8 @@ class FormFactory implements FactoryInterface
             $viewHelpers->get('Url'),
             $services->get('WebinoDraw\Instructions\InstructionsRenderer')
         );
+
+        $form->setEventManager($services->get('EventManager'));
+        return $form;
     }
 }

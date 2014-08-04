@@ -25,13 +25,7 @@ class AbsolutizeFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $drawHelpers)
     {
-        $services    = $drawHelpers->getServiceLocator();
-        $viewHelpers = $services->get('ViewHelperManager');
-
-        return new Absolutize(
-            $services->get('WebinoDraw\VarTranslator\VarTranslator'),
-            $viewHelpers->get('ServerUrl'),
-            $viewHelpers->get('BasePath')
-        );
+        $viewHelpers = $drawHelpers->getServiceLocator()->get('ViewHelperManager');
+        return new Absolutize($viewHelpers->get('ServerUrl'), $viewHelpers->get('BasePath'));
     }
 }

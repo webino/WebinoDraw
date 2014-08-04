@@ -52,13 +52,32 @@ class HelperPluginManager extends AbstractPluginManager
         parent::__construct($configuration);
 
         $this
-            ->addInitializer(array($this, 'injectManipulator'))
-            ->addInitializer(array($this, 'injectVarTranslator'))
-            ->addInitializer(array($this, 'injectCache'));
+            ->addInitializer([$this, 'injectEventManager'])
+            ->addInitializer([$this, 'injectManipulator'])
+            ->addInitializer([$this, 'injectVarTranslator'])
+            ->addInitializer([$this, 'injectCache']);
     }
 
     /**
-     * Inject a helper instance with the WebinoDraw VarTranslator
+     * Inject a helper instance with the EventManager
+     *
+     * @param HelperInterface $helper
+     */
+    public function injectEventManager(HelperInterface $helper)
+    {
+        $locator = $this->getServiceLocator();
+        if (!$locator) {
+            return;
+        }
+
+        if ($locator->has('EventManager')) {
+            $helper->setEventManager($locator->get('EventManager'));
+            return;
+        }
+    }
+
+    /**
+     * Inject a helper instance with the WebinoDraw Manipulator
      *
      * @param HelperInterface $helper
      */
@@ -76,7 +95,7 @@ class HelperPluginManager extends AbstractPluginManager
     }
 
     /**
-     * Inject a helper instance with the registered translator
+     * Inject a helper instance with the WebinoDraw VarTranslator
      *
      * @param HelperInterface $helper
      */
@@ -94,7 +113,7 @@ class HelperPluginManager extends AbstractPluginManager
     }
 
     /**
-     * Inject a helper instance with the cache
+     * Inject a helper instance with the WebinoDraw DrawCache
      *
      * @param HelperInterface $helper
      */
@@ -105,8 +124,8 @@ class HelperPluginManager extends AbstractPluginManager
             return;
         }
 
-        if ($locator->has('WebinoDrawCache')) {
-            $helper->setCache($locator->get('WebinoDrawCache'));
+        if ($locator->has('WebinoDraw\Cache\DrawCache')) {
+            $helper->setCache($locator->get('WebinoDraw\Cache\DrawCache'));
             return;
         }
     }
@@ -114,9 +133,9 @@ class HelperPluginManager extends AbstractPluginManager
     /**
      * Validate the plugin
      *
-     * Checks that the helper loaded is an instance of Helper\HelperInterface.
+     * Checks that the helper loaded is an instance of HelperInterface.
      *
-     * @param  mixed $plugin
+     * @param mixed $plugin
      * @throws Exception\InvalidHelperException if invalid
      */
     public function validatePlugin($plugin)

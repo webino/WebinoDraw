@@ -188,6 +188,11 @@ return [
                     'request' => 'Request',
                 ],
             ],
+            'WebinoDraw\Cache\DrawCache' => [
+                'parameters' => [
+                    'cache' => 'WebinoDrawCache',
+                ],
+            ],
         ],
     ],
     'service_manager' => [

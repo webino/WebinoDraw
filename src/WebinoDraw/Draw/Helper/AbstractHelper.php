@@ -11,17 +11,14 @@
 namespace WebinoDraw\Draw\Helper;
 
 use ArrayAccess;
-use DOMNode;
+use WebinoDraw\Cache\DrawCache;
 use WebinoDraw\Dom\NodeList;
 use WebinoDraw\Event\DrawEvent;
 use WebinoDraw\Exception;
 use WebinoDraw\Manipulator\Manipulator;
-use WebinoDraw\VarTranslator\Translation;
 use WebinoDraw\VarTranslator\VarTranslator;
-use Zend\EventManager\EventManager;
 use Zend\EventManager\EventManagerAwareInterface;
-use Zend\EventManager\EventManagerInterface;
-use Zend\Cache\Storage\StorageInterface as CacheStorageInterface;
+use Zend\EventManager\EventManagerAwareTrait;
 
 /**
  *
@@ -29,22 +26,18 @@ use Zend\Cache\Storage\StorageInterface as CacheStorageInterface;
 abstract class AbstractHelper implements
     HelperInterface,
     EventManagerAwareInterface
-//    ServiceLocatorAwareInterface
 {
-    /**
-     * @var CacheStorageInterface
-     */
-    protected $cache;
+    use EventManagerAwareTrait;
 
     /**
-     * @var EventManagerInterface
+     * @var DrawCache
      */
-    protected $eventManager;
+    private $cache;
 
     /**
      * @var string
      */
-    protected $eventIdentifier;
+    protected $eventIdentifier = 'WebinoDraw';
 
     /**
      * @var DrawEvent
@@ -52,30 +45,19 @@ abstract class AbstractHelper implements
     protected $event;
 
     /**
-     *
      * @var Manipulator
      */
-    protected $manipulator;
+    private $manipulator;
 
     /**
      * @var array
      */
-    protected $spec = [];
-
-    /**
-     * @var array
-     */
-    protected $vars = [];
+    private $vars = [];
 
     /**
      * @var VarTranslator
      */
-    protected $varTranslator;
-
-    /**
-     * @var Translation
-     */
-    protected $translationPrototype;
+    private $varTranslator;
 
     /**
      * @param NodeList $nodes
@@ -87,21 +69,21 @@ abstract class AbstractHelper implements
     }
 
     /**
-     * @return CacheStorageInterface
+     * @return DrawCache
      */
     public function getCache()
     {
         if (null === $this->cache) {
-            throw new Exception\RuntimeException('Expected injected Cache');
+            throw new Exception\RuntimeException('Expected injected DrawCache');
         }
         return $this->cache;
     }
 
     /**
-     * @param CacheStorageInterface $cache
+     * @param DrawCache $cache
      * @return self
      */
-    public function setCache(CacheStorageInterface $cache)
+    public function setCache(DrawCache $cache)
     {
         $this->cache = $cache;
         return $this;
@@ -124,35 +106,6 @@ abstract class AbstractHelper implements
     public function setEvent(DrawEvent $event)
     {
         $this->event = $event;
-        return $this;
-    }
-
-    /**
-     * @return EventManagerInterface
-     */
-    public function getEventManager()
-    {
-        if (null === $this->eventManager) {
-            $this->setEventManager(new EventManager);
-        }
-        return $this->eventManager;
-    }
-
-    /**
-     * @param EventManagerInterface $eventManager
-     * @return self
-     */
-    public function setEventManager(EventManagerInterface $eventManager)
-    {
-        $eventManager->setIdentifiers([
-            'WebinoDraw\Helper\HelperInterface',
-            __CLASS__,
-            get_called_class(),
-            $this->eventIdentifier,
-            'WebinoDraw'
-        ]);
-
-        $this->eventManager = $eventManager;
         return $this;
     }
 
@@ -218,134 +171,6 @@ abstract class AbstractHelper implements
     }
 
     /**
-     * @return Translation
-     */
-    public function getTranslationPrototype()
-    {
-        if (null === $this->translationPrototype) {
-            $this->setTranslationPrototype(new Translation);
-        }
-
-        return $this->translationPrototype;
-    }
-
-    /**
-     * @param Translation $translationPrototype
-     * @return self
-     */
-    public function setTranslationPrototype($translationPrototype)
-    {
-        $this->translationPrototype = $translationPrototype;
-        return $this;
-    }
-
-    /**
-     * @param array $input
-     * @return Translation
-     */
-    public function cloneTranslationPrototype(array $input = null)
-    {
-        $translation = clone $this->getTranslationPrototype();
-        $translation->exchangeArray($input);
-
-        return $translation;
-    }
-
-    /**
-     * Return the cache key
-     *
-     * @todo decouple
-     * @param array $node
-     * @param array $spec
-     * @return string
-     */
-    public function resolveCacheKey(DOMNode $node, array $spec)
-    {
-        $cacheKey = $node->getNodePath();
-        if (!empty($spec['cache_key'])) {
-            // replace vars in the cache key settings
-            $this->cloneTranslationPrototype($this->getVars())->getVarTranslation()
-                ->translate($spec['cache_key']);
-
-            // add cache keys
-            $cacheKey .= join('', $spec['cache_key']);
-        }
-
-        if (!empty($spec['cache_key_trigger'])) {
-            $events = $this->getEventManager();
-            foreach ((array) $spec['cache_key_trigger'] as $eventName) {
-                $results = $events->trigger($eventName, $this, ['spec' => $spec]);
-                foreach ($results as $result) {
-                    $cacheKey .= $result;
-                }
-            }
-        }
-
-        return md5($cacheKey);
-    }
-
-    /**
-     * Load nodes XHTML from the cache
-     *
-     * @todo decouple
-     * @param NodeList $nodes
-     * @param array $spec
-     * @return bool true = loaded
-     */
-    public function cacheLoad(NodeList $nodes, array $spec)
-    {
-        if (empty($spec['cache'])) {
-            return false;
-        }
-
-        $cache = $this->getCache();
-        foreach ($nodes as $node) {
-
-            $html = $cache->getItem($this->resolveCacheKey($node, $spec));
-            if (empty($html)) {
-                return false;
-            }
-
-            $frag = $node->ownerDocument->createDocumentFragment();
-            $frag->appendXml($html);
-            $node->parentNode->replaceChild($frag, $node);
-        }
-
-        return true;
-    }
-
-    /**
-     * Save nodes XHTML to the cache
-     *
-     * @todo decouple
-     * @param NodeList $nodes
-     * @param array $spec
-     * @return self
-     */
-    public function cacheSave(NodeList $nodes, array $spec)
-    {
-        if (empty($spec['cache'])) {
-            return $this;
-        }
-
-        $cache = $this->getCache();
-        foreach ($nodes as $node) {
-            if (empty($node->ownerDocument)) {
-                // node no longer exists
-                continue;
-            }
-
-            $key  = $this->resolveCacheKey($node, $spec);
-            $html = $node->ownerDocument->saveXml($node);
-
-            $cache->setItem($key, $html);
-            $cache->setTags($key, (array) $spec['cache']);
-        }
-
-        return $this;
-    }
-
-    /**
      * @param array $triggers
      * @return self
      */
@@ -379,8 +204,7 @@ abstract class AbstractHelper implements
      */
     public function drawNodes(NodeList $nodes, array $spec)
     {
-        $translation = $this->cloneTranslationPrototype($this->getVars());
-        $this->manipulateNodes($nodes, $spec, $translation);
+        $this->manipulateNodes($nodes, $spec, $this->getVarTranslator()->createTranslation($this->getVars()));
         return $this;
     }
 

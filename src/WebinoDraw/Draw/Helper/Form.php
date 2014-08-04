@@ -60,8 +60,22 @@ class Form extends AbstractHelper
      */
     protected $url;
 
+    /**
+     * @var InstructionsRenderer
+     */
     protected $instructionsRenderer;
 
+    /**
+     * @todo redesign
+     * @param ServiceLocatorInterface $forms
+     * @param FormRow $formRow
+     * @param FormElement $formElement
+     * @param FormElementErrors $formElementErrors
+     * @param FormCollection $formCollection
+     * @param Url $url
+     * @param InstructionsRenderer $instructionsRenderer
+     * @param DrawCache $cache
+     */
     public function __construct(
         ServiceLocatorInterface $forms,
         FormRow $formRow,
@@ -86,30 +100,30 @@ class Form extends AbstractHelper
      */
     public function __invoke(NodeList $nodes, array $spec)
     {
-        if ($this->cacheLoad($nodes, $spec)) {
-            return;
-        }
-
-        $form  = $this->createForm($spec);
         $event = $this->getEvent();
-
         $event
             ->setHelper($this)
             ->clearSpec()
             ->setSpec($spec)
-            ->setNodes($nodes)
-            ->setForm($form);
+            ->setNodes($nodes);
+
+        $cache = $this->getCache();
+        if ($cache->load($event)) {
+            return;
+        }
+
+        $form = $this->createForm($spec);
+        $event->setForm($form);
 
         !array_key_exists('trigger', $spec) or
             $this->trigger($spec['trigger']);
 
-        $this
-            ->drawNodes($nodes, $event->getSpec()->getArrayCopy())
-            ->cacheSave($nodes, $spec);
+        $this->drawNodes($nodes, $event->getSpec()->getArrayCopy());
+        $cache->save($event);
     }
 
     /**
-     * @return selfEvent
+     * @return self
      */
     public function getEvent()
     {
@@ -275,7 +289,7 @@ class Form extends AbstractHelper
         !array_key_exists('render_errors', $spec) or
                 $this->setRenderErrors($spec['render_errors']);
 
-        $translation = $this->cloneTranslationPrototype($this->getVars());
+        $translation = $this->getVarTranslator()->createTranslation($this->getVars());
         foreach ($nodes as $node) {
 
             // append the form class to the node class
