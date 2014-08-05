@@ -10,6 +10,7 @@
 
 namespace WebinoDraw\VarTranslator\Operation;
 
+use WebinoDraw\Exception;
 use WebinoDraw\VarTranslator\Translation;
 use Zend\Filter\FilterPluginManager;
 
@@ -43,21 +44,38 @@ class Filter
     public function apply(Translation $translation, array $spec)
     {
         foreach ($spec as $key => $subSpec) {
-            if (!array_key_exists($key, $translation)) {
-                // skip undefined vars
+            if ($translation->offsetExists($key)) {
+                $this->iterateFilterSpec((array) $subSpec, $key, $translation);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param array $spec
+     * @param mixed $key
+     * @param Translation $translation
+     * @return self
+     * @throws Exception\InvalidInstructionException
+     */
+    protected function iterateFilterSpec(array $spec, $key, Translation $translation)
+    {
+        foreach ($spec as $filter => $options) {
+            if (!is_array($options)) {
+                throw new Exception\InvalidInstructionException(
+                    'Expected array options for spec ' . print_r($spec, true)
+                );
+            }
+
+            $translation->getVarTranslation()->translate($options);
+
+            if (is_callable($filter)) {
+                $translation[$key] = call_user_func_array($filter, $options);
                 continue;
             }
 
-            foreach ((array) $subSpec as $helper => $options) {
-                $translation->getVarTranslation()->translate($options);
-
-                if (is_callable($helper)) {
-                    $translation[$key] = call_user_func_array($helper, $options);
-                    continue;
-                }
-
-                $this->callFilter($helper, $key, $translation, $options);
-            }
+            $this->callFilter($filter, $key, $translation, $options);
         }
 
         return $this;
