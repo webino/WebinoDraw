@@ -28,6 +28,7 @@ class DrawStrategy extends AbstractDrawStrategy
         }
 
         $options  = $this->draw->getOptions();
+        /* @var $response \Zend\Http\Response */
         $response = $event->getResponse();
 
         $response->setContent(
