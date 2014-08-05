@@ -178,26 +178,24 @@ class Form extends AbstractHelper
 
         try {
             $form = $this->forms->get($spec['form']);
-
         } catch (\Exception $exc) {
             throw new Exception\RuntimeException(
-                sprintf('Expected form in: %s; ' . $exc->getMessage(), print_r($spec, 1)),
+                sprintf('Expected form in: %s; ' . $exc->getMessage(), print_r($spec, true)),
                 $exc->getCode(),
                 $exc
             );
         }
 
+        if (!($form instanceof FormInterface)) {
+            throw new Exception\LogicException('Expected form of type FormInterface');
+        }
+
         if (isset($spec['route'])) {
             try {
                 $routeFormAction = $this->resolveRouteFormAction($spec['route']);
-
             } catch (\Exception $exc) {
                 throw new Exception\RuntimeException(
-                    $exc->getMessage()
-                    . sprintf(
-                        ' for %s',
-                        print_r($spec, true)
-                    ),
+                    $exc->getMessage() . sprintf(' for %s', print_r($spec, true)),
                     $exc->getCode(),
                     $exc
                 );
@@ -268,7 +266,7 @@ class Form extends AbstractHelper
 
         // set form attributes without class,
         // it will be appended later
-        $formAttribs = $form->getAttributes();
+        $formAttribs = (array) $form->getAttributes();
         $formClass   = '';
         if (!empty($formAttribs['class'])) {
             $formClass = $formAttribs['class'];
