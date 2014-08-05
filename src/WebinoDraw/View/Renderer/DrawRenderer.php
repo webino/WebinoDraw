@@ -12,7 +12,7 @@ namespace WebinoDraw\View\Renderer;
 
 use WebinoDraw\Exception\InvalidArgumentException;
 use WebinoDraw\Service\DrawService;
-use Zend\View\Model\ModelInterface;
+use Zend\View\Model\ViewModel;
 use Zend\View\Renderer\RendererInterface;
 use Zend\View\Resolver\ResolverInterface;
 
@@ -61,15 +61,15 @@ class DrawRenderer implements RendererInterface
     /**
      * Render & draw the template
      *
-     * @param string|ModelInterface $nameOrModel The script/resource process, or a view model
+     * @param string|ViewModel $nameOrModel The script/resource process, or a view model
      * @param null|array|\ArrayAccess $values Values to use during rendering
      * @return string The script output
      */
     public function render($nameOrModel, $values = null)
     {
-        $isModel = $nameOrModel instanceof ModelInterface;
+        $isModel = $nameOrModel instanceof ViewModel;
         if (!is_string($nameOrModel) && !$isModel) {
-            throw new InvalidArgumentException('Expected string|ModelInterface');
+            throw new InvalidArgumentException('Expected string|ViewModel');
         }
 
         $template     = $this->renderer->render($nameOrModel, $values);
@@ -90,7 +90,7 @@ class DrawRenderer implements RendererInterface
             $template,
             $instructions,
             $variables,
-            $isModel ? (bool) $nameOrModel->getOptions()['isXml'] : false
+            $isModel ? (bool) $nameOrModel->getOption('isXml') : false
         );
     }
 }
