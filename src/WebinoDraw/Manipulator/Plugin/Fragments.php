@@ -55,8 +55,10 @@ class Fragments implements InLoopPluginInterface
 
         foreach ($spec['fragments'] as $name => $fragmentLocator) {
 
-            $xpath = $this->locator->set($fragmentLocator)->xpathMatchAny();
-            $node  = $nodeXpath->query($xpath, $node)->item(0);
+            $node = $nodeXpath->query($this->locator->set($fragmentLocator)->xpathMatchAny(), $node)->item(0);
+            if (!($node instanceof Element)) {
+                throw new Exception\LogicException('Expected node of type Dom\Element');
+            }
 
             $translation[$name . 'OuterHtml'] = $node->getOuterHtml();
             $translation[$name . 'InnerHtml'] = $node->getInnerHtml();
