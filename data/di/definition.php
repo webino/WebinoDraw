@@ -3232,7 +3232,7 @@ return array (
         'WebinoDraw\\Cache\\DrawCache::__construct:0' => 
         array (
           0 => 'cache',
-          1 => 'Zend\\Cache\\Storage\\Adapter\\AbstractAdapter',
+          1 => 'Zend\\Cache\\Storage\\Adapter\\Filesystem',
           2 => true,
           3 => NULL,
         ),
