@@ -153,6 +153,9 @@ class Helper
                 }
 
                 $translation->merge($results->getArrayCopy())->getVarTranslation()->translate($params);
+                if (!is_array($params)) {
+                    throw new Exception\LogicException('Expected params of type array');
+                }
 
                 $plugin = call_user_func_array([$plugin, $func], $params);
                 if (is_string($plugin)) {
