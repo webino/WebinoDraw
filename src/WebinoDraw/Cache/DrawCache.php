@@ -12,7 +12,7 @@ namespace WebinoDraw\Cache;
 
 use DOMNode;
 use WebinoDraw\Event\DrawEvent;
-use Zend\Cache\Storage\Adapter\AbstractAdapter;
+use Zend\Cache\Storage\Adapter\Filesystem;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerAwareTrait;
 
@@ -24,7 +24,7 @@ class DrawCache implements EventManagerAwareInterface
     use EventManagerAwareTrait;
 
     /**
-     * @var AbstractAdapter
+     * @var Filesystem
      */
     protected $cache;
 
@@ -34,9 +34,9 @@ class DrawCache implements EventManagerAwareInterface
     protected $eventIdentifier = 'WebinoDraw';
 
     /**
-     * @param AbstractAdapter $cache
+     * @param Filesystem $cache
      */
-    public function __construct(AbstractAdapter $cache)
+    public function __construct(Filesystem $cache)
     {
         $this->cache = $cache;
     }
