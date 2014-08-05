@@ -231,7 +231,7 @@ class Translation extends ArrayObject implements
         }
 
         foreach ($match[0] as $key) {
-            if (!array_key_exists($key, $this)) {
+            if (!$this->offsetExists($key)) {
                 continue;
             }
 
