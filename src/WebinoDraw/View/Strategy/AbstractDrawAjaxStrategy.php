@@ -81,6 +81,7 @@ abstract class AbstractDrawAjaxStrategy extends AbstractDrawStrategy implements 
             return;
         }
 
+        /* @var $response \Zend\Http\Response */
         $response = $event->getResponse();
         $options  = $this->draw->getOptions();
 
@@ -92,7 +93,7 @@ abstract class AbstractDrawAjaxStrategy extends AbstractDrawStrategy implements 
         );
 
         $this->draw->drawDom(
-            $dom->documentElement,
+            $dom->getDocumentElement(),
             $options->getInstructions(),
             $this->collectModelVariables($event->getModel())
         );
