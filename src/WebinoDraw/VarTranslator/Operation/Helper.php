@@ -11,6 +11,7 @@
 namespace WebinoDraw\VarTranslator\Operation;
 
 use ArrayObject;
+use WebinoDraw\Exception;
 use WebinoDraw\VarTranslator\Translation;
 use Zend\View\HelperPluginManager;
 use Zend\View\Helper\HelperInterface;
@@ -46,36 +47,54 @@ class Helper
     {
         $results = new ArrayObject;
         foreach ($spec as $key => $subSpec) {
-            if (!array_key_exists($key, $translation)) {
-                // skip undefined vars
-                continue;
-            }
-
-            $joinResult = true;
-            foreach ((array) $subSpec as $helper => $options) {
-                if ('_join_result' === $helper) {
-                    // option to disable the string result joining
-                    $joinResult = (bool) $options;
-                    continue;
-                }
-
-                if (!empty($options['helper'])) {
-                    // helper is not an options key
-                    $helper = $options['helper'];
-                    unset($options['helper']);
-                }
-
-                if (is_callable($helper)) {
-                    $translation->merge($results->getArrayCopy())->getVarTranslation()->translate($options);
-                    $results[$key] = call_user_func_array($helper, $options);
-                    continue;
-                }
-
-                $this->callHelper($helper, $key, $results, $translation, $options, $joinResult);
+            if ($translation->offsetExists($key)) {
+                $this->iterateHelperSpec((array) $subSpec, $key, $translation, $results);
             }
         }
 
         $translation->merge($results->getArrayCopy());
+        return $this;
+    }
+
+    /**
+     * @param array $spec
+     * @param mixed $key
+     * @param Translation $translation
+     * @param ArrayObject $results
+     * @return self
+     * @throws Exception\InvalidInstructionException
+     */
+    protected function iterateHelperSpec(array $spec, $key, Translation $translation, ArrayObject $results)
+    {
+        $joinResult = true;
+        foreach ($spec as $helper => $options) {
+            if (!is_array($options)) {
+                throw new Exception\InvalidInstructionException(
+                    'Expected array options for spec ' . print_r($spec, true)
+                );
+            }
+
+            if ('_join_result' === $helper) {
+                // option to disable the string result joining
+                $joinResult = (bool) $options;
+                continue;
+            }
+
+            if (!empty($options['helper'])) {
+                // helper is not an options key
+                $helper = $options['helper'];
+                unset($options['helper']);
+            }
+
+            if (is_callable($helper)) {
+                $translation->merge($results->getArrayCopy())->getVarTranslation()->translate($options);
+                $results[$key] = call_user_func_array($helper, (array) $options);
+                continue;
+            }
+
+            $this->callHelper($helper, $key, $results, $translation, (array) $options, $joinResult);
+        }
+
         return $this;
     }
 
