@@ -10,7 +10,7 @@
 
 namespace WebinoDraw\Manipulator\Plugin;
 
-use DOMElement;
+use DOMNode;
 use WebinoDraw\Exception;
 use WebinoDraw\Dom\Document;
 
@@ -39,8 +39,8 @@ class Replace extends AbstractPlugin implements
         }
 
         $node = $arg->getNode();
-        if (!($node instanceof DOMElement)) {
-            throw new Exception\LogicException('Expected node of type DOMElement');
+        if (!($node instanceof DOMNode)) {
+            throw new Exception\LogicException('Expected node of type DOMNode');
         }
 
         $node->nodeValue = '';
@@ -70,8 +70,8 @@ class Replace extends AbstractPlugin implements
     public function postLoop(PluginArgument $arg)
     {
         foreach ($this->nodesToRemove as $node) {
-            if (!($node instanceof DOMElement)) {
-                throw new Exception\LogicException('Expected node of type DOMElement');
+            if (!($node instanceof DOMNode)) {
+                throw new Exception\LogicException('Expected node of type DOMNode');
             }
 
             empty($node->parentNode) or

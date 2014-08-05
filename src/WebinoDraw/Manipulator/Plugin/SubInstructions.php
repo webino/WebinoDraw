@@ -10,8 +10,9 @@
 
 namespace WebinoDraw\Manipulator\Plugin;
 
-use DOMElement;
+use DOMNode;
 use WebinoDraw\Dom\Document;
+use WebinoDraw\Exception;
 use WebinoDraw\Instructions\InstructionsRenderer;
 
 /**
@@ -38,8 +39,8 @@ class SubInstructions implements InLoopPluginInterface
     public function inLoop(PluginArgument $arg)
     {
         $node = $arg->getNode();
-        if (!($node instanceof DOMElement)) {
-            throw new Exception\LogicException('Expected node of type DOMElement');
+        if (!($node instanceof DOMNode)) {
+            throw new Exception\LogicException('Expected node of type DOMNode');
         }
 
         $spec = $arg->getSpec();

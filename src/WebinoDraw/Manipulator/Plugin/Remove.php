@@ -10,7 +10,7 @@
 
 namespace WebinoDraw\Manipulator\Plugin;
 
-use DOMElement;
+use DOMNode;
 use DOMNodeList;
 use WebinoDraw\Dom\Document;
 use WebinoDraw\Dom\Locator;
@@ -46,8 +46,8 @@ class Remove implements InLoopPluginInterface
         }
 
         $node = $arg->getNode();
-        if (!($node instanceof DOMElement)) {
-            throw new Exception\LogicException('Expected node of type DOMElement');
+        if (!($node instanceof DOMNode)) {
+            throw new Exception\LogicException('Expected node of type DOMNode');
         }
         if (!($node->ownerDocument instanceof Document)) {
             throw new Exception\LogicException('Expects node ownerDocument of type Dom\Document');
@@ -67,8 +67,8 @@ class Remove implements InLoopPluginInterface
     protected function removeNodes(DOMNodeList $nodes)
     {
         foreach ($nodes as $node) {
-            if (!($node instanceof DOMElement)) {
-                throw new Exception\LogicException('Expected node of type DOMElement');
+            if (!($node instanceof DOMNode)) {
+                throw new Exception\LogicException('Expected node of type DOMNode');
             }
 
             empty($node->parentNode) or
