@@ -10,7 +10,8 @@
 
 namespace WebinoDraw\Manipulator\Plugin;
 
-use DOMElement;
+use DOMNode;
+use WebinoDraw\Exception;
 use Zend\View\Helper\EscapeHtml;
 
 /**
@@ -42,8 +43,8 @@ class Value extends AbstractPlugin implements InLoopPluginInterface
         }
 
         $node = $arg->getNode();
-        if (!($node instanceof DOMElement)) {
-            throw new Exception\LogicException('Expected node of type DOMElement');
+        if (!($node instanceof DOMNode)) {
+            throw new Exception\LogicException('Expected node of type DOMNode');
         }
 
         $varTranslation  = $arg->getVarTranslation();
