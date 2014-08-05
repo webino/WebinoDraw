@@ -10,6 +10,8 @@
 
 namespace WebinoDraw\Manipulator\Plugin;
 
+use DOMElement;
+use DOMNodeList;
 use WebinoDraw\Dom\Document;
 use WebinoDraw\Dom\Locator;
 use WebinoDraw\Exception;
@@ -44,21 +46,35 @@ class Remove implements InLoopPluginInterface
         }
 
         $node = $arg->getNode();
+        if (!($node instanceof DOMElement)) {
+            throw new Exception\LogicException('Expected node of type DOMElement');
+        }
         if (!($node->ownerDocument instanceof Document)) {
             throw new Exception\LogicException('Expects node ownerDocument of type Dom\Document');
         }
 
         $nodeXpath = $node->ownerDocument->getXpath();
-
         foreach ((array) $spec['remove'] as $removeLocator) {
-
-            $removeXpath = $this->locator->set($removeLocator)->xpathMatchAny();
-            $removeNodes = $nodeXpath->query($removeXpath, $node);
-
-            foreach ($removeNodes as $removeSubNode) {
-                empty($removeSubNode->parentNode) or
-                    $removeSubNode->parentNode->removeChild($removeSubNode);
-            }
+            $this->removeNodes($nodeXpath->query($this->locator->set($removeLocator)->xpathMatchAny(), $node));
         }
+    }
+
+    /**
+     * @param DOMNodeList $nodes
+     * @return self
+     * @throws Exception\LogicException
+     */
+    protected function removeNodes(DOMNodeList $nodes)
+    {
+        foreach ($nodes as $node) {
+            if (!($node instanceof DOMElement)) {
+                throw new Exception\LogicException('Expected node of type DOMElement');
+            }
+
+            empty($node->parentNode) or
+                $node->parentNode->removeChild($node);
+        }
+
+        return $this;
     }
 }
