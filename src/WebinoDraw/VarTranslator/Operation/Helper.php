@@ -68,16 +68,16 @@ class Helper
     {
         $joinResult = true;
         foreach ($spec as $helper => $options) {
-            if (!is_array($options)) {
-                throw new Exception\InvalidInstructionException(
-                    'Expected array options for spec ' . print_r($spec, true)
-                );
-            }
-
             if ('_join_result' === $helper) {
                 // option to disable the string result joining
                 $joinResult = (bool) $options;
                 continue;
+            }
+
+            if (!is_array($options)) {
+                throw new Exception\InvalidInstructionException(
+                    'Expected array options for spec ' . print_r($spec, true)
+                );
             }
 
             if (!empty($options['helper'])) {
@@ -86,16 +86,40 @@ class Helper
                 unset($options['helper']);
             }
 
-            if (is_callable($helper)) {
-                $translation->merge($results->getArrayCopy())->getVarTranslation()->translate($options);
-                $results[$key] = call_user_func_array($helper, (array) $options);
-                continue;
-            }
-
-            $this->callHelper($helper, $key, $results, $translation, (array) $options, $joinResult);
+            $this->callCallableHelper($helper, $key, $translation, $results, $options) or
+                $this->callHelper($helper, $key, $translation, $results, $options, $joinResult);
         }
 
         return $this;
+    }
+
+    /**
+     * @param mixed $helper
+     * @param mixed $key
+     * @param Translation $translation
+     * @param ArrayObject $results
+     * @param array $options
+     * @return bool
+     * @throws Exception\InvalidInstructionException
+     */
+    protected function callCallableHelper(
+        $helper,
+        $key,
+        Translation $translation,
+        ArrayObject $results,
+        array $options
+    ) {
+        if (!is_callable($helper)) {
+            return false;
+        }
+
+        $translation->merge($results->getArrayCopy())->getVarTranslation()->translate($options);
+        if (!is_array($options)) {
+            throw new Exception\LogicException('Expected options of type array');
+        }
+
+        $results[$key] = call_user_func_array($helper, $options);
+        return true;
     }
 
     /**
@@ -103,8 +127,8 @@ class Helper
      *
      * @param string $helper
      * @param mixed $key
-     * @param ArrayObject $results
      * @param Translation $translation
+     * @param ArrayObject $results
      * @param array $options
      * @param bool $joinResult
      * @return self
@@ -112,8 +136,8 @@ class Helper
     protected function callHelper(
         $helper,
         $key,
-        ArrayObject $results,
         Translation $translation,
+        ArrayObject $results,
         array $options,
         $joinResult
     ) {
