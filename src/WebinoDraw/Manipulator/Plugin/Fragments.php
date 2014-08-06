@@ -13,6 +13,7 @@ namespace WebinoDraw\Manipulator\Plugin;
 use WebinoDraw\Dom\Document;
 use WebinoDraw\Dom\Element;
 use WebinoDraw\Dom\Locator;
+use WebinoDraw\Exception;
 
 /**
  *
