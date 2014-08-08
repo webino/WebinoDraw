@@ -10,7 +10,7 @@
 
 namespace WebinoDraw\Instructions;
 
-use WebinoDraw\Dom\Element;
+use WebinoDraw\Dom\NodeInterface;
 
 /**
  *
@@ -18,11 +18,11 @@ use WebinoDraw\Dom\Element;
 interface InstructionsRendererInterface
 {
     /**
-     * Render the Dom\Element
+     * Render the DOMNode
      *
-     * @param Element $node Dom\Document element
+     * @param NodeInterface $node DOMNode
      * @param array|InstructionsInterface $instructions Draw instructions
      * @param array $vars Variables to render
      */
-    public function render(Element $node, $instructions, array $vars);
+    public function render(NodeInterface $node, $instructions, array $vars);
 }

@@ -11,7 +11,7 @@
 namespace WebinoDraw\Instructions;
 
 use ArrayObject;
-use WebinoDraw\Dom\Element;
+use WebinoDraw\Dom\NodeInterface;
 use WebinoDraw\Dom\Factory\NodeListFactory;
 use WebinoDraw\Dom\Locator;
 use WebinoDraw\Dom\NodeList;
@@ -82,7 +82,7 @@ class InstructionsRenderer implements InstructionsRendererInterface
      * {@inheritDocs}
      * @throws InvalidArgumentException
      */
-    public function render(Element $node, $instructions, array $vars)
+    public function render(NodeInterface $node, $instructions, array $vars)
     {
         $drawInstructions  = is_array($instructions)
                            ? $this->instructionsFactory->create($instructions)
