@@ -12,7 +12,6 @@ namespace WebinoDraw\Config;
 
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
-use RecursiveRegexIterator;
 use RegexIterator;
 
 /**
@@ -77,7 +76,7 @@ class InstructionsetAutoloader
         return new RegexIterator(
             new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir)),
             '/^.+' . preg_quote(self::DRAW_SET_CFG_SUFFIX) . preg_quote(self::CFG_SUFFIX) . '$/i',
-            RecursiveRegexIterator::GET_MATCH
+            RegexIterator::GET_MATCH
         );
     }
 }
