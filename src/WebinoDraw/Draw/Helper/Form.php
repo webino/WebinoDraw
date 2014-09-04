@@ -403,7 +403,10 @@ class Form extends AbstractHelper
                 $elementNodes->each(
                     'xpath=../span[name(..)="label"]|..//label[@for="' . $elementName . '"]',
                     function ($nodes) use ($element, $translator) {
-                        $nodes->setValue($translator->translate($element->getLabel()));
+                        $label = $translator->translate($element->getLabel());
+                        foreach ($nodes as $node) {
+                            $node->nodeValue = !$node->isEmpty() ? $translator->translate($node->nodeValue) : $label;
+                        }
                     }
                 );
 
