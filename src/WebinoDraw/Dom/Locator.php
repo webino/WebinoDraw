@@ -57,12 +57,12 @@ class Locator extends ArrayObject
     }
 
     /**
-     * @param Element $node
+     * @param NodeInterface $node
      * @param string $locator
      * @return \DOMNodeList
      * @throws InvalidArgumentException
      */
-    public function locate(Element $node, $locator)
+    public function locate(NodeInterface $node, $locator)
     {
         if (!($node->ownerDocument instanceof Document)) {
             throw new InvalidArgumentException('Expects Dom\Document');
