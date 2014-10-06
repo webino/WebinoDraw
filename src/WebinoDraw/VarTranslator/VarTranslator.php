@@ -41,6 +41,13 @@ class VarTranslator
     protected $onVar;
 
     /**
+     * Global translation
+     *
+     * @var Translation
+     */
+    protected $translation;
+
+    /**
      * @param Filter $filter
      * @param Helper $helper
      * @param OnVar $onVar
@@ -53,12 +60,39 @@ class VarTranslator
     }
 
     /**
+     * Get global translation
+     *
+     * @return Translation
+     */
+    protected function getTranslation()
+    {
+        if (null === $this->translation) {
+            $this->setTranslation(new Translation);
+        }
+        return $this->translation;
+    }
+
+    /**
+     * Set global translation
+     *
+     * @param Translation $translation
+     * @return self
+     */
+    public function setTranslation(Translation $translation)
+    {
+        $this->translation = $translation;
+        return $this;
+    }
+
+    /**
      * @param Translation $translation
      * @param array $spec
      * @return self
      */
     public function apply(Translation $translation, array $spec)
     {
+        $translation->merge($this->getTranslation()->getArrayCopy());
+
         empty($spec['var']['default']) or
             $translation->setDefaults($spec['var']['default']);
 
@@ -79,6 +113,9 @@ class VarTranslator
 
         empty($spec['var']['default']) or
             $translation->setDefaults($spec['var']['default']);
+
+        empty($spec['var']['push']) or
+            $this->getTranslation()->pushVars($spec['var']['push']);
 
         return $this;
     }

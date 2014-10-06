@@ -49,11 +49,7 @@ class Translation extends ArrayObject implements
     public function fetch($basePath)
     {
         $value = $this->getArrayCopy();
-        $parts = [];
-
-        preg_match_all('~[^\.]+\\\.[^\.]+|[^\.]+~', $basePath, $parts);
-
-        foreach ($parts[0] as $key) {
+        foreach ($this->resolveBasePathParts($basePath) as $key) {
             // magic keys
             if ('_first' === $key) {
                 reset($value);
@@ -101,7 +97,7 @@ class Translation extends ArrayObject implements
     public function merge(array $array)
     {
         if (!empty($array)) {
-            $this->exchangeArray(array_merge($this->getArrayCopy(), $array));
+            $this->exchangeArray(array_replace_recursive($this->getArrayCopy(), $array));
         }
         return $this;
     }
@@ -199,12 +195,9 @@ class Translation extends ArrayObject implements
      */
     public function removeVars($string)
     {
-        if (!is_string($string)
-            || !$this->containsVar($string)
-        ) {
+        if (!is_string($string) || !$this->containsVar($string)) {
             return $string;
         }
-
         return trim(preg_replace($this->getVarPregPattern(), '', $string));
     }
 
@@ -364,9 +357,63 @@ class Translation extends ArrayObject implements
      */
     public function fetchVars(array $options)
     {
-        foreach ($options as $key => $basepath) {
-            $this->offsetSet($key, $this->fetch($this->getVarTranslation()->translateString($basepath)));
+        foreach ($options as $key => $basePath) {
+            $this->offsetSet($key, $this->fetch($this->getVarTranslation()->translateString($basePath)));
         }
         return $this;
+    }
+
+    /**
+     * Push variables into translation
+     *
+     * @param array $options
+     * @return self
+     */
+    public function pushVars(array $options)
+    {
+        foreach ($options as $basePath => $value) {
+            $index    = null;
+            $create   = false;
+            $subValue = $this;
+
+            foreach ($this->resolveBasePathParts($basePath) as $key) {
+                if (null === $index) {
+                    $index = $key;
+                }
+
+                if ($create) {
+                    $create   = false;
+                    $subValue = new ArrayObject;
+                }
+
+                // undefined
+                if (!array_key_exists($key, $subValue)) {
+                    $create = true;
+                    continue;
+                }
+
+                $subValue = &$subValue[$key];
+            }
+
+            $subValue[$key] = $value;
+            if ($this !== $subValue) {
+                $this->offsetSet($index, $subValue);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Explode path by dots and return those parts
+     *
+     * @param string $basePath
+     * @return array
+     */
+    private function resolveBasePathParts($basePath)
+    {
+        $parts = [];
+        preg_match_all('~[^\.]+\\\.[^\.]+|[^\.]+~', $basePath, $parts);
+        return $parts[0];
     }
 }

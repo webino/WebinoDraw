@@ -174,6 +174,17 @@
              ],
         ],
 
+    Push variables:
+
+        'draw-node-example' => [
+            'locator' => 'body',
+            'var' => [
+                'push' => [
+                    'myvalue.in.the.depth' => 'mydepthvar',
+                ],
+            ],
+        ],
+
   - Use **functions**, **view helpers** and **filters**:
 
     Modify variable values, helper/filter definition accepts in function/method parameters: `{$var}`
@@ -429,6 +440,18 @@
             'value' => 'Empty node example',             // use same options as normal
         ],
         'var' => [
+            'set' => [                                   // set variables values
+                'myvar' => 'myval',                      // key => value pairs
+            ],
+            'fetch' => [                                 // fetch variables from multidimensional array
+                'myvar' => 'base.path',                  // local variable name => variable base path pairs
+            ],
+            'default' => [                               // set default variables values
+                'myvar' => 'mydefaultval',               // key => default value pairs
+            ],
+            'push' => [                                  // push variables values to the global context
+                'my.base.path' => 'myval',               // custom variable base path => value pairs
+            ],
             'helper' => [                                // use helpers on variables
                 'customvar' => [
                     '_join_result' => false,             // bool, disable the string result joining, default true
