@@ -30,7 +30,7 @@ class NotPhpRenderer extends PhpRenderer
     /**
      * {@inheritDoc}
      */
-    private $__templates = array();
+    private $templates = [];
 
     /**
      * {@inheritDoc}
@@ -56,7 +56,7 @@ class NotPhpRenderer extends PhpRenderer
         $this->addTemplate($nameOrModel);
         unset($nameOrModel);
 
-        $template = array_pop($this->__templates);
+        $template = array_pop($this->templates);
         $file     = $this->resolver($template);
 
         if (!$file) {
@@ -83,7 +83,7 @@ class NotPhpRenderer extends PhpRenderer
      */
     public function addTemplate($template)
     {
-        $this->__templates[] = $template;
+        $this->templates[] = $template;
         return $this;
     }
 }
