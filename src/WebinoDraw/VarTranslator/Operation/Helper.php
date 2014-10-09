@@ -68,6 +68,9 @@ class Helper
     {
         $joinResult = true;
         foreach ($spec as $helper => $options) {
+            if (null === $options) {
+                continue;
+            }
             if ('_join_result' === $helper) {
                 // option to disable the string result joining
                 $joinResult = (bool) $options;
