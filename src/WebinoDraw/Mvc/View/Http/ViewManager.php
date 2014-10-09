@@ -14,7 +14,7 @@ use WebinoDraw\View\Renderer\NotPhpRenderer;
 use Zend\Mvc\View\Http\ViewManager as BaseViewManager;
 
 /**
- * 
+ *
  */
 class ViewManager extends BaseViewManager
 {
