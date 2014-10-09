@@ -2465,6 +2465,40 @@ return array (
     array (
     ),
   ),
+  'WebinoDraw\\Mvc\\Service\\HttpViewManagerFactory' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'Zend\\ServiceManager\\FactoryInterface',
+      1 => 'Zend\\Mvc\\Service\\HttpViewManagerFactory',
+      2 => 'Zend\\ServiceManager\\FactoryInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+    ),
+    'parameters' => 
+    array (
+    ),
+  ),
+  'WebinoDraw\\Mvc\\View\\Http\\ViewManager' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'Zend\\EventManager\\ListenerAggregateInterface',
+      1 => 'Zend\\Mvc\\View\\Http\\ViewManager',
+      2 => 'Zend\\EventManager\\ListenerAggregateInterface',
+      3 => 'Zend\\EventManager\\AbstractListenerAggregate',
+      4 => 'Zend\\EventManager\\ListenerAggregateInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+    ),
+    'parameters' => 
+    array (
+    ),
+  ),
   'WebinoDraw\\VarTranslator\\VarTranslator' => 
   array (
     'supertypes' => 
@@ -2474,6 +2508,7 @@ return array (
     'methods' => 
     array (
       '__construct' => 3,
+      'setTranslation' => 0,
     ),
     'parameters' => 
     array (
@@ -2497,6 +2532,16 @@ return array (
         array (
           0 => 'onVar',
           1 => 'WebinoDraw\\VarTranslator\\Operation\\OnVar',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setTranslation' => 
+      array (
+        'WebinoDraw\\VarTranslator\\VarTranslator::setTranslation:0' => 
+        array (
+          0 => 'translation',
+          1 => 'WebinoDraw\\VarTranslator\\Translation',
           2 => true,
           3 => NULL,
         ),
@@ -4616,6 +4661,92 @@ return array (
         array (
           0 => 'resolver',
           1 => 'Zend\\View\\Resolver\\ResolverInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+    ),
+  ),
+  'WebinoDraw\\View\\Renderer\\NotPhpRenderer' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'Zend\\View\\Renderer\\TreeRendererInterface',
+      1 => 'Zend\\View\\Renderer\\RendererInterface',
+      2 => 'Zend\\View\\Renderer\\PhpRenderer',
+      3 => 'Zend\\View\\Renderer\\RendererInterface',
+      4 => 'Zend\\View\\Renderer\\TreeRendererInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+      '__construct' => 3,
+      'setResolver' => 0,
+      'setVars' => 0,
+      'setHelperPluginManager' => 0,
+      'setFilterChain' => 0,
+      'setCanRenderTrees' => 0,
+    ),
+    'parameters' => 
+    array (
+      '__construct' => 
+      array (
+        'WebinoDraw\\View\\Renderer\\NotPhpRenderer::__construct:0' => 
+        array (
+          0 => 'config',
+          1 => NULL,
+          2 => false,
+          3 => 
+          array (
+          ),
+        ),
+      ),
+      'setResolver' => 
+      array (
+        'WebinoDraw\\View\\Renderer\\NotPhpRenderer::setResolver:0' => 
+        array (
+          0 => 'resolver',
+          1 => 'Zend\\View\\Resolver\\ResolverInterface',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setVars' => 
+      array (
+        'WebinoDraw\\View\\Renderer\\NotPhpRenderer::setVars:0' => 
+        array (
+          0 => 'variables',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setHelperPluginManager' => 
+      array (
+        'WebinoDraw\\View\\Renderer\\NotPhpRenderer::setHelperPluginManager:0' => 
+        array (
+          0 => 'helpers',
+          1 => NULL,
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setFilterChain' => 
+      array (
+        'WebinoDraw\\View\\Renderer\\NotPhpRenderer::setFilterChain:0' => 
+        array (
+          0 => 'filters',
+          1 => 'Zend\\Filter\\FilterChain',
+          2 => true,
+          3 => NULL,
+        ),
+      ),
+      'setCanRenderTrees' => 
+      array (
+        'WebinoDraw\\View\\Renderer\\NotPhpRenderer::setCanRenderTrees:0' => 
+        array (
+          0 => 'renderTrees',
+          1 => NULL,
           2 => true,
           3 => NULL,
         ),
