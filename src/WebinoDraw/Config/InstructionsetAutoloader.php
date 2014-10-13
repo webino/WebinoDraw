@@ -19,9 +19,7 @@ use RegexIterator;
  */
 class InstructionsetAutoloader
 {
-    const CFG_SUFFIX          = '.php';
-    const DRAW_DIR_NAME       = 'draw';
-    const DRAW_SET_CFG_SUFFIX = '.drawset';
+    const DRAWSET_CFG_SUFFIX = '.drawset.php';
 
     /**
      * @var string
@@ -29,18 +27,11 @@ class InstructionsetAutoloader
     protected $dir;
 
     /**
-     * @var string
-     */
-    protected $namespace;
-
-    /**
      * @param string $dir
-     * @param string $namespace
      */
-    public function __construct($dir, $namespace)
+    public function __construct($dir)
     {
-        $this->dir       = $dir;
-        $this->namespace = $namespace;
+        $this->dir = $dir;
     }
 
     /**
@@ -48,17 +39,20 @@ class InstructionsetAutoloader
      */
     public function load()
     {
-        $dir      = $this->dir . '/' . self::DRAW_DIR_NAME;
-        $iterator = $this->createDirIterator($dir);
+        $config       = [];
+        $dirLength    = strlen($this->dir) + 1;
+        $suffixLength = strlen(self::DRAWSET_CFG_SUFFIX);
 
-        $config = [];
-        foreach ($iterator as $path) {
+        foreach ($this->createDirIterator($this->dir) as $path) {
+
+            $relPath   = substr($path[0], $dirLength);
+            $namespace = explode('/', $relPath)[0];
+
             $index = join(
                 '/',
                 array_filter([
-                    $this->namespace,
-                    trim(dirname(str_replace($dir, '', $path[0])), '/'),
-                    substr(pathinfo($path[0])['filename'], 0, - strlen(self::DRAW_SET_CFG_SUFFIX)),
+                    $namespace,
+                    trim(substr($relPath, strlen($namespace), - $suffixLength), '/'),
                 ])
             );
             $config[$index] = require $path[0];
@@ -75,7 +69,7 @@ class InstructionsetAutoloader
     {
         return new RegexIterator(
             new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir)),
-            '/^.+' . preg_quote(self::DRAW_SET_CFG_SUFFIX) . preg_quote(self::CFG_SUFFIX) . '$/i',
+            '/^.+' . preg_quote(self::DRAWSET_CFG_SUFFIX) . '$/i',
             RegexIterator::GET_MATCH
         );
     }
