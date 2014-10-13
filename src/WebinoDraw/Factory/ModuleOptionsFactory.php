@@ -26,9 +26,9 @@ class ModuleOptionsFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $services)
     {
         $config     = $services->get('Config');
-        $drawConfig = !empty($config['webino_draw']) ? $config['webino_draw'] : [];
+        $drawConfig = isset($config['webino_draw']) ? $config['webino_draw'] : [];
 
-        if (!empty($drawConfig['instructions'])) {
+        if (array_key_exists('instructions', $drawConfig)) {
             $instructionsFactory        = $services->get('WebinoDraw\Factory\InstructionsFactory');
             $drawConfig['instructions'] = $instructionsFactory->create($drawConfig['instructions']);
         }
