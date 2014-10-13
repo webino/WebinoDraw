@@ -44,6 +44,9 @@ class ModuleOptions extends AbstractOptions
      */
     public function getInstructions()
     {
+        if (null === $this->instructions) {
+            $this->setInstructions(new Instructions);
+        }
         return $this->instructions;
     }
 
