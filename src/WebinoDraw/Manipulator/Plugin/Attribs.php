@@ -37,6 +37,11 @@ class Attribs extends AbstractPlugin implements InLoopPluginInterface
         }
 
         foreach ($spec['attribs'] as $attribName => $attribValue) {
+            if (empty($node->parentNode)) {
+                // node no longer exists
+                continue;
+            }
+            
             $newAttribValue = $varTranslation->removeVars(
                 $helper->translateValue($attribValue, $varTranslation, $spec)
             );
