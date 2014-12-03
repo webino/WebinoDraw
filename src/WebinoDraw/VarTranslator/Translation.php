@@ -387,7 +387,8 @@ class Translation extends ArrayObject implements
                 }
 
                 // undefined
-                if (!array_key_exists($key, $subValue)) {
+                if (!array_key_exists($key, $subValue) || is_scalar($value)) {
+                    // create or override scalar
                     $create = true;
                     continue;
                 }
