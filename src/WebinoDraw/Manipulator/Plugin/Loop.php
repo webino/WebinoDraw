@@ -135,6 +135,8 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
             ->expandInstructions($spec)
             ->expandInstructions($spec['loop']);
 
+        // TODO spec object
+        $arg->setSpec($spec);
         $this->nodesLoop($nodes, $items, $arg);
     }
 
