@@ -19,6 +19,7 @@ use WebinoDraw\Draw\HelperPluginManager;
 use WebinoDraw\Exception\InvalidArgumentException;
 use WebinoDraw\Factory\InstructionsFactory;
 use WebinoDraw\Options\ModuleOptions;
+use Zend\Stdlib\ArrayUtils;
 
 /**
  *
@@ -155,7 +156,12 @@ class InstructionsRenderer implements InstructionsRendererInterface
 
         unset($spec['instructionset']);
         foreach ($instructions->getSortedArrayCopy() as $instruction) {
-            $spec['instructions'][key($instruction)] = current($instruction);
+            $key = key($instruction);
+            if (empty($spec['instructions'][$key])) {
+                $spec['instructions'][$key] = current($instruction);
+                continue;
+            }
+            $spec['instructions'][$key] = ArrayUtils::merge(current($instruction), $spec['instructions'][$key]);
         }
 
         return $this;
