@@ -115,7 +115,7 @@ class VarTranslator
             $translation->setDefaults($spec['var']['default']);
 
         empty($spec['var']['push']) or
-            $this->getTranslation()->pushVars($spec['var']['push']);
+            $this->getTranslation()->pushVars($spec['var']['push'], $translation);
 
         return $this;
     }

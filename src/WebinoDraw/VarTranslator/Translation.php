@@ -367,10 +367,13 @@ class Translation extends ArrayObject implements
      * Push variables into translation
      *
      * @param array $options
+     * @param self $translation
      * @return self
      */
-    public function pushVars(array $options)
+    public function pushVars(array $options, self $translation = null)
     {
+        $translation and $translation->getVarTranslation()->translate($options);
+
         foreach ($options as $basePath => $value) {
             $index    = null;
             $create   = false;
