@@ -19,6 +19,7 @@ use WebinoDraw\Draw\HelperPluginManager;
 use WebinoDraw\Exception\InvalidArgumentException;
 use WebinoDraw\Factory\InstructionsFactory;
 use WebinoDraw\Options\ModuleOptions;
+use WebinoDraw\VarTranslator\Translation;
 use Zend\Stdlib\ArrayUtils;
 
 /**
@@ -85,6 +86,7 @@ class InstructionsRenderer implements InstructionsRendererInterface
      */
     public function render(NodeInterface $node, $instructions, array $vars)
     {
+        $varTranslation = (new Translation($vars))->makeVarKeys();
         $drawInstructions  = is_array($instructions)
                            ? $this->instructionsFactory->create($instructions)
                            : $instructions;
@@ -103,6 +105,7 @@ class InstructionsRenderer implements InstructionsRendererInterface
                 continue;
             }
 
+            $varTranslation->translate($spec['locator']);
             $nodes = $this->locator->locate($node, $spec['locator']);
             if (empty($nodes->length)) {
                 continue;

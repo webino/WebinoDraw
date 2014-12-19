@@ -277,6 +277,11 @@ class HomeTest extends AbstractBase
         $this->assertStringStartsWith('CACHED? ', $this::$cachedValue);
         // /cache
 
+        // locator-var
+        $loc = 'locator-var-example';
+        $elm = $this->session->element(By::CLASS_NAME, $loc);
+        $this->assertContains('LOCATOR VAR EXAMPLE OK', $elm->text());
+
         // custom-helper
         $loc = 'custom-helper-example';
         $elm = $this->session->element(By::CLASS_NAME, $loc);

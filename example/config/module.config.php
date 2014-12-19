@@ -45,6 +45,7 @@ return [
             require __DIR__ . '/draw/subInstructions.draw.php',
             require __DIR__ . '/draw/ajax.draw.php',
             require __DIR__ . '/draw/cache.draw.php',
+            require __DIR__ . '/draw/locator-var.draw.php',
             require __DIR__ . '/draw/custom-helper.draw.php',
             require __DIR__ . '/draw/pagination.draw.php'
         ),
