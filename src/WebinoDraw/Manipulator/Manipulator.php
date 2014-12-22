@@ -10,6 +10,7 @@
 
 namespace WebinoDraw\Manipulator;
 
+use WebinoDraw\Dom\NodeInterface;
 use WebinoDraw\Manipulator\Plugin\PluginArgument;
 use WebinoDraw\Manipulator\Plugin\PluginInterface;
 use WebinoDraw\VarTranslator\VarTranslator;
@@ -70,6 +71,10 @@ class Manipulator
         }
 
         foreach ($arg->getNodes() as $node) {
+            if (!($node instanceof NodeInterface)) {
+                continue;
+            }
+
             $arg->setNode($node);
 
             $this->eachPlugin(
