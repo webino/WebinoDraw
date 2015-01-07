@@ -1747,6 +1747,36 @@ return array (
       ),
     ),
   ),
+  'WebinoDraw\\VarTranslator\\Operation\\OnVar\\GreaterThanOrEqualTo' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'WebinoDraw\\VarTranslator\\Operation\\OnVar\\PluginInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+    ),
+    'parameters' => 
+    array (
+    ),
+  ),
+  'WebinoDraw\\VarTranslator\\Operation\\OnVar\\LessThanOrEqualTo' => 
+  array (
+    'supertypes' => 
+    array (
+      0 => 'WebinoDraw\\VarTranslator\\Operation\\OnVar\\PluginInterface',
+      1 => 'WebinoDraw\\VarTranslator\\Operation\\OnVar\\GreaterThanOrEqualTo',
+      2 => 'WebinoDraw\\VarTranslator\\Operation\\OnVar\\PluginInterface',
+    ),
+    'instantiator' => '__construct',
+    'methods' => 
+    array (
+    ),
+    'parameters' => 
+    array (
+    ),
+  ),
   'WebinoDraw\\VarTranslator\\Operation\\OnVar\\EqualTo' => 
   array (
     'supertypes' => 

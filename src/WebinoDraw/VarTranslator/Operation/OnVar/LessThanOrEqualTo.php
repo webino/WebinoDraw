@@ -13,13 +13,13 @@ namespace WebinoDraw\VarTranslator\Operation\OnVar;
 /**
  *
  */
-class GreaterThan implements PluginInterface
+class LessThanOrEqualTo extends GreaterThanOrEqualTo
 {
     /**
      * {@inheritDoc}
      */
     public function __invoke($value, $expected)
     {
-        return $value > $expected;
+        return !parent::__invoke($value, $expected);
     }
 }
