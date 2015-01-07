@@ -12,7 +12,6 @@ namespace WebinoDraw\VarTranslator\Operation;
 
 use WebinoDraw\VarTranslator\Operation\OnVar\PluginInterface;
 use WebinoDraw\VarTranslator\Translation;
-use Zend\Stdlib\PriorityQueue;
 
 /**
  *
@@ -20,24 +19,18 @@ use Zend\Stdlib\PriorityQueue;
 class OnVar
 {
     /**
-     * @var PriorityQueue
+     * @var array
      */
-    protected $plugins;
-
-    /**
-     */
-    public function __construct()
-    {
-        $this->plugins = new PriorityQueue;
-    }
+    protected $plugins = [];
 
     /**
      * @param PluginInterface $plugin
      * @param int $priority
      */
-    public function setPlugin(PluginInterface $plugin, $priority = 1)
+    public function setPlugin(PluginInterface $plugin)
     {
-        $this->plugins->insert($plugin, $priority);
+        $key = lcfirst(substr(strrchr(get_class($plugin), "\\"), 1));
+        $this->plugins[$key] = $plugin;
         return $this;
     }
 
@@ -50,12 +43,14 @@ class OnVar
      */
     public function apply(Translation $varTranslation, array $spec, callable $callback)
     {
-        foreach ($spec as $spec) {
-            if (!array_key_exists('var', $spec)) {
-                throw new Exception\InvalidInstructionException('Expected `var` option in ' . print_r($spec, true));
+        foreach ($spec as $subSpec) {
+            if (!array_key_exists('var', $subSpec)) {
+                throw new Exception\InvalidInstructionException(
+                    'Expected `var` option in ' . print_r($subSpec, true)
+                );
             }
 
-            $this->invokePlugins($varTranslation, $spec, $callback);
+            $this->invokePlugins($varTranslation, $subSpec, $callback);
         }
 
         return $this;
@@ -70,20 +65,24 @@ class OnVar
     protected function invokePlugins(Translation $varTranslation, array $spec, callable $callback)
     {
         $value = $varTranslation->removeVars($varTranslation->translateString($spec['var']));
-        $pass  = true;
+        $pass  = false;
 
-        foreach ($this->plugins as $plugin) {
-            $pluginKey = lcfirst(substr(strrchr(get_class($plugin), "\\"), 1));
-            if (!array_key_exists($pluginKey, $spec)) {
+        foreach ($spec as $key => $subValue) {
+            if (null === $subValue) {
                 continue;
             }
 
-            $expected = $varTranslation->removeVars($varTranslation->translateString($spec[$pluginKey]));
-            $this->fixTypes($value, $expected);
-            $pass = $plugin($value, $expected);
-            if (!$pass) {
-                break;
+            $isAnd = (0 === strpos($key, 'and'));
+            $isAnd and $key = lcfirst(substr($key, 3));
+
+            if (empty($this->plugins[$key])) {
+                continue;
             }
+
+            $expected = $varTranslation->removeVars($varTranslation->translateString($subValue));
+            $this->fixTypes($value, $expected);
+            $bool = $this->plugins[$key]->__invoke($value, $expected);
+            $pass = $isAnd ? $pass && $bool : $pass || $bool;
         }
 
         $pass and $callback($spec);

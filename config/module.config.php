@@ -154,22 +154,10 @@ return [
             'WebinoDraw\VarTranslator\Operation\OnVar' => [
                 'injections' => [
                     'setPlugin' => [
-                        [
-                            'plugin'   => 'WebinoDraw\VarTranslator\Operation\OnVar\EqualTo',
-                            'priority' => 100,
-                        ],
-                        [
-                            'plugin'   => 'WebinoDraw\VarTranslator\Operation\OnVar\NotEqualTo',
-                            'priority' => 90,
-                        ],
-                        [
-                            'plugin'   => 'WebinoDraw\VarTranslator\Operation\OnVar\GreaterThan',
-                            'priority' => 80,
-                        ],
-                        [
-                            'plugin'   => 'WebinoDraw\VarTranslator\Operation\OnVar\LessThan',
-                            'priority' => 70,
-                        ],
+                        ['plugin' => 'WebinoDraw\VarTranslator\Operation\OnVar\EqualTo'],
+                        ['plugin' => 'WebinoDraw\VarTranslator\Operation\OnVar\NotEqualTo'],
+                        ['plugin' => 'WebinoDraw\VarTranslator\Operation\OnVar\LessThan'],
+                        ['plugin' => 'WebinoDraw\VarTranslator\Operation\OnVar\GreaterThan'],
                     ],
                 ],
             ],

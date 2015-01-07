@@ -1699,7 +1699,6 @@ return array (
     'instantiator' => '__construct',
     'methods' => 
     array (
-      '__construct' => 3,
       'setPlugin' => 0,
     ),
     'parameters' => 
@@ -1712,13 +1711,6 @@ return array (
           1 => 'WebinoDraw\\VarTranslator\\Operation\\OnVar\\PluginInterface',
           2 => true,
           3 => NULL,
-        ),
-        'WebinoDraw\\VarTranslator\\Operation\\OnVar::setPlugin:1' => 
-        array (
-          0 => 'priority',
-          1 => NULL,
-          2 => false,
-          3 => 1,
         ),
       ),
     ),
@@ -1745,36 +1737,6 @@ return array (
           3 => NULL,
         ),
       ),
-    ),
-  ),
-  'WebinoDraw\\VarTranslator\\Operation\\OnVar\\GreaterThanOrEqualTo' => 
-  array (
-    'supertypes' => 
-    array (
-      0 => 'WebinoDraw\\VarTranslator\\Operation\\OnVar\\PluginInterface',
-    ),
-    'instantiator' => '__construct',
-    'methods' => 
-    array (
-    ),
-    'parameters' => 
-    array (
-    ),
-  ),
-  'WebinoDraw\\VarTranslator\\Operation\\OnVar\\LessThanOrEqualTo' => 
-  array (
-    'supertypes' => 
-    array (
-      0 => 'WebinoDraw\\VarTranslator\\Operation\\OnVar\\PluginInterface',
-      1 => 'WebinoDraw\\VarTranslator\\Operation\\OnVar\\GreaterThanOrEqualTo',
-      2 => 'WebinoDraw\\VarTranslator\\Operation\\OnVar\\PluginInterface',
-    ),
-    'instantiator' => '__construct',
-    'methods' => 
-    array (
-    ),
-    'parameters' => 
-    array (
     ),
   ),
   'WebinoDraw\\VarTranslator\\Operation\\OnVar\\EqualTo' => 
@@ -1825,8 +1787,6 @@ return array (
     'supertypes' => 
     array (
       0 => 'WebinoDraw\\VarTranslator\\Operation\\OnVar\\PluginInterface',
-      1 => 'WebinoDraw\\VarTranslator\\Operation\\OnVar\\GreaterThan',
-      2 => 'WebinoDraw\\VarTranslator\\Operation\\OnVar\\PluginInterface',
     ),
     'instantiator' => '__construct',
     'methods' => 
