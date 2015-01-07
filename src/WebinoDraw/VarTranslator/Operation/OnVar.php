@@ -70,6 +70,8 @@ class OnVar
     protected function invokePlugins(Translation $varTranslation, array $spec, callable $callback)
     {
         $value = $varTranslation->removeVars($varTranslation->translateString($spec['var']));
+        $pass  = true;
+
         foreach ($this->plugins as $plugin) {
             $pluginKey = lcfirst(substr(strrchr(get_class($plugin), "\\"), 1));
             if (!array_key_exists($pluginKey, $spec)) {
@@ -78,9 +80,13 @@ class OnVar
 
             $expected = $varTranslation->removeVars($varTranslation->translateString($spec[$pluginKey]));
             $this->fixTypes($value, $expected);
-            !$plugin($value, $expected) or $callback($spec);
+            $pass = $plugin($value, $expected);
+            if (!$pass) {
+                break;
+            }
         }
 
+        $pass and $callback($spec);
         return $this;
     }
 
