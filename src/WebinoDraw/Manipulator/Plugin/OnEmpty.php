@@ -46,7 +46,7 @@ class OnEmpty implements InLoopPluginInterface
         }
 
         $onEmptySpec = $spec['onEmpty'];
-        $nodes       = $arg->getNodes();
+        $nodes       = $arg->getNodes()->create([$node]);
         $translation = $arg->getTranslation();
 
         if (!empty($onEmptySpec['locator'])) {
