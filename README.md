@@ -1,23 +1,17 @@
 # XHTML Layout Renderer <br /> for Zend Framework 2
 
-  [![Build Status](https://secure.travis-ci.org/webino/WebinoDraw.png?branch=master)](http://travis-ci.org/webino/WebinoDraw "Master Build Status")
-  [![Coverage Status](https://coveralls.io/repos/webino/WebinoDraw/badge.png?branch=master)](https://coveralls.io/r/webino/WebinoDraw?branch=master "Master Coverage Status")
-  [![Dependency Status](https://www.versioneye.com/user/projects/529f8dea632bac8958000033/badge.png)](https://www.versioneye.com/user/projects/529f8dea632bac8958000033 "Master Dependency Status")
-  [![Build Status](https://secure.travis-ci.org/webino/WebinoDraw.png?branch=develop)](http://travis-ci.org/webino/WebinoDraw "Develop Build Status")
-  [![Coverage Status](https://coveralls.io/repos/webino/WebinoDraw/badge.png?branch=develop)](https://coveralls.io/r/webino/WebinoDraw?branch=develop "Develop Coverage Status")
-  [![Dependency Status](https://www.versioneye.com/user/projects/529f8de6632bac79c600003d/badge.png)](https://www.versioneye.com/user/projects/529f8de6632bac79c600003d "Develop Dependency Status")
+[![Build Status](https://secure.travis-ci.org/webino/WebinoDraw.png?branch=develop)](http://travis-ci.org/webino/WebinoDraw "Develop Build Status")
+[![Coverage Status](https://coveralls.io/repos/webino/WebinoDraw/badge.png?branch=develop)](https://coveralls.io/r/webino/WebinoDraw?branch=develop "Develop Coverage Status")
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/webino/WebinoDraw/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/webino/WebinoDraw/?branch=develop "Develop Quality Score")
+[![Dependency Status](https://www.versioneye.com/user/projects/529f8de6632bac79c600003d/badge.svg)](https://www.versioneye.com/user/projects/529f8de6632bac79c600003d "Develop Dependency Status")
+<br />
+[![Latest Stable Version](https://poser.pugx.org/webino/webino-debug/v/stable.svg)](https://packagist.org/packages/webino/webino-debug) [![Total Downloads](https://poser.pugx.org/webino/webino-debug/downloads.svg)](https://packagist.org/packages/webino/webino-debug) [![Latest Unstable Version](https://poser.pugx.org/webino/webino-debug/v/unstable.svg)](https://packagist.org/packages/webino/webino-debug) [![License](https://poser.pugx.org/webino/webino-debug/license.svg)](https://packagist.org/packages/webino/webino-debug)
 
-  [![Latest Stable Version](https://poser.pugx.org/webino/webino-draw/v/stable.png)](https://packagist.org/packages/webino/webino-draw "Latest Stable Version")
-  [![Latest Unstable Version](https://poser.pugx.org/webino/webino-draw/v/unstable.png)](https://packagist.org/packages/webino/webino-draw "Latest Unstable Version")
-  [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/webino/WebinoDraw/badges/quality-score.png?s=65f766be2d200ae47c60adbd062bce6e65d6823f)](https://scrutinizer-ci.com/g/webino/WebinoDraw/ "Quality Score")
-  [![Montly Downloads](https://poser.pugx.org/webino/webino-draw/d/monthly.png)](https://packagist.org/packages/webino/webino-draw "Monthly Downloads")
-  [![Total Downloads](https://poser.pugx.org/webino/webino-draw/downloads.png)](https://packagist.org/packages/webino/webino-draw "Total Downloads")
+Provides ability to configure rendering of the layout. **Still under development, use it for play.**
 
-  Provides ability to configure rendering of the layout. **Still under development, use it for play.**
+<br />
 
-  <br />
-
-  ![WebinoDraw principle](http://static.webino.org/documentation/webino_draw_principle.png)
+![WebinoDraw principle](http://static.webino.org/documentation/webino_draw_principle.png)
 
 ## Features
 
@@ -642,7 +636,7 @@
 
 ## Examples
 
-  Look for more examples in: `example/config/module.config.php`
+  Look for more examples in: `examples/config/module.config.php`
 
 ### Manual setup
 
@@ -658,66 +652,13 @@
 
 [Check out wiki for more examples](https://github.com/webino/WebinoDraw/wiki)
 
-## Develop
+## Development
 
 [![Dependency Status](https://www.versioneye.com/user/projects/52f494eaec1375d0a6000023/badge.png)](https://www.versioneye.com/user/projects/52f494eaec1375d0a6000023)
 
-This package uses Grunt task runner to automating the development.
+We will appreciate any contributions on development of this module.
 
-### Requirements
-
-  - [PSR-2 coding style](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)
-  - [Linux](http://www.ubuntu.com/download)
-  - [NetBeans](https://netbeans.org/downloads/) (recommended)
-  - [NPM](https://npmjs.org/)
-  - [Grunt](http://gruntjs.com/getting-started)
-  - [PHPUnit](http://phpunit.de/manual/3.7/en/installation.html)
-  - [Selenium](http://www.seleniumhq.org/)
-  - [HtmlUnit](http://htmlunit.sourceforge.net/)
-  - [Web browser](https://www.google.com/intl/sk/chrome/browser/) (recommended)
-
-### Setup
-
-Setting up development environment of the package.
-
-  1. Clone this repository and run: `npm install`
-
-  2. To update development environment run: `grunt update`
-
-     *Now your development environment is set.*
-
-  3. Open project in (NetBeans) IDE
-
-  4. To check module integration with the skeleton application open following directory via web browser:
-     `._test/ZendSkeletonApplication/public/`
-
-     e.g. [http://localhost/webino/modules/WebinoDraw/._test/ZendSkeletonApplication/public/](http://localhost/webino/modules/WebinoDraw/._test/ZendSkeletonApplication/public/)
-
-  5. Integration test resources are in directory: `test/resources`
-
-     *NOTE: Module example config is also used for integration testing.*
-
-### Testing
-
-  - Run `phpunit` in the test directory
-  - Run `grunt test` in the module directory to run the tests and code analysis
-
-    *NOTE: To run the code analysis there are some tool requirements.*
-      - [pdepend](http://pdepend.org/)
-      - [phpcb](https://github.com/Mayflower/PHP_CodeBrowser)
-      - [phpcpd](https://github.com/sebastianbergmann/phpcpd)
-      - [phpcs](http://pear.php.net/package/PHP_CodeSniffer/)
-      - [phpdoc](http://www.phpdoc.org/)
-      - [phploc](https://github.com/sebastianbergmann/phploc)
-      - [phpmd](http://phpmd.org/download/index.html)
-
-    *NOTE: Those tools are present after development environment is based.*
-
-  - Run `grunt selenium_test` in the module directory to run the Selenium WebDriver tests
-
-    *NOTE: To specify the testing URI set the uri option, e.g. `grunt selenium_test -uri http://example.com/`*
-
-    *NOTE: Selenium server will be started/stopped automatically, assuming `/etc/init.d/selenium` is available to run.*
+Learn [How to develop Webino modules](https://github.com/webino/Webino/wiki/How-to-develop-Webino-module)
 
 ## Todo
 

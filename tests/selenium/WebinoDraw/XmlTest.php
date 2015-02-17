@@ -10,22 +10,21 @@
 
 namespace WebinoDraw;
 
-use DOMDocument as DomDocument;
-use DOMXPath as DomXpath;
+use WebinoDev\Test\DomTrait;
 
 /**
  *
  */
-class XmlTest extends AbstractBase
+class XmlTest extends AbstractTestCase
 {
+    use DomTrait;
+
     /**
      *
      */
     public function testXml()
     {
-        $dom = new DomDocument;
-        $dom->load($this->uri . 'xml');
-        $dom->xpath = new DomXpath($dom);
+        $dom = $this->createXmlDom($this->source($this->uri . 'xml'));
 
         $loc = '/root/cdataExample';
         $elm = $dom->xpath->query($loc)->item(0);

@@ -1,25 +1,21 @@
 language: php
-
 php:
-  - 5.4
-  - 5.5
-  - 5.6
-  - hhvm
-
+- 5.4
+- 5.5
+- 5.6
+before_install:
+- curl -s http://get.webino.org/support/travis/before-install | sudo -E sh
 install:
-  - composer install
-
+- curl -s http://get.webino.org/support/travis/install | sh
+before_script:
+- curl -s http://get.webino.org/support/travis/before-script | sh
 script:
-  - mkdir -p build/logs
-  - cd test
-  - phpunit --coverage-clover ../build/logs/clover.xml
-  - cd ..
-  - vendor/bin/phpcs --standard=PSR2 src test
-
-after_script:
-  - vendor/bin/coveralls -v
-
-matrix:
-  fast_finish: true
-  allow_failures:
-    - php: hhvm
+- curl -s http://get.webino.org/support/travis/script | sh
+after_success:
+- curl -s http://get.webino.org/support/travis/after-success | sh
+env:
+  global:
+  - URI=http://localhost:8000/
+  - BROWSER=chrome
+  - GH_REF=github.com/webino/WebinoDraw
+  - secure: VVtMRmIvrQ0m+bf1pzbF0XTHMSQmyxd+avIR1PmcoKpGPQ6JTYXY4sU1ZKVGJtp9qm/6NOTgj9syd41anOnkoh9rOkMztwryqThsi7Qe+MYV9+2yJZHD1P4+RD5+hq/NUU04bvImpV27Hvfgm7WYTTU9IEqh8sdRE6S1h5bl2Vc=

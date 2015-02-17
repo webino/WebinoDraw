@@ -12,11 +12,17 @@ namespace WebinoDraw\Test;
 
 use RuntimeException;
 
-chdir(__DIR__);
-
+/**
+ * Initialize vendor autoloader
+ */
 $loader = @include __DIR__ . '/../../vendor/autoload.php';
 if (empty($loader)) {
     throw new RuntimeException('Unable to load. Run `php composer.phar install`.');
 }
 
-$loader->add('WebinoDraw', __DIR__);
+$loader->add('Application', __DIR__ . '/src');
+$loader->add('WebinoDraw', __DIR__ . '/src');
+$loader->add('WebinoDraw', __DIR__ . '/../../src');
+$loader->add('WebinoDraw', __DIR__ . '/../functional');
+$loader->add('WebinoDraw', __DIR__ . '/../selenium');
+$loader->add('WebinoDraw', __DIR__ . '/..');

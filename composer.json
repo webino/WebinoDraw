@@ -24,25 +24,16 @@
     ],
     "require": {
         "php": ">=5.4",
-        "zendframework/zendframework": "dev-develop as 2.2.0"
+        "zendframework/zendframework": "2.*"
     },
     "require-dev": {
-        "element-34/php-webdriver": "1.*",
-        "mayflower/php-codebrowser": "*",
-        "pdepend/pdepend": "2.*",
-        "phpdocumentor/phpdocumentor": "2.*",
-        "phploc/phploc": "*",
-        "phpmd/phpmd": "2.*",
-        "phpunit/phpunit": "4.*",
-        "satooshi/php-coveralls": "0.*",
-        "sebastian/phpcpd": "*",
-        "squizlabs/php_codesniffer": "1.*",
-        "webino/zf2nette-debug" : "1.*",
+        "webino/webino-dev": "dev-develop",
+        "webino/webino-debug": "dev-develop",
+        "allure-framework/allure-phpunit": "1.*",
+        "zendframework/zendframework": "dev-develop",
         "zendframework/zend-developer-tools": "dev-master"
     },
     "autoload": {
-        "psr-0": {
-            "WebinoDraw": "src/"
-        }
+        "psr-0": {"WebinoDraw": "src/"}
     }
 }

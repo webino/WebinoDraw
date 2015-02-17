@@ -124,8 +124,8 @@ return [
         ],
         'toolbar' => [
             'enabled'       => true,
-            'auto_hide'     => false,
-            'position'      => 'bottom',
+            'auto_hide'     => true,
+            'position'      => 'top',
             'version_check' => true,
             'entries'       => [],
         ],
