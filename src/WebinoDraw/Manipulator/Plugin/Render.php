@@ -40,9 +40,10 @@ class Render implements PreLoopPluginInterface
             return;
         }
 
-        $translation = $arg->getTranslation();
+        $translation    = $arg->getTranslation();
+        $varTranslation = $translation->makeVarKeys(clone $translation);
         foreach ($spec['render'] as $key => $value) {
-            $translation[$key] = $this->renderer->render($value);
+            $translation[$key] = $this->renderer->render($varTranslation->translateString($value));
         }
     }
 }
