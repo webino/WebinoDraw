@@ -70,7 +70,7 @@ class Manipulator
             return;
         }
 
-        foreach ($arg->getNodes() as $node) {
+        foreach ($arg->getNodes()->toArray() as $node) {
             if (!($node instanceof NodeInterface)) {
                 continue;
             }
@@ -117,7 +117,7 @@ class Manipulator
     {
         foreach ($this->plugins as $plugin) {
             !is_subclass_of($plugin, $className) or
-                $callback($plugin);
+            $callback($plugin);
         }
         return $this;
     }
