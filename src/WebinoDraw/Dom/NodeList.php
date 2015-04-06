@@ -46,7 +46,7 @@ class NodeList implements IteratorAggregate
     {
         $this->locator = $locator;
         empty($nodes) or
-            $this->setNodes($nodes);
+        $this->setNodes($nodes);
     }
 
     /**
@@ -198,10 +198,10 @@ class NodeList implements IteratorAggregate
         foreach ($this as $node) {
             // prepare callback
             $callback = $preSet
-                      ? function ($value) use ($node, $preSet) {
-                            return $preSet($node, $value, $this);
-                      }
-                      : null;
+                ? function ($value) use ($node, $preSet) {
+                    return $preSet($node, $value, $this);
+                }
+                : null;
 
             $node->setAttributes($attribs, $callback);
         }
@@ -265,7 +265,7 @@ class NodeList implements IteratorAggregate
 
         foreach ($remove as $node) {
             empty($node->parentNode) or
-                $node->parentNode->removeChild($node);
+            $node->parentNode->removeChild($node);
         }
 
         return $this;
@@ -298,5 +298,22 @@ class NodeList implements IteratorAggregate
         }
 
         return $this;
+    }
+
+    /**
+     * Return nodes in array
+     *
+     * Error-free nodes
+     * manipulation in a loop.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $return = [];
+        foreach ($this->nodes as $node) {
+            $return[] = $node;
+        }
+        return $return;
     }
 }
