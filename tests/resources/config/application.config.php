@@ -15,10 +15,15 @@ namespace WebinoDraw;
  */
 return [
     'modules' => [
+        'WebinoDev',
         'WebinoDebug',
-        'ZendDeveloperTools',
         'Application',
         __NAMESPACE__,
+    ],
+    'webino_debug' => [
+        // Development mode
+        'mode' => false,
+        'bar'  => true,
     ],
     'module_listener_options' => [
         'config_glob_paths' => [
