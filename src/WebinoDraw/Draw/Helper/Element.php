@@ -3,7 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2015 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
@@ -31,17 +31,19 @@ class Element extends AbstractHelper
             ->setNodes($nodes);
 
         $cache = $this->getCache();
-        if (empty($spec['loop']) && $cache->load($event)) {
+        $cacheEvent = clone $event;
+
+        if (empty($spec['loop']) && $cache->load($cacheEvent)) {
             return;
         }
 
-        !array_key_exists('trigger', $spec) or
-            $this->trigger($spec['trigger'], $event);
+        array_key_exists('trigger', $spec)
+            and $this->trigger($spec['trigger'], $event);
 
         $this->drawNodes($nodes, $event->getSpec()->getArrayCopy());
 
-        !empty($spec['loop']) or
-            $cache->save($event);
+        empty($spec['loop'])
+            and $cache->save($cacheEvent);
 
     }
 }
