@@ -3,12 +3,13 @@
  * Webino (http://webino.sk/)
  *
  * @link        https://github.com/webino/WebinoDraw/ for the canonical source repository
- * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk/)
+ * @copyright   Copyright (c) 2012-2015 Webino, s. r. o. (http://webino.sk/)
  * @license     BSD-3-Clause
  */
 
 namespace Application\Controller;
 
+use WebinoDraw\Cache\DrawCache;
 use WebinoDraw\Event\AjaxEvent;
 use WebinoDraw\Event\DrawEvent;
 use WebinoDraw\Event\DrawFormEvent;
@@ -152,8 +153,8 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
         );
 
         // 5) clear the draw cache example
-        !isset($this->request->getQuery()->clearcache) or
-            $this->getServiceLocator()->get('WebinoDrawCache')->clearByTags(['example']);
+        isset($this->request->getQuery()->clearcache)
+            and $this->getServiceLocator()->get(DrawCache::STORAGE)->clearByTags(['example']);
 
         // test view variables
         return [
@@ -227,10 +228,7 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
                     'item' => [
                         'locator' => 'li',
                         'value'   => '{$_index} {$text}',
-
-                        'loop' => [
-                            'base' => 'long_list',
-                        ],
+                        'loop'    => ['base' => 'long_list'],
                     ],
                 ],
             ],
