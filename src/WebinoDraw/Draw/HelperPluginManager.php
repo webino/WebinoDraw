@@ -3,20 +3,26 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2015 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw\Draw;
 
-use WebinoDraw\Exception\InvalidHelperException;
+use WebinoDraw\Cache\DrawCache;
+use WebinoDraw\Draw\Helper\Element;
+use WebinoDraw\Draw\Helper\Factory\AbsolutizeFactory;
+use WebinoDraw\Draw\Helper\Factory\FormFactory;
+use WebinoDraw\Exception;
 use WebinoDraw\Draw\Helper\HelperInterface;
+use WebinoDraw\Manipulator\Manipulator;
+use WebinoDraw\VarTranslator\VarTranslator;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ConfigInterface;
 
 /**
- *
+ * Class HelperPluginManager
  */
 class HelperPluginManager extends AbstractPluginManager
 {
@@ -26,8 +32,8 @@ class HelperPluginManager extends AbstractPluginManager
      * @var array
      */
     protected $factories = [
-        'webinodrawabsolutize' => 'WebinoDraw\Draw\Helper\Factory\AbsolutizeFactory',
-        'webinodrawform'       => 'WebinoDraw\Draw\Helper\Factory\FormFactory',
+        'webinodrawabsolutize' => AbsolutizeFactory::class,
+        'webinodrawform'       => FormFactory::class,
     ];
 
     /**
@@ -36,7 +42,7 @@ class HelperPluginManager extends AbstractPluginManager
      * @var array
      */
     protected $invokableClasses = [
-        'webinodrawelement' => 'WebinoDraw\Draw\Helper\Element',
+        'webinodrawelement' => Element::class,
     ];
 
     /**
@@ -88,8 +94,8 @@ class HelperPluginManager extends AbstractPluginManager
             return;
         }
 
-        if ($locator->has('WebinoDraw\Manipulator\Manipulator')) {
-            $helper->setManipulator($locator->get('WebinoDraw\Manipulator\Manipulator'));
+        if ($locator->has(Manipulator::class)) {
+            $helper->setManipulator($locator->get(Manipulator::class));
             return;
         }
     }
@@ -106,8 +112,8 @@ class HelperPluginManager extends AbstractPluginManager
             return;
         }
 
-        if ($locator->has('WebinoDraw\VarTranslator\VarTranslator')) {
-            $helper->setVarTranslator($locator->get('WebinoDraw\VarTranslator\VarTranslator'));
+        if ($locator->has(VarTranslator::class)) {
+            $helper->setVarTranslator($locator->get(VarTranslator::class));
             return;
         }
     }
@@ -124,8 +130,8 @@ class HelperPluginManager extends AbstractPluginManager
             return;
         }
 
-        if ($locator->has('WebinoDraw\Cache\DrawCache')) {
-            $helper->setCache($locator->get('WebinoDraw\Cache\DrawCache'));
+        if ($locator->has(DrawCache::class)) {
+            $helper->setCache($locator->get(DrawCache::class));
             return;
         }
     }
@@ -145,7 +151,7 @@ class HelperPluginManager extends AbstractPluginManager
             return;
         }
 
-        throw new InvalidHelperException(
+        throw new Exception\InvalidHelperException(
             sprintf(
                 'Plugin of type %s is invalid; must implement %s\Helper\HelperInterface',
                 (is_object($plugin) ? get_class($plugin) : gettype($plugin)),
