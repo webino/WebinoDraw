@@ -3,7 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2015 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
@@ -11,6 +11,7 @@
 namespace WebinoDraw\Instructions;
 
 use ArrayObject;
+use DOMNodeList;
 use WebinoDraw\Dom\NodeInterface;
 use WebinoDraw\Dom\Factory\NodeListFactory;
 use WebinoDraw\Dom\Locator;
@@ -23,7 +24,7 @@ use WebinoDraw\VarTranslator\Translation;
 use Zend\Stdlib\ArrayUtils;
 
 /**
- *
+ * Class InstructionsRenderer
  */
 class InstructionsRenderer implements InstructionsRendererInterface
 {
@@ -58,11 +59,11 @@ class InstructionsRenderer implements InstructionsRendererInterface
     protected $drawOptions;
 
     /**
-     * @param HelperPluginManager $drawHelpers
+     * @param object|HelperPluginManager $drawHelpers
      * @param Locator $locator
      * @param NodeListFactory $nodeListFactory
      * @param InstructionsFactory $instructionsFactory
-     * @param ModuleOptions $drawOptions
+     * @param object|ModuleOptions $drawOptions
      */
     public function __construct(
         HelperPluginManager $drawHelpers,
@@ -87,36 +88,75 @@ class InstructionsRenderer implements InstructionsRendererInterface
     public function render(NodeInterface $node, $instructions, array $vars)
     {
         $varTranslation = (new Translation($vars))->makeVarKeys();
-        $drawInstructions  = is_array($instructions)
-                           ? $this->instructionsFactory->create($instructions)
-                           : $instructions;
+        $drawInstructions = is_array($instructions)
+                          ? $this->instructionsFactory->create($instructions)
+                          : $instructions;
 
         if (!($drawInstructions instanceof Instructions)) {
             throw new InvalidArgumentException('Expected instructions as array|InstructionsInterface');
         }
 
         foreach ($drawInstructions->getSortedArrayCopy() as $specs) {
-            // one node per stackIndex
-            $spec = current($specs);
+            $spec = $this->createNodeSpec($specs);
             unset($specs);
 
-            if (empty($spec['locator']) || empty($node->ownerDocument)) {
-                // locator not set or node already removed
+            if ($this->resolveIsNodeDisabled($node, $spec)) {
                 continue;
             }
 
             $varTranslation->translate($spec['locator']);
             $nodes = $this->locator->locate($node, $spec['locator']);
-            if (empty($nodes->length)) {
+            if ($this->resolveIsEmptyNodes($nodes)) {
                 continue;
             }
 
             $helper = !empty($spec['helper']) ? $spec['helper'] : self::DEFAULT_DRAW_HELPER;
-
-            $this->drawHelpers->get($helper)
-                ->setVars($vars)
-                ->__invoke($this->nodeListFactory->create($nodes), $spec);
+            $this->drawNodes($nodes, $helper, $spec, $vars);
         }
+    }
+
+    /**
+     * @param array $specs
+     * @return array
+     */
+    protected function createNodeSpec(array $specs)
+    {
+        // one node per stackIndex
+        $spec = current($specs);
+        return $spec;
+    }
+
+    /**
+     * @param DOMNodeList $nodes
+     * @param string $helper
+     * @param array $spec
+     * @param array $vars
+     */
+    protected function drawNodes(DOMNodeList $nodes, $helper, array $spec, array $vars)
+    {
+        $this->drawHelpers->get((string) $helper)
+            ->setVars($vars)
+            ->__invoke($this->nodeListFactory->create($nodes), $spec);
+    }
+
+    /**
+     * @param NodeInterface $node
+     * @param array $spec
+     * @return bool
+     */
+    protected function resolveIsNodeDisabled(NodeInterface $node, array $spec)
+    {
+        // locator not set or node already removed
+        return empty($spec['locator']) || empty($node->ownerDocument);
+    }
+
+    /**
+     * @param DOMNodeList|null $nodes
+     * @return bool
+     */
+    protected function resolveIsEmptyNodes(DOMNodeList $nodes = null)
+    {
+        return empty($nodes->length);
     }
 
     /**
