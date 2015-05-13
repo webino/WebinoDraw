@@ -3,7 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2015 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
@@ -17,7 +17,7 @@ use WebinoDraw\VarTranslator\VarTranslator;
 use Zend\Stdlib\PriorityQueue;
 
 /**
- *
+ * Class Manipulator
  */
 class Manipulator
 {
@@ -60,14 +60,14 @@ class Manipulator
         $arg = $this->createPluginArgument($options);
 
         $this->eachPlugin(
-            __NAMESPACE__ . '\Plugin\PreLoopPluginInterface',
+            Plugin\PreLoopPluginInterface::class,
             function ($plugin) use ($arg) {
                 $plugin->preLoop($arg);
             }
         );
 
         if ($arg->isManipulationStopped()) {
-            return;
+            return $this;
         }
 
         foreach ($arg->getNodes()->toArray() as $node) {
@@ -78,19 +78,19 @@ class Manipulator
             $arg->setNode($node);
 
             $this->eachPlugin(
-                __NAMESPACE__ . '\Plugin\InLoopPluginInterface',
+                Plugin\InLoopPluginInterface::class,
                 function ($plugin) use ($arg) {
                     $plugin->inLoop($arg);
                 }
             );
 
             if ($arg->isManipulationStopped()) {
-                return;
+                return $this;
             }
         }
 
         $this->eachPlugin(
-            __NAMESPACE__ . '\Plugin\PostLoopPluginInterface',
+            Plugin\PostLoopPluginInterface::class,
             function ($plugin) use ($arg) {
                 $plugin->postLoop($arg);
             }
@@ -116,9 +116,10 @@ class Manipulator
     protected function eachPlugin($className, callable $callback)
     {
         foreach ($this->plugins as $plugin) {
-            !is_subclass_of($plugin, $className) or
-            $callback($plugin);
+            is_subclass_of($plugin, $className)
+                and $callback($plugin);
         }
+
         return $this;
     }
 }
