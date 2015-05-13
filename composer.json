@@ -29,9 +29,7 @@
     "require-dev": {
         "webino/webino-dev": "dev-develop",
         "webino/webino-debug": "dev-develop",
-        "allure-framework/allure-phpunit": "1.*",
-        "zendframework/zendframework": "dev-develop",
-        "zendframework/zend-developer-tools": "dev-master"
+        "zendframework/zendframework": "dev-develop"
     },
     "autoload": {
         "psr-0": {"WebinoDraw": "src/"}
