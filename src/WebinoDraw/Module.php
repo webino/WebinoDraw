@@ -3,21 +3,30 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2015 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw;
 
+use WebinoDebug\Factory\DebuggerFactory;
+use WebinoDraw\Debugger\Bar\DrawPanel;
+use WebinoDraw\Draw\HelperPluginManager;
+use WebinoDraw\Draw\LoopHelperPluginManager;
 use WebinoDraw\Exception;
+use WebinoDraw\Factory\HelperPluginManagerFactory;
+use WebinoDraw\Factory\LoopHelperPluginManagerFactory;
+use WebinoDraw\ModuleManager\Feature\WebinoDrawHelperProviderInterface;
+use WebinoDraw\ModuleManager\Feature\WebinoDrawLoopHelperProviderInterface;
+use Zend\Filter\FilterPluginManager;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\ModuleManager\ModuleEvent;
 use Zend\ModuleManager\ModuleManager;
 use Zend\ModuleManager\ModuleManagerInterface;
 
 /**
- *
+ * Class Module
  */
 class Module implements ConfigProviderInterface
 {
@@ -35,28 +44,35 @@ class Module implements ConfigProviderInterface
         // Register draw helper manager
         $services->setFactory(
             'WebinoDrawHelperManager',
-            'WebinoDraw\Factory\HelperPluginManagerFactory'
+            HelperPluginManagerFactory::class
         );
         $services->get('ServiceListener')->addServiceManager(
             'WebinoDrawHelperManager',
             'webino_draw_helpers',
-            'WebinoDraw\ModuleManager\Feature\WebinoDrawHelperProviderInterface',
+            WebinoDrawHelperProviderInterface::class,
             'getWebinoDrawHelperConfig'
         );
 
         // Register draw loop helper manager
         $services->setFactory(
             'WebinoDrawLoopHelperManager',
-            'WebinoDraw\Factory\LoopHelperPluginManagerFactory'
+            LoopHelperPluginManagerFactory::class
         );
         $services->get('ServiceListener')->addServiceManager(
             'WebinoDrawLoopHelperManager',
             'webino_draw_loop_helpers',
-            'WebinoDraw\ModuleManager\Feature\WebinoDrawLoopHelperProviderInterface',
+            WebinoDrawLoopHelperProviderInterface::class,
             'getWebinoDrawLoopHelperConfig'
         );
 
-        //
+        // Register debugger bar panel
+        /** @var \WebinoDebug\Service\Debugger $debugger */
+        $debugger = $services->get(DebuggerFactory::SERVICE);
+        if ($debugger->getOptions()->isEnabled()) {
+            $debugger->setBarPanel(new DrawPanel($modules), DrawPanel::ID);
+        }
+
+        // Fixing some DI issues but deprecated
         $manager->getEventManager()->attach(
             ModuleEvent::EVENT_LOAD_MODULES_POST,
             function () use ($services) {
@@ -73,19 +89,19 @@ class Module implements ConfigProviderInterface
                 // @link https://github.com/zendframework/zf2/issues/6290
                 $instances->addSharedInstance(
                     $services->get('ViewHelperManager'),
-                    'Zend\View\HelperPluginManager'
+                    HelperPluginManager::class
                 );
                 $instances->addSharedInstance(
                     $services->get('FilterManager'),
-                    'Zend\Filter\FilterPluginManager'
+                    FilterPluginManager::class
                 );
                 $instances->addSharedInstance(
                     $services->get('WebinoDrawHelperManager'),
-                    'WebinoDraw\Draw\HelperPluginManager'
+                    HelperPluginManager::class
                 );
                 $instances->addSharedInstance(
                     $services->get('WebinoDrawLoopHelperManager'),
-                    'WebinoDraw\Draw\LoopHelperPluginManager'
+                    LoopHelperPluginManager::class
                 );
             }
         );
