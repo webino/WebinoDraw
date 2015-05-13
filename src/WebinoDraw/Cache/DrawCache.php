@@ -3,7 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2015 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
@@ -12,7 +12,7 @@ namespace WebinoDraw\Cache;
 
 use DOMNode;
 use WebinoDraw\Event\DrawEvent;
-use Zend\Cache\Storage\Adapter\Filesystem;
+use Zend\Cache\Storage\StorageInterface;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerAwareTrait;
 
@@ -24,7 +24,12 @@ class DrawCache implements EventManagerAwareInterface
     use EventManagerAwareTrait;
 
     /**
-     * @var Filesystem
+     * Cache storage service name
+     */
+    const STORAGE = 'WebinoDrawCache';
+
+    /**
+     * @var StorageInterface
      */
     protected $cache;
 
@@ -34,9 +39,9 @@ class DrawCache implements EventManagerAwareInterface
     protected $eventIdentifier = 'WebinoDraw';
 
     /**
-     * @param Filesystem $cache
+     * @param StorageInterface|object $cache
      */
-    public function __construct(Filesystem $cache)
+    public function __construct(StorageInterface $cache)
     {
         $this->cache = $cache;
     }
@@ -112,14 +117,16 @@ class DrawCache implements EventManagerAwareInterface
             $specCacheKey = $spec['cache_key'];
             $helper       = $event->getHelper();
 
-            $helper->getVarTranslator()->createTranslation($helper->getVars())->getVarTranslation()
+            $helper->getVarTranslator()
+                ->createTranslation($helper->getVars())
+                ->getVarTranslation()
                 ->translate($specCacheKey);
 
             $cacheKey .= join('', $specCacheKey);
         }
 
-        empty($spec['cache_key_trigger']) or
-            $cacheKey .= $this->cacheKeyTrigger((array) $spec['cache_key_trigger'], $event);
+        empty($spec['cache_key_trigger'])
+            or $cacheKey .= $this->cacheKeyTrigger((array) $spec['cache_key_trigger'], $event);
 
         return md5($cacheKey);
     }
