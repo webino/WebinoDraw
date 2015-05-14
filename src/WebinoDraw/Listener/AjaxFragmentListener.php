@@ -3,7 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2015 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
@@ -11,12 +11,13 @@
 namespace WebinoDraw\Listener;
 
 use WebinoDraw\Event\AjaxEvent;
+use WebinoDraw\Service\DrawService;
 use Zend\EventManager\SharedEventManagerInterface;
 use Zend\EventManager\SharedListenerAggregateInterface;
 use Zend\Http\Request;
 
 /**
- *
+ * Class AjaxFragmentListener
  */
 class AjaxFragmentListener implements SharedListenerAggregateInterface
 {
@@ -31,7 +32,7 @@ class AjaxFragmentListener implements SharedListenerAggregateInterface
     protected $request;
 
     /**
-     * @param Request $request
+     * @param Request|object $request
      */
     public function __construct(Request $request)
     {
@@ -44,7 +45,7 @@ class AjaxFragmentListener implements SharedListenerAggregateInterface
     public function attachShared(SharedEventManagerInterface $events)
     {
         $this->listeners[] = $events->attach(
-            'WebinoDraw',
+            DrawService::SERVICE,
             AjaxEvent::EVENT_AJAX,
             [$this, 'ajaxFragment']
         );
@@ -56,7 +57,7 @@ class AjaxFragmentListener implements SharedListenerAggregateInterface
     public function detachShared(SharedEventManagerInterface $events)
     {
         foreach ($this->listeners as $index => $listener) {
-            if ($events->detach('WebinoDraw', $listener)) {
+            if ($events->detach(DrawService::SERVICE, $listener)) {
                 unset($this->listeners[$index]);
             }
         }
@@ -68,7 +69,6 @@ class AjaxFragmentListener implements SharedListenerAggregateInterface
     public function ajaxFragment(AjaxEvent $event)
     {
         $id = $this->request->getQuery()->fragmentId;
-        empty($id) or
-            $event->setFragmentXpath('//*[@id="' . $id . '"]');
+        empty($id) or $event->setFragmentXpath('//*[@id="' . $id . '"]');
     }
 }
