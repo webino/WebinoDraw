@@ -22,7 +22,7 @@ class DrawRendererFactory implements FactoryInterface
 {
     /**
      * @param ServiceLocatorInterface $services
-     * @return DrawService
+     * @return DrawRenderer
      */
     public function createService(ServiceLocatorInterface $services)
     {
