@@ -3,12 +3,15 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2015 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw;
+
+use Zend\Form\Element\Csrf;
+use Zend\Stdlib\Hydrator\ArraySerializable;
 
 /**
 * WebinoDraw example configuration
@@ -20,6 +23,7 @@ return [
          */
         'ajax_container_xpath' => '//body',
         'ajax_fragment_xpath'  => '//*[contains(@class, "ajax-fragment") and @id]',
+
         /**
          * The Draw Instructions Example
          */
@@ -58,71 +62,65 @@ return [
         ],
     ],
     /**
-     * Create Form via DI
-     *
-     * @deprecated Use form factory instead
+     * Example Form
      */
-    'di' => [
-        'instance' => [
-            'alias' => [
-                'exampleForm' => 'WebinoDraw\Form\DiForm',
+    'forms' => [
+        'exampleForm' => [
+            'hydrator' => ArraySerializable::class,
+            'attributes' => [
+                'method' => 'post',
+                'class'  => 'example-form',
             ],
-            'exampleForm' => [
-                'parameters' => [
-                    'config' => [
-                        'hydrator' => 'Zend\Stdlib\Hydrator\ArraySerializable',
+            'elements' => [
+                'example_text_element'=> [
+                    'spec' => [
+                        'name' => 'example_text_element',
+                        'type' => 'text',
+
+                        'options' => [
+                            'label' => 'Label example',
+                        ],
                         'attributes' => [
-                            'method' => 'post',
-                            'class'  => 'example-form',
-                        ],
-                        'elements' => [
-                            [
-                                'spec' => [
-                                    'name' => 'example_text_element',
-                                    'options' => [
-                                        'label' => 'Label example',
-                                    ],
-                                    'attributes' => [
-                                        'type'        => 'text',
-                                        'placeholder' => 'Type something ...',
-                                    ],
-                                ],
-                            ],
-                            [
-                                'spec' => [
-                                    'name' => 'example_text_element2',
-                                    'options' => [
-                                        'label' => 'Label example2',
-                                    ],
-                                    'attributes' => [
-                                        'type'        => 'text',
-                                        'placeholder' => 'Type something2 ...',
-                                    ],
-                                ],
-                            ],
-                            [
-                                'spec' => [
-                                    'type' => 'Zend\Form\Element\Csrf',
-                                    'name' => 'security',
-                                ],
-                            ],
-                            [
-                                'spec' => [
-                                    'name' => 'send',
-                                    'attributes' => [
-                                        'type'  => 'submit',
-                                        'value' => 'Submit',
-                                    ],
-                                ],
-                            ],
-                        ],
-                        'input_filter' => [
-                            'example_text_element' => [
-                                'name'     => 'example_text_element',
-                                'required' => true,
-                            ],
+                            'type'        => 'text',
+                            'placeholder' => 'Type something ...',
                         ],
                     ],
+                ],
+                'example_text_element2' => [
+                    'spec' => [
+                        'name' => 'example_text_element2',
+                        'type' => 'text',
+
+                        'options' => [
+                            'label' => 'Label example2',
+                        ],
+                        'attributes' => [
+                            'type'        => 'text',
+                            'placeholder' => 'Type something2 ...',
+                        ],
+                    ],
+                ],
+                'security' => [
+                    'spec' => [
+                        'name' => 'security',
+                        'type' => Csrf::class,
+                    ],
+                ],
+                'send' => [
+                    'spec' => [
+                        'name'  => 'send',
+                        'type'  => 'submit',
+
+                        'attributes' => [
+                            'value' => 'Submit',
+                        ],
+                    ],
+                ],
+            ],
+            'input_filter' => [
+                'example_text_element' => [
+                    'name'     => 'example_text_element',
+                    'required' => true,
                 ],
             ],
         ],
