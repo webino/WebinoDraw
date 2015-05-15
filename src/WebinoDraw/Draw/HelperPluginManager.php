@@ -12,9 +12,9 @@ namespace WebinoDraw\Draw;
 
 use WebinoDraw\Cache\DrawCache;
 use WebinoDraw\Draw\Helper\Element;
-use WebinoDraw\Draw\Helper\Factory\AbsolutizeFactory;
-use WebinoDraw\Draw\Helper\Factory\FormFactory;
 use WebinoDraw\Exception;
+use WebinoDraw\Draw\Helper;
+use WebinoDraw\Factory\HelperFactory;
 use WebinoDraw\Draw\Helper\HelperInterface;
 use WebinoDraw\Manipulator\Manipulator;
 use WebinoDraw\VarTranslator\VarTranslator;
@@ -32,8 +32,10 @@ class HelperPluginManager extends AbstractPluginManager
      * @var array
      */
     protected $factories = [
-        'webinodrawabsolutize' => AbsolutizeFactory::class,
-        'webinodrawform'       => FormFactory::class,
+        Helper\Absolutize::SERVICE => HelperFactory\AbsolutizeFactory::class,
+        Helper\Form::SERVICE       => HelperFactory\FormFactory::class,
+        Helper\Translate::SERVICE  => HelperFactory\TranslateFactory::class,
+        Helper\Pagination::SERVICE => HelperFactory\PaginationFactory::class,
     ];
 
     /**
@@ -42,7 +44,7 @@ class HelperPluginManager extends AbstractPluginManager
      * @var array
      */
     protected $invokableClasses = [
-        'webinodrawelement' => Element::class,
+        Element::SERVICE => Element::class,
     ];
 
     /**

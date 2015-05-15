@@ -3,7 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2015 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
@@ -29,6 +29,11 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 class Form extends AbstractHelper
 {
+    /**
+     * Draw helper service name
+     */
+    const SERVICE = 'webinodrawform';
+
     /**
      * @var DrawFormEvent
      */
@@ -78,7 +83,6 @@ class Form extends AbstractHelper
      * @param FormCollection $formCollection
      * @param Url $url
      * @param InstructionsRenderer $instructionsRenderer
-     * @param DrawCache $cache
      */
     public function __construct(
         ServiceLocatorInterface $forms,
@@ -119,8 +123,8 @@ class Form extends AbstractHelper
         $form = $this->createForm($spec);
         $event->setForm($form);
 
-        !array_key_exists('trigger', $spec) or
-            $this->trigger($spec['trigger'], $event);
+        !array_key_exists('trigger', $spec)
+            or $this->trigger($spec['trigger'], $event);
 
         $this->drawNodes($nodes, $event->getSpec()->getArrayCopy());
         $cache->save($event);
@@ -139,6 +143,7 @@ class Form extends AbstractHelper
 
     /**
      * @param DrawFormEvent $event
+     * @return self
      */
     public function setFormEvent(DrawFormEvent $event)
     {
@@ -157,6 +162,10 @@ class Form extends AbstractHelper
         return $this;
     }
 
+    /**
+     * @param bool $bool
+     * @return self
+     */
     public function setRenderErrors($bool = true)
     {
         $this->formRow->setRenderErrors($bool);
@@ -215,9 +224,7 @@ class Form extends AbstractHelper
      */
     protected function resolveRouteFormAction($spec)
     {
-        if (!is_string($spec)
-            && !is_array($spec)
-        ) {
+        if (!is_string($spec) && !is_array($spec)) {
             throw new \InvalidArgumentException('Expected string or array');
         }
 
@@ -282,8 +289,8 @@ class Form extends AbstractHelper
 
         $this->setTranslatorTextDomain($spec['text_domain']);
 
-        !array_key_exists('render_errors', $spec) or
-                $this->setRenderErrors($spec['render_errors']);
+        !array_key_exists('render_errors', $spec)
+            or $this->setRenderErrors($spec['render_errors']);
 
         $translation = $this->getVarTranslator()->createTranslation($this->getVars());
         foreach ($nodes as $node) {
@@ -323,9 +330,9 @@ class Form extends AbstractHelper
         // todo injection
         $translator = $this->formRow->getTranslator();
 
+        $toRemove = [];
         $elements = $form->getElements();
         foreach ($nodes as $node) {
-
             // auto draw hidden nodes
             foreach ($elements as $element) {
 
@@ -349,7 +356,6 @@ class Form extends AbstractHelper
             $elementNodes = $node->ownerDocument->getXpath()->query('.//*[@name]', $node);
 
             $nodePath = $node->getNodePath();
-            $toRemove = [];
             /* @var $element \Zend\Form\Element */
             foreach ($elementNodes as $elementNode) {
 

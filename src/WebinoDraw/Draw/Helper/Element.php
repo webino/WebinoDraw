@@ -18,6 +18,11 @@ use WebinoDraw\Dom\NodeList;
 class Element extends AbstractHelper
 {
     /**
+     * Draw helper service name
+     */
+    const SERVICE = 'webinodrawelement';
+
+    /**
      * @param NodeList $nodes
      * @param array $spec
      */

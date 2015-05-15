@@ -21,9 +21,9 @@ use Zend\I18n\Translator\TranslatorInterface;
 class Translate extends Element
 {
     /**
-     * Application service name
+     * Draw helper service name
      */
-    const SERVICE = 'WebinoDrawTranslate';
+    const SERVICE = 'webinodrawtranslate';
 
     /**
      * @var TranslatorInterface

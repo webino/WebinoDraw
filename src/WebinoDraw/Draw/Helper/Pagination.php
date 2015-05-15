@@ -20,9 +20,9 @@ use Zend\Stdlib\ArrayUtils;
 class Pagination extends Element
 {
     /**
-     * Application service name
+     * Draw helper service name
      */
-    const SERVICE = 'WebinoDrawPagination';
+    const SERVICE = 'webinodrawpagination';
 
     /**
      * @var array

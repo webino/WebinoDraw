@@ -3,7 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2015 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
@@ -12,7 +12,6 @@ namespace WebinoDraw\Draw\Helper;
 
 use DOMAttr as DomAttr;
 use WebinoDraw\Dom\NodeList;
-use WebinoDraw\VarTranslator\VarTranslator;
 use WebinoDraw\Exception\RuntimeException;
 use Zend\View\Helper\ServerUrl;
 use Zend\View\Helper\BasePath;
@@ -22,6 +21,11 @@ use Zend\View\Helper\BasePath;
  */
 class Absolutize extends AbstractHelper
 {
+    /**
+     * Draw helper service name
+     */
+    const SERVICE = 'webinodrawabsolutize';
+
     /**
      * @var ServerUrl
      */
@@ -45,6 +49,8 @@ class Absolutize extends AbstractHelper
     /**
      * @param NodeList $nodes
      * @param array $spec
+     * @return void
+     * @throw RuntimeException
      */
     public function drawNodes(NodeList $nodes, array $spec)
     {

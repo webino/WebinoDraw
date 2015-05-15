@@ -8,7 +8,7 @@
  * @license     BSD-3-Clause
  */
 
-namespace WebinoDraw\Factory;
+namespace WebinoDraw\Factory\HelperFactory;
 
 use WebinoDraw\Draw\Helper\Translate;
 use Zend\I18n\Translator\TranslatorInterface;
@@ -16,17 +16,18 @@ use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * Class DrawTranslateFactory
+ * Class TranslateFactory
  */
-class DrawTranslateFactory implements FactoryInterface
+class TranslateFactory implements FactoryInterface
 {
     /**
-     * @param ServiceLocatorInterface $services
+     * @param ServiceLocatorInterface $drawHelpers
      * @return Translate
      */
-    public function createService(ServiceLocatorInterface $services)
+    public function createService(ServiceLocatorInterface $drawHelpers)
     {
-        $superServices = $services->getServiceLocator();
-        return new Translate($superServices->get(TranslatorInterface::class));
+        /** @var \WebinoDraw\Draw\HelperPluginManager $drawHelpers */
+        $services = $drawHelpers->getServiceLocator();
+        return new Translate($services->get(TranslatorInterface::class));
     }
 }
