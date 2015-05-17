@@ -1,0 +1,106 @@
+<?php
+
+use Tracy\Dumper;
+
+/** @var \WebinoDraw\Service\DrawProfiler $profiler */
+$profiler = $this->getProfiler();
+
+?>
+<style>
+    .webino-draw-highlight {
+        position: absolute;
+        z-index: 9999;
+        background: #159;
+        opacity: .5;
+    }
+</style>
+<div class="tracy-inner" style="max-width: 100%%;">
+    <h1 style="min-width: 500px; white-space: nowrap;"><?= $this->title ?></h1>
+    <p>Total time: <?= sprintf('%s ms', number_format($profiler->getTotalTime() * 1000, 1, '.', ' ')) ?></p>
+    <br />
+    <div>
+        <?php foreach ($profiler->getData() as $key => $data): ?>
+            <span style="display: block;">
+                <?php
+                $locator = join('\', \'', empty($data['spec']['locator']) ? [] : (array) $data['spec']['locator']);
+                $locator = '[\'' . strtr($locator, [PHP_EOL => '', '"' => '\\\'']) . '\']';
+                ?>
+                <strong style="font-size: larger; cursor: pointer;"
+                        onmouseover="webinoDrawHighlight(<?= $locator ?>)"
+                        onmouseout="webinoDrawRemoveHighlight()">
+                    <?= $key ?>
+                </strong>
+                <?= $data['time'] ? sprintf(' / %s ms', number_format($data['time'] * 1000, 1, '.', ' ')) : '' ?>
+            </span><br />
+            <?= Dumper::toHtml($data['spec'], [Dumper::DEPTH => 10, Dumper::COLLAPSE => 1]) ?>
+            <br />
+        <?php endforeach; ?>
+    </div>
+</div>
+<script>
+    function getElementsByXpath(path) {
+        console.log(path);
+        return document.evaluate(path, document, null, XPathResult.ANY_TYPE, null);
+    }
+
+    function webinoDrawHighlight(locator)
+    {
+        var l = locator.length;
+        for (var i = 0; i < l; i++) {
+            if ('xpath=' === locator[i].substring(0, 6)) {
+                console.log(getElementsByXpath(locator[i].substring(6)));
+                return;
+            }
+
+            var q = locator[i].split('[');
+            if (q.length > 1) {
+                // nth-child
+                q[0]+= ':nth-child(' + parseInt(q[1]) + ')';
+            }
+
+            var elms = document.querySelectorAll(q[0]);
+            webinoDrawHiglightElements(elms);
+        }
+    }
+
+    function webinoDrawHiglightElements(elms)
+    {
+        var l = elms.length;
+        if (l > 100) {
+            console.log('WebinoDraw: too much elements');
+            return;
+        }
+
+        var doc = document.documentElement;
+        var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+        var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+
+        for (var i = 0; i < l; i++) {
+            var mask = document.createElement('div');
+            mask.className = 'webino-draw-highlight';
+
+            var rect = elms[i].getBoundingClientRect();
+
+            mask.style.width = elms[i].offsetWidth + 'px';
+            mask.style.height = elms[i].offsetHeight + 'px';
+            mask.style.top = top + rect.top + 'px';
+            mask.style.left = left + rect.left + 'px';
+
+            document.body.appendChild(mask);
+        }
+    }
+
+    function webinoDrawRemoveHighlight()
+    {
+        var elms = document.getElementsByClassName('webino-draw-highlight');
+        var l = elms.length;
+        var toRemove = [];
+        for (var i = 0; i < l; i++) {
+            toRemove.push(elms[i]);
+        }
+        for (var n = 0; n < l; n++) {
+            console.log(toRemove[n]);
+            toRemove[n].parentNode.removeChild(toRemove[n]);
+        }
+    }
+</script>

@@ -10,21 +10,22 @@
 
 namespace WebinoDraw\Factory;
 
-use WebinoDraw\Draw\Helper\Pagination;
+use WebinoDebug\Factory\DebuggerFactory;
+use WebinoDraw\Service\DrawProfiler;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * Class DrawPaginationFactory
+ * Class DrawProfilerFactory
  */
-class DrawPaginationFactory implements FactoryInterface
+class DrawProfilerFactory implements FactoryInterface
 {
     /**
      * @param ServiceLocatorInterface $services
-     * @return Pagination
+     * @return DrawProfiler
      */
     public function createService(ServiceLocatorInterface $services)
     {
-        return new Pagination($services->getServiceLocator());
+        return new DrawProfiler($services->get(DebuggerFactory::SERVICE));
     }
 }

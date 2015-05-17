@@ -36,7 +36,7 @@ class Module implements ConfigProviderInterface
     public function init(ModuleManagerInterface $manager)
     {
         if (!($manager instanceof ModuleManager)) {
-            throw new Exception\LogicException('Expected Zend\ModuleManager\ModuleManager');
+            throw new Exception\LogicException('Expected ' . ModuleManager::class);
         }
         
         $services = $manager->getEvent()->getParam('ServiceManager');
@@ -65,12 +65,10 @@ class Module implements ConfigProviderInterface
             'getWebinoDrawLoopHelperConfig'
         );
 
-        // Register debugger bar panel
+        // Register a debugger bar panel
         /** @var \WebinoDebug\Service\Debugger $debugger */
         $debugger = $services->get(DebuggerFactory::SERVICE);
-        if ($debugger->getOptions()->isEnabled()) {
-            $debugger->setBarPanel(new DrawPanel($modules), DrawPanel::ID);
-        }
+        $debugger->getOptions()->isEnabled() and $debugger->setBarPanel(new DrawPanel($manager), DrawPanel::ID);
 
         // Fixing some DI issues but deprecated
         $manager->getEventManager()->attach(
