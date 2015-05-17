@@ -13,11 +13,8 @@ use WebinoDebug\Debugger\Bar\AbstractPanel;
 use WebinoDebug\Debugger\Bar\PanelInitInterface;
 use WebinoDebug\Debugger\Bar\PanelInterface;
 use WebinoDebug\Exception;
-use WebinoDebug\Factory\ProfilerFactory;
 use WebinoDraw\Service\DrawProfiler;
-use Zend\Config\Config;
 use Zend\ServiceManager\ServiceManager;
-use Zend\Stdlib\ArrayUtils;
 
 /**
  * Class DrawPanel
