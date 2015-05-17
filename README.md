@@ -545,52 +545,38 @@ Provides ability to configure rendering of the layout. **Still under development
 
   If you do not have any form you can create one easily:
 
-    'di' => [
-        'instance' => [
-            'alias' => [
-                'exampleForm' => 'WebinoDraw\Form\DiForm',
+    'forms' => [
+        'exampleForm' => [
+            'hydrator' => \Zend\Stdlib\Hydrator\ArraySerializable::class,
+            'attributes' => [
+                'method' => 'post',
+                'class'  => 'example-form',
             ],
-            'exampleForm' => [
-                'parameters' => [
-                    'config' => [
-                        'hydrator' => 'Zend\Stdlib\Hydrator\ArraySerializable',
+            'elements' => [
+                'example_text_element' => [
+                    'spec' => [
+                        'name' => 'example_text_element',
+                        'options' => [
+                            'label' => 'Label example',
+                        ],
                         'attributes' => [
-                            'method' => 'post',
-                            'class'  => 'example-form',
+                            'type'        => 'text',
+                            'placeholder' => 'Type something ...',
                         ],
-                        'elements' => [
-                            [
-                                'spec' => [
-                                    'name' => 'example_text_element',
-                                    'options' => [
-                                        'label' => 'Label example',
-                                    ],
-                                    'attributes' => [
-                                        'type'        => 'text',
-                                        'placeholder' => 'Type something ...',
-                                    ],
-                                ],
-                            ],
-                        ],
-                        'input_filter' => [
-                            'example_text_element' => [
-                                'name'     => 'example_text_element',
-                                'required' => true,
-                                'validators' => [
+                    ],
+                ],
+            ],
+            'input_filter' => [
+                'example_text_element' => [
+                    'name'     => 'example_text_element',
+                    'required' => true,
+                    'validators' => [
 
-                                ],
-                            ],
-                        ],
                     ],
                 ],
             ],
         ],
     ],
-
-
-  *NOTE: DiForm form is just like an ordinary Zend Form, but it could be instantiated via DI.*
-
-  *NOTE: If you don't want to use DiForm just inject one into ServiceManager.*
 
 ### WebinoDrawAbsolutize
 
@@ -620,19 +606,16 @@ Provides ability to configure rendering of the layout. **Still under development
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 
-  - To create the form the DiForm is used. It allows to instantiate the object of type FormInterface
-    via DI directly. However any valid form available via ServiceManager can be used.
-
   - To draw the form collection the WebinoDraw FormElement and FormRow view helper is used. It solves
     some issues with the translator when the Zend FormElement view helper is used, because it does not allow to pass
     translator text domain to its elements.
 
-  - To specify the view helper to render the form element set its view_helper option.
+  - To specify the view helper to render the form element set its `view_helper` option.
 
   - When you don't want to absolutize the element attribute add `data-webino-draw-absolutize="no"` to it's attributes.
 
-  - When using helpers with view helpers multiple methods call on the same variable, the string result is automatically joined.
-    Use _join_result = false option to disable this behaviour.
+  - When using helpers with view helpers multiple methods call on the same variable, the string result is automatically
+    joined. Use `_join_result = false` option to disable this behaviour.
 
 ## Examples
 
@@ -664,7 +647,6 @@ Learn [How to develop Webino modules](https://github.com/webino/Webino/wiki/How-
 
   - DrawHelper how to
   - Add DrawResized to resize images
-  - Add debug profiler
   - Write tests for draw form and new features (events + sub-instructions + ajax + cache)
   - Write tests + manual for DrawPagination
   - Write tests + manual for DrawTranslate
