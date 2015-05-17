@@ -53,6 +53,7 @@ return [
             require __DIR__ . '/draw/custom-helper.draw.php',
             require __DIR__ . '/draw/pagination.draw.php'
         ),
+
         /**
          * The Instruction Set Example
          */
@@ -61,6 +62,7 @@ return [
             'exampleinstructionset_02' => [],
         ],
     ],
+
     /**
      * Example Form
      */
@@ -79,6 +81,7 @@ return [
 
                         'options' => [
                             'label' => 'Label example',
+                            'view_helper' => 'FormTextarea',
                         ],
                         'attributes' => [
                             'type'        => 'text',

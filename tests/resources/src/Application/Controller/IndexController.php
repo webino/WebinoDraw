@@ -34,11 +34,20 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
      */
     public function load($locale, $textDomain)
     {
-        return new TextDomain([
-            'this should be translated' => 'toto by malo byť preložené',
-            'this should be translated by draw helper' => 'toto by malo byť preložené cez draw helper',
-            'Label example' => 'Ukážka popisky',
-        ]);
+        switch ($textDomain) {
+            case 'special':
+                return new TextDomain([
+                    'Label example' => 'Ukážka popisky špeciál',
+                    'Type something2 ...' => 'Napíš niečo2 ...',
+                ]);
+
+            default:
+                return new TextDomain([
+                    'this should be translated' => 'toto by malo byť preložené',
+                    'this should be translated by draw helper' => 'toto by malo byť preložené cez draw helper',
+                    'Label example' => 'Ukážka popisky',
+                ]);
+        }
     }
 
     /**
@@ -52,7 +61,9 @@ class IndexController extends AbstractActionController implements RemoteLoaderIn
         /* @var $translator \Zend\I18n\Translator\Translator */
         $translator = $this->getServiceLocator()->get('translator');
         $translator->getPluginManager()->setService('testTranslation', $this);
+        $translator->getPluginManager()->setService('specialTranslation', $this);
         $translator->addRemoteTranslations('testTranslation', 'test');
+        $translator->addRemoteTranslations('specialTranslation', 'special');
         $translator->setLocale('sk_SK');
         AbstractValidator::setDefaultTranslator($translator);
         // /setup test translator

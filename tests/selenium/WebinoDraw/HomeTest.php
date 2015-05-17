@@ -170,10 +170,11 @@ class HomeTest extends AbstractTestCase
         // form
         $loc = 'label span';
         $elm = $this->elementByCssSelector($loc);
-        $this->assertEquals('Ukážka popisky', $elm->text());
+        $this->assertEquals('Ukážka popisky špeciál', $elm->text());
 
         $loc = 'example_text_element';
         $elm = $this->elementByName($loc);
+        $this->assertEquals('textarea', $elm->name());
         $this->assertEquals('TEST VALUE FROM CONTROLLER', $elm->attribute("value"));
 
         $loc = 'form.example-form > ul > li';
