@@ -97,7 +97,7 @@ class InstructionsRenderer implements InstructionsRendererInterface
         }
 
         foreach ($drawInstructions->getSortedArrayCopy() as $specs) {
-            $spec = $this->createNodeSpec($specs);
+            $spec = (array) $this->createNodeSpec($specs);
             unset($specs);
 
             if ($this->resolveIsNodeDisabled($node, $spec)) {
