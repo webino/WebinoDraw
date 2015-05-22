@@ -111,7 +111,7 @@ return [
     ],
     'translator' => [
         'translation_files' => [
-            [
+            'sk/Zend_Validate' => [
                 'type'   => 'phparray',
                 'locale' => 'sk_SK',
 
