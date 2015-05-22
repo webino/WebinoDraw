@@ -66,9 +66,11 @@ class Module implements ConfigProviderInterface
         );
 
         // Register a debugger bar panel
-        /** @var \WebinoDebug\Service\Debugger $debugger */
-        $debugger = $services->get(DebuggerFactory::SERVICE);
-        $debugger->getOptions()->isEnabled() and $debugger->setBarPanel(new DrawPanel($manager), DrawPanel::ID);
+        if (class_exists(DebuggerFactory::class)) {
+            /** @var \WebinoDebug\Service\Debugger $debugger */
+            $debugger = $services->get(DebuggerFactory::SERVICE);
+            $debugger->getOptions()->isEnabled() and $debugger->setBarPanel(new DrawPanel($manager), DrawPanel::ID);
+        }
 
         // Fixing some DI issues but deprecated
         $manager->getEventManager()->attach(
