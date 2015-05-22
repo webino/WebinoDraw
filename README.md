@@ -9,9 +9,9 @@
 
 Provides ability to configure rendering of the layout. **Still under development, use it for play.**
 
-<br />
-
 - Demo [webino-draw.demo.webino.org](http://webino-draw.demo.webino.org)
+
+<br />
 
 ![WebinoDraw principle](http://static.webino.org/documentation/webino_draw_principle.png)
 
