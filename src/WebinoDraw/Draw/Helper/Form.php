@@ -332,8 +332,14 @@ class Form extends AbstractHelper
 
         $toRemove = [];
         $elements = $form->getElements();
+
+        /* @var $node \WebinoDraw\Dom\Element */
         foreach ($nodes as $node) {
+            /** @var \WebinoDraw\Dom\Document $ownerDocument */
+            $ownerDocument = $node->ownerDocument;
+
             // auto draw hidden nodes
+            /** @var \Zend\Form\Element $element */
             foreach ($elements as $element) {
 
                 $attributes = $element->getAttributes();
@@ -343,7 +349,7 @@ class Form extends AbstractHelper
                     continue;
                 }
 
-                $hiddenNode = $node->ownerDocument->createDocumentFragment();
+                $hiddenNode = $ownerDocument->createDocumentFragment();
                 $xhtml      = (string) $this->formRow->__invoke($element);
 
                 $hiddenNode->appendXml($xhtml);
@@ -353,10 +359,9 @@ class Form extends AbstractHelper
                 $node->appendChild($hiddenNode);
             }
 
-            $elementNodes = $node->ownerDocument->getXpath()->query('.//*[@name]', $node);
-
             $nodePath = $node->getNodePath();
-            /* @var $element \Zend\Form\Element */
+            $elementNodes = $ownerDocument->getXpath()->query('.//*[@name]', $node);
+            /* @var $elementNode \WebinoDraw\Dom\Element */
             foreach ($elementNodes as $elementNode) {
 
                 $elementName = $elementNode->getAttribute('name');
@@ -372,19 +377,23 @@ class Form extends AbstractHelper
                     continue;
                 }
 
+                $elementNode->setAttribute('id', $elementName);
+
+                /* @var $element \Zend\Form\Element */
                 $element    = $form->get($elementName);
                 $attributes = $element->getAttributes();
 
-                // TODO
+                // TODO remaining elements
                 if (isset($attributes['type'])) {
                     switch ($attributes['type']) {
                         case 'checkbox':
+                            /* @var $element \Zend\Form\Element\Checkbox */
                             $attributes['value'] = $element->getCheckedValue();
                             // todo checkbox use hidden element
                             break;
                         case 'multi_checkbox':
                         case 'select':
-                            $selectNode = $node->ownerDocument->createDocumentFragment();
+                            $selectNode = $ownerDocument->createDocumentFragment();
                             $selectNode->appendXml($this->formRow->__invoke($element));
                             $elementNode = $elementNode->parentNode->replaceChild($selectNode, $elementNode);
                             unset($selectNode);
@@ -402,16 +411,20 @@ class Form extends AbstractHelper
                     }
                 }
 
-                $elementNodes = $nodes->create([$elementNode]);
-                $elementNodes->setAttribs($attributes);
+                $subElementNodes = $nodes->create([$elementNode]);
+                $subElementNodes->setAttribs($attributes);
 
                 // labels
-                $elementNodes->each(
+                $subElementNodes->each(
                     'xpath=../span[name(..)="label"]|..//label[@for="' . $elementName . '"]',
                     function ($nodes) use ($element, $translator) {
                         $label = $translator->translate($element->getLabel());
-                        foreach ($nodes as $node) {
-                            $node->nodeValue = !$node->isEmpty() ? $translator->translate($node->nodeValue) : $label;
+
+                        /* @var $subNode \WebinoDraw\Dom\Element */
+                        foreach ($nodes as $subNode) {
+                            $subNode->nodeValue = !$subNode->isEmpty()
+                                ? $translator->translate($subNode->nodeValue)
+                                : $label;
                         }
                     }
                 );
@@ -419,14 +432,15 @@ class Form extends AbstractHelper
                 // errors
                 $messages = $element->getMessages();
                 if (!empty($messages)) {
-                    $errorNode = $node->ownerDocument->createDocumentFragment();
+
+                    $errorNode = $ownerDocument->createDocumentFragment();
                     $errorNode->appendXml($this->formElementErrors->__invoke($element));
 
-                    foreach ($elementNodes as $elementNode) {
-                        if (empty($elementNode->nextSibling)) {
-                            $elementNode->parentNode->appendChild($errorNode);
+                    foreach ($subElementNodes as $subElementNode) {
+                        if (empty($subElementNode->nextSibling)) {
+                            $subElementNode->parentNode->appendChild($errorNode);
                         } else {
-                            $elementNode->parentNode->insertBefore($errorNode, $elementNode);
+                            $subElementNode->parentNode->insertBefore($errorNode, $subElementNode);
                         }
                     }
                 }
