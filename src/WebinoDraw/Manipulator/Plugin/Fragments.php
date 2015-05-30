@@ -56,7 +56,6 @@ class Fragments implements InLoopPluginInterface
 
         foreach ($spec['fragments'] as $name => $fragmentLocator) {
 
-
             /** @var \DOMNodeList $subNodes */
             $subNodes = $nodeXpath->query($this->locator->set($fragmentLocator)->xpathMatchAny(), $node);
             if (0 === $subNodes->length) {
