@@ -3,7 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2015 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
@@ -12,10 +12,12 @@ namespace WebinoDraw\Manipulator\Plugin;
 
 use Zend\View\Renderer\PhpRenderer;
 
+use WebinoDraw\Dom\Element;
+
 /**
- *
+ * Class Render
  */
-class Render implements PreLoopPluginInterface
+class Render extends AbstractPlugin implements InLoopPluginInterface
 {
     /**
      * @var PhpRenderer
@@ -33,15 +35,24 @@ class Render implements PreLoopPluginInterface
     /**
      * @param PluginArgument $arg
      */
-    public function preLoop(PluginArgument $arg)
+    public function inLoop(PluginArgument $arg)
     {
         $spec = $arg->getSpec();
         if (empty($spec['render'])) {
             return;
         }
 
-        $translation    = $arg->getTranslation();
-        $varTranslation = $translation->makeVarKeys(clone $translation);
+        $node = $arg->getNode();
+        if (!$node instanceof Element) {
+            return;
+        }
+
+        $translation      = $arg->getTranslation();
+        $translationClone = clone $translation;
+        $nodeTranslation  = $this->createNodeTranslation($arg->getNode(), $arg->getSpec());
+        $translationClone->merge($nodeTranslation->getArrayCopy());
+        $varTranslation   = $translationClone->makeVarKeys();
+
         foreach ($spec['render'] as $key => $value) {
             $translation[$key] = $this->renderer->render($varTranslation->translateString($value));
         }
