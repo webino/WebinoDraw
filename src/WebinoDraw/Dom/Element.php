@@ -18,9 +18,9 @@ use DOMText;
  */
 class Element extends DOMElement implements NodeInterface
 {
-    const NODE_NAME_PROPERTY = 'nodeName';
-
+    const NODE_NAME_PROPERTY  = 'nodeName';
     const NODE_VALUE_PROPERTY = 'nodeValue';
+    const NODE_PATH_PROPERTY  = 'nodePath';
 
     /**
      * Attributes mass assignment
@@ -83,23 +83,15 @@ class Element extends DOMElement implements NodeInterface
     public function getProperties($prefix = null)
     {
         $properties = [
-            $prefix . self::NODE_NAME_PROPERTY  => '',
-            $prefix . self::NODE_VALUE_PROPERTY => '',
+            $prefix . self::NODE_NAME_PROPERTY  => empty($this->nodeName)  ? '' : $this->nodeName,
+            $prefix . self::NODE_VALUE_PROPERTY => empty($this->nodeValue) ? '' : $this->nodeValue,
+            $prefix . self::NODE_PATH_PROPERTY  => empty($this->nodeName)  ? '' : $this->getNodePath(),
         ];
 
-        empty($this->nodeName)
-            or $properties[$prefix . self::NODE_NAME_PROPERTY] = $this->nodeName;
-
-        empty($this->nodeValue)
-            or $properties[$prefix . self::NODE_VALUE_PROPERTY] = $this->nodeValue;
-
-
-        if (empty($this->attributes)) {
-            return $properties;
-        }
-
-        foreach ($this->attributes as $attr) {
-            $properties[$prefix . $attr->name] = $attr->value;
+        if (!empty($this->attributes)) {
+            foreach ($this->attributes as $attr) {
+                $properties[$prefix . $attr->name] = $attr->value;
+            }
         }
 
         return $properties;

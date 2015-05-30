@@ -113,7 +113,7 @@ Provides ability to configure rendering of the layout. **Still under development
 
         'draw-node-example' => [
             'locator' => 'a',
-            'value'   => 'customprefix {$_nodeName} {$_nodeValue} customsuffix',
+            'value'   => 'customprefix {$_nodeName} {$_nodeValue} {$_nodePath} customsuffix',
             'html'    => '<custom>{$_innerHtml}</custom>',
             'replace' => '{$_outerHtml}<custom/>',
             'attribs' => [

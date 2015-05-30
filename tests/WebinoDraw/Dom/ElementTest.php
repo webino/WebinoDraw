@@ -3,12 +3,14 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2015 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw\Dom;
+
+use DOMDocument;
 
 /**
  * Test class for Element.
@@ -22,8 +24,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
     protected $object;
 
     /**
-     *
-     * @var \DOMDocument
+     * @var DOMDocument
      */
     protected $doc;
 
@@ -35,7 +36,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
     {
         $this->object = new Element('test_element');
 
-        $this->doc = new \DOMDocument;
+        $this->doc = new DOMDocument;
         $this->doc->appendChild($this->object);
     }
 
@@ -59,12 +60,16 @@ class ElementTest extends \PHPUnit_Framework_TestCase
     public function testGetProperties()
     {
         $input = [
+            'nodeName'  => 'test_element',
             'nodeValue' => 'test node value',
+            'nodePath'  => '/test_element',
             'attr01'    => 'attr01Val',
             'attr02'    => 'attr02Val',
         ];
 
+        next($input);
         $this->object->nodeValue = $input['nodeValue'];
+        next($input);
 
         next($input);
         $this->object->setAttribute(key($input), current($input));
@@ -82,17 +87,23 @@ class ElementTest extends \PHPUnit_Framework_TestCase
     {
         $prefix   = '___';
         $input    = [
+            'nodeName'  => 'test_element',
             'nodeValue' => 'test node value',
+            'nodePath'  => '/test_element',
             'attr01'    => 'attr01Val',
             'attr02'    => 'attr02Val',
         ];
         $expected = [
+            $prefix . 'nodeName'  => 'test_element',
             $prefix . 'nodeValue' => 'test node value',
+            $prefix . 'nodePath'  => '/test_element',
             $prefix . 'attr01'    => 'attr01Val',
             $prefix . 'attr02'    => 'attr02Val',
         ];
 
+        next($input);
         $this->object->nodeValue = $input['nodeValue'];
+        next($input);
 
         next($input);
         $this->object->setAttribute(key($input), current($input));
