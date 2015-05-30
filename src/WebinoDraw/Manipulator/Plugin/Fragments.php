@@ -3,7 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2015 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
@@ -16,7 +16,7 @@ use WebinoDraw\Dom\Locator;
 use WebinoDraw\Exception;
 
 /**
- *
+ * Class Fragments
  */
 class Fragments implements InLoopPluginInterface
 {
@@ -56,7 +56,16 @@ class Fragments implements InLoopPluginInterface
 
         foreach ($spec['fragments'] as $name => $fragmentLocator) {
 
-            $subNode = $nodeXpath->query($this->locator->set($fragmentLocator)->xpathMatchAny(), $node)->item(0);
+
+            /** @var \DOMNodeList $subNodes */
+            $subNodes = $nodeXpath->query($this->locator->set($fragmentLocator)->xpathMatchAny(), $node);
+            if (0 === $subNodes->length) {
+                // fragment not found
+                // TODO profiler warning
+                continue;
+            }
+
+            $subNode = $subNodes->item(0);
             if (!($subNode instanceof Element)) {
                 throw new Exception\LogicException('Expected node of type Dom\Element');
             }
