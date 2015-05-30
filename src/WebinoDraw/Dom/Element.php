@@ -10,11 +10,16 @@
 
 namespace WebinoDraw\Dom;
 
+use DOMElement;
+use DOMText;
+
 /**
  * Extended DOMElement
  */
-class Element extends \DOMElement implements NodeInterface
+class Element extends DOMElement implements NodeInterface
 {
+    const NODE_NAME_PROPERTY = 'nodeName';
+
     const NODE_VALUE_PROPERTY = 'nodeValue';
 
     /**
@@ -28,8 +33,8 @@ class Element extends \DOMElement implements NodeInterface
     {
         foreach ($attribs as $name => $value) {
 
-            !is_callable($callback) or
-                $value = $callback($value, $name);
+            is_callable($callback)
+                and $value = $callback($value, $name);
 
             if (empty($value) && !is_numeric($value)) {
                 $this->removeAttribute($name);
@@ -52,8 +57,8 @@ class Element extends \DOMElement implements NodeInterface
         foreach ($this->childNodes as $child) {
             $childHtml = $child->ownerDocument->saveXML($child);
 
-            empty($childHtml) or
-                $innerHtml.= $childHtml;
+            empty($childHtml)
+                or $innerHtml .= $childHtml;
         }
 
         return $innerHtml;
@@ -72,14 +77,18 @@ class Element extends \DOMElement implements NodeInterface
     /**
      * Returns the node text value and attributes in the array
      *
+     * @param string $prefix
      * @return array
      */
     public function getProperties($prefix = null)
     {
-        $properties = [$prefix . self::NODE_VALUE_PROPERTY => ''];
+        $properties = [
+            $prefix . self::NODE_NAME_PROPERTY  => $this->nodeName,
+            $prefix . self::NODE_VALUE_PROPERTY => '',
+        ];
 
-        empty($this->nodeValue) or
-            $properties[$prefix . self::NODE_VALUE_PROPERTY] = $this->nodeValue;
+        empty($this->nodeValue)
+            or $properties[$prefix . self::NODE_VALUE_PROPERTY] = $this->nodeValue;
 
 
         if (empty($this->attributes)) {
@@ -100,16 +109,14 @@ class Element extends \DOMElement implements NodeInterface
     {
         $nodeValue = trim($this->nodeValue);
 
-        if (!empty($nodeValue)
-            || is_numeric($nodeValue)
-        ) {
+        if (!empty($nodeValue) || is_numeric($nodeValue)) {
             return false;
         }
 
         // node value is empty,
-        // chceck for childs other than text
+        // check for childs other than text
         foreach ($this->childNodes as $childNode) {
-            if (!($childNode instanceof \DOMText)) {
+            if (!($childNode instanceof DOMText)) {
                 return false;
             }
         }
