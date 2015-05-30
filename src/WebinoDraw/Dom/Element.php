@@ -83,9 +83,12 @@ class Element extends DOMElement implements NodeInterface
     public function getProperties($prefix = null)
     {
         $properties = [
-            $prefix . self::NODE_NAME_PROPERTY  => $this->nodeName,
+            $prefix . self::NODE_NAME_PROPERTY  => '',
             $prefix . self::NODE_VALUE_PROPERTY => '',
         ];
+
+        empty($this->nodeName)
+            or $properties[$prefix . self::NODE_NAME_PROPERTY] = $this->nodeName;
 
         empty($this->nodeValue)
             or $properties[$prefix . self::NODE_VALUE_PROPERTY] = $this->nodeValue;
