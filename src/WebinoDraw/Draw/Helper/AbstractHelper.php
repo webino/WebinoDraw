@@ -3,7 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2015 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
@@ -22,7 +22,7 @@ use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerAwareTrait;
 
 /**
- *
+ * Class AbstractHelper
  */
 abstract class AbstractHelper implements
     HelperInterface,
@@ -61,11 +61,17 @@ abstract class AbstractHelper implements
     private $varTranslator;
 
     /**
+     * @var Translation
+     */
+    private $varTranslation;
+
+    /**
      * @param NodeList $nodes
      * @param array $spec
      */
     public function __invoke(NodeList $nodes, array $spec)
     {
+        $this->setVarTranslation(null);
         $this->drawNodes($nodes, $spec);
     }
 
@@ -103,6 +109,7 @@ abstract class AbstractHelper implements
 
     /**
      * @param DrawEvent $event
+     * @return self
      */
     public function setEvent(DrawEvent $event)
     {
@@ -161,7 +168,7 @@ abstract class AbstractHelper implements
     }
 
     /**
-     * @return VarTranslators
+     * @return VarTranslator
      */
     public function getVarTranslator()
     {
@@ -173,7 +180,7 @@ abstract class AbstractHelper implements
 
     /**
      * @param array $triggers
-     * @param DrawEvent
+     * @param DrawEvent $event
      * @return self
      */
     protected function trigger(array $triggers, DrawEvent $event)
@@ -182,8 +189,40 @@ abstract class AbstractHelper implements
         foreach ($triggers as $eventName) {
             $events->trigger($eventName, $event);
         }
-
         return $this;
+    }
+
+    /**
+     * @return Translation ArrayAccess
+     */
+    public function getVarTranslation()
+    {
+        if ($this->varTranslation === null) {
+            $this->setVarTranslation(
+                $this->getVarTranslator()->createTranslation($this->getVars())->makeVarKeys()
+            );
+        }
+        return $this->varTranslation;
+    }
+
+    /**
+     * @param ArrayAccess|null $varTranslation
+     * @return self
+     */
+    protected function setVarTranslation(ArrayAccess $varTranslation = null)
+    {
+        $this->varTranslation = $varTranslation;
+        return $this;
+    }
+
+    /**
+     * @param string|array $subject
+     * @return mixed
+     */
+    public function translate(&$subject)
+    {
+        $this->getVarTranslation()->translate($subject);
+        return $subject;
     }
 
     /**
