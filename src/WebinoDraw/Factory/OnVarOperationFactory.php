@@ -29,6 +29,7 @@ class OnVarOperationFactory implements FactoryInterface
             ->setPlugin(new OnVar\EqualTo)
             ->setPlugin(new OnVar\NotEqualTo)
             ->setPlugin(new OnVar\LessThan)
-            ->setPlugin(new OnVar\GreaterThan);
+            ->setPlugin(new OnVar\GreaterThan)
+            ->setPlugin(new OnVar\IsNumeric);
     }
 }
