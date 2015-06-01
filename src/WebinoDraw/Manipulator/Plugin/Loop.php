@@ -3,7 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2015 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
@@ -19,7 +19,7 @@ use WebinoDraw\Exception;
 use WebinoDraw\Instructions\InstructionsRenderer;
 
 /**
- *
+ * Class Loop
  */
 class Loop extends AbstractPlugin implements PreLoopPluginInterface
 {
@@ -49,8 +49,8 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
         DrawCache $cache
     ) {
         $this->instructionsRenderer = $instructionsRenderer;
-        $this->loopHelpers          = $loopHelpers;
-        $this->cache                = $cache;
+        $this->loopHelpers = $loopHelpers;
+        $this->cache = $cache;
     }
 
     /**
@@ -96,22 +96,25 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
     protected function preLoopInternal(PluginArgument $arg)
     {
         $spec = $arg->getSpec();
+        $arg->getHelper()->translate($spec['loop']['base']);
         if (empty($spec['loop']['base'])) {
-            throw new Exception\MissingPropertyException(sprintf('Loop base expected in: %s', print_r($spec, true)));
+            throw new Exception\MissingPropertyException(
+                sprintf('Loop base expected in: %s', print_r($spec, true))
+            );
         }
 
         $arg->stopManipulation();
 
-        $nodes       = $arg->getNodes();
+        $nodes = $arg->getNodes();
         $translation = $arg->getTranslation();
 
         // TODO spec object default
-        !empty($spec['loop']['offset']) or
-            $spec['loop']['offset'] = 0;
+        empty($spec['loop']['offset'])
+            and $spec['loop']['offset'] = 0;
 
         // TODO spec object default
-        !empty($spec['loop']['length']) or
-            $spec['loop']['length'] = null;
+        empty($spec['loop']['length'])
+            and $spec['loop']['length'] = null;
 
         // TODO spec object
         $arg->setSpec($spec);
@@ -128,8 +131,8 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
             return;
         }
 
-        empty($spec['loop']['shuffle']) or
-            shuffle($items);
+        empty($spec['loop']['shuffle'])
+            or shuffle($items);
 
         $this->instructionsRenderer
             ->expandInstructions($spec)
@@ -150,8 +153,8 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
             return;
         }
 
-        $helper      = $arg->getHelper();
-        $nodes       = $arg->getNodes();
+        $helper = $arg->getHelper();
+        $nodes  = $arg->getNodes();
         $translation = $arg->getTranslation();
         $onEmptySpec = $spec['loop']['onEmpty'];
 
@@ -163,8 +166,8 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
         $helper->manipulateNodes($nodes, $onEmptySpec, $translation);
 
         $this->instructionsRenderer->expandInstructions($onEmptySpec);
-        empty($onEmptySpec['instructions']) or
-            $this->instructionsRenderer->subInstructions(
+        empty($onEmptySpec['instructions'])
+            or $this->instructionsRenderer->subInstructions(
                 $nodes,
                 $onEmptySpec['instructions'],
                 $translation
@@ -179,7 +182,7 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
      */
     protected function nodesLoop(NodeList $nodes, array $items, PluginArgument $arg)
     {
-        $spec        = $arg->getSpec();
+        $spec = $arg->getSpec();
         $translation = $arg->getTranslation();
 
         foreach ($nodes as $node) {
@@ -190,17 +193,17 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
             $node->parentNode->removeChild($node);
 
             $loopArg = new ArrayObject([
-                'spec'       => $spec,
-                'vars'       => $translation,
+                'spec'   => $spec,
+                'vars'   => $translation,
+                'target' => $this,
                 'parentNode' => $parentNode,
                 'beforeNode' => $beforeNode,
-                'target'     => $this,
             ]);
 
             $this->itemsLoop($items, $arg, $loopArg, $nodeClone);
 
-            empty($spec['instructions']) or
-                $this->instructionsRenderer->subInstructions(
+            empty($spec['instructions'])
+                or $this->instructionsRenderer->subInstructions(
                     $nodes->create([$node]),
                     $spec['instructions'],
                     $translation
@@ -219,9 +222,9 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
      */
     protected function itemsLoop(array $items, PluginArgument $arg, ArrayObject $loopArg, Element $nodeClone)
     {
-        $spec        = $arg->getSpec();
-        $helper      = $arg->getHelper();
-        $nodes       = $arg->getNodes();
+        $spec   = $arg->getSpec();
+        $helper = $arg->getHelper();
+        $nodes  = $arg->getNodes();
         $translation = $arg->getTranslation();
 
         $loopArg['index'] = !empty($spec['loop']['index']) ? $spec['loop']['index'] : 0;
@@ -260,8 +263,8 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
             );
 
             // render sub-instructions
-            empty($spec['loop']['instructions']) or
-                $this->instructionsRenderer->subInstructions(
+            empty($spec['loop']['instructions'])
+                or $this->instructionsRenderer->subInstructions(
                     $nodes->create([$loopArg['node']]),
                     $spec['loop']['instructions'],
                     $localTranslation
