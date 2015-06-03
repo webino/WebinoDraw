@@ -209,7 +209,7 @@ abstract class AbstractHelper implements
      * @param ArrayAccess|null $varTranslation
      * @return self
      */
-    protected function setVarTranslation(ArrayAccess $varTranslation = null)
+    public function setVarTranslation(ArrayAccess $varTranslation = null)
     {
         $this->varTranslation = $varTranslation;
         return $this;

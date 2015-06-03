@@ -3,7 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2015 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
@@ -17,7 +17,7 @@ use WebinoDraw\Dom\Locator;
 use WebinoDraw\Exception;
 
 /**
- *
+ * Class Remove
  */
 class Remove implements InLoopPluginInterface
 {
@@ -35,7 +35,6 @@ class Remove implements InLoopPluginInterface
     }
 
     /**
-     *
      * @param PluginArgument $arg
      */
     public function inLoop(PluginArgument $arg)
@@ -53,8 +52,12 @@ class Remove implements InLoopPluginInterface
             throw new Exception\LogicException('Expects node ownerDocument of type Dom\Document');
         }
 
+        $helper = $arg->getHelper();
+        $helper->setVarTranslation(null);
+
         $nodeXpath = $node->ownerDocument->getXpath();
         foreach ((array) $spec['remove'] as $removeLocator) {
+            $helper->translate($removeLocator);
             $nodes = $nodeXpath->query($this->locator->set($removeLocator)->xpathMatchAny(), $node);
             $this->removeNodes($nodes);
         }
@@ -72,8 +75,8 @@ class Remove implements InLoopPluginInterface
                 throw new Exception\LogicException('Expected node of type DOMNode');
             }
 
-            empty($node->parentNode) or
-                $node->parentNode->removeChild($node);
+            empty($node->parentNode)
+                or $node->parentNode->removeChild($node);
         }
 
         return $this;
