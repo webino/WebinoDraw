@@ -404,7 +404,12 @@ class Form extends AbstractHelper
                         case 'submit':
                         case 'reset':
                         case 'button':
-                            $value = $element->getValue();
+
+                            // set element node value if available
+                            $value = $elementNode->hasAttribute('value')
+                                ? $elementNode->getAttribute('value')
+                                : $element->getValue();
+
                             $attributes['value'] = !empty($value) ? $translator->translate($value) : '';
                             unset($value);
                             break;
