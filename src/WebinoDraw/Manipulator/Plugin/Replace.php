@@ -10,8 +10,9 @@
 
 namespace WebinoDraw\Manipulator\Plugin;
 
-use DOMNode;
+use DOMElement;
 use WebinoDraw\Dom\NodeInterface;
+use WebinoDraw\Draw\Helper\AbstractHelper;
 use WebinoDraw\Exception;
 use WebinoDraw\Dom\Document;
 
@@ -41,7 +42,7 @@ class Replace extends AbstractPlugin implements
 
         $node = $arg->getNode();
         if (!($node instanceof NodeInterface)) {
-            throw new Exception\LogicException('Expected node of type DOMNode');
+            throw new Exception\LogicException('Expected node of type ' . NodeInterface::class);
         }
 
         if (empty($node->parentNode)) {
@@ -49,14 +50,19 @@ class Replace extends AbstractPlugin implements
             return;
         }
 
-        /** @var DomNode $node */
+        /** @var DOMElement $node */
         $node->nodeValue = '';
         $varTranslation  = $arg->getVarTranslation();
-        $translatedHtml  = $arg->getHelper()->translateValue($spec['replace'], $varTranslation, $spec);
 
+        $helper = $arg->getHelper();
+        if (!($helper instanceof AbstractHelper)) {
+            throw new Exception\LogicException('Expected draw helper of type ' . AbstractHelper::class);
+        }
+
+        $translatedHtml = $helper->translateValue($spec['replace'], $varTranslation, $spec);
         if (!empty($translatedHtml)) {
             if (!($node->ownerDocument instanceof Document)) {
-                throw new Exception\LogicException('Expects node ownerDocument of type Dom\Document');
+                throw new Exception\LogicException('Expects node ownerDocument of type ' . Document::class);
             }
 
             $frag = $node->ownerDocument->createDocumentFragment();
@@ -79,12 +85,12 @@ class Replace extends AbstractPlugin implements
     public function postLoop(PluginArgument $arg)
     {
         foreach ($this->nodesToRemove as $node) {
-            if (!($node instanceof DOMNode)) {
-                throw new Exception\LogicException('Expected node of type DOMNode');
+            if (!($node instanceof DOMElement)) {
+                throw new Exception\LogicException('Expected node of type' . DOMElement::class);
             }
 
-            empty($node->parentNode) or
-                $node->parentNode->removeChild($node);
+            empty($node->parentNode)
+                or $node->parentNode->removeChild($node);
         }
     }
 }
