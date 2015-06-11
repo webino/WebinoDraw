@@ -26,7 +26,7 @@
         "php": ">=5.5",
         "ext-intl": "*",
         "ext-mbstring": "*",
-        "zendframework/zendframework": "2.*"
+        "zendframework/zendframework": "2.3.*"
     },
     "require-dev": {
         "webino/webino-dev": "dev-develop",
