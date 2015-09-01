@@ -71,8 +71,10 @@ class Replace extends AbstractPlugin implements
             // insert new node remove old later
             /** @var NodeInterface $newNode */
             $newNode = $node->parentNode->insertBefore($frag, $node);
-            $arg->setNode($newNode);
-            $this->nodesToRemove[] = $node;
+            if ($newNode instanceof NodeInterface) {
+                $arg->setNode($newNode);
+                $this->nodesToRemove[] = $node;
+            }
         }
 
         /** @var NodeInterface $node */
