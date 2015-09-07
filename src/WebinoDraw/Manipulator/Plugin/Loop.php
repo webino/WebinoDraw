@@ -96,7 +96,11 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
     protected function preLoopInternal(PluginArgument $arg)
     {
         $spec = $arg->getSpec();
-        $arg->getHelper()->translate($spec['loop']['base']);
+        $translation = $arg->getTranslation();
+
+        $translation->containsVar($spec['loop']['base'])
+            and $translation->makeVarKeys($translation)->translate($spec['loop']['base']);
+
         if (empty($spec['loop']['base'])) {
             throw new Exception\MissingPropertyException(
                 sprintf('Loop base expected in: %s', print_r($spec, true))
@@ -106,7 +110,6 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
         $arg->stopManipulation();
 
         $nodes = $arg->getNodes();
-        $translation = $arg->getTranslation();
 
         // TODO spec object default
         empty($spec['loop']['offset'])
