@@ -68,22 +68,25 @@ class OnVar
         $value = $varTranslation->removeVars($varTranslation->translateString($spec['var']));
         $pass  = false;
 
-        foreach ($spec as $key => $subValue) {
-            if (null === $subValue) {
+        foreach ($spec as $key => $subValues) {
+            if (null === $subValues) {
                 continue;
             }
 
-            $isAnd = (0 === strpos($key, 'and'));
-            $isAnd and $key = lcfirst(substr($key, 3));
+            foreach ((array) $subValues as $subValue) {
 
-            if (empty($this->plugins[$key])) {
-                continue;
+                $isAnd = (0 === strpos($key, 'and'));
+                $isAnd and $key = lcfirst(substr($key, 3));
+
+                if (empty($this->plugins[$key])) {
+                    continue;
+                }
+
+                $expected = $varTranslation->removeVars($varTranslation->translateString($subValue));
+                $this->fixTypes($value, $expected);
+                $bool = $this->plugins[$key]->__invoke($value, $expected);
+                $pass = $isAnd ? $pass && $bool : $pass || $bool;
             }
-
-            $expected = $varTranslation->removeVars($varTranslation->translateString($subValue));
-            $this->fixTypes($value, $expected);
-            $bool = $this->plugins[$key]->__invoke($value, $expected);
-            $pass = $isAnd ? $pass && $bool : $pass || $bool;
         }
 
         $pass and $callback($spec);
