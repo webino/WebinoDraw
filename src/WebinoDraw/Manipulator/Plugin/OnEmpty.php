@@ -55,7 +55,7 @@ class OnEmpty implements InLoopPluginInterface
         }
 
         $arg->getHelper()->manipulateNodes($nodes, $onEmptySpec, $translation);
-
+p($onEmptySpec);
         $this->instructionsRenderer->expandInstructions($onEmptySpec);
         empty($onEmptySpec['instructions']) or
             $this->instructionsRenderer->subInstructions(
