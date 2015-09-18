@@ -145,8 +145,8 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
             or shuffle($items);
 
         $this->instructionsRenderer
-            ->expandInstructions($spec)
-            ->expandInstructions($spec['loop']);
+            ->expandInstructions($spec, $translation)
+            ->expandInstructions($spec['loop'], $translation);
 
         // TODO spec object
         $arg->setSpec($spec);
@@ -173,15 +173,15 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
             return;
         }
 
-        $helper->manipulateNodes($nodes, $onEmptySpec, $translation);
-
-        $this->instructionsRenderer->expandInstructions($onEmptySpec);
+        $this->instructionsRenderer->expandInstructions($onEmptySpec, $translation);
         empty($onEmptySpec['instructions'])
             or $this->instructionsRenderer->subInstructions(
                 $nodes,
                 $onEmptySpec['instructions'],
                 $translation
             );
+
+        $helper->manipulateNodes($nodes, $onEmptySpec, $translation);
     }
 
     /**

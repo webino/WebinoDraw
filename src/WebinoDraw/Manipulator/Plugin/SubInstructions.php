@@ -43,7 +43,7 @@ class SubInstructions implements InLoopPluginInterface
         }
 
         $spec = $arg->getSpec();
-        $this->instructionsRenderer->expandInstructions($spec);
+        $this->instructionsRenderer->expandInstructions($spec, $arg->getTranslation());
         if (!empty($spec['instructions']) && !empty($node->ownerDocument)) {
             $this->instructionsRenderer->subInstructions([$node], $spec['instructions'], $arg->getTranslation());
         }

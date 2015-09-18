@@ -306,7 +306,7 @@ class Form extends AbstractHelper
                 $this->matchTemplate($childNodes, $form);
             }
 
-            $this->instructionsRenderer->expandInstructions($spec);
+            $this->instructionsRenderer->expandInstructions($spec, $translation);
             if (!empty($spec['instructions'])) {
                 foreach ($childNodes as $childNode) {
                     // subinstructions

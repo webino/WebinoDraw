@@ -54,14 +54,14 @@ class OnEmpty implements InLoopPluginInterface
             return;
         }
 
-        $arg->getHelper()->manipulateNodes($nodes, $onEmptySpec, $translation);
-p($onEmptySpec);
-        $this->instructionsRenderer->expandInstructions($onEmptySpec);
-        empty($onEmptySpec['instructions']) or
-            $this->instructionsRenderer->subInstructions(
+        $this->instructionsRenderer->expandInstructions($onEmptySpec, $translation);
+        empty($onEmptySpec['instructions'])
+            or $this->instructionsRenderer->subInstructions(
                 $nodes,
                 $onEmptySpec['instructions'],
                 $translation
             );
+
+        $arg->getHelper()->manipulateNodes($nodes, $onEmptySpec, $translation);
     }
 }

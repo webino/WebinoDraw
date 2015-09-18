@@ -54,7 +54,7 @@ class OnVar implements InLoopPluginInterface
             function (array $spec) use ($arg) {
 
                 $this->instructionsRenderer
-                    ->expandInstructions($spec)
+                    ->expandInstructions($spec, $arg->getTranslation())
                     ->subInstructions(
                         $arg->getNodes(),
                         $spec['instructions'],

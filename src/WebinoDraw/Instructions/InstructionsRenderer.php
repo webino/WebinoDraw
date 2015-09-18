@@ -184,13 +184,16 @@ class InstructionsRenderer implements InstructionsRendererInterface
 
     /**
      * @param array $spec
+     * @param Translation
      * @return self
      */
-    public function expandInstructions(array &$spec)
+    public function expandInstructions(array &$spec, Translation $translation = null)
     {
         if (empty($spec['instructionset'])) {
             return $this;
         }
+
+        $translation and $translation->makeVarKeys(clone $translation)->translate($spec['instructionset']);
 
         $instructions = $this->instructionsFactory->create([]);
         foreach ($spec['instructionset'] as $instructionset) {
