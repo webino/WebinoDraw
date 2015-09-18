@@ -97,9 +97,10 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
     {
         $spec = $arg->getSpec();
         $translation = $arg->getTranslation();
+        $varTranslation = $translation->makeVarKeys($translation);
 
         $translation->containsVar($spec['loop']['base'])
-            and $translation->makeVarKeys($translation)->translate($spec['loop']['base']);
+            and $varTranslation->translate($spec['loop']['base']);
 
         if (empty($spec['loop']['base'])) {
             throw new Exception\MissingPropertyException(
@@ -111,9 +112,15 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
 
         $nodes = $arg->getNodes();
 
+        isset($spec['loop']['offset']) && $translation->containsVar($spec['loop']['offset'])
+            and $varTranslation->translate($spec['loop']['offset']);
+
         // TODO spec object default
         empty($spec['loop']['offset'])
             and $spec['loop']['offset'] = 0;
+
+        isset($spec['loop']['length']) && $translation->containsVar($spec['loop']['length'])
+            and $varTranslation->translate($spec['loop']['length']);
 
         // TODO spec object default
         empty($spec['loop']['length'])
