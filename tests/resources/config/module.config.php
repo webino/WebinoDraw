@@ -116,7 +116,7 @@ return [
                 'locale' => 'sk_SK',
 
                 'filename' => current(
-                    glob(__DIR__ . '/../../../vendor/*/zendframework/resources/languages/sk/Zend_Validate.php')
+                    glob(__DIR__ . '/../../../vendor/zendframework/zend-i18n-resources/languages/sk/Zend_Validate.php')
                 ),
             ],
         ],
