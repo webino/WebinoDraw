@@ -312,7 +312,9 @@ class NodeList implements IteratorAggregate
     {
         $return = [];
         foreach ($this as $node) {
-            $return[] = $node;
+            if (null !== $node) {
+                $return[] = $node;
+            }
         }
         return $return;
     }
