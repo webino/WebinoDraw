@@ -61,20 +61,8 @@ class Replace extends AbstractPlugin implements
 
         $translatedHtml = $helper->translateValue($spec['replace'], $varTranslation, $spec);
         if (!empty($translatedHtml)) {
-            if (!($node->ownerDocument instanceof Document)) {
-                throw new Exception\LogicException('Expects node ownerDocument of type ' . Document::class);
-            }
-
-            $frag = $node->ownerDocument->createDocumentFragment();
-            $frag->appendXml($translatedHtml);
-
-            // insert new node remove old later
-            /** @var NodeInterface $newNode */
-            $newNode = $node->parentNode->insertBefore($frag, $node);
-            if ($newNode instanceof NodeInterface) {
-                $arg->setNode($newNode);
-                $this->nodesToRemove[] = $node;
-            }
+            $arg->setNode($node->replaceWith($translatedHtml));
+            $this->nodesToRemove[] = $node;
         }
 
         /** @var NodeInterface $node */
@@ -88,7 +76,7 @@ class Replace extends AbstractPlugin implements
     {
         foreach ($this->nodesToRemove as $node) {
             if (!($node instanceof DOMElement)) {
-                throw new Exception\LogicException('Expected node of type' . DOMElement::class);
+                throw new Exception\LogicException('Expected node of type ' . DOMElement::class);
             }
 
             empty($node->parentNode)

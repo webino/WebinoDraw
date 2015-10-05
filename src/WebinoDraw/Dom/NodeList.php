@@ -311,7 +311,7 @@ class NodeList implements IteratorAggregate
     public function toArray()
     {
         $return = [];
-        foreach ($this->nodes as $node) {
+        foreach ($this as $node) {
             $return[] = $node;
         }
         return $return;

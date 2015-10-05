@@ -12,12 +12,16 @@ namespace WebinoDraw\Dom;
 
 use DOMElement;
 use DOMText;
+use WebinoDraw\Exception;
 
 /**
  * Extended DOMElement
+ * @TODO redesign
  */
 class Element extends DOMElement implements NodeInterface
 {
+    use NodeTrait;
+
     const NODE_NAME_PROPERTY  = 'nodeName';
     const NODE_VALUE_PROPERTY = 'nodeValue';
     const NODE_PATH_PROPERTY  = 'nodePath';
@@ -117,5 +121,54 @@ class Element extends DOMElement implements NodeInterface
         }
 
         return true;
+    }
+
+    /**
+     * @param string $html
+     * @return NodeInterface
+     * @throws Exception\LogicException
+     */
+    public function replaceWith($html)
+    {
+        if (!($this->ownerDocument instanceof Document)) {
+            throw new Exception\LogicException('Expects node ownerDocument of type ' . Document::class);
+        }
+
+        $frag = $this->ownerDocument->createDocumentFragment();
+        $frag->appendXml($html);
+
+        // insert new node remove old later
+        /** @var NodeInterface $newNode */
+        $newNode = $this->parentNode->insertBefore($frag, $this);
+        if ($newNode instanceof NodeInterface) {
+            $newNodeId = md5($this->getNodePath());
+            if ($this instanceof Text) {
+                $this->parentNode->setAttribute('__newNodeId', $newNodeId);
+                $newNode->parentNode->setAttribute('__nodeId', $newNodeId);
+            } else {
+                $this->setAttribute('__newNodeId', $newNodeId);
+                $newNode->setAttribute('__nodeId', $newNodeId);
+            }
+        }
+
+        return $newNode;
+    }
+
+    /**
+     * @return self|null
+     */
+    public function getCachedNode()
+    {
+        return $this->validCachedNode($this) ? $this : null;
+    }
+
+    /**
+     * @param string $cacheKey
+     * @return $this
+     */
+    public function setCacheKey($cacheKey)
+    {
+        $this->setAttribute($this::CACHE_KEY_ATTR, $cacheKey);
+        return $this;
     }
 }

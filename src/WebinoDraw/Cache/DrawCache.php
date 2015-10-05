@@ -17,7 +17,7 @@ use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerAwareTrait;
 
 /**
- *
+ * Class DrawCache
  */
 class DrawCache implements EventManagerAwareInterface
 {
@@ -59,14 +59,19 @@ class DrawCache implements EventManagerAwareInterface
             return $this;
         }
 
-        foreach ($event->getNodes() as $node) {
-            if (empty($node->ownerDocument)) {
-                // node no longer exists
+        foreach ($event->getNodes()->toArray() as $node) {
+            $cachedNode = $node->getCachedNode();
+            if (!$cachedNode) {
                 continue;
             }
 
-            $key   = $this->createCacheKey($node, $event);
-            $xhtml = $node->ownerDocument->saveXml($node);
+            $newNode = $node->resolveNewNode();
+            if (!$newNode) {
+                continue;
+            }
+
+            $xhtml = $newNode->ownerDocument->saveXML($newNode);
+            $key   = $cachedNode->getCacheKey();
 
             $this->cache->setItem($key, $xhtml);
             $this->cache->setTags($key, (array) $spec['cache']);
@@ -88,8 +93,12 @@ class DrawCache implements EventManagerAwareInterface
             return false;
         }
 
-        foreach ($event->getNodes() as $node) {
-            $xhtml = $this->cache->getItem($this->createCacheKey($node, $event));
+        foreach ($event->getNodes()->toArray() as $node) {
+
+            $cacheKey = $this->createCacheKey($node, $event);
+            $node->setCacheKey($cacheKey);
+
+            $xhtml = $this->cache->getItem($cacheKey);
             if (empty($xhtml)) {
                 return false;
             }

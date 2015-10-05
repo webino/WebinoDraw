@@ -43,7 +43,7 @@ class ReplaceTest extends \PHPUnit_Framework_TestCase
         $dom->registerNodeClass('DOMElement', 'WebinoDraw\Dom\Element');
         $dom->loadXML('<node/>');
 
-        $html           = '<testhtmlreplace/>';
+        $html           = '<testhtmlreplace __nodeId="be7041b0dd010418c9ebb055b2f7b86f"/>';
         $spec           = ['replace' => $html];
         $helper         = $this->getMock('WebinoDraw\Draw\Helper\AbstractHelper');
         $varTranslation = new Translation;
