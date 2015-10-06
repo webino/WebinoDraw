@@ -10,12 +10,16 @@
 
 namespace WebinoDraw\Dom;
 
+use WebinoDraw\Exception;
+
 /**
  * Extended DOMText
  * @TODO redesign
  */
 class Text extends \DOMText implements NodeInterface
 {
+    use NodeTrait;
+
     const NODE_VALUE_PROPERTY = 'nodeValue';
 
     /**

@@ -20,14 +20,11 @@ use WebinoDraw\Exception;
  */
 class Element extends DOMElement implements NodeInterface
 {
+    use NodeTrait;
+
     const NODE_NAME_PROPERTY  = 'nodeName';
     const NODE_VALUE_PROPERTY = 'nodeValue';
     const NODE_PATH_PROPERTY  = 'nodePath';
-
-    /**
-     * @var callable[]
-     */
-    private $onReplace = [];
 
     /**
      * Attributes mass assignment
@@ -121,40 +118,5 @@ class Element extends DOMElement implements NodeInterface
         }
 
         return true;
-    }
-
-    /**
-     * @param callable $callback
-     * @return $this
-     */
-    public function setOnReplace(callable $callback)
-    {
-        $this->onReplace[] = $callback;
-        return $this;
-    }
-
-    /**
-     * @param string $html
-     * @return NodeInterface
-     * @throws Exception\LogicException
-     */
-    public function replaceWith($html)
-    {
-        if (!($this->ownerDocument instanceof Document)) {
-            throw new Exception\LogicException('Expects node ownerDocument of type ' . Document::class);
-        }
-
-        $frag = $this->ownerDocument->createDocumentFragment();
-        $frag->appendXml($html);
-
-        $newNode = $this->parentNode->insertBefore($frag, $this);
-
-        if (!empty($this->onReplace)) {
-            foreach ($this->onReplace as $onReplace) {
-                call_user_func($onReplace, $this, $newNode);
-            }
-        }
-
-        return $newNode;
     }
 }

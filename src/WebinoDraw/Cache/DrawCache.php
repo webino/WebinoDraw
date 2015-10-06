@@ -11,6 +11,7 @@
 namespace WebinoDraw\Cache;
 
 use DOMNode;
+use WebinoDraw\Dom\Text;
 use WebinoDraw\Event\DrawEvent;
 use Zend\Cache\Storage\StorageInterface;
 use Zend\EventManager\EventManagerAwareInterface;
@@ -77,9 +78,12 @@ class DrawCache implements EventManagerAwareInterface
                 continue;
             }
 
-
             $cachedNode->removeAttribute('__cacheKey');
-            $xhtml = $cachedNode->ownerDocument->saveXML($cachedNode);
+
+            $xhtml = $cachedNode->ownerDocument->saveXML(
+                ($node instanceof Text) ? $cachedNode->firstChild : $cachedNode
+            );
+
             // TODO logger saving to cache
             //echo '<br />SAVE: ' . print_r($spec['cache'], true) . '<br />' . htmlspecialchars($xhtml) . '<br />';
             $this->cache->setItem($cacheKey, $xhtml);
@@ -110,10 +114,20 @@ class DrawCache implements EventManagerAwareInterface
                 // TODO logger queued to cache
                 //echo 'CANNOT LOAD: ' . print_r($spec['locator'], true);echo  '<br />';
                 $this->nodes[$cacheKey] = $node;
-                $node->setAttribute('__cacheKey', $cacheKey);
-                $node->setOnReplace(function ($newNode) use ($cacheKey) {
-                    $newNode->setAttribute('__cacheKey', $cacheKey);
-                });
+
+                if ($node instanceof Text) {
+                    $node->parentNode->setAttribute('__cacheKey', $cacheKey);
+                    $onReplace = function ($newNode) use ($cacheKey) {
+                        $newNode->parentNode->setAttribute('__cacheKey', $cacheKey);
+                    };
+                } else {
+                    $node->setAttribute('__cacheKey', $cacheKey);
+                    $onReplace = function ($newNode) use ($cacheKey) {
+                        $newNode->setAttribute('__cacheKey', $cacheKey);
+                    };
+                }
+
+                $node->setOnReplace($onReplace);
                 return false;
             }
 
