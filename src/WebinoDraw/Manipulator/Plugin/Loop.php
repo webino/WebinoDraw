@@ -200,6 +200,11 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
             $beforeNode = $node->nextSibling ? $node->nextSibling : null;
             $nodeClone  = clone $node;
             $parentNode = $node->parentNode;
+            
+            if (empty($node->parentNode)) {
+                continue;
+            }
+
             $node->parentNode->removeChild($node);
 
             $loopArg = new ArrayObject([

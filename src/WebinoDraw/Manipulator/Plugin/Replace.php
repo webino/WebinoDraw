@@ -14,7 +14,6 @@ use DOMElement;
 use WebinoDraw\Dom\NodeInterface;
 use WebinoDraw\Draw\Helper\AbstractHelper;
 use WebinoDraw\Exception;
-use WebinoDraw\Dom\Document;
 
 /**
  * Class Replace
@@ -61,8 +60,11 @@ class Replace extends AbstractPlugin implements
 
         $translatedHtml = $helper->translateValue($spec['replace'], $varTranslation, $spec);
         if (!empty($translatedHtml)) {
-            $arg->setNode($node->replaceWith($translatedHtml));
+            $newNode = $node->replaceWith($translatedHtml);
             $this->nodesToRemove[] = $node;
+            if ($newNode instanceof NodeInterface) {
+                $arg->setNode($newNode);
+            }
         }
 
         /** @var NodeInterface $node */
@@ -75,12 +77,9 @@ class Replace extends AbstractPlugin implements
     public function postLoop(PluginArgument $arg)
     {
         foreach ($this->nodesToRemove as $node) {
-            if (!($node instanceof DOMElement)) {
-                throw new Exception\LogicException('Expected node of type ' . DOMElement::class);
+            if ($node instanceof DOMElement) {
+                empty($node->parentNode) or $node->parentNode->removeChild($node);
             }
-
-            empty($node->parentNode)
-                or $node->parentNode->removeChild($node);
         }
     }
 }

@@ -39,6 +39,11 @@ class DrawCache implements EventManagerAwareInterface
     protected $eventIdentifier = 'WebinoDraw';
 
     /**
+     * @var object[]
+     */
+    private $nodes;
+
+    /**
      * @param StorageInterface|object $cache
      */
     public function __construct(StorageInterface $cache)
@@ -59,24 +64,29 @@ class DrawCache implements EventManagerAwareInterface
             return $this;
         }
 
-        foreach ($event->getNodes()->toArray() as $node) {
-            $cachedNode = $node->getCachedNode();
-            if (!$cachedNode) {
+        foreach ($this->nodes as $cacheKey => $node) {
+            if (empty($node->ownerDocument)) {
                 continue;
             }
 
-            $newNode = $node->resolveNewNode();
-            if (!$newNode) {
+            $cachedNode = $node->ownerDocument->getXpath()->query('//*[@__cacheKey="' . $cacheKey . '"]')->item(0);
+
+            if (empty($cachedNode)) {
+                // TODO logger should be saved to cache
+                //echo 'SHOULD SAVE: ' . print_r($spec['locator'], true);echo  '<br />';
                 continue;
             }
 
-            $xhtml = $newNode->ownerDocument->saveXML($newNode);
-            $key   = $cachedNode->getCacheKey();
 
-            $this->cache->setItem($key, $xhtml);
-            $this->cache->setTags($key, (array) $spec['cache']);
+            $cachedNode->removeAttribute('__cacheKey');
+            $xhtml = $cachedNode->ownerDocument->saveXML($cachedNode);
+            // TODO logger saving to cache
+            //echo '<br />SAVE: ' . print_r($spec['cache'], true) . '<br />' . htmlspecialchars($xhtml) . '<br />';
+            $this->cache->setItem($cacheKey, $xhtml);
+            $this->cache->setTags($cacheKey, (array) $spec['cache']);
         }
 
+        $this->nodes = [];
         return $this;
     }
 
@@ -94,15 +104,21 @@ class DrawCache implements EventManagerAwareInterface
         }
 
         foreach ($event->getNodes()->toArray() as $node) {
-
             $cacheKey = $this->createCacheKey($node, $event);
-            $node->setCacheKey($cacheKey);
-
             $xhtml = $this->cache->getItem($cacheKey);
             if (empty($xhtml)) {
+                // TODO logger queued to cache
+                //echo 'CANNOT LOAD: ' . print_r($spec['locator'], true);echo  '<br />';
+                $this->nodes[$cacheKey] = $node;
+                $node->setAttribute('__cacheKey', $cacheKey);
+                $node->setOnReplace(function ($newNode) use ($cacheKey) {
+                    $newNode->setAttribute('__cacheKey', $cacheKey);
+                });
                 return false;
             }
 
+            // TODO logger loading cached
+            //echo '<br />LOAD: ' . print_r($spec['cache'], true) . '<br />' . htmlspecialchars($xhtml) . '<br />';
             $frag = $node->ownerDocument->createDocumentFragment();
             $frag->appendXml($xhtml);
             $node->parentNode->replaceChild($frag, $node);

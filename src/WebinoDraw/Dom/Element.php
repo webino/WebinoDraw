@@ -3,7 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2015 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
@@ -20,11 +20,14 @@ use WebinoDraw\Exception;
  */
 class Element extends DOMElement implements NodeInterface
 {
-    use NodeTrait;
-
     const NODE_NAME_PROPERTY  = 'nodeName';
     const NODE_VALUE_PROPERTY = 'nodeValue';
     const NODE_PATH_PROPERTY  = 'nodePath';
+
+    /**
+     * @var callable[]
+     */
+    private $onReplace = [];
 
     /**
      * Attributes mass assignment
@@ -60,11 +63,8 @@ class Element extends DOMElement implements NodeInterface
         $innerHtml = '';
         foreach ($this->childNodes as $child) {
             $childHtml = $child->ownerDocument->saveXML($child);
-
-            empty($childHtml)
-                or $innerHtml .= $childHtml;
+            empty($childHtml) or $innerHtml .= $childHtml;
         }
-
         return $innerHtml;
     }
 
@@ -124,6 +124,16 @@ class Element extends DOMElement implements NodeInterface
     }
 
     /**
+     * @param callable $callback
+     * @return $this
+     */
+    public function setOnReplace(callable $callback)
+    {
+        $this->onReplace[] = $callback;
+        return $this;
+    }
+
+    /**
      * @param string $html
      * @return NodeInterface
      * @throws Exception\LogicException
@@ -137,38 +147,14 @@ class Element extends DOMElement implements NodeInterface
         $frag = $this->ownerDocument->createDocumentFragment();
         $frag->appendXml($html);
 
-        // insert new node remove old later
-        /** @var NodeInterface $newNode */
         $newNode = $this->parentNode->insertBefore($frag, $this);
-        if ($newNode instanceof NodeInterface) {
-            $newNodeId = md5($this->getNodePath());
-            if ($this instanceof Text) {
-                $this->parentNode->setAttribute('__newNodeId', $newNodeId);
-                $newNode->parentNode->setAttribute('__nodeId', $newNodeId);
-            } else {
-                $this->setAttribute('__newNodeId', $newNodeId);
-                $newNode->setAttribute('__nodeId', $newNodeId);
+
+        if (!empty($this->onReplace)) {
+            foreach ($this->onReplace as $onReplace) {
+                call_user_func($onReplace, $this, $newNode);
             }
         }
 
         return $newNode;
-    }
-
-    /**
-     * @return self|null
-     */
-    public function getCachedNode()
-    {
-        return $this->validCachedNode($this) ? $this : null;
-    }
-
-    /**
-     * @param string $cacheKey
-     * @return $this
-     */
-    public function setCacheKey($cacheKey)
-    {
-        $this->setAttribute($this::CACHE_KEY_ATTR, $cacheKey);
-        return $this;
     }
 }

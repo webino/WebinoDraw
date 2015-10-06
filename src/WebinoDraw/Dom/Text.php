@@ -16,8 +16,6 @@ namespace WebinoDraw\Dom;
  */
 class Text extends \DOMText implements NodeInterface
 {
-    use NodeTrait;
-
     const NODE_VALUE_PROPERTY = 'nodeValue';
 
     /**
@@ -45,23 +43,5 @@ class Text extends \DOMText implements NodeInterface
             return false;
         }
         return true;
-    }
-
-    /**
-     * @return self
-     */
-    public function getCachedNode()
-    {
-        return $this->validCachedNode($this->parentNode) ? $this->parentNode : null;
-    }
-
-    /**
-     * @param string $cacheKey
-     * @return $this
-     */
-    public function setCacheKey($cacheKey)
-    {
-        $this->parentNode->setAttribute($this::CACHE_KEY_ATTR, $cacheKey);
-        return $this;
     }
 }
