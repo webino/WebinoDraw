@@ -41,6 +41,11 @@ trait NodeTrait
 
         $newNode = $this->parentNode->insertBefore($frag, $this);
 
+        // preserve cache key
+        if ($this->hasAttribute('__cacheKey')) {
+            $newNode->setAttributeNode($this->getAttributeNode('__cacheKey'));
+        }
+
         if (!empty($this->onReplace)) {
             foreach ($this->onReplace as $onReplace) {
                 call_user_func($onReplace, $this, $newNode);
