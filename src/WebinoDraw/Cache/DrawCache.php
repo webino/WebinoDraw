@@ -55,6 +55,7 @@ class DrawCache implements EventManagerAwareInterface
     /**
      * Save nodes XHTML to the cache
      *
+     * @todo refactor
      * @param DrawEvent $event
      * @return self
      */
@@ -70,7 +71,8 @@ class DrawCache implements EventManagerAwareInterface
                 continue;
             }
 
-            $cachedNode = $node->ownerDocument->getXpath()->query('//*[@__cacheKey="' . $cacheKey . '"]')->item(0);
+            $doc = $node->ownerDocument;
+            $cachedNode = $doc->getXpath()->query('//*[@__cacheKey="' . $cacheKey . '"]')->item(0);
 
             if (empty($cachedNode)) {
                 // TODO logger should be saved to cache
@@ -80,9 +82,13 @@ class DrawCache implements EventManagerAwareInterface
 
             $cachedNode->removeAttribute('__cacheKey');
 
-            $xhtml = $cachedNode->ownerDocument->saveXML(
-                ($node instanceof Text) ? $cachedNode->firstChild : $cachedNode
-            );
+            // TODO redesign
+            if ($node instanceof Text || 'text' === $cachedNode->getAttribute('__cache')) {
+                $cachedNode->removeAttribute('__cache');
+                $xhtml = $doc->saveXML($cachedNode->firstChild);
+            } else {
+                $xhtml = $doc->saveXML($cachedNode);
+            }
 
             // TODO logger saving to cache
             //echo '<br />SAVE: ' . print_r($spec['cache'], true) . '<br />' . htmlspecialchars($xhtml) . '<br />';
@@ -97,6 +103,7 @@ class DrawCache implements EventManagerAwareInterface
     /**
      * Load nodes XHTML from the cache
      *
+     * @todo refactor
      * @param DrawEvent $event
      * @return bool true = loaded
      */

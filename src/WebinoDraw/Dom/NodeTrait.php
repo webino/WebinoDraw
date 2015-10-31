@@ -42,8 +42,16 @@ trait NodeTrait
         $newNode = $this->parentNode->insertBefore($frag, $this);
 
         // preserve cache key
+        // TODO decouple to handler
         if ($this->hasAttribute('__cacheKey')) {
-            $newNode->setAttributeNode($this->getAttributeNode('__cacheKey'));
+            $cacheKey = $this->getAttributeNode('__cacheKey');
+            if ($newNode instanceof Text) {
+                $newNode->parentNode->setAttributeNode($cacheKey);
+                $newNode->parentNode->setAttribute('__cache', 'text');
+            } else {
+                $newNode->setAttributeNode($cacheKey);
+            }
+            $this->removeAttribute('__cacheKey');
         }
 
         if (!empty($this->onReplace)) {
