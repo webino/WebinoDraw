@@ -39,7 +39,8 @@ trait NodeTrait
         $frag = $this->ownerDocument->createDocumentFragment();
         $frag->appendXml($html);
 
-        $newNode = $this->parentNode->insertBefore($frag, $this);
+        $hasWrapper = ($frag->childNodes->length <= 1);
+        $newNode    = $this->parentNode->insertBefore($frag, $this);
 
         // preserve cache key
         // TODO decouple to handler
@@ -48,8 +49,10 @@ trait NodeTrait
             if ($newNode instanceof Text) {
                 $newNode->parentNode->setAttributeNode($cacheKey);
                 $newNode->parentNode->setAttribute('__cache', 'text');
-            } else {
+            } elseif ($hasWrapper) {
                 $newNode->setAttributeNode($cacheKey);
+            } else {
+                $newNode->parentNode->setAttributeNode($cacheKey);
             }
             $this->removeAttribute('__cacheKey');
         }
