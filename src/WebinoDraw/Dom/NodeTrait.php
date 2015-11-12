@@ -44,8 +44,9 @@ trait NodeTrait
 
         // preserve cache key
         // TODO decouple to handler
-        if ($this->hasAttribute('__cacheKey')) {
-            $cacheKey = $this->getAttributeNode('__cacheKey');
+        $self = ($this instanceof Text) ? $this->parentNode : $this;
+        if ($self->hasAttribute('__cacheKey')) {
+            $cacheKey = $self->getAttributeNode('__cacheKey');
             if ($newNode instanceof Text) {
                 $newNode->parentNode->setAttributeNode($cacheKey);
                 $newNode->parentNode->setAttribute('__cache', 'text');
@@ -54,7 +55,7 @@ trait NodeTrait
             } else {
                 $newNode->parentNode->setAttributeNode($cacheKey);
             }
-            $this->removeAttribute('__cacheKey');
+            $self->removeAttribute('__cacheKey');
         }
 
         if (!empty($this->onReplace)) {
