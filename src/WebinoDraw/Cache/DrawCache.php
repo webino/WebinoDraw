@@ -10,6 +10,7 @@
 
 namespace WebinoDraw\Cache;
 
+use ArrayObject;
 use DOMNode;
 use WebinoDraw\Dom\Text;
 use WebinoDraw\Event\DrawEvent;
@@ -114,9 +115,11 @@ class DrawCache implements EventManagerAwareInterface
             return false;
         }
 
-        foreach ($event->getNodes()->toArray() as $node) {
+        foreach ($event->getNodes()->toArray() as $_node) {
+            $node     = $this->nodeToCache($spec, $_node);
             $cacheKey = $this->createCacheKey($node, $event);
-            $xhtml = $this->cache->getItem($cacheKey);
+            $xhtml    = $this->cache->getItem($cacheKey);
+
             if (empty($xhtml)) {
                 // TODO logger queued to cache
                 //echo 'CANNOT LOAD: ' . print_r($spec['locator'], true);echo  '<br />';
@@ -146,6 +149,22 @@ class DrawCache implements EventManagerAwareInterface
         }
 
         return true;
+    }
+
+    /**
+     * Select node to cache
+     *
+     * @param ArrayObject $spec
+     * @param DOMNode $node
+     * @return mixed
+     */
+    private function nodeToCache(ArrayObject $spec, DOMNode $node)
+    {
+        if (isset($spec['cache_node_xpath'])) {
+            // TODO node not found exception
+            return $node->ownerDocument->getXpath()->query($spec['cache_node_xpath'], $node)->item(0);
+        }
+        return $node;
     }
 
     /**
