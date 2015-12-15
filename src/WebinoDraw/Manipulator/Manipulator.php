@@ -71,7 +71,7 @@ class Manipulator
         }
 
         foreach ($arg->getNodes()->toArray() as $node) {
-            if (!($node instanceof NodeInterface)) {
+            if (!($node instanceof NodeInterface) || empty($node->parentNode)) {
                 continue;
             }
 
