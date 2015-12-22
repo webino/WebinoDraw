@@ -54,7 +54,7 @@ class Render extends AbstractPlugin implements InLoopPluginInterface
         $varTranslation   = $translationClone->makeVarKeys();
 
         foreach ($spec['render'] as $key => $value) {
-            $translation[$key] = trim($this->renderer->render($varTranslation->translateString($value)));
+            $value and $translation[$key] = trim($this->renderer->render($varTranslation->translateString($value)));
         }
     }
 }
