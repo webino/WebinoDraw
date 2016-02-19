@@ -42,8 +42,8 @@ class ModuleOptions extends AbstractOptions
     /**
      * @var string
      */
-    protected $ajaxFragmentXpath = '//*[contains(@class, "ajax-fragment") and @id]'
-                                 . '[not(.//*[contains(@class, "ajax-fragment")])]';
+    protected $ajaxFragmentXpath = '//*[contains(@class, "ajax-fragment") and @id]
+                                    [not(.//*[contains(@class, "ajax-fragment")])]';
 
     /**
      * @return Instructions
