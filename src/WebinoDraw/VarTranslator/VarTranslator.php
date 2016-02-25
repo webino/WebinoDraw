@@ -64,7 +64,7 @@ class VarTranslator
      *
      * @return Translation
      */
-    protected function getTranslation()
+    public function getTranslation()
     {
         if (null === $this->translation) {
             $this->setTranslation(new Translation);
