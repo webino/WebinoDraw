@@ -184,10 +184,10 @@ class DrawCache implements EventManagerAwareInterface
             $specCacheKey = $spec['cache_key'];
             $helper       = $event->getHelper();
 
-            $helper->getVarTranslator()
-                ->createTranslation($helper->getVars())
-                ->getVarTranslation()
-                ->translate($specCacheKey);
+            /** @var \WebinoDraw\VarTranslator\Translation $translation */
+            $translation = $helper->getVarTranslator()->getTranslation();
+            $translation->merge($helper->getVars());
+            $translation->getVarTranslation()->translate($specCacheKey);
 
             $cacheKey .= join('', $specCacheKey);
         }
