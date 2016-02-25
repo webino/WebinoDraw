@@ -10,6 +10,7 @@
 
 namespace WebinoDraw\View\Strategy;
 
+use WebinoDraw\Exception;
 use Zend\Http\PhpEnvironment\Response;
 use Zend\View\ViewEvent;
 
@@ -25,6 +26,7 @@ class DrawStrategy extends AbstractDrawStrategy
 
     /**
      * @param ViewEvent $event
+     * @throws \Exception
      */
     public function injectResponse(ViewEvent $event)
     {
@@ -32,18 +34,47 @@ class DrawStrategy extends AbstractDrawStrategy
             return;
         }
 
-        $options  = $this->draw->getOptions();
         /* @var $response Response */
+        $options  = $this->draw->getOptions();
         $response = $event->getResponse();
+        $body     = $response->getBody();
+        $spec     = $options->getInstructions();
+        $model    = $event->getModel();
+        $isXml    = $this->resolveIsXml($response);
 
-        $response->setContent(
-            $this->draw->draw(
-                $response->getBody(),
-                $options->getInstructions(),
-                $this->collectModelVariables($event->getModel()),
-                $this->resolveIsXml($response)
-            )
-        );
+        try {
+            $response->setContent(
+                $this->draw->draw(
+                    $body,
+                    $spec,
+                    $this->collectModelVariables($model),
+                    $isXml
+                )
+            );
+
+        } catch (Exception\DrawException $exc) {
+            $_exc = $exc;
+            while ($subExc = $_exc->getPrevious()) {
+                $_exc = $subExc;
+
+                if ($subExc instanceof Exception\ExceptionalDrawExceptionInterface) {
+                    $model->setVariables($subExc->getDrawVariables());
+                    $response->setContent(
+                        $this->draw->draw(
+                            $body,
+                            $spec,
+                            $this->collectModelVariables($model),
+                            $isXml
+                        )
+                    );
+                    return;
+                }
+            }
+            throw $exc;
+
+        } catch (\Exception $exc) {
+            throw $exc;
+        }
     }
 
     /**
