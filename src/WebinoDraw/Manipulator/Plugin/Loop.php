@@ -14,6 +14,7 @@ use ArrayObject;
 use WebinoDraw\Cache\DrawCache;
 use WebinoDraw\Dom\Element;
 use WebinoDraw\Dom\NodeList;
+use WebinoDraw\Draw\Helper\AbstractHelper;
 use WebinoDraw\Draw\LoopHelperPluginManager;
 use WebinoDraw\Exception;
 use WebinoDraw\Instructions\InstructionsRenderer;
@@ -128,6 +129,17 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
 
         // TODO spec object
         $arg->setSpec($spec);
+
+        $helper = $arg->getHelper();
+        if (!$translation->offsetExists($spec['loop']['base'])
+            && $helper instanceof AbstractHelper
+        ) {
+            $varTranslator = $helper->getVarTranslator();
+            $translation->offsetSet(
+                $spec['loop']['base'],
+                $varTranslator->getTranslation()->offsetGet($spec['loop']['base'])
+            );
+        }
 
         $items = array_slice(
             (array) $translation->fetch($spec['loop']['base']),
