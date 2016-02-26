@@ -16,12 +16,21 @@ use WebinoDraw\Exception;
 use WebinoDraw\Instructions\InstructionsInterface;
 use WebinoDraw\Instructions\InstructionsRenderer;
 use WebinoDraw\Options\ModuleOptions;
+use Zend\EventManager\EventManagerAwareInterface;
+use Zend\EventManager\EventManagerAwareTrait;
 
 /**
  * Class DrawService
  */
-class DrawService
+class DrawService implements EventManagerAwareInterface
 {
+    use EventManagerAwareTrait;
+
+    /**
+     * @var string
+     */
+    protected $eventIdentifier = 'WebinoDraw';
+
     /**
      * Application service name
      */

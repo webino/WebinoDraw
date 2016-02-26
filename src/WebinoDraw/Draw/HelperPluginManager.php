@@ -78,8 +78,8 @@ class HelperPluginManager extends AbstractPluginManager
             return;
         }
 
-        if ($locator->has('EventManager')) {
-            $helper->setEventManager($locator->get('EventManager'));
+        if ($locator->has('WebinoDraw')) {
+            $helper->setEventManager($locator->get('WebinoDraw')->getEventManager());
             return;
         }
     }
