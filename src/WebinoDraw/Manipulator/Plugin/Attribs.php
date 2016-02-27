@@ -3,7 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2016 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
@@ -14,7 +14,7 @@ use DOMElement;
 use WebinoDraw\Exception;
 
 /**
- *
+ * Class Attribs
  */
 class Attribs extends AbstractPlugin implements InLoopPluginInterface
 {
@@ -46,13 +46,16 @@ class Attribs extends AbstractPlugin implements InLoopPluginInterface
                 $helper->translateValue($attribValue, $varTranslation, $spec)
             );
 
+            $varKey = $varTranslation->makeVar($varTranslation->makeExtraVarKey($attribName));
+
             if (empty($newAttribValue) && !is_numeric($newAttribValue)) {
                 $node->removeAttribute($attribName);
+                $varTranslation->offsetExists($varKey) and $varTranslation->offsetUnset($varKey);
             } else {
-                $node->setAttribute($attribName, trim($newAttribValue));
+                $newAttribValue = trim($newAttribValue);
+                $node->setAttribute($attribName, $newAttribValue);
+                $varTranslation->offsetSet($varKey, $newAttribValue);
             }
         }
-
-        $this->updateNodeVarTranslation($node, $arg);
     }
 }

@@ -3,7 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2016 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
@@ -15,8 +15,6 @@ namespace WebinoDraw\Dom;
  */
 class Attr extends \DOMAttr implements NodeInterface
 {
-    const NODE_VALUE_PROPERTY = 'nodeValue';
-
     /**
      * Returns the node text value
      *
@@ -26,8 +24,8 @@ class Attr extends \DOMAttr implements NodeInterface
     {
         $properties = [$prefix . self::NODE_VALUE_PROPERTY => ''];
 
-        empty($this->nodeValue) or
-            $properties[$prefix . self::NODE_VALUE_PROPERTY] = $this->nodeValue;
+        empty($this->nodeValue)
+            or $properties[$prefix . self::NODE_VALUE_PROPERTY] = $this->nodeValue;
 
         return $properties;
     }
@@ -38,13 +36,9 @@ class Attr extends \DOMAttr implements NodeInterface
     public function isEmpty()
     {
         $nodeValue = trim($this->nodeValue);
-
-        if (!empty($nodeValue)
-            || is_numeric($nodeValue)
-        ) {
+        if (!empty($nodeValue) || is_numeric($nodeValue)) {
             return false;
         }
-
         return true;
     }
 }
