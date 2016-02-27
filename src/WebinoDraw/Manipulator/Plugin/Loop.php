@@ -134,11 +134,12 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
         if (!$translation->offsetExists($spec['loop']['base'])
             && $helper instanceof AbstractHelper
         ) {
-            $varTranslator = $helper->getVarTranslator();
-            $translation->offsetSet(
-                $spec['loop']['base'],
-                $varTranslator->getTranslation()->offsetGet($spec['loop']['base'])
-            );
+            $varTranslatorTranslation = $helper->getVarTranslator()->getTranslation();
+            $varTranslatorTranslation->offsetExists($spec['loop']['base'])
+                and $translation->offsetSet(
+                    $spec['loop']['base'],
+                    $varTranslatorTranslation->offsetGet($spec['loop']['base'])
+                );
         }
 
         $items = array_slice(
