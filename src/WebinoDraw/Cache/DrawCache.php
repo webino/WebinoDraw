@@ -3,7 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2015 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2016 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
@@ -12,6 +12,7 @@ namespace WebinoDraw\Cache;
 
 use ArrayObject;
 use DOMNode;
+use WebinoDraw\Dom\Element;
 use WebinoDraw\Dom\Text;
 use WebinoDraw\Event\DrawEvent;
 use Zend\Cache\Storage\StorageInterface;
@@ -41,7 +42,7 @@ class DrawCache implements EventManagerAwareInterface
     protected $eventIdentifier = 'WebinoDraw';
 
     /**
-     * @var object[]
+     * @var Element[]|Text[]
      */
     private $nodes;
 
@@ -72,10 +73,10 @@ class DrawCache implements EventManagerAwareInterface
                 continue;
             }
 
-            $doc = $node->ownerDocument;
+            $doc = $node->getOwnerDocument();
             $cachedNode = $doc->getXpath()->query('//*[@__cacheKey="' . $cacheKey . '"]')->item(0);
 
-            if (empty($cachedNode)) {
+            if (empty($cachedNode) || !($cachedNode instanceof Element)) {
                 // TODO logger should be saved to cache
                 //echo 'SHOULD SAVE: ' . print_r($spec['locator'], true);echo  '<br />';
                 continue;
@@ -128,18 +129,22 @@ class DrawCache implements EventManagerAwareInterface
                 $this->nodes[$cacheKey] = $node;
 
                 if ($node instanceof Text) {
-                    $node->parentNode->setAttribute('__cacheKey', $cacheKey);
+                    $node->getParentNode()->setAttribute('__cacheKey', $cacheKey);
                     $onReplace = function ($newNode) use ($cacheKey) {
                         $newNode->parentNode->setAttribute('__cacheKey', $cacheKey);
                     };
-                } else {
+
+                } elseif ($node instanceof Element) {
                     $node->setAttribute('__cacheKey', $cacheKey);
-                    $onReplace = function ($newNode) use ($cacheKey) {
+                    $onReplace = function (Element $newNode) use ($cacheKey) {
                         $newNode->setAttribute('__cacheKey', $cacheKey);
                     };
                 }
 
-                $node->setOnReplace($onReplace);
+                if (isset($onReplace)) {
+                    $node->setOnReplace($this->createOnReplaceHandler());
+                    $node->setOnReplace($onReplace);
+                }
                 continue;
             }
 
@@ -157,14 +162,14 @@ class DrawCache implements EventManagerAwareInterface
      * Select node to cache
      *
      * @param ArrayObject $spec
-     * @param DOMNode $node
-     * @return mixed
+     * @param Element|Text $node
+     * @return DomNode
      */
-    private function nodeToCache(ArrayObject $spec, DOMNode $node)
+    private function nodeToCache(ArrayObject $spec, $node)
     {
         if (isset($spec['cache_node_xpath'])) {
-            // TODO node not found exception
-            return $node->ownerDocument->getXpath()->query($spec['cache_node_xpath'], $node)->item(0);
+            // TODO cache node not found exception
+            return $node->getOwnerDocument()->getXpath()->query($spec['cache_node_xpath'], $node)->item(0);
         }
         return $node;
     }
@@ -217,5 +222,33 @@ class DrawCache implements EventManagerAwareInterface
         }
 
         return $cacheKey;
+    }
+
+    /**
+     * @return \Closure
+     */
+    private function createOnReplaceHandler()
+    {
+        return function ($newNode, $oldNode, $frag) {
+            $self = ($oldNode instanceof Text) ? $oldNode->getParentNode() : $oldNode;
+            if ($self->hasAttribute('__cacheKey')) {
+                $cacheKey = $self->getAttributeNode('__cacheKey');
+
+                if ($newNode instanceof Text) {
+                    $newParentNode = $newNode->getParentNode();
+                    $newParentNode->setAttributeNode($cacheKey);
+                    $newParentNode->setAttribute('__cache', 'text');
+
+                } elseif ($newNode instanceof Element) {
+                    if ($frag->childNodes->length <= 1) {
+                        // has wrapper
+                        $newNode->setAttributeNode($cacheKey);
+                    } else {
+                        $newNode->parentNode->setAttributeNode($cacheKey);
+                    }
+                }
+                $self->removeAttribute('__cacheKey');
+            }
+        };
     }
 }

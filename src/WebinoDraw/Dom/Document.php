@@ -3,7 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2016 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
@@ -29,12 +29,12 @@ class Document extends \DOMDocument
     public function __construct($version = null, $encoding = null)
     {
         parent::__construct($version, $encoding);
-        $this->registerNodeClass('DOMElement', 'WebinoDraw\Dom\Element');
-        $this->registerNodeClass('DOMText', 'WebinoDraw\Dom\Text');
-        $this->registerNodeClass('DOMAttr', 'WebinoDraw\Dom\Attr');
+        $this->registerNodeClass('DOMElement', Element::class);
+        $this->registerNodeClass('DOMText', Text::class);
+        $this->registerNodeClass('DOMAttr', Attr::class);
     }
 
-        /**
+    /**
      * @return DOMXpath
      */
     public function getXpath()
@@ -47,6 +47,7 @@ class Document extends \DOMDocument
 
     /**
      * @param DOMXpath $xpath
+     * @return $this
      */
     public function setXpath(DOMXpath $xpath)
     {

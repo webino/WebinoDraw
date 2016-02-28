@@ -3,7 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2015 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2016 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
@@ -12,10 +12,12 @@ namespace WebinoDraw\Instructions;
 
 use ArrayObject;
 use DOMNodeList;
+use WebinoDraw\Dom\Element;
 use WebinoDraw\Dom\NodeInterface;
 use WebinoDraw\Dom\Factory\NodeListFactory;
 use WebinoDraw\Dom\Locator;
 use WebinoDraw\Dom\NodeList;
+use WebinoDraw\Dom\Text;
 use WebinoDraw\Draw\HelperPluginManager;
 use WebinoDraw\Exception\InvalidArgumentException;
 use WebinoDraw\Factory\InstructionsFactory;
@@ -96,22 +98,36 @@ class InstructionsRenderer implements InstructionsRendererInterface
             throw new InvalidArgumentException('Expected instructions as array|InstructionsInterface');
         }
 
+        $nodePath = null;
+        if ($node instanceof Element || $node instanceof Text) {
+            $node->setOnReplace(function ($newNode) use (&$nodePath) {
+                if ($newNode instanceof Element || $newNode instanceof Text) {
+                    $nodePath = $newNode->getNodePath();
+                }
+            });
+        }
+
+        $_node = $node;
         foreach ($drawInstructions->getSortedArrayCopy() as $specs) {
             $spec = (array) $this->createNodeSpec($specs);
             unset($specs);
 
-            if ($this->resolveIsNodeDisabled($node, $spec)) {
+            if ($this->resolveIsNodeDisabled($_node, $spec)) {
                 continue;
             }
 
             $varTranslation->translate($spec['locator']);
-            $nodes = $this->locator->locate($node, $spec['locator']);
+            $nodes = $this->locator->locate($_node, $spec['locator']);
             if ($this->resolveIsEmptyNodes($nodes)) {
                 continue;
             }
 
             $helper = !empty($spec['helper']) ? $spec['helper'] : self::DEFAULT_DRAW_HELPER;
             $this->drawNodes($nodes, $helper, $spec, $vars);
+
+            if (empty($node->parentNode) && isset($nodePath)) {
+                $_node = $node->getOwnerDocument()->getXpath()->query($nodePath)->item(0);
+            }
         }
     }
 
@@ -163,7 +179,7 @@ class InstructionsRenderer implements InstructionsRendererInterface
      * @param array|NodeList $nodes
      * @param array $instructions
      * @param ArrayObject $translation
-     * @return self
+     * @return $this
      */
     public function subInstructions($nodes, array $instructions, ArrayObject $translation)
     {
@@ -184,8 +200,8 @@ class InstructionsRenderer implements InstructionsRendererInterface
 
     /**
      * @param array $spec
-     * @param Translation
-     * @return self
+     * @param Translation $translation
+     * @return $this
      */
     public function expandInstructions(array &$spec, Translation $translation = null)
     {

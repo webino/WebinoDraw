@@ -3,7 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2015 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2016 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
@@ -11,7 +11,9 @@
 namespace WebinoDraw\Manipulator\Plugin;
 
 use DOMElement;
+use WebinoDraw\Dom\Element;
 use WebinoDraw\Dom\NodeInterface;
+use WebinoDraw\Dom\Text;
 use WebinoDraw\Draw\Helper\AbstractHelper;
 use WebinoDraw\Exception;
 
@@ -40,8 +42,10 @@ class Replace extends AbstractPlugin implements
         }
 
         $node = $arg->getNode();
-        if (!($node instanceof NodeInterface)) {
-            throw new Exception\LogicException('Expected node of type ' . NodeInterface::class);
+        if (!($node instanceof Element) && !($node instanceof Text)) {
+            throw new Exception\LogicException(
+                sprintf('Expected node of type %s or %s ', Element::class, Text::class)
+            );
         }
 
         if (empty($node->parentNode)) {
@@ -49,7 +53,6 @@ class Replace extends AbstractPlugin implements
             return;
         }
 
-        /** @var DOMElement $node */
         $node->nodeValue = '';
         $varTranslation  = $arg->getVarTranslation();
 
@@ -59,16 +62,16 @@ class Replace extends AbstractPlugin implements
         }
 
         $translatedHtml = $helper->translateValue($spec['replace'], $varTranslation, $spec);
-        if (!empty($translatedHtml)) {
-            $newNode = $node->replaceWith($translatedHtml);
-            $this->nodesToRemove[] = $node;
-            if ($newNode instanceof NodeInterface) {
-                $arg->setNode($newNode);
-            }
+        if (empty($translatedHtml)) {
+            return;
         }
 
-        /** @var NodeInterface $node */
-        $this->updateNodeVarTranslation($node, $arg);
+        $newNode = $node->replaceWith($translatedHtml);
+        $this->nodesToRemove[] = $node;
+        if ($newNode instanceof NodeInterface) {
+            $arg->setNode($newNode);
+            $this->updateNodeVarTranslation($newNode, $arg);
+        }
     }
 
     /**
@@ -77,8 +80,8 @@ class Replace extends AbstractPlugin implements
     public function postLoop(PluginArgument $arg)
     {
         foreach ($this->nodesToRemove as $node) {
-            if ($node instanceof DOMElement) {
-                empty($node->parentNode) or $node->parentNode->removeChild($node);
+            if ($node instanceof DOMElement && !empty($node->parentNode)) {
+                $node->parentNode->removeChild($node);
             }
         }
     }
