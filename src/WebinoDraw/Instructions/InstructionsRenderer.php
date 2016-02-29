@@ -156,14 +156,14 @@ class InstructionsRenderer implements InstructionsRendererInterface
     }
 
     /**
-     * @param NodeInterface $node
+     * @param NodeInterface|null $node
      * @param array $spec
      * @return bool
      */
-    protected function resolveIsNodeDisabled(NodeInterface $node, array $spec)
+    protected function resolveIsNodeDisabled($node, array $spec)
     {
         // locator not set or node already removed
-        return empty($spec['locator']) || empty($node->ownerDocument);
+        return empty($spec['locator']) || empty($node) || empty($node->ownerDocument);
     }
 
     /**
