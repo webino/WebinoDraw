@@ -48,7 +48,7 @@
     "require-dev": {
         "webino/webino-dev": "dev-develop",
         "webino/webino-debug": "dev-develop",
-        "zendframework/zend-mvc": "2.*",
+        "zendframework/zend-mvc": "2.6.*",
         "zendframework/zend-modulemanager": "2.*",
         "zendframework/zend-version": "2.*",
         "zendframework/zend-console": "2.*",
