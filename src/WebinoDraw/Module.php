@@ -11,6 +11,7 @@
 namespace WebinoDraw;
 
 use WebinoDebug\Factory\DebuggerFactory;
+use WebinoDebug\Service\Debugger;
 use WebinoDraw\Debugger\Bar\DrawPanel;
 use WebinoDraw\Draw\HelperPluginManager;
 use WebinoDraw\Draw\LoopHelperPluginManager;
@@ -67,9 +68,8 @@ class Module implements ConfigProviderInterface
 
         // Register a debugger bar panel
         if (class_exists(DebuggerFactory::class)) {
-            /** @var \WebinoDebug\Service\Debugger $debugger */
             $debugger = $services->get(DebuggerFactory::SERVICE);
-            $debugger->getOptions()->isEnabled() and $debugger->setBarPanel(new DrawPanel($manager), DrawPanel::ID);
+            $debugger instanceof Debugger and $debugger->setBarPanel(new DrawPanel($manager), DrawPanel::ID);
         }
 
         // Fixing some DI issues but deprecated
