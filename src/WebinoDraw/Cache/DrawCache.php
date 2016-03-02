@@ -116,14 +116,19 @@ class DrawCache implements EventManagerAwareInterface
             return false;
         }
 
-        $cached = true;
-        foreach ($event->getNodes()->toArray() as $_node) {
+        $cached   = true;
+        $nodes    = $event->getNodes();
+        $newNodes = [];
+
+        foreach ($nodes->toArray() as $_node) {
             $node     = $this->nodeToCache($spec, $_node);
             $cacheKey = $this->createCacheKey($node, $event);
             $xhtml    = $this->cache->getItem($cacheKey);
 
             if (empty($xhtml)) {
-                $cached = false;
+                $cached     = false;
+                $newNodes[] = $_node;
+
                 // TODO logger queued to cache
                 //echo 'CANNOT LOAD: ' . print_r($spec['locator'], true);echo  '<br />';
                 $this->nodes[$cacheKey] = $node;
@@ -155,6 +160,7 @@ class DrawCache implements EventManagerAwareInterface
             $node->parentNode->replaceChild($frag, $node);
         }
 
+        $nodes->setNodes($newNodes);
         return $cached;
     }
 
