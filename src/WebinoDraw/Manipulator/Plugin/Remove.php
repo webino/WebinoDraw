@@ -59,7 +59,7 @@ class Remove implements InLoopPluginInterface
         foreach ((array) $spec['remove'] as $removeLocator) {
             $helper->translate($removeLocator);
             $nodes = $nodeXpath->query($this->locator->set($removeLocator)->xpathMatchAny(), $node);
-            $this->removeNodes($nodes);
+            $nodes and $this->removeNodes($nodes);
         }
     }
 
