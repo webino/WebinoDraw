@@ -3,7 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2015 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2016 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
@@ -330,6 +330,7 @@ class Form extends AbstractHelper
         // todo injection
         $translator = $this->formRow->getTranslator();
 
+        $matched  = [];
         $toRemove = [];
         $elements = $form->getElements();
 
@@ -338,33 +339,14 @@ class Form extends AbstractHelper
             /** @var \WebinoDraw\Dom\Document $ownerDocument */
             $ownerDocument = $node->ownerDocument;
 
-            // auto draw hidden nodes
-            /** @var \Zend\Form\Element $element */
-            foreach ($elements as $element) {
-
-                $attributes = $element->getAttributes();
-                if (empty($attributes['type'])
-                    || 'hidden' !== $attributes['type']
-                ) {
-                    continue;
-                }
-
-                $hiddenNode = $ownerDocument->createDocumentFragment();
-                $xhtml      = (string) $this->formRow->__invoke($element);
-
-                $hiddenNode->appendXml($xhtml);
-                if (!$hiddenNode->hasChildNodes()) {
-                    throw new Exception\RuntimeException('Invalid XHTML ' . $xhtml);
-                }
-                $node->appendChild($hiddenNode);
-            }
-
             $nodePath = $node->getNodePath();
             $elementNodes = $ownerDocument->getXpath()->query('.//*[@name]', $node);
             /* @var $elementNode \WebinoDraw\Dom\Element */
             foreach ($elementNodes as $elementNode) {
 
                 $elementName = $elementNode->getAttribute('name');
+                $matched[$elementName] = true;
+
                 if (!$form->has($elementName)) {
                     // remove node of the missing form element
                     $parentNode = $elementNode->parentNode;
@@ -449,6 +431,31 @@ class Form extends AbstractHelper
                         }
                     }
                 }
+            }
+
+            // auto draw hidden nodes
+            /** @var \Zend\Form\Element $element */
+            foreach ($elements as $element) {
+                $attributes = $element->getAttributes();
+                if (empty($attributes['type'])
+                    || 'hidden' !== $attributes['type']
+                ) {
+                    continue;
+                }
+
+                // skip matched elements
+                if (isset($matched[$attributes['name']])) {
+                    continue;
+                }
+
+                $hiddenNode = $ownerDocument->createDocumentFragment();
+                $xhtml      = (string) $this->formRow->__invoke($element);
+
+                $hiddenNode->appendXml($xhtml);
+                if (!$hiddenNode->hasChildNodes()) {
+                    throw new Exception\RuntimeException('Invalid XHTML ' . $xhtml);
+                }
+                $node->appendChild($hiddenNode);
             }
         }
 
