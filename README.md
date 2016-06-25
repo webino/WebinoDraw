@@ -101,6 +101,7 @@ Provides ability to configure rendering of the layout. **Still under development
             'locator' => '.quick-contact',         // the same node
             'instructions' => [
                 'widget' => [
+                    'locator' => '.',              // the same node
                     'locator' => 'xpath=.',        // the same node
                     // ...
                 ],
@@ -430,7 +431,7 @@ Provides ability to configure rendering of the layout. **Still under development
         'attribs' => [                                   // set attributes
             'title' => 'Attribute example'
         ],
-        'remove'  => 'xpath=.',                          // locator|array, removes target node
+        'remove'  => '.',                                // locator|array, removes target node
         'replace' => '<strong/>',                        // XHTML, replaces node
         'onEmpty' => [                                   // custom options if node is empty
             'value' => 'Empty node example',             // use same options as normal
