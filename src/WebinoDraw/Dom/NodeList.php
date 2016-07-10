@@ -3,7 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2016 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
@@ -40,18 +40,18 @@ class NodeList implements IteratorAggregate
     protected $locator;
 
     /**
+     * @param Locator $locator
      * @param array|DOMNodeList $nodes DOMNodes in array or DOMNodelist
      */
     public function __construct(Locator $locator, $nodes = null)
     {
         $this->locator = $locator;
-        empty($nodes) or
-        $this->setNodes($nodes);
+        empty($nodes) or $this->setNodes($nodes);
     }
 
     /**
      * @param array|DOMNodeList $nodes DOMNodes in array or DOMNodelist
-     * @return NodeList
+     * @return $this
      */
     public function create($nodes)
     {
@@ -71,7 +71,7 @@ class NodeList implements IteratorAggregate
 
     /**
      * @param array|DOMNodeList|IteratorIterator $nodes
-     * @return NodeList
+     * @return $this
      * @throws InvalidArgumentException
      */
     public function setNodes($nodes)
@@ -113,6 +113,7 @@ class NodeList implements IteratorAggregate
 
     /**
      * @param EscapeHtml $escapeHtml
+     * @return $this
      */
     public function setEscapeHtml(EscapeHtml $escapeHtml)
     {
@@ -125,13 +126,13 @@ class NodeList implements IteratorAggregate
      *
      * @param string $value
      * @param Callable $preSet Modify and return value, passed parameters $node, $value
-     * @return NodeList
+     * @return $this
      */
     public function setValue($value, $preSet = null)
     {
         $escapeHtml = $this->getEscapeHtml();
         foreach ($this as $node) {
-            $nodeValue       = is_callable($preSet) ? $preSet($node, $value, $this) : $value;
+            $nodeValue = is_callable($preSet) ? $preSet($node, $value, $this) : $value;
             $node->nodeValue = $escapeHtml($nodeValue);
         }
 
@@ -143,7 +144,7 @@ class NodeList implements IteratorAggregate
      *
      * @param string $xhtml
      * @param Callable $preSet Modify and return xhtml, passed parameters $node, $xhtml
-     * @return NodeList
+     * @return $this
      */
     public function setHtml($xhtml, $preSet = null)
     {
@@ -167,11 +168,11 @@ class NodeList implements IteratorAggregate
      * Append XHTML to nodes
      *
      * @param string $xhtml Valid XHTML
-     * @return NodeList Newly created nodes
+     * @return $this Newly created nodes
      */
     public function appendHtml($xhtml)
     {
-        $nodes     = [];
+        $nodes = [];
         $childNode = null;
 
         foreach ($this as $node) {
@@ -191,7 +192,7 @@ class NodeList implements IteratorAggregate
      *
      * @param array $attribs Attributes to set
      * @param Callable $preSet Modify and return value, assed parameters $node, $value
-     * @return NodeList
+     * @return $this
      */
     public function setAttribs(array $attribs, $preSet = null)
     {
@@ -214,7 +215,7 @@ class NodeList implements IteratorAggregate
      *
      * @param string $xhtml XHTML to replace node
      * @param Callable $preSet Modify and return xhtml, assed parameters $node, $xhtml
-     * @return NodeList
+     * @return $this
      */
     public function replace($xhtml, $preSet = null)
     {
@@ -247,7 +248,7 @@ class NodeList implements IteratorAggregate
      * Remove target nodes
      *
      * @param string $locator CSS selector or XPath (xpath=)
-     * @return NodeList
+     * @return $this
      */
     public function remove($locator = 'xpath=.')
     {
@@ -264,8 +265,8 @@ class NodeList implements IteratorAggregate
         );
 
         foreach ($remove as $node) {
-            empty($node->parentNode) or
-            $node->parentNode->removeChild($node);
+            empty($node->parentNode)
+                or $node->parentNode->removeChild($node);
         }
 
         return $this;
@@ -276,7 +277,7 @@ class NodeList implements IteratorAggregate
      *
      * @param string $locator
      * @param Callable $callback The NodeList parameter is passed
-     * @return NodeList
+     * @return $this
      * @throws RuntimeException
      */
     public function each($locator, $callback)
@@ -292,8 +293,8 @@ class NodeList implements IteratorAggregate
             }
 
             $nodes = $node->ownerDocument->getXpath()->query($xpath, $node);
-            foreach ($nodes as $subnode) {
-                $callback($this->create([$subnode]));
+            foreach ($nodes as $subNode) {
+                $callback($this->create([$subNode]));
             }
         }
 
@@ -312,9 +313,7 @@ class NodeList implements IteratorAggregate
     {
         $return = [];
         foreach ($this as $node) {
-            if (null !== $node) {
-                $return[] = $node;
-            }
+            (null === $node) or $return[] = $node;
         }
         return $return;
     }
