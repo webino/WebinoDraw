@@ -3,7 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2016 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
@@ -16,7 +16,7 @@ use WebinoDraw\Exception\UnexpectedValueException;
 use Zend\EventManager\Event;
 
 /**
- *
+ * Class AjaxEvent
  */
 class AjaxEvent extends Event
 {
@@ -49,7 +49,7 @@ class AjaxEvent extends Event
 
     /**
      * @param array|Json $json
-     * @return DrawEvent
+     * @return $this
      */
     public function setJson($json)
     {
@@ -82,7 +82,7 @@ class AjaxEvent extends Event
 
     /**
      * @param string|FragmentXpath $xpath
-     * @return DrawEvent
+     * @return $this
      */
     public function setFragmentXpath($xpath)
     {
