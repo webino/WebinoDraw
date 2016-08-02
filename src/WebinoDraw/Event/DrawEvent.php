@@ -3,7 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2016 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
@@ -18,7 +18,7 @@ use WebinoDraw\Draw\Helper\HelperInterface;
 use Zend\EventManager\Event;
 
 /**
- *
+ * Class DrawEvent
  */
 class DrawEvent extends Event
 {
@@ -51,7 +51,7 @@ class DrawEvent extends Event
 
     /**
      * @param HelperInterface $helper
-     * @return self
+     * @return $this
      */
     public function setHelper(HelperInterface $helper)
     {
@@ -73,7 +73,7 @@ class DrawEvent extends Event
 
     /**
      * @param NodeList $nodes
-     * @return self
+     * @return $this
      */
     public function setNodes(NodeList $nodes)
     {
@@ -95,7 +95,7 @@ class DrawEvent extends Event
 
     /**
      * @param array|ArrayObject $spec
-     * @return self
+     * @return $this
      * @throws UnexpectedValueException
      */
     public function setSpec($spec)
@@ -123,7 +123,7 @@ class DrawEvent extends Event
     }
 
     /**
-     * @return self
+     * @return $this
      */
     public function clearSpec()
     {
@@ -134,7 +134,7 @@ class DrawEvent extends Event
     /**
      * @param string|int $key
      * @param string|array|object $value
-     * @return self
+     * @return $this
      */
     public function setVar($key, $value)
     {
