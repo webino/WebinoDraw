@@ -70,6 +70,10 @@ class Fragments implements InLoopPluginInterface
 
             $translation[$name . 'OuterHtml'] = $subNode->getOuterHtml();
             $translation[$name . 'InnerHtml'] = $subNode->getInnerHtml();
+
+            foreach ($subNode->getProperties() as $propertyName => $property) {
+                $translation[$name . ucfirst($propertyName)] = $property;
+            }
         }
     }
 }
