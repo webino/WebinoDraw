@@ -43,20 +43,6 @@ class Pagination extends Element
                     'snippet' => 'webino-draw/snippet/pagination',
                 ],
             ],
-            'first' => [
-                'locator' => 'xpath=.//li[1]/a[1]',
-                'attribs' => [
-                    'href'  => '{$pageHref}?{$first}{$params}',
-                    'title' => '{$first}',
-                ],
-            ],
-            'last' => [
-                'locator' => 'xpath=.//li[last()]/a',
-                'attribs' => [
-                    'href'  => '{$pageHref}?{$last}{$params}',
-                    'title' => '{$last}',
-                ],
-            ],
             // TODO do not use ?1 on the first page by default
             'pages' => [
                 'locator' => 'xpath=.//li[2]',
@@ -77,6 +63,60 @@ class Pagination extends Element
                                 'href'  => '{$pageHref}?{$number}{$params}',
                                 'title' => '{$number}',
                             ],
+                        ],
+                    ],
+                ],
+            ],
+            'first' => [
+                'locator' => 'xpath=.//li[1]',
+                'attribs' => ['class' => '{$_class} previous-page'],
+
+                'onVar' => [
+                    'on-first' => [
+                        'var' => '{$previous}',
+                        'equalTo' => '',
+
+                        'instructions' => [
+                            'remove' => [
+                                'locator' => '.',
+                                'remove'  => 'xpath=.',
+                            ],
+                        ],
+                    ],
+                ],
+                'instructions' => [
+                    'link' => [
+                        'locator' => 'a',
+                        'attribs' => [
+                            'href'  => '{$pageHref}?{$previous}{$params}',
+                            'title' => '{$previous}',
+                        ],
+                    ],
+                ],
+            ],
+            'last' => [
+                'locator' => 'xpath=.//li[last()]',
+                'attribs' => ['class' => '{$_class} next-page'],
+
+                'onVar' => [
+                    'on-last' => [
+                        'var' => '{$next}',
+                        'equalTo' => '',
+
+                        'instructions' => [
+                            'remove' => [
+                                'locator' => '.',
+                                'remove'  => 'xpath=.',
+                            ],
+                        ],
+                    ],
+                ],
+                'instructions' => [
+                    'link' => [
+                        'locator' => 'a',
+                        'attribs' => [
+                            'href'  => '{$pageHref}?{$next}{$params}',
+                            'title' => '{$next}',
                         ],
                     ],
                 ],
