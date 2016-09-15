@@ -3,7 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2015 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2016 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
@@ -15,7 +15,7 @@ use WebinoDraw\VarTranslator\Operation\OnVar\PluginInterface;
 use WebinoDraw\VarTranslator\Translation;
 
 /**
- *
+ * Class OnVar
  */
 class OnVar
 {
@@ -26,7 +26,7 @@ class OnVar
 
     /**
      * @param PluginInterface $plugin
-     * @return self
+     * @return $this
      */
     public function setPlugin(PluginInterface $plugin)
     {
@@ -39,16 +39,16 @@ class OnVar
      * @param Translation $varTranslation
      * @param array $spec
      * @param callable $callback
-     * @return self
+     * @return $this
      * @throws Exception\InvalidInstructionException
      */
     public function apply(Translation $varTranslation, array $spec, callable $callback)
     {
         foreach ($spec as $subSpec) {
             if (!array_key_exists('var', $subSpec)) {
-                throw new Exception\InvalidInstructionException(
-                    'Expected `var` option in ' . print_r($subSpec, true)
-                );
+                // TODO logger
+                // 'Expected `var` option in ' . print_r($subSpec, true)
+                continue;
             }
 
             $this->invokePlugins($varTranslation, $subSpec, $callback);
@@ -61,7 +61,7 @@ class OnVar
      * @param Translation $varTranslation
      * @param array $spec
      * @param callable $callback
-     * @return self
+     * @return $this
      */
     protected function invokePlugins(Translation $varTranslation, array $spec, callable $callback)
     {
@@ -98,7 +98,7 @@ class OnVar
      *
      * @param mixed $valA
      * @param mixed $valB
-     * @return self
+     * @return $this
      */
     private function fixTypes(&$valA, &$valB)
     {
