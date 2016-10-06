@@ -186,7 +186,7 @@ class Form extends AbstractHelper
         }
 
         try {
-            $form = $this->forms->get($spec['form']);
+            $form = clone $this->forms->get($spec['form']);
         } catch (\Exception $exc) {
             throw new Exception\RuntimeException(
                 sprintf('Expected form in: %s; ' . $exc->getMessage(), print_r($spec, true)),
@@ -211,6 +211,11 @@ class Form extends AbstractHelper
             }
 
             $form->setAttribute('action', $routeFormAction);
+        }
+
+        if (!empty($spec['populate'])) {
+            $this->translate($spec['populate']);
+            $form->populateValues($spec['populate']);
         }
 
         return $form;

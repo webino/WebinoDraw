@@ -526,6 +526,7 @@ Provides ability to configure rendering of the layout. **Still under development
         // Helper options:
         'form'        => 'exampleForm',             // form available via ServiceManager
         'route'       => 'example_route',           // available route
+        'populate'    => '{$values}',               // populate form values
         'text_domain' => __NAMESPACE__,             // form translator text domain
         'instructionset' => [                       // instructionset to expand instructions
 
