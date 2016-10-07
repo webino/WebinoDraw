@@ -381,9 +381,12 @@ class Form extends AbstractHelper
                         case 'multi_checkbox':
                         case 'select':
                             $selectNode = $ownerDocument->createDocumentFragment();
-                            $selectNode->appendXml($this->formRow->__invoke($element));
-                            $elementNode = $elementNode->parentNode->replaceChild($selectNode, $elementNode);
+                            $selectNode->appendXml($this->formElement->__invoke($element));
+                            $newNode = $selectNode->firstChild;
+                            $elementNode->parentNode->replaceChild($newNode, $elementNode);
+                            $elementNode = $newNode;
                             unset($selectNode);
+                            unset($newNode);
                             break;
 
                         case 'text':
