@@ -15,7 +15,9 @@ use DOMText;
 use WebinoDraw\Exception;
 
 /**
- * Extended DOMElement
+ * Class Element
+ *
+ * Extended DOMElement.
  */
 class Element extends DOMElement implements NodeInterface
 {
@@ -116,5 +118,34 @@ class Element extends DOMElement implements NodeInterface
         }
 
         return true;
+    }
+
+    /**
+     * @param string $source
+     * @return $this
+     */
+    public function appendHtml($source)
+    {
+        $errors = libxml_use_internal_errors();
+        libxml_use_internal_errors(true);
+
+        // from fragment
+        $frag = $this->ownerDocument->createDocumentFragment();
+        $frag->appendXml($source);
+
+        if ($frag->hasChildNodes()) {
+            $this->appendChild($frag);
+            libxml_use_internal_errors($errors);
+            return $this;
+        }
+
+        // from document fallback
+        $dom = new Document;
+        $dom->loadHTML($source, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $elm = $this->ownerDocument->importNode($dom->getDocumentElement(), true);
+        $this->appendChild($elm);
+
+        libxml_use_internal_errors($errors);
+        return $this;
     }
 }

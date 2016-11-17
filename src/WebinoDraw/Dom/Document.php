@@ -11,6 +11,7 @@
 namespace WebinoDraw\Dom;
 
 use DOMXpath;
+use WebinoDraw\Exception;
 
 /**
  * Extended DOMDocument
@@ -61,5 +62,21 @@ class Document extends \DOMDocument
     public function getDocumentElement()
     {
         return $this->documentElement;
+    }
+
+    /**
+     * @param string $source
+     * @param array|null $options
+     * @return bool
+     */
+    public function loadHTML($source, $options = null)
+    {
+        // hack HTML5
+        $errors = libxml_use_internal_errors();
+        libxml_use_internal_errors(true);
+        $markup = mb_convert_encoding($source, 'HTML-ENTITIES', 'UTF-8');
+        $result = parent::loadHTML($markup, LIBXML_COMPACT | $options);
+        libxml_use_internal_errors($errors);
+        return $result;
     }
 }
