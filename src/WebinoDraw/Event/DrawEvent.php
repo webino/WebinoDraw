@@ -16,6 +16,7 @@ use WebinoDraw\Exception\RuntimeException;
 use WebinoDraw\Dom\NodeList;
 use WebinoDraw\Draw\Helper\HelperInterface;
 use Zend\EventManager\Event;
+use Zend\Stdlib\ArrayUtils;
 
 /**
  * Class DrawEvent
@@ -142,6 +143,18 @@ class DrawEvent extends Event
         $vars       = $helper->getVars();
         $vars[$key] = $value;
         $helper->setVars($vars);
+        return $this;
+    }
+
+    /**
+     * @param array $vars
+     * @return $this
+     */
+    public function setVars(array $vars)
+    {
+        $helper     = $this->getHelper();
+        $helperVars = $helper->getVars();
+        $helper->setVars(ArrayUtils::merge($helperVars, $vars));
         return $this;
     }
 }
