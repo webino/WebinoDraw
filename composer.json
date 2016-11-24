@@ -55,7 +55,10 @@
         "zendframework/zend-log": "2.*",
         "zendframework/zend-i18n-resources": "2.*"
     },
-    "autoload": {
-        "psr-0": {"WebinoDraw": "src/"}
+    "autoload": {"psr-0": {"WebinoDraw": "src/"}},
+    "extra": {
+        "webino-devkit": {
+            "ZendSkeletonApplication": "release-2.2.8"
+        }
     }
 }
