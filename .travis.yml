@@ -1,6 +1,5 @@
 language: php
 php:
-  - 5.5
   - 5.6
   - 7.0
 matrix:
@@ -19,6 +18,6 @@ after_success:
 env:
   global:
     - URI=http://localhost:8000/
-    - BROWSER=chrome
+    - BROWSER=firefox
     - GH_REF=github.com/webino/WebinoDraw
     - secure: VVtMRmIvrQ0m+bf1pzbF0XTHMSQmyxd+avIR1PmcoKpGPQ6JTYXY4sU1ZKVGJtp9qm/6NOTgj9syd41anOnkoh9rOkMztwryqThsi7Qe+MYV9+2yJZHD1P4+RD5+hq/NUU04bvImpV27Hvfgm7WYTTU9IEqh8sdRE6S1h5bl2Vc=
