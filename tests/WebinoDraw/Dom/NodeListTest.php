@@ -3,7 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2016 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
@@ -455,7 +455,6 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
         $nodeList   = new NodeList($this->locator, $dom->firstChild->childNodes);
         $xpath      = './child';
         $target     = 'xpath=' . $xpath;
-        $testCase   = $this; // todo PHP 5.4
 
         $this->locator->expects($this->once())
             ->method('set')
@@ -470,9 +469,9 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
         $eachChildIndex = 0;
         $nodeList->each(
             $target,
-            function (NodeList $nodes) use (&$eachIndex, &$eachChildIndex, $testCase, $dom) {
+            function (NodeList $nodes) use (&$eachIndex, &$eachChildIndex, $dom) {
 
-                $testCase->assertSame(
+                $this->assertSame(
                     current($nodes->getIterator()),
                     $dom->firstChild->childNodes->item($eachIndex)->childNodes->item($eachChildIndex)
                 );

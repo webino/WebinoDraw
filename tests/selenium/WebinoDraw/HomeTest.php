@@ -3,7 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2015 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2016 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
@@ -11,7 +11,7 @@
 namespace WebinoDraw;
 
 /**
- *
+ * Class HomeTest
  */
 class HomeTest extends AbstractTestCase
 {
@@ -21,11 +21,11 @@ class HomeTest extends AbstractTestCase
     private static $cachedValue;
 
     /**
-     *
+     * @return void
      */
     public function testHome()
     {
-        $this->openOk();
+        $this->open();
 
         // absolutize
         $loc = '//head/script[contains(@src, "/test-script-relative.js")]';
@@ -175,7 +175,7 @@ class HomeTest extends AbstractTestCase
         $loc = 'example_text_element';
         $elm = $this->elementByName($loc);
         $this->assertEquals('textarea', $elm->name());
-        $this->assertEquals('TEST VALUE FROM CONTROLLER', $elm->attribute("value"));
+        $this->assertEquals('TEST VALUE FROM CONTROLLER', $elm->attribute('value'));
 
         $loc = 'form.example-form > ul > li';
         $elm = $this->elementByCssSelector($loc);
@@ -291,25 +291,19 @@ class HomeTest extends AbstractTestCase
         // /custom-helper
 
         // pagination
-        // TODO do not use ?1 on the first page by default
         $loc = '//*[@class="pagination-example"]/ul/li[1]/a[@href="?1"]';
-        $elm = $this->elementByXpath($loc);
-        $this->assertEquals('«', $elm->text());
-
-        // TODO do not use ?1 on the first page by default
-        $loc = '//*[@class="pagination-example"]/ul/li[2]/a[@href="?1"]';
         $elm = $this->elementByXpath($loc);
         $this->assertEquals('1', $elm->text());
 
-        $loc = '//*[@class="pagination-example"]/ul/li[3]/a[@href="?2"]';
+        $loc = '//*[@class="pagination-example"]/ul/li[2]/a[@href="?2"]';
         $elm = $this->elementByXpath($loc);
         $this->assertEquals('2', $elm->text());
 
-        $loc = '//*[@class="pagination-example"]/ul/li[4]/a[@href="?3"]';
+        $loc = '//*[@class="pagination-example"]/ul/li[3]/a[@href="?3"]';
         $elm = $this->elementByXpath($loc);
         $this->assertEquals('3', $elm->text());
 
-        $loc = '//*[@class="pagination-example"]/ul/li[5]/a[@href="?3"]';
+        $loc = '//*[@class="pagination-example"]/ul/li[4]/a[@href="?2"]';
         $elm = $this->elementByXpath($loc);
         $this->assertEquals('»', $elm->text());
         // /pagination
@@ -320,14 +314,14 @@ class HomeTest extends AbstractTestCase
      */
     public function testCache()
     {
-        $this->openOk();
+        $this->open();
 
         $loc = 'cache-example';
         $elm = $this->elementByClassName($loc);
         $this->assertEquals($this::$cachedValue, $elm->text());
 
         // clear cache test
-        $this->openOk('?clearcache');
+        $this->open('?clearcache');
         $this->assertNotContains('Server Error', $this->getSession()->title());
 
         $loc = 'cache-example';

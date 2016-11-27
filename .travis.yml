@@ -13,6 +13,8 @@ before_script:
   - curl -s https://get.webino.org/support/travis/before-script | sh
 script:
   - curl -s https://get.webino.org/support/travis/script | sh
+after_failure:
+  - curl -s https://get.webino.org/support/travis/after-failure | sh
 after_success:
   - curl -s https://get.webino.org/support/travis/after-success | sh
 env:

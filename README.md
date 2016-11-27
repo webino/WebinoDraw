@@ -662,6 +662,8 @@ Learn [How to develop Webino modules](https://github.com/webino/Webino/wiki/How-
   - Disable the var helpers multiple methods call on the same variable auto join the result, BC break
   - Redesign var helpers and filters API, cos helper/filter name as a key causes issues when we wan to override via config merge, BC break
   - Write loop helper manual + tests
+  - Upgrade Zend MVC
+  - Upgrade Zend Form
 
 ## Addendum
 

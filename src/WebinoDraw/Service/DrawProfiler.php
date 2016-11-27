@@ -3,14 +3,14 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2015 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2016 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw\Service;
 
-use WebinoDebug\Service\Debugger;
+use WebinoDebug\Service\DebuggerInterface as Debugger;
 
 /**
  * Class DrawProfiler
@@ -72,11 +72,17 @@ class DrawProfiler
         ];
     }
 
+    /**
+     * @TODO method description
+     */
     public function beginNodesDraw($nodes, $helper, $spec, $vars)
     {
         $this->debugger->timer(__CLASS__);
     }
 
+    /**
+     * @TODO method description
+     */
     public function finishNodesDraw($nodes, $helper, $spec, $vars)
     {
         // TODO show more info (nodes, helper, vars?)
