@@ -11,20 +11,35 @@
 namespace WebinoDraw\Dom;
 
 use DOMElement;
+use DOMNode;
 use DOMText;
 use WebinoDraw\Exception;
 
 /**
  * Class Element
  *
- * Extended DOMElement.
+ * Extended DOMElement
+ *
+ * @method $this appendChild(DOMNode $newnode)
  */
-class Element extends DOMElement implements NodeInterface
+class Element extends DOMElement implements
+    NodeInterface,
+    Locator\LocatorAwareInterface
 {
     use NodeTrait;
+    use Locator\LocatorAwareTrait;
 
     const NODE_NAME_PROPERTY  = 'nodeName';
     const NODE_PATH_PROPERTY  = 'nodePath';
+
+    /**
+     * @param string $locator CSS selector or XPath (xpath=)
+     * @return NodeList
+     */
+    public function query($locator)
+    {
+        return new NodeList($this->getLocator(), $this->getLocator()->locate($this, $locator));
+    }
 
     /**
      * Attributes mass assignment

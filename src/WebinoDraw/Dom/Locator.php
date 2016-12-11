@@ -3,8 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2014 Webino, s. r. o. (http://webino.sk)
- * @author      Peter Bačinský <peter@bacinsky.sk>
+ * @copyright   Copyright (c) 2012-2016bacinsky.sk>
  * @license     BSD-3-Clause
  */
 
@@ -16,7 +15,7 @@ use WebinoDraw\Exception\UnexpectedValueException;
 use WebinoDraw\Dom\Locator\Transformator;
 
 /**
- *
+ * Class Locator
  */
 class Locator extends ArrayObject
 {
@@ -32,13 +31,12 @@ class Locator extends ArrayObject
     public function __construct(Transformator $transformator, $input = null)
     {
         $this->transformator = $transformator;
-        empty($input) or
-            $this->set($input);
+        empty($input) or $this->set($input);
     }
 
     /**
      * @param string|array $input
-     * @return self
+     * @return $this
      * @throws UnexpectedValueException
      */
     public function set($input)
@@ -53,7 +51,9 @@ class Locator extends ArrayObject
 
         }
 
-        throw new UnexpectedValueException('Expected input as string or array, but provided ' . gettype($input));
+        throw new UnexpectedValueException(
+            'Expected input as string or array, but provided ' . gettype($input)
+        );
     }
 
     /**
@@ -64,7 +64,7 @@ class Locator extends ArrayObject
      */
     public function locate(NodeInterface $node, $locator)
     {
-        if (!($node->ownerDocument instanceof Document)) {
+        if (empty($node->ownerDocument) || !($node->ownerDocument instanceof Document)) {
             throw new InvalidArgumentException('Expects Dom\Document');
         }
         return $node->ownerDocument->getXpath()->query($this->set($locator)->xpathMatchAny(), $node);
@@ -72,7 +72,7 @@ class Locator extends ArrayObject
 
     /**
      * @param array $array
-     * @return self
+     * @return $this
      */
     public function merge(array $array)
     {

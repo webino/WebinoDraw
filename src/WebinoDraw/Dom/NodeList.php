@@ -41,7 +41,7 @@ class NodeList implements IteratorAggregate
 
     /**
      * @param Locator $locator
-     * @param array|DOMNodeList $nodes DOMNodes in array or DOMNodelist
+     * @param array|DOMNodeList $nodes DOMNodes in array or DOMNodeList
      */
     public function __construct(Locator $locator, $nodes = null)
     {
@@ -50,7 +50,7 @@ class NodeList implements IteratorAggregate
     }
 
     /**
-     * @param array|DOMNodeList $nodes DOMNodes in array or DOMNodelist
+     * @param array|DOMNodeList $nodes DOMNodes in array or DOMNodeList
      * @return $this
      */
     public function create($nodes)
@@ -78,18 +78,24 @@ class NodeList implements IteratorAggregate
     {
         if ($nodes instanceof IteratorIterator) {
             $this->nodes = $nodes;
-            return $this;
-        }
-        if (is_array($nodes)) {
+
+        } elseif (is_array($nodes)) {
             $this->nodes = new IteratorIterator(new ArrayObject($nodes));
-            return $this;
-        }
-        if ($nodes instanceof DOMNodeList) {
+
+        } elseif ($nodes instanceof DOMNodeList) {
             $this->nodes = new IteratorIterator($nodes);
-            return $this;
+
+        } else {
+            throw new InvalidArgumentException('Expected nodes as array|DOMNodelist');
         }
 
-        throw new InvalidArgumentException('Expected nodes as array|DOMNodelist');
+        foreach ($this->nodes as $node) {
+            // inject locator to node
+            $node instanceof Locator\LocatorAwareInterface
+                and $node->setLocator($this->locator);
+        }
+
+        return $this;
     }
 
     /**
@@ -102,6 +108,8 @@ class NodeList implements IteratorAggregate
 
     /**
      * @return EscapeHtml
+     * @deprecated public access deprecated
+     * @TODO protected
      */
     public function getEscapeHtml()
     {
@@ -152,7 +160,7 @@ class NodeList implements IteratorAggregate
             $nodeXhtml = is_callable($preSet) ? $preSet($node, $xhtml, $this) : $xhtml;
             $node->nodeValue = '';
 
-            if (empty($nodeXhtml)) {
+            if (empty($nodeXhtml) || !($node instanceof Element)) {
                 continue;
             }
 
@@ -176,6 +184,10 @@ class NodeList implements IteratorAggregate
         $childNode = null;
 
         foreach ($this as $node) {
+            if (!($node instanceof Element)) {
+                continue;
+            }
+
             if (empty($childNode)) {
                 $childNode = $node->ownerDocument->createDocumentFragment();
                 $childNode->appendXml($xhtml);
@@ -197,6 +209,10 @@ class NodeList implements IteratorAggregate
     public function setAttribs(array $attribs, $preSet = null)
     {
         foreach ($this as $node) {
+            if (!($node instanceof Element)) {
+                continue;
+            }
+
             // prepare callback
             $callback = $preSet
                 ? function ($value) use ($node, $preSet) {
@@ -223,6 +239,10 @@ class NodeList implements IteratorAggregate
         $nodeList = new ArrayObject;
 
         foreach ($this as $node) {
+            if (!($node instanceof Element)) {
+                continue;
+            }
+
             $nodeXhtml = is_callable($preSet) ? $preSet($node, $xhtml, $this) : $xhtml;
             if (empty($nodeXhtml)) {
                 $node->nodeValue = '';
@@ -250,7 +270,7 @@ class NodeList implements IteratorAggregate
      * @param string $locator CSS selector or XPath (xpath=)
      * @return $this
      */
-    public function remove($locator = 'xpath=.')
+    public function remove($locator = '.')
     {
         if (empty($locator)) {
             return $this;
@@ -289,7 +309,7 @@ class NodeList implements IteratorAggregate
         $xpath = $this->locator->set($locator)->xpathMatchAny();
         foreach ($this as $node) {
             if (!($node->ownerDocument instanceof Document)) {
-                throw new RuntimeException('Expects Dom\Document with xpath');
+                throw new RuntimeException('Expects `' . Document::class . '` with xpath');
             }
 
             $nodes = $node->ownerDocument->getXpath()->query($xpath, $node);
