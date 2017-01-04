@@ -378,7 +378,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
         $expected   = '<box/>';
         $nodeList   = new NodeList($this->locator, $dom->firstChild->childNodes);
         $xpath      = '.';
-        $target     = 'xpath=' . $xpath;
+        $target     = $xpath;
 
         $this->locator->expects($this->once())
             ->method('set')
@@ -439,7 +439,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
 
         $this->locator->expects($this->once())
             ->method('set')
-            ->with($this->equalTo('xpath=.'))
+            ->with($this->equalTo('.'))
             ->will($this->returnValue($this->locator));
 
         $nodeList->remove();

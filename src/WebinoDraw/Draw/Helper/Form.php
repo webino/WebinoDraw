@@ -3,7 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2016 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2017 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
@@ -123,8 +123,8 @@ class Form extends AbstractHelper
         $form = $this->createForm($spec);
         $event->setForm($form);
 
-        !array_key_exists('trigger', $spec)
-            or $this->trigger($spec['trigger'], $event);
+        array_key_exists('trigger', $spec)
+            and $this->trigger($spec['trigger'], $event);
 
         $this->drawNodes($nodes, $event->getSpec()->getArrayCopy());
         $cache->save($event);
@@ -280,7 +280,7 @@ class Form extends AbstractHelper
         // it will be appended later
         $formAttribs = (array) $form->getAttributes();
         $formClass   = '';
-        if (!empty($formAttribs['class'])) {
+        if (isset($formAttribs['class'])) {
             $formClass = $formAttribs['class'];
             unset($formAttribs['class']);
         }
@@ -293,9 +293,10 @@ class Form extends AbstractHelper
             or $spec['text_domain'] = 'default';
 
         $this->setTranslatorTextDomain($spec['text_domain']);
+        parent::drawNodes($nodes, $spec);
 
-        !array_key_exists('render_errors', $spec)
-            or $this->setRenderErrors($spec['render_errors']);
+        array_key_exists('render_errors', $spec)
+            and $this->setRenderErrors($spec['render_errors']);
 
         $translation = $this->getVarTranslator()->createTranslation($this->getVars());
         foreach ($nodes as $node) {
@@ -405,6 +406,10 @@ class Form extends AbstractHelper
                             break;
                     }
                 }
+
+                // glue form & template element class
+                empty($attributes['class'])
+                    or $attributes['class'] = trim($attributes['class'] . ' ' . $elementNode->getAttribute('class'));
 
                 $subElementNodes = $nodes->create([$elementNode]);
                 $subElementNodes->setAttribs($attributes);
