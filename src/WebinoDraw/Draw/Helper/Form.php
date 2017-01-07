@@ -224,13 +224,13 @@ class Form extends AbstractHelper
     /**
      * @param string|array $spec
      * @return string
-     * @throws \InvalidArgumentException
+     * @throws Exception\InvalidArgumentException
      * @throws Exception\RuntimeException
      */
     protected function resolveRouteFormAction($spec)
     {
         if (!is_string($spec) && !is_array($spec)) {
-            throw new \InvalidArgumentException('Expected string or array');
+            throw new Exception\InvalidArgumentException('Expected string or array');
         }
 
         $route = is_array($spec) ? $spec : ['name' => $spec];
@@ -293,6 +293,10 @@ class Form extends AbstractHelper
             or $spec['text_domain'] = 'default';
 
         $this->setTranslatorTextDomain($spec['text_domain']);
+
+        // defer sub-instructions
+        $subInstructions = !empty($spec['instructions']) ? $spec['instructions'] : [];
+        unset($spec['instructions']);
         parent::drawNodes($nodes, $spec);
 
         array_key_exists('render_errors', $spec)
@@ -313,13 +317,13 @@ class Form extends AbstractHelper
             }
 
             $this->instructionsRenderer->expandInstructions($spec, $translation);
-            if (!empty($spec['instructions'])) {
+            if (!empty($subInstructions)) {
                 foreach ($childNodes as $childNode) {
-                    // subinstructions
+                    // sub-instructions
                     $this->instructionsRenderer
                         ->subInstructions(
                             [$childNode],
-                            $spec['instructions'],
+                            $subInstructions,
                             $translation
                         );
                 }
