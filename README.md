@@ -641,8 +641,6 @@ Provides ability to configure rendering of the layout. **Still under development
 
 ## Development
 
-[![Dependency Status](https://www.versioneye.com/user/projects/52f494eaec1375d0a6000023/badge.png)](https://www.versioneye.com/user/projects/52f494eaec1375d0a6000023)
-
 We will appreciate any contributions on development of this module.
 
 Learn [How to develop Webino modules](https://github.com/webino/Webino/wiki/How-to-develop-Webino-module)
