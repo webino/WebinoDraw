@@ -6,13 +6,4 @@
             <directory>WebinoDraw/XmlTest.php</directory>
         </testsuite>
     </testsuites>
-    <listeners>
-        <listener class="Yandex\Allure\Adapter\AllureAdapter"
-                  file="/var/lib/webino/php/vendor/allure-framework/allure-phpunit/src/Yandex/Allure/Adapter/AllureAdapter.php">
-            <arguments>
-                <string>../../._log/allure</string>
-                <boolean>false</boolean>
-            </arguments>
-        </listener>
-    </listeners>
 </phpunit>

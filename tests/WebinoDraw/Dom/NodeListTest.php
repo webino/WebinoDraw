@@ -3,7 +3,7 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2016 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2017 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
@@ -12,8 +12,6 @@ namespace WebinoDraw\Dom;
 
 use ArrayObject;
 use DOMDocument;
-use WebinoDraw\Dom\Document;
-use WebinoDraw\Dom\Element;
 use WebinoDraw\Dom\Locator;
 use DOMNode;
 use PHPUnit_Framework_Assert as PhpUnitAssert;
@@ -41,7 +39,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->locator = $this->getMock('WebinoDraw\Dom\Locator', [], [], '', false);
+        $this->locator = $this->getMock(Locator::class, [], [], '', false);
         $this->object  = new NodeList($this->locator);
     }
 
