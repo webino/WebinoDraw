@@ -33,21 +33,19 @@ trait NodeTrait
     }
 
     /**
-     * @return Document
+     * @return Document|null
      */
     public function getOwnerDocument()
     {
-        /** @noinspection PhpUndefinedFieldInspection */
-        return $this->ownerDocument;
+        return isset($this->ownerDocument) ? $this->ownerDocument : null;
     }
 
     /**
-     * @return Element
+     * @return Element|null
      */
     public function getParentNode()
     {
-        /** @noinspection PhpUndefinedFieldInspection */
-        return $this->parentNode;
+        return isset($this->parentNode) ? $this->parentNode : null;
     }
 
     /**
