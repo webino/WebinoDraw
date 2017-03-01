@@ -125,8 +125,9 @@ class InstructionsRenderer implements InstructionsRendererInterface
             $helper = !empty($spec['helper']) ? $spec['helper'] : self::DEFAULT_DRAW_HELPER;
             $this->drawNodes($nodes, $helper, $spec, $vars);
 
-            if (empty($node->parentNode) && isset($nodePath)) {
-                $_node = $node->getOwnerDocument()->getXpath()->query($nodePath)->item(0);
+            $ownerDocument = $node->getOwnerDocument();
+            if ($ownerDocument && empty($node->parentNode) && isset($nodePath)) {
+                $_node = $ownerDocument->getXpath()->query($nodePath)->item(0);
             }
         }
     }
