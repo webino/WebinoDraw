@@ -36,12 +36,9 @@ class Pagination extends Element
         ],
         'instructions' => [
             'snippet' => [
-                'locator' => 'xpath=.',
+                'locator' => '.',
                 'html'    => '{$snippet}',
-
-                'render' => [
-                    'snippet' => 'webino-draw/snippet/pagination',
-                ],
+                'render'  => ['snippet' => 'webino-draw/snippet/pagination'],
             ],
             // TODO do not use ?1 on the first page by default
             'pages' => [
@@ -50,10 +47,8 @@ class Pagination extends Element
                     'base' => 'pagesInRange',
                     'instructions' => [
                         'active' => [
-                            'locator' => 'xpath=.',
-                            'attribs' => [
-                                'class' => '{$active}',
-                            ],
+                            'locator' => '.',
+                            'attribs' => ['class' => '{$active}'],
                         ],
                         'value' => [
                             'locator' => 'a',
@@ -79,7 +74,7 @@ class Pagination extends Element
                         'instructions' => [
                             'remove' => [
                                 'locator' => '.',
-                                'remove'  => 'xpath=.',
+                                'remove'  => '.',
                             ],
                         ],
                     ],
@@ -106,7 +101,7 @@ class Pagination extends Element
                         'instructions' => [
                             'remove' => [
                                 'locator' => '.',
-                                'remove'  => 'xpath=.',
+                                'remove'  => '.',
                             ],
                         ],
                     ],
@@ -120,6 +115,10 @@ class Pagination extends Element
                         ],
                     ],
                 ],
+            ],
+            'empty' => [
+                'locator' => '.',
+                'onEmpty' => ['remove' => '.'],
             ],
         ],
     ];
@@ -165,8 +164,7 @@ class Pagination extends Element
         $paginatorName = $localSpec['paginator'];
 
         if (!$this->services->has($paginatorName)) {
-            $nodes->remove();
-            return $this;
+            return $this->drawEmpty($nodes, $localSpec);
         }
 
         /* @var $paginator \Zend\Paginator\Paginator */
@@ -174,8 +172,7 @@ class Pagination extends Element
         $pages     = $paginator->getPages();
 
         if (1 >= $pages->pageCount) {
-            $nodes->remove();
-            return $this;
+            return $this->drawEmpty($nodes, $localSpec);
         }
 
         $curPageNo    = $paginator->getCurrentPageNumber();
@@ -203,5 +200,16 @@ class Pagination extends Element
         );
 
         return parent::drawNodes($nodes, $localSpec);
+    }
+
+    /**
+     * @param NodeList $nodes
+     * @param array $spec
+     * @return $this
+     */
+    private function drawEmpty(NodeList $nodes, array $spec)
+    {
+        unset($spec['instructions']['snippet']);
+        return parent::drawNodes($nodes, $spec);
     }
 }
