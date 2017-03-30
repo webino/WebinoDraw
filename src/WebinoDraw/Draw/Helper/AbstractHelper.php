@@ -88,7 +88,7 @@ abstract class AbstractHelper implements
 
     /**
      * @param DrawCache $cache
-     * @return self
+     * @return $this
      */
     public function setCache(DrawCache $cache)
     {
@@ -109,7 +109,7 @@ abstract class AbstractHelper implements
 
     /**
      * @param DrawEvent $event
-     * @return self
+     * @return $this
      */
     public function setEvent(DrawEvent $event)
     {
@@ -131,7 +131,7 @@ abstract class AbstractHelper implements
 
     /**
      * @param Manipulator $manipulator
-     * @return self
+     * @return $this
      */
     public function setManipulator(Manipulator $manipulator)
     {
@@ -149,7 +149,7 @@ abstract class AbstractHelper implements
 
     /**
      * @param array $vars
-     * @return self
+     * @return $this
      */
     public function setVars(array $vars)
     {
@@ -159,7 +159,7 @@ abstract class AbstractHelper implements
 
     /**
      * @param VarTranslator $varTranslator
-     * @return self
+     * @return $this
      */
     public function setVarTranslator(VarTranslator $varTranslator)
     {
@@ -181,7 +181,7 @@ abstract class AbstractHelper implements
     /**
      * @param array $triggers
      * @param DrawEvent $event
-     * @return self
+     * @return $this
      */
     protected function trigger(array $triggers, DrawEvent $event)
     {
@@ -207,7 +207,7 @@ abstract class AbstractHelper implements
 
     /**
      * @param ArrayAccess|null $varTranslation
-     * @return self
+     * @return $this
      */
     public function setVarTranslation(ArrayAccess $varTranslation = null)
     {
@@ -239,7 +239,7 @@ abstract class AbstractHelper implements
     /**
      * @param NodeList $nodes
      * @param array $spec
-     * @return self
+     * @return $this
      */
     public function drawNodes(NodeList $nodes, array $spec)
     {
@@ -253,7 +253,7 @@ abstract class AbstractHelper implements
      * @param NodeList $nodes
      * @param array $spec
      * @param ArrayAccess $translation
-     * @return self
+     * @return $this
      */
     public function manipulateNodes(NodeList $nodes, array $spec, ArrayAccess $translation)
     {
