@@ -24,7 +24,8 @@ class CssStrategy implements TransformatorInterface
      */
     public function locator2Xpath($locator)
     {
-        if ('.' === $locator) {
+        if ('.' === $locator || '..' === $locator) {
+            // self or parent xpath
             return $locator;
         }
 
@@ -32,6 +33,7 @@ class CssStrategy implements TransformatorInterface
             // return early for absolute
             return DomQuery::cssToXpath(substr($locator, 2));
         }
+
         // dot makes it relative
         return '.' . DomQuery::cssToXpath($locator);
     }
