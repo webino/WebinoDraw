@@ -72,6 +72,10 @@ class Element extends DOMElement implements
      */
     public function getInnerHtml()
     {
+        if (null === $this->childNodes) {
+            return '';
+        }
+
         $innerHtml = '';
         foreach ($this->childNodes as $child) {
             $childHtml = $child->ownerDocument->saveXML($child);
