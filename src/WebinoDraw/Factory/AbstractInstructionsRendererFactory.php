@@ -12,7 +12,6 @@ namespace WebinoDraw\Factory;
 
 use WebinoDraw\Dom\Factory\NodeListFactory;
 use WebinoDraw\Dom\Locator;
-use WebinoDraw\Factory\InstructionsFactory;
 use WebinoDraw\Instructions\InstructionsRendererInterface;
 use WebinoDraw\Options\ModuleOptions;
 use Zend\ServiceManager\FactoryInterface;

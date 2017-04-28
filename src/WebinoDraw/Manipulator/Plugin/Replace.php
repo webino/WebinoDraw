@@ -10,7 +10,6 @@
 
 namespace WebinoDraw\Manipulator\Plugin;
 
-use DOMElement;
 use WebinoDraw\Dom\Element;
 use WebinoDraw\Dom\NodeInterface;
 use WebinoDraw\Dom\Text;
@@ -20,15 +19,8 @@ use WebinoDraw\Exception;
 /**
  * Class Replace
  */
-class Replace extends AbstractPlugin implements
-    InLoopPluginInterface,
-    PostLoopPluginInterface
+class Replace extends AbstractPlugin implements InLoopPluginInterface
 {
-    /**
-     * @var array
-     */
-    protected $nodesToRemove = [];
-
     /**
      * @param PluginArgument $arg
      */
@@ -67,22 +59,9 @@ class Replace extends AbstractPlugin implements
         }
 
         $newNode = $node->replaceWith($translatedHtml);
-        $this->nodesToRemove[] = $node;
         if ($newNode instanceof NodeInterface) {
             $arg->setNode($newNode);
             $this->updateNodeVarTranslation($newNode, $arg);
-        }
-    }
-
-    /**
-     * @param PluginArgument $arg
-     */
-    public function postLoop(PluginArgument $arg)
-    {
-        foreach ($this->nodesToRemove as $node) {
-            if ($node instanceof DOMElement && !empty($node->parentNode)) {
-                $node->parentNode->removeChild($node);
-            }
         }
     }
 }

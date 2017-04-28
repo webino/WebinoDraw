@@ -127,7 +127,8 @@ class InstructionsRenderer implements InstructionsRendererInterface
 
             $ownerDocument = $node->getOwnerDocument();
             if ($ownerDocument && empty($node->parentNode) && isset($nodePath)) {
-                $_node = $ownerDocument->getXpath()->query($nodePath)->item(0);
+                $_newNode = $ownerDocument->getXpath()->query($nodePath)->item(0);
+                $_newNode and $_node = $_newNode;
             }
         }
     }

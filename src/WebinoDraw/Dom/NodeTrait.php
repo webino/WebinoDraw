@@ -58,7 +58,8 @@ trait NodeTrait
         $frag = $this->getOwnerDocument()->createDocumentFragment();
         $frag->appendXml($html);
 
-        $newNode = $this->getParentNode()->insertBefore($frag, $this);
+        $parentNode = $this->getParentNode();
+        $newNode    = $parentNode->insertBefore($frag, $this);
 
         if (!empty($this->onReplace)) {
             foreach ($this->onReplace as $onReplace) {
@@ -66,6 +67,7 @@ trait NodeTrait
             }
         }
 
+        $parentNode->removeChild($this);
         return $newNode;
     }
 }
