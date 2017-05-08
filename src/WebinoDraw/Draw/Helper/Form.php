@@ -143,7 +143,7 @@ class Form extends AbstractHelper
 
     /**
      * @param DrawFormEvent $event
-     * @return self
+     * @return $this
      */
     public function setFormEvent(DrawFormEvent $event)
     {
@@ -153,7 +153,7 @@ class Form extends AbstractHelper
 
     /**
      * @param string $textDomain
-     * @return self
+     * @return $this
      */
     public function setTranslatorTextDomain($textDomain = 'default')
     {
@@ -164,7 +164,7 @@ class Form extends AbstractHelper
 
     /**
      * @param bool $bool
-     * @return self
+     * @return $this
      */
     public function setRenderErrors($bool = true)
     {
@@ -270,7 +270,7 @@ class Form extends AbstractHelper
      *
      * @param NodeList $nodes
      * @param array $spec
-     * @return self
+     * @return $this
      */
     public function drawNodes(NodeList $nodes, array $spec)
     {
@@ -384,6 +384,11 @@ class Form extends AbstractHelper
                             // todo checkbox use hidden element
                             break;
                         case 'multi_checkbox':
+                            $multiNode = $ownerDocument->createDocumentFragment();
+                            $multiNode->appendXml($this->formRow->__invoke($element));
+                            $elementNode = $elementNode->parentNode->replaceChild($multiNode, $elementNode);
+                            unset($multiNode);
+                            break;
                         case 'select':
                             $selectNode = $ownerDocument->createDocumentFragment();
                             $selectNode->appendXml($this->formElement->__invoke($element));
