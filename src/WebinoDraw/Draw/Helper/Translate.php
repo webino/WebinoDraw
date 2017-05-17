@@ -39,6 +39,16 @@ class Translate extends Element
     }
 
     /**
+     * @param TranslatorInterface $translator
+     * @return $this
+     */
+    public function setTranslator(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+        return $this;
+    }
+
+    /**
      * @param NodeList $nodes
      * @param array $spec
      * @return self
