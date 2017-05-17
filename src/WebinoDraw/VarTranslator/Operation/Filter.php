@@ -61,10 +61,10 @@ class Filter
      */
     protected function iterateFilterSpec(array $spec, $key, Translation $translation)
     {
-        $varTranslation = $translation->getVarTranslation();
-
         foreach ($spec as $filter => $options) {
+            $varTranslation = $translation->getVarTranslation();
             $varTranslation->translate($options);
+
             if (!is_array($options)) {
                 throw new Exception\InvalidInstructionException(
                     'Expected array options for spec ' . print_r($spec, true)
