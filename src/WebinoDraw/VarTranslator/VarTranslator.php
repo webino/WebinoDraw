@@ -76,7 +76,7 @@ class VarTranslator
      * Set global translation
      *
      * @param Translation $translation
-     * @return self
+     * @return $this
      */
     public function setTranslation(Translation $translation)
     {
@@ -87,35 +87,35 @@ class VarTranslator
     /**
      * @param Translation $translation
      * @param array $spec
-     * @return self
+     * @return $this
      */
     public function apply(Translation $translation, array $spec)
     {
         $translation->merge($this->getTranslation()->getArrayCopy());
 
-        empty($spec['var']['default']) or
-            $translation->setDefaults($spec['var']['default']);
+        empty($spec['var']['default'])
+            or $translation->setDefaults($spec['var']['default']);
 
-        empty($spec['var']['set']) or
-            $translation->mergeValues($spec['var']['set']);
+        empty($spec['var']['set'])
+            or $translation->mergeValues($spec['var']['set']);
 
-        empty($spec['var']['fetch']) or
-            $translation->fetchVars($spec['var']['fetch']);
+        empty($spec['var']['fetch'])
+            or $translation->fetchVars($spec['var']['fetch']);
 
-        empty($spec['var']['filter']['pre']) or
-            $this->filter->apply($translation, $spec['var']['filter']['pre']);
+        empty($spec['var']['filter']['pre'])
+            or $this->filter->apply($translation, $spec['var']['filter']['pre']);
 
-        empty($spec['var']['helper']) or
-            $this->helper->apply($translation, $spec['var']['helper']);
+        empty($spec['var']['helper'])
+            or $this->helper->apply($translation, $spec['var']['helper']);
 
-        empty($spec['var']['filter']['post']) or
-            $this->filter->apply($translation, $spec['var']['filter']['post']);
+        empty($spec['var']['filter']['post'])
+            or $this->filter->apply($translation, $spec['var']['filter']['post']);
 
-        empty($spec['var']['default']) or
-            $translation->setDefaults($spec['var']['default']);
+        empty($spec['var']['default'])
+            or $translation->setDefaults($spec['var']['default']);
 
-        empty($spec['var']['push']) or
-            $this->getTranslation()->pushVars($spec['var']['push'], $translation);
+        empty($spec['var']['push'])
+            or $this->getTranslation()->pushVars($spec['var']['push'], $translation);
 
         return $this;
     }
@@ -126,7 +126,7 @@ class VarTranslator
      * @param Translation $varTranslation
      * @param array $spec
      * @param callable $callback
-     * @return self
+     * @return $this
      */
     public function applyOnVar(Translation $varTranslation, array $spec, callable $callback)
     {
