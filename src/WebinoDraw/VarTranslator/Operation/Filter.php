@@ -15,7 +15,7 @@ use WebinoDraw\VarTranslator\Translation;
 use Zend\Filter\FilterPluginManager;
 
 /**
- *
+ * Class Filter
  */
 class Filter
 {
@@ -39,7 +39,7 @@ class Filter
      *
      * @param Translation $translation Variables with values to modify
      * @param array $spec Filter options
-     * @return self
+     * @return $this
      */
     public function apply(Translation $translation, array $spec)
     {
@@ -56,18 +56,22 @@ class Filter
      * @param array $spec
      * @param mixed $key
      * @param Translation $translation
-     * @return self
+     * @return $this
      * @throws Exception\InvalidInstructionException
      */
     protected function iterateFilterSpec(array $spec, $key, Translation $translation)
     {
+        $varTranslation = $translation->getVarTranslation();
+
         foreach ($spec as $filter => $options) {
-            $translation->getVarTranslation()->translate($options);
+            $varTranslation->translate($options);
             if (!is_array($options)) {
                 throw new Exception\InvalidInstructionException(
                     'Expected array options for spec ' . print_r($spec, true)
                 );
             }
+
+            $varTranslation->translate($filter);
 
             if (is_callable($filter)) {
                 $translation[$key] = call_user_func_array($filter, $options);
@@ -87,7 +91,7 @@ class Filter
      * @param mixed $key
      * @param Translation $translation
      * @param array $options
-     * @return self
+     * @return $this
      */
     protected function callFilter($filter, $key, Translation $translation, array $options)
     {
@@ -96,8 +100,8 @@ class Filter
             return $this;
         }
 
-        !empty($options[1]) or
-            $options[1] = [];
+        empty($options[1])
+            and $options[1] = [];
 
         $translation[$key] = $this->filters->get($filter, $options[1])->filter($options[0]);
         return $this;

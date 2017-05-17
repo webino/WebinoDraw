@@ -17,7 +17,7 @@ use Zend\View\HelperPluginManager;
 use Zend\View\Helper\HelperInterface;
 
 /**
- * @todo refactor
+ * Class Helper
  */
 class Helper
 {
@@ -41,7 +41,7 @@ class Helper
      *
      * @param Translation $translation Variables with values to modify
      * @param array $spec Helper options
-     * @return self
+     * @return $this
      */
     public function apply(Translation $translation, array $spec)
     {
@@ -61,11 +61,13 @@ class Helper
      * @param mixed $key
      * @param Translation $translation
      * @param ArrayObject $results
-     * @return self
+     * @return $this
      * @throws Exception\InvalidInstructionException
      */
     protected function iterateHelperSpec(array $spec, $key, Translation $translation, ArrayObject $results)
     {
+        $varTranslation = $translation->getVarTranslation();
+
         $joinResult = true;
         foreach ($spec as $helper => $options) {
             if (null === $options) {
@@ -89,8 +91,9 @@ class Helper
                 unset($options['helper']);
             }
 
-            $this->callCallableHelper($helper, $key, $translation, $results, $options) or
-                $this->callHelper($helper, $key, $translation, $results, $options, $joinResult);
+            $varTranslation->translate($helper);
+            $this->callCallableHelper($helper, $key, $translation, $results, $options)
+                or $this->callHelper($helper, $key, $translation, $results, $options, $joinResult);
         }
 
         return $this;
@@ -134,7 +137,7 @@ class Helper
      * @param ArrayObject $results
      * @param array $options
      * @param bool $joinResult
-     * @return self
+     * @return $this
      */
     protected function callHelper(
         $helper,
@@ -177,8 +180,8 @@ class Helper
             }
         }
 
-        !empty($results[$key]) or
-            $results[$key] = null;
+        empty($results[$key])
+            and $results[$key] = null;
 
         if ($joinResult) {
             $results[$key].= $plugin;

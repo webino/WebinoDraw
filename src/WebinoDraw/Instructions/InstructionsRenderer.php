@@ -122,7 +122,10 @@ class InstructionsRenderer implements InstructionsRendererInterface
                 continue;
             }
 
-            $helper = !empty($spec['helper']) ? $spec['helper'] : self::DEFAULT_DRAW_HELPER;
+            $helper = !empty($spec['helper'])
+                    ? $varTranslation->translateString($spec['helper'])
+                    : self::DEFAULT_DRAW_HELPER;
+
             $this->drawNodes($nodes, $helper, $spec, $vars);
 
             $ownerDocument = $node->getOwnerDocument();
