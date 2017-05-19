@@ -145,7 +145,7 @@ class Translation extends ArrayObject implements
      * Transform subject keys to {$var} like
      *
      * @param ArrayAccess $subject
-     * @return ArrayAccess
+     * @return ArrayAccess|self
      */
     public function makeVarKeys(ArrayAccess $subject = null)
     {

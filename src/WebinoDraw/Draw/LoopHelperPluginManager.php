@@ -15,7 +15,9 @@ use WebinoDraw\Draw\LoopHelper\HelperInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 
 /**
+ * Class LoopHelperPluginManager
  *
+ * @method HelperInterface get($name, $options = [], $usePeeringServiceManagers = true)
  */
 class LoopHelperPluginManager extends AbstractPluginManager
 {

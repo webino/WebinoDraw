@@ -104,7 +104,7 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
         }
 
         $translation    = $arg->getTranslation();
-        $varTranslation = $translation->makeVarKeys($translation);
+        $varTranslation = $translation->makeVarKeys();
 
         $translation->containsVar($spec['loop']['base'])
             and $varTranslation->translate($spec['loop']['base']);
@@ -204,7 +204,7 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
      * @param NodeList $nodes
      * @param array $items
      * @param PluginArgument $arg
-     * @return self
+     * @return $this
      */
     protected function nodesLoop(NodeList $nodes, array $items, PluginArgument $arg)
     {
@@ -249,7 +249,7 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
      * @param PluginArgument $arg
      * @param ArrayObject $loopArg
      * @param Element $nodeClone
-     * @return self
+     * @return $this
      */
     protected function itemsLoop(array $items, PluginArgument $arg, ArrayObject $loopArg, Element $nodeClone)
     {
@@ -331,7 +331,7 @@ class Loop extends AbstractPlugin implements PreLoopPluginInterface
     /**
      * @param array $helperOptions
      * @param ArrayObject $loopArg
-     * @return self
+     * @return $this
      * @throws Exception\InvalidLoopHelperException
      */
     protected function invokeLoopHelper(array $helperOptions, ArrayObject $loopArg)
