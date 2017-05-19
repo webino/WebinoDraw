@@ -16,7 +16,7 @@ use WebinoDraw\Stdlib\ArrayFetchInterface;
 use WebinoDraw\Stdlib\ArrayMergeInterface;
 
 /**
- *
+ * Class Translation
  */
 class Translation extends ArrayObject implements
     ArrayFetchInterface,
@@ -42,7 +42,6 @@ class Translation extends ArrayObject implements
     /**
      * Return value in depth from multidimensional array
      *
-     * @todo refactor
      * @param string $basePath Something like: value.in.the.depth
      * @return mixed Result value
      */
@@ -92,31 +91,30 @@ class Translation extends ArrayObject implements
 
     /**
      * @param array $array
-     * @return self
+     * @return $this
      */
     public function merge(array $array)
     {
-        if (!empty($array)) {
-            $this->exchangeArray(array_replace_recursive($this->getArrayCopy(), $array));
-        }
+        empty($array) or $this->exchangeArray(array_replace_recursive($this->getArrayCopy(), $array));
         return $this;
     }
 
     /**
      * @param array $keys
-     * @return self
+     * @return $this
      */
     public function unsetKeys(array $keys)
     {
         foreach ($keys as $key) {
-            !$this->offsetExists($key) or
-                $this->offsetUnset($key);
+            $this->offsetExists($key)
+                and $this->offsetUnset($key);
         }
+
         return $this;
     }
 
     /**
-     * @return self
+     * @return $this
      */
     public function getVarTranslation()
     {
@@ -133,7 +131,7 @@ class Translation extends ArrayObject implements
     }
 
     /**
-     * Transform varname into {$varname}.
+     * Transform varName into {$varName}.
      *
      * @param string $key
      * @return string
@@ -236,7 +234,7 @@ class Translation extends ArrayObject implements
                     || is_float($value))
             ) {
                 // return early for non-strings
-                // this is usefull to pass subjects
+                // this is useful to pass subjects
                 // to functions, helpers and filters
                 return $value;
             }
@@ -251,7 +249,7 @@ class Translation extends ArrayObject implements
      * Replace {$var} in $subject with data from $translation
      *
      * @param string|array $subject
-     * @return self
+     * @return $this
      */
     public function translate(&$subject)
     {
@@ -282,7 +280,7 @@ class Translation extends ArrayObject implements
 
     /**
      * @param array $values
-     * @return self
+     * @return $this
      */
     public function mergeValues(array $values)
     {
@@ -319,7 +317,7 @@ class Translation extends ArrayObject implements
     /**
      * @param mixed $key
      * @param mixed $value
-     * @return self
+     * @return $this
      */
     protected function setDefault($key, $value)
     {
@@ -353,7 +351,7 @@ class Translation extends ArrayObject implements
      * </pre>
      *
      * @param array $options
-     * @return self
+     * @return $this
      */
     public function fetchVars(array $options)
     {
@@ -368,13 +366,14 @@ class Translation extends ArrayObject implements
      *
      * @param array $options
      * @param self $translation
-     * @return self
+     * @return $this
      */
     public function pushVars(array $options, self $translation = null)
     {
         $translation and $translation->getVarTranslation()->translate($options);
 
         foreach ($options as $basePath => $value) {
+            $key      = 0;
             $index    = null;
             $create   = false;
             $subValue = $this;
