@@ -55,7 +55,12 @@ class Translate extends Element
      */
     public function drawNodes(NodeList $nodes, array $spec)
     {
-        $remainNodes = $this->translateAttribNodes($nodes, $this->resolveTextDomain($spec));
+        $remainNodes = $this->translateAttribNodes(
+            $nodes,
+            $this->resolveTextDomain($spec),
+            $this->resolveLocale($spec)
+        );
+
         if (empty($remainNodes)) {
             // return early when all nodes were attribs
             return $this;
@@ -77,20 +82,25 @@ class Translate extends Element
             return '';
         }
 
-        return $this->translator->translate($varValue, $this->resolveTextDomain($spec));
+        return $this->translator->translate(
+            $varValue,
+            $this->resolveTextDomain($spec),
+            $this->resolveLocale($spec)
+        );
     }
 
     /**
      * @param NodeList $nodes
      * @param string $textDomain
+     * @param string $locale
      * @return array
      */
-    protected function translateAttribNodes(NodeList $nodes, $textDomain)
+    protected function translateAttribNodes(NodeList $nodes, $textDomain, $locale)
     {
         $remainNodes = [];
         foreach ($nodes as $node) {
             if ($node instanceof Attr && !$node->isEmpty()) {
-                $node->nodeValue = $this->translator->translate($node->nodeValue, $textDomain);
+                $node->nodeValue = $this->translator->translate($node->nodeValue, $textDomain, $locale);
             }
 
             $remainNodes[] = $node;
@@ -105,7 +115,19 @@ class Translate extends Element
      */
     protected function resolveTextDomain(array $spec)
     {
-        // TODO inversion of control (spec object)
-        return !empty($spec['text_domain']) ? $spec['text_domain'] : 'default';
+        return !empty($spec['text_domain'])
+               ? $this->getVarTranslation()->translateString($spec['text_domain'])
+               : 'default';
+    }
+
+    /**
+     * @param array $spec
+     * @return string
+     */
+    protected function resolveLocale(array $spec)
+    {
+        return !empty($spec['locale'])
+               ? $this->getVarTranslation()->translateString($spec['locale'])
+               : null;
     }
 }
