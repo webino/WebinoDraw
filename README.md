@@ -5,7 +5,10 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/webino/WebinoDraw/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/webino/WebinoDraw/?branch=develop "Develop Quality Score")
 [![Dependency Status](https://www.versioneye.com/user/projects/529f8de6632bac79c600003d/badge.svg)](https://www.versioneye.com/user/projects/529f8de6632bac79c600003d "Develop Dependency Status")
 <br />
-[![Latest Stable Version](https://poser.pugx.org/webino/webino-draw/v/stable.svg)](https://packagist.org/packages/webino/webino-draw) [![Total Downloads](https://poser.pugx.org/webino/webino-draw/downloads.svg)](https://packagist.org/packages/webino/webino-draw) [![Latest Unstable Version](https://poser.pugx.org/webino/webino-draw/v/unstable.svg)](https://packagist.org/packages/webino/webino-draw) [![License](https://poser.pugx.org/webino/webino-draw/license.svg)](https://packagist.org/packages/webino/webino-draw)
+[![Latest Stable Version](https://poser.pugx.org/webino/webino-draw/v/stable.svg)](https://packagist.org/packages/webino/webino-draw)
+[![Latest Unstable Version](https://poser.pugx.org/webino/webino-draw/v/unstable.svg)](https://packagist.org/packages/webino/webino-draw)
+[![Total Downloads](https://poser.pugx.org/webino/webino-draw/downloads.svg)](https://packagist.org/packages/webino/webino-draw)
+[![License](https://poser.pugx.org/webino/webino-draw/license.svg)](https://packagist.org/packages/webino/webino-draw)
 
 Provides ability to configure rendering of the layout. **Still under development, use it for play.**
 
