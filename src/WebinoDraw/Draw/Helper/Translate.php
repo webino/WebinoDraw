@@ -55,6 +55,8 @@ class Translate extends Element
      */
     public function drawNodes(NodeList $nodes, array $spec)
     {
+        $this->resetVarTranslation($spec);
+
         $remainNodes = $this->translateAttribNodes(
             $nodes,
             $this->resolveTextDomain($spec),
@@ -129,5 +131,26 @@ class Translate extends Element
         return !empty($spec['locale'])
                ? $this->getVarTranslation()->translateString($spec['locale'])
                : null;
+    }
+
+    /**
+     * @param array $spec
+     * @return $this
+     */
+    private function resetVarTranslation(array $spec)
+    {
+        $varTranslation = $this->getVarTranslation();
+
+        if (!empty($spec['text_domain']) && $varTranslation->containsVar($spec['text_domain'])) {
+            $this->setVarTranslation(null);
+            return $this;
+        }
+
+        if (!empty($spec['locale']) && $varTranslation->containsVar($spec['locale'])) {
+            $this->setVarTranslation(null);
+            return $this;
+        }
+
+        return $this;
     }
 }
