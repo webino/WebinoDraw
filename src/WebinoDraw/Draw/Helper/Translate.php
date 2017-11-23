@@ -13,6 +13,7 @@ namespace WebinoDraw\Draw\Helper;
 use WebinoDraw\Dom\Attr;
 use WebinoDraw\Dom\NodeList;
 use WebinoDraw\VarTranslator\Translation;
+use WebinoDraw\View\Helper\EscapeHtmlTrait;
 use Zend\I18n\Translator\TranslatorInterface;
 
 /**
@@ -20,6 +21,8 @@ use Zend\I18n\Translator\TranslatorInterface;
  */
 class Translate extends Element
 {
+    use EscapeHtmlTrait;
+
     /**
      * Draw helper service name
      */
@@ -51,7 +54,7 @@ class Translate extends Element
     /**
      * @param NodeList $nodes
      * @param array $spec
-     * @return self
+     * @return $this
      */
     public function drawNodes(NodeList $nodes, array $spec)
     {
@@ -99,10 +102,12 @@ class Translate extends Element
      */
     protected function translateAttribNodes(NodeList $nodes, $textDomain, $locale)
     {
+        $escape = $this->getEscapeHtml();
         $remainNodes = [];
+
         foreach ($nodes as $node) {
             if ($node instanceof Attr && !$node->isEmpty()) {
-                $node->nodeValue = $this->translator->translate($node->nodeValue, $textDomain, $locale);
+                $node->nodeValue = $this->translator->translate($escape($node->nodeValue), $textDomain, $locale);
             }
 
             $remainNodes[] = $node;

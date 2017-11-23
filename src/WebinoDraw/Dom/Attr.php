@@ -18,14 +18,15 @@ class Attr extends \DOMAttr implements NodeInterface
     /**
      * Returns the node text value
      *
+     * @param null $prefix
      * @return array
      */
     public function getProperties($prefix = null)
     {
-        $properties = [$prefix . self::NODE_VALUE_PROPERTY => ''];
+        $properties = [$prefix . $this::NODE_VALUE_PROPERTY => ''];
 
         empty($this->nodeValue)
-            or $properties[$prefix . self::NODE_VALUE_PROPERTY] = $this->nodeValue;
+            or $properties[$prefix . $this::NODE_VALUE_PROPERTY] = $this->nodeValue;
 
         return $properties;
     }

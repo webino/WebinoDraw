@@ -13,25 +13,14 @@ namespace WebinoDraw\Manipulator\Plugin;
 use DOMNode;
 use WebinoDraw\Dom\Element;
 use WebinoDraw\Exception;
-use Zend\View\Helper\EscapeHtml;
+use WebinoDraw\View\Helper\EscapeHtmlTrait;
 
 /**
  * Class Value
  */
 class Value extends AbstractPlugin implements InLoopPluginInterface
 {
-    /**
-     * @var EscapeHtml
-     */
-    protected $escapeHtml;
-
-    /**
-     * @param EscapeHtml $escapeHtml
-     */
-    public function __construct(EscapeHtml $escapeHtml)
-    {
-        $this->escapeHtml = $escapeHtml;
-    }
+    use EscapeHtmlTrait;
 
     /**
      * @param PluginArgument $arg
@@ -50,7 +39,8 @@ class Value extends AbstractPlugin implements InLoopPluginInterface
 
         $varTranslation  = $arg->getVarTranslation();
         $translatedValue = $arg->getHelper()->translateValue($spec['value'], $varTranslation, $spec);
-        $node->nodeValue = $this->escapeHtml->__invoke($varTranslation->removeVars($translatedValue));
+        $escapeHtml      = $this->getEscapeHtml();
+        $node->nodeValue = $escapeHtml->__invoke($varTranslation->removeVars($translatedValue));
 
         $varKey = $varTranslation->makeVar($varTranslation->makeExtraVarKey($node::NODE_VALUE_PROPERTY));
         $varTranslation->offsetSet($varKey, $node->nodeValue);

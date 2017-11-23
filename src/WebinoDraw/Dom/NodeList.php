@@ -14,25 +14,20 @@ use ArrayObject;
 use DOMNodeList;
 use IteratorAggregate;
 use IteratorIterator;
-use WebinoDraw\Dom\Locator;
-use WebinoDraw\Exception\InvalidArgumentException;
-use WebinoDraw\Exception\RuntimeException;
-use Zend\View\Helper\EscapeHtml;
+use WebinoDraw\Exception;
+use WebinoDraw\View\Helper\EscapeHtmlTrait;
 
 /**
  * Batch DOMElement manipulation
  */
 class NodeList implements IteratorAggregate
 {
+    use EscapeHtmlTrait;
+
     /**
      * @var IteratorIterator
      */
     protected $nodes;
-
-    /**
-     * @var EscapeHtml
-     */
-    protected $escapeHtml;
 
     /**
      * @var Locator
@@ -72,7 +67,7 @@ class NodeList implements IteratorAggregate
     /**
      * @param array|DOMNodeList|IteratorIterator $nodes
      * @return $this
-     * @throws InvalidArgumentException
+     * @throws Exception\InvalidArgumentException
      */
     public function setNodes($nodes)
     {
@@ -86,7 +81,7 @@ class NodeList implements IteratorAggregate
             $this->nodes = new IteratorIterator($nodes);
 
         } else {
-            throw new InvalidArgumentException('Expected nodes as array|DOMNodelist');
+            throw new Exception\InvalidArgumentException('Expected nodes as array|DOMNodelist');
         }
 
         foreach ($this->nodes as $node) {
@@ -104,29 +99,6 @@ class NodeList implements IteratorAggregate
     public function getIterator()
     {
         return $this->getNodes()->getInnerIterator();
-    }
-
-    /**
-     * @return EscapeHtml
-     * @deprecated public access deprecated
-     * @TODO protected
-     */
-    public function getEscapeHtml()
-    {
-        if (null === $this->escapeHtml) {
-            $this->setEscapeHtml(new EscapeHtml);
-        }
-        return $this->escapeHtml;
-    }
-
-    /**
-     * @param EscapeHtml $escapeHtml
-     * @return $this
-     */
-    public function setEscapeHtml(EscapeHtml $escapeHtml)
-    {
-        $this->escapeHtml = $escapeHtml;
-        return $this;
     }
 
     /**
@@ -298,7 +270,7 @@ class NodeList implements IteratorAggregate
      * @param string $locator
      * @param Callable $callback The NodeList parameter is passed
      * @return $this
-     * @throws RuntimeException
+     * @throws Exception\RuntimeException
      */
     public function each($locator, $callback)
     {
@@ -309,7 +281,7 @@ class NodeList implements IteratorAggregate
         $xpath = $this->locator->set($locator)->xpathMatchAny();
         foreach ($this as $node) {
             if (!($node->ownerDocument instanceof Document)) {
-                throw new RuntimeException('Expects `' . Document::class . '` with xpath');
+                throw new Exception\RuntimeException('Expects `' . Document::class . '` with xpath');
             }
 
             $nodes = $node->ownerDocument->getXpath()->query($xpath, $node);

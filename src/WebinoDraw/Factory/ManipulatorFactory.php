@@ -18,7 +18,6 @@ use WebinoDraw\Manipulator\Plugin;
 use WebinoDraw\VarTranslator\VarTranslator;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\View\Helper\EscapeHtml;
 
 /**
  * Class ManipulatorFactory
@@ -53,7 +52,7 @@ class ManipulatorFactory implements FactoryInterface
             ->setPlugin(new Plugin\Remove($domLocator), 70)
             ->setPlugin(new Plugin\Replace, 60)
             ->setPlugin(new Plugin\Attribs, 50)
-            ->setPlugin(new Plugin\Value(new EscapeHtml), 40)
+            ->setPlugin(new Plugin\Value, 40)
             ->setPlugin(new Plugin\Html, 30)
             ->setPlugin(new Plugin\Cdata($instructionsRenderer), 20)
             ->setPlugin(new Plugin\OnVar($varTranslator, $instructionsRenderer), 10)

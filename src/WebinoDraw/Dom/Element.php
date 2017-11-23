@@ -13,7 +13,6 @@ namespace WebinoDraw\Dom;
 use DOMElement;
 use DOMNode;
 use DOMText;
-use WebinoDraw\Exception;
 
 /**
  * Class Element
@@ -103,9 +102,9 @@ class Element extends DOMElement implements
     public function getProperties($prefix = null)
     {
         $properties = [
-            $prefix . self::NODE_NAME_PROPERTY  => empty($this->nodeName)  ? '' : $this->nodeName,
-            $prefix . self::NODE_VALUE_PROPERTY => empty($this->nodeValue) ? '' : $this->nodeValue,
-            $prefix . self::NODE_PATH_PROPERTY  => empty($this->nodeName)  ? '' : $this->getNodePath(),
+            $prefix . $this::NODE_NAME_PROPERTY  => empty($this->nodeName)  ? '' : $this->nodeName,
+            $prefix . $this::NODE_VALUE_PROPERTY => empty($this->nodeValue) ? '' : $this->nodeValue,
+            $prefix . $this::NODE_PATH_PROPERTY  => empty($this->nodeName)  ? '' : $this->getNodePath(),
         ];
 
         if (!empty($this->attributes)) {
@@ -129,7 +128,7 @@ class Element extends DOMElement implements
         }
 
         // node value is empty,
-        // check for childs other than text
+        // check for children other than text
         foreach ($this->childNodes as $childNode) {
             if (!($childNode instanceof DOMText)) {
                 return false;
