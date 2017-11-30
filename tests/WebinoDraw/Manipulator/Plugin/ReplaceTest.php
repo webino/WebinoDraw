@@ -11,7 +11,6 @@
 namespace WebinoDraw\Manipulator\Plugin;
 
 use WebinoDraw\Dom\Document;
-use WebinoDraw\Manipulator\Plugin\PluginArgument;
 use WebinoDraw\VarTranslator\Translation;
 
 /**
@@ -35,7 +34,6 @@ class ReplaceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers WebinoDraw\Manipulator\Plugin\Replace::inLoop
-     * @covers WebinoDraw\Manipulator\Plugin\Replace::postLoop
      */
     public function testReplace()
     {
@@ -63,7 +61,6 @@ class ReplaceTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $this->object->inLoop($arg);
-        $this->object->postLoop($arg);
 
         $this->assertEquals($html, $dom->firstChild->getOuterHtml());
         $this->assertFalse((bool) $dom->getElementsByTagName('node')->length);
