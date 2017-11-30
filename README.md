@@ -12,7 +12,8 @@
 
 Provides ability to configure rendering of the layout. **Still under development, use it for play.**
 
-- Demo [webino-draw.demo.webino.org](http://webino-draw.demo.webino.org)
+- [Demo](http://webino-draw.demo.webino.org)
+- [API](http://webino.github.io/WebinoDraw/api/)
 
 <br />
 
