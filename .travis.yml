@@ -18,4 +18,4 @@ env:
     - URI=http://localhost:8000/
     - BROWSER=firefox
     - GH_REF=github.com/webino/WebinoDraw
-    - secure: COrEIOrhD8yam8Gze+6W84OPRkqrHp9ol/Fn+mXZCcuRqcplTt2/vcA1N23Z/GMO6oMxS+KmD82fjOEGW86/1wFJVxAdz8AROe1KmGAbzO5dDNDxTNclmq6jDHDQzqwpr4DlFK9+8ktrIXp/dgFa6NJ5P3LvVJOlGi8UIyBOJkI=
+    - secure: RXozMuWmyOVyTxmOkt02JXoFpmb+FW2qmWOkZO6GmJCkSRiekC/igRMrlbldrRKgOyb0cQIf8+YOCAeLbF2d67JGbQIWHbWfBzC/u287eewSfiqIR34wnsCLJVWgX17N1HXhz/d4f7UA81VFEglKbTUAHRoTSipy5lA0chJATxI=
