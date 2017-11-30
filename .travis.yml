@@ -1,25 +1,25 @@
 language: php
 php:
-  - 5.6
-  - 7.0
+- 5.6
+- 7.0
 matrix:
   allow_failures:
-    - php: 7.0
+  - php: 7.0
 before_install:
-  - curl -s https://get.webino.org/support/travis/before-install | sudo -E sh
+- curl -s https://get.webino.org/support/travis/before-install | sudo -E sh
 install:
-  - curl -s https://get.webino.org/support/travis/install | sh
+- curl -s https://get.webino.org/support/travis/install | sh
 before_script:
-  - curl -s https://get.webino.org/support/travis/before-script | sh
+- curl -s https://get.webino.org/support/travis/before-script | sh
 script:
-  - curl -s https://get.webino.org/support/travis/script | sh
+- curl -s https://get.webino.org/support/travis/script | sh
 after_failure:
-  - curl -s https://get.webino.org/support/travis/after-failure | sh
+- curl -s https://get.webino.org/support/travis/after-failure | sh
 after_success:
-  - curl -s https://get.webino.org/support/travis/after-success | sh
+- curl -s https://get.webino.org/support/travis/after-success | sh
 env:
   global:
-    - URI=http://localhost:8000/
-    - BROWSER=firefox
-    - GH_REF=github.com/webino/WebinoDraw
-    - secure: VVtMRmIvrQ0m+bf1pzbF0XTHMSQmyxd+avIR1PmcoKpGPQ6JTYXY4sU1ZKVGJtp9qm/6NOTgj9syd41anOnkoh9rOkMztwryqThsi7Qe+MYV9+2yJZHD1P4+RD5+hq/NUU04bvImpV27Hvfgm7WYTTU9IEqh8sdRE6S1h5bl2Vc=
+  - URI=http://localhost:8000/
+  - BROWSER=firefox
+  - GH_REF=github.com/webino/WebinoDraw
+  - secure: COrEIOrhD8yam8Gze+6W84OPRkqrHp9ol/Fn+mXZCcuRqcplTt2/vcA1N23Z/GMO6oMxS+KmD82fjOEGW86/1wFJVxAdz8AROe1KmGAbzO5dDNDxTNclmq6jDHDQzqwpr4DlFK9+8ktrIXp/dgFa6NJ5P3LvVJOlGi8UIyBOJkI=
