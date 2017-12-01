@@ -1,4 +1,4 @@
-# XHTML Layout Renderer <br /> for Zend Framework 2
+# XHTML layout renderer <br /> for Zend Framework 2
 
 [![Build Status](https://secure.travis-ci.org/webino/WebinoDraw.png?branch=develop)](http://travis-ci.org/webino/WebinoDraw "Develop Build Status")
 [![Coverage Status](https://coveralls.io/repos/webino/WebinoDraw/badge.png?branch=develop)](https://coveralls.io/r/webino/WebinoDraw?branch=develop "Develop Coverage Status")
@@ -12,8 +12,7 @@
 
 Provides ability to configure rendering of the layout. **Still under development, use it for play.**
 
-- [Demo](http://webino-draw.demo.webino.org)
-- [API](http://webino.github.io/WebinoDraw/api/)
+[Demo](http://webino-draw.demo.webino.org) | [API](http://webino.github.io/WebinoDraw/api/)
 
 <br />
 
@@ -55,275 +54,274 @@ Provides ability to configure rendering of the layout. **Still under development
 
 ## QuickStart
 
-  - For example, add this code somewhere to your module config:
+  For example, add this code somewhere to your module config:
 
-        'webino_draw' => [
-            'instructions' => [
-                // Add draw instructions here
-                'draw-node-example' => [
-                    'locator' => 'body',
-                    'value'   => 'Hello Webino!',
-                ],
+    'webino_draw' => [
+        'instructions' => [
+            // Add draw instructions here
+            'draw-node-example' => [
+                'locator' => 'body',
+                'value'   => 'Hello Webino!',
             ],
         ],
+    ],
 
-    Reload your browser and you should see "Hello Webino!" as a body content.
+  ...reload your browser and you should see "Hello Webino!" as a body content.
 
-  - Rendering is based on instructions mapped to DOM nodes like this:
+  Rendering is based on instructions mapped to DOM nodes like this:
 
-        'draw-node-example' => [              // custom name
-            'locator' => 'body',              // node locator
-            'helper'  => 'WebinoDrawElement', // draw helper
-            'value'   => 'Hello Webino!',     // helper options
+    'draw-node-example' => [              // custom name
+        'locator' => 'body',              // node locator
+        'helper'  => 'WebinoDrawElement', // draw helper
+        'value'   => 'Hello Webino!',     // helper options
+    ],
+
+  You can use **CSS selector** or **XPath**, even combine them together to map dom nodes to draw instruction.
+
+    'draw-node-example' => [
+        'locator' => [
+            'body a',
+            '.customclass',
+            'xpath=//title',
+            'xpath=//footer',
         ],
+        'value' => 'Hello Webino!',
+    ],
+    
+  *NOTE: It is possible to set many CSS or / and XPath locators:*
 
-  - You can use **CSS selector** or **XPath** even combine them together to map dom nodes to draw instruction.
+  To specify priority of each instruction use **stackIndex** option:
 
-    It is possible to set many CSS or/and XPath locators:
+    'draw-node-example' => [
+        'stackIndex' => 9,
+        'locator'    => 'body',
+        'value'      => 'Hello Webino!',
+    ],
 
-        'draw-node-example' => [
-            'locator' => [
-                'body a',
-                '.customclass',
-                'xpath=//title',
-                'xpath=//footer',
-            ],
-            'value' => 'Hello Webino!',
-        ],
+  In the instructions hierarchy you can use relative locators:
 
-  - To specify priority of each instruction use **stackIndex** option:
-
-        'draw-node-example' => [
-            'stackIndex' => 9,
-            'locator'    => 'body',
-            'value'      => 'Hello Webino!',
-        ],
-
-  - In the instructions hierarchy you can use relative locators:
-
-        'quick-contact' => [
-            'locator' => '.quick-contact',         // the same node
-            'instructions' => [
-                'widget' => [
-                    'locator' => '.',              // the same node
-                    'locator' => 'xpath=.',        // the same node
-                    // ...
-                ],
-            ],
-        ],
-
-    *NOTE: Every sub-locator css selector will be resolved as relative. If you want to match by absolute css selector, start with double slash, e.g. `//.quick-contact`.*
-
-  - Use **node variables**:
-
-        'draw-node-example' => [
-            'locator' => 'a',
-            'value'   => 'customprefix {$_nodeName} {$_nodeValue} {$_nodePath} customsuffix',
-            'html'    => '<custom>{$_innerHtml}</custom>',
-            'replace' => '{$_outerHtml}<custom/>',
-            'attribs' => [
-                'title' => '{$_nodeValue} {$_href}',
-                'href'  => '{$_href}#customfragment',
+    'quick-contact' => [
+        'locator' => '.quick-contact',         // the same node
+        'instructions' => [
+            'widget' => [
+                'locator' => '.',              // the same node
+                'locator' => 'xpath=.',        // the same node
+                // ...
             ],
         ],
+    ],
 
-    *NOTE: Node variables are prefixed with the underscore to avoid conflicts.*
+  *NOTE: Every sub-locator css selector will be resolved as relative. If you want to match by absolute css selector, start with double slash, e.g. `//.quick-contact`*
 
-  - Use **view variables**:
+  Use **node variables**:
 
-    Assume that controller action return view model with multidimensional array.
-
-        'draw-node-example' => [
-            'locator' => 'body',
-            'value'   => '{$viewvar}',
+    'draw-node-example' => [
+        'locator' => 'a',
+        'value'   => 'customprefix {$_nodeName} {$_nodeValue} {$_nodePath} customsuffix',
+        'html'    => '<custom>{$_innerHtml}</custom>',
+        'replace' => '{$_outerHtml}<custom/>',
+        'attribs' => [
+            'title' => '{$_nodeValue} {$_href}',
+            'href'  => '{$_href}#customfragment',
         ],
+    ],
 
-    Set and override:
+  *NOTE: Node variables are prefixed with the underscore to avoid conflicts.*
 
-        'draw-node-example' => [
-            'locator' => 'body',
-            'value'   => '{$viewvar}',
-            'var' => [
-                'set' => [
-                    'viewvar' => 'customval',
-                ],
-             ],
-        ],
+  Use **view variables**:
 
-    Fetch variables:
+  Assume that controller action return view model with multidimensional array.
 
-        'draw-node-example' => [
-            'locator' => 'body',
-            'value'   => '{$depthvar}',
-            'var' => [
-                'fetch' => [
-                    'depthvar' => 'value.in.the.depth',
-                ],
+    'draw-node-example' => [
+        'locator' => 'body',
+        'value'   => '{$viewvar}',
+    ],
+
+  Set and override:
+
+    'draw-node-example' => [
+        'locator' => 'body',
+        'value'   => '{$viewvar}',
+        'var' => [
+            'set' => [
+                'viewvar' => 'customval',
+            ],
+         ],
+    ],
+
+  Fetch variables:
+
+    'draw-node-example' => [
+        'locator' => 'body',
+        'value'   => '{$depthvar}',
+        'var' => [
+            'fetch' => [
+                'depthvar' => 'value.in.the.depth',
             ],
         ],
+    ],
 
+  Set default variables:
 
-    Set default variables:
+    'draw-node-example' => [
+        'locator' => 'body',
+        'value'   => '{$viewvar}',
+        'var' => [
+            'default' => [
+                'viewvar' => 'defaultval',
+            ],
+         ],
+    ],
 
-        'draw-node-example' => [
-            'locator' => 'body',
-            'value'   => '{$viewvar}',
-            'var' => [
-                'default' => [
-                    'viewvar' => 'defaultval',
-                ],
-             ],
-        ],
+  Push variables:
 
-    Push variables:
-
-        'draw-node-example' => [
-            'locator' => 'body',
-            'var' => [
-                'push' => [
-                    'myvalue.in.the.depth' => 'mydepthvar',
-                ],
+    'draw-node-example' => [
+        'locator' => 'body',
+        'var' => [
+            'push' => [
+                'myvalue.in.the.depth' => 'mydepthvar',
             ],
         ],
+    ],
 
-  - Use **functions**, **view helpers** and **filters**:
+  Use **functions**, **view helpers** and **filters**:
 
-    Modify variable values, helper/filter definition accepts in function/method parameters: `{$var}`
-
-        'draw-node-example' => [
-            'locator' => 'body',
-            'value'   => '{$customvar}',
-            'var' => [
-                'helper' => [
+    'draw-node-example' => [
+        'locator' => 'body',
+        'value'   => '{$customvar}',
+        'var' => [
+            'helper' => [
+                'customvar' => [
+                    'customhelper' => [
+                        '__invoke' => [[]],
+                    ],
+                    'customfunction' => [[]],
+                ],
+            ],
+            'filter' => [
+                'pre' => [
                     'customvar' => [
-                        'customhelper' => [
-                            '__invoke' => [[]],
-                        ],
-                        'customfunction' => [[]],
+                        'customfilter'   => [],
+                        'customfunction' => [],
                     ],
                 ],
-                'filter' => [
-                    'pre' => [
-                        'customvar' => [
-                            'customfilter'   => [],
-                            'customfunction' => [],
-                        ],
-                    ],
-                    'post' => [],
-                ],
+                'post' => [],
             ],
         ],
+    ],
+    
+  *NOTE: Modify variable values, helper / filter definition accepts in function / method parameters: `{$var}`*
 
-  - **Loop** by view array:
+  **Loop** by view array:
 
-        'draw-node-example' => [
-            'locator' => 'ul li',
-            'value'   => '{$_key} {$_index} {$property}',
-            'loop' => [
-                'base'    => 'array.in.the.depth',
-                'index'   => '0',
-                'onEmpty' => [
-                    'locator' => 'ul',
-                    'replace' => '<p>You have no items.</p>',
-                ],
+    'draw-node-example' => [
+        'locator' => 'ul li',
+        'value'   => '{$_key} {$_index} {$property}',
+        'loop' => [
+            'base'    => 'array.in.the.depth',
+            'index'   => '0',
+            'onEmpty' => [
+                'locator' => 'ul',
+                'replace' => '<p>You have no items.</p>',
             ],
         ],
+    ],
 
-    *NOTE: Extra variables are prefixed with the underscore to avoid conflicts.*
+  *NOTE: Extra variables are prefixed with the underscore to avoid conflicts.*
 
-  - Trigger **events**
+  Trigger **events**
 
-        'event-example' => [
-            'locator' => 'body',
-            'trigger' => [
-                'event-example.test',
-            ],
-        ],
-
-    Then attach listener:
-
-        $this->getEventManager()->getSharedManager()->attach(
-            'WebinoDraw',
+    'event-example' => [
+        'locator' => 'body',
+        'trigger' => [
             'event-example.test',
-            function(DrawEvent $event) {
-
-                // set custom variables
-                $event->getHelper()->setVars([]);
-
-                // do something with the nodes
-                $event->getNodes()->setValue("my node value");
-
-                // change instruction node
-                $event->setSpec([
-                    // draw instructions
-                    'value' => '{$_nodeValue} VALUE',
-                    'attribs' => [
-                        'title' => 'Hello from Controller!',
-                    ],
-                ]);
-            }
-        );
-
-  - Set instructions **from controller**:
-
-        $this->getServiceLocator()->get('WebinoDraw')->setInstructions([
-            'custom' => [
-                'locator' => '.customclass',
-                'value'   => 'Custom value',
-            ],
-        ]);
-
-    Set instructions always merge so in some cases it is useful to clear them:
-
-        $this->getServiceLocator()->get('WebinoDraw')->clearInstructions();
-
-  - **Cache**
-
-        'cache-example' => [
-            'locator'   => 'body',
-            'cache'     => 'exampleCacheTag',
-            'cache_key' => ['{$var}'],
-            'cache_key_trigger' => [
-                'draw.cache.byPage',
-            ],
         ],
+    ],
 
-    Attach cache key listener:
+  Then attach listener:
 
-        $this->getEventManager()->getSharedManager()->attach(
-            'WebinoDraw',
+    $this->getEventManager()->getSharedManager()->attach(
+        'WebinoDraw',
+        'event-example.test',
+        function(DrawEvent $event) {
+
+            // set custom variables
+            $event->getHelper()->setVars([]);
+
+            // do something with the nodes
+            $event->getNodes()->setValue("my node value");
+
+            // change instruction node
+            $event->setSpec([
+                // draw instructions
+                'value' => '{$_nodeValue} VALUE',
+                'attribs' => [
+                    'title' => 'Hello from Controller!',
+                ],
+            ]);
+        }
+    );
+
+  Set instructions **from controller**:
+
+    $this->getServiceLocator()->get('WebinoDraw')->setInstructions([
+        'custom' => [
+            'locator' => '.customclass',
+            'value'   => 'Custom value',
+        ],
+    ]);
+
+  Set instructions always merge so in some cases it is useful to clear them:
+
+    $this->getServiceLocator()->get('WebinoDraw')->clearInstructions();
+
+  **Cache**
+
+    'cache-example' => [
+        'locator'   => 'body',
+        'cache'     => 'exampleCacheTag',
+        'cache_key' => ['{$var}'],
+        'cache_key_trigger' => [
             'draw.cache.byPage',
-            function(Event $event) use ($navigation) {
+        ],
+    ],
 
-                $page = $navigation->getActivePage();
-                return $page->getHref();
-            }
-        );
+  Attach cache key listener:
 
-    Clear the cache:
+    $this->getEventManager()->getSharedManager()->attach(
+        'WebinoDraw',
+        'draw.cache.byPage',
+        function(Event $event) use ($navigation) {
 
-        $this->getServiceLocator()->get('WebinoDrawCache')->clearByTags(['exampleCacheTag']);
+            $page = $navigation->getActivePage();
+            return $page->getHref();
+        }
+    );
 
-    *NOTE: When cached data are loaded, the draw helper manipulation is skipped, nor AjaxEvent is fired.*
+  Clear the cache:
+
+    $this->getServiceLocator()->get('WebinoDrawCache')->clearByTags(['exampleCacheTag']);
+
+  *NOTE: When cached data are loaded, the draw helper manipulation is skipped, nor AjaxEvent is fired.*
 
 ## Instruction Set
 
-  - The instruction set allows you to configure group of draw instructions under custom name:
+  The instruction set allows you to configure group of draw instructions under custom name:
 
-        'webino_draw' => [
-            'instructionset' => [
-                'customname' => [
-                    // Add draw instructions here
-                ],
+    'webino_draw' => [
+        'instructionset' => [
+            'customname' => [
+                // Add draw instructions here
             ],
         ],
+    ],
 
-  - Later you can get those instructions and set them to the WebinoDraw service:
+  Later you can get those instructions and set them to the WebinoDraw service:
 
-        $draw = $this->getServiceLocator()->get('WebinoDraw');
-        $draw->setInstructions(
-            $draw->instructionsFromSet('customname')
-        );
+    $draw = $this->getServiceLocator()->get('WebinoDraw');
+    $draw->setInstructions(
+        $draw->instructionsFromSet('customname')
+    );
 
 ## Ajax
 
@@ -335,36 +333,36 @@ Provides ability to configure rendering of the layout. **Still under development
 
   1. Set up the Ajax handler. Use the following jQuery script:
 
-        jQuery(document).ready(function($){
-            $(document).on("click", ".ajax-link", function(event) {
-                event.preventDefault();
-                $.get($(this).attr("href"), function(data) {
+          jQuery(document).ready(function($){
+              $(document).on("click", ".ajax-link", function(event) {
+                  event.preventDefault();
+                  $.get($(this).attr("href"), function(data) {
+    
+                      // replace element HTML with each received fragment
+                      $.each(data.fragment, function(selector, html) {
+                          $(selector).replaceWith(html);
+                      });
+    
+                      // custom data whatever
+                      if (data.extraExample) {
+                          $(".my-ajax-data").html(data.extraExample);
+                      }
+                  }, "json");
+              });
+          });
 
-                    // replace element HTML with each received fragment
-                    $.each(data.fragment, function(selector, html) {
-                        $(selector).replaceWith(html);
-                    });
+     *NOTE: Above script makes every element with a class name "ajax-link" Ajax-able.
+            It is required that element has the "href" attribute.*
 
-                    // custom data whatever
-                    if (data.extraExample) {
-                        $(".my-ajax-data").html(data.extraExample);
-                    }
-                }, "json");
-            });
-        });
+     *NOTE: The JSON `data.fragment` contains the `selector => XHTML` pairs.*
 
-    *NOTE: Above script makes every element with a class name "ajax-link" Ajax-able.
-           It is required that element has the "href" attribute.*
-
-    *NOTE: The JSON `data.fragment` contains the `selector => XHTML` pairs.*
-
-    *NOTE: We can receive custom parameters and do whatever we want with them.*
+     *NOTE: We can receive custom parameters and do whatever we want with them.*
 
   2. Add an id and the class name "ajax-fragment" to the every element you want to change via Ajax.
 
-     Assume following element somewhere in the layout body tag:
+      Assume following element somewhere in the layout body tag:
 
-        <div id="my-ajax-area" class="ajax-fragment">Ajax-able content</div>
+          <div id="my-ajax-area" class="ajax-fragment">Ajax-able content</div>
 
   3. Now when you click Ajax-able element, every Ajax-able fragment will be updated.
 
@@ -636,18 +634,10 @@ Provides ability to configure rendering of the layout. **Still under development
   2. Set up WebinoDraw module
 
   3. Set up module test configuration:
-    - Copy: `vendor/webino/webino-draw/test/resources/application.config.php`
-    - Paste it to application: `config/application.config.php` (replace)
+      - Copy: `vendor/webino/webino-draw/test/resources/application.config.php`
+      - Paste it to application: `config/application.config.php` (replace)
 
   4. Check your application welcome page for changes
-
-[Check out wiki for more examples](https://github.com/webino/WebinoDraw/wiki)
-
-## Development
-
-We will appreciate any contributions on development of this module.
-
-Learn [How to develop Webino modules](https://github.com/webino/Webino/wiki/How-to-develop-Webino-module)
 
 ## Todo
 
@@ -670,5 +660,6 @@ Learn [How to develop Webino modules](https://github.com/webino/Webino/wiki/How-
 ## Addendum
 
   Please, if you are interested in this Zend Framework module report any issues and don't hesitate to contribute.
+  We will appreciate any contributions on development of this module.
 
-[Report a bug](https://github.com/webino/WebinoDraw/issues) | [Fork me](https://github.com/webino/WebinoDraw)
+[Issue](https://github.com/webino/WebinoDraw/issues) | [Fork](https://github.com/webino/WebinoDraw) | [Develop](https://github.com/webino/Webino/wiki/How-to-develop-Webino-module)
