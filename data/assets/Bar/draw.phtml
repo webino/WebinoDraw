@@ -13,14 +13,18 @@ $profiler = $this->getProfiler();
         background: #159;
         opacity: .5;
     }
+
+    .webino-draw-highlight-link strong:hover {
+        text-decoration: underline !important;
+    }
 </style>
-<div class="tracy-inner" style="max-width: 100%%;">
-    <h1 style="min-width: 500px; white-space: nowrap;"><?= $this->title ?></h1>
+<h1 style="min-width: 500px"><?= $this->title ?></h1>
+<div class="tracy-inner tracy-inner-box" style="padding: 10px">
     <p>Total time: <?= sprintf('%s ms', number_format($profiler->getTotalTime() * 1000, 1, '.', ' ')) ?></p>
     <br />
     <div>
         <?php foreach ($profiler->getData() as $key => $data): ?>
-            <span style="display: block;">
+            <span class="webino-draw-highlight-link">
                 <?php
                 $locator = join('\', \'', empty($data['spec']['locator']) ? [] : (array) $data['spec']['locator']);
                 $locator = '[\'' . strtr($locator, [PHP_EOL => '', '"' => '\\\'']) . '\']';
@@ -31,7 +35,7 @@ $profiler = $this->getProfiler();
                     <?= $key ?>
                 </strong>
                 <?= $data['time'] ? sprintf(' / %s ms', number_format($data['time'] * 1000, 1, '.', ' ')) : '' ?>
-            </span><br />
+            </span>
             <?= Dumper::toHtml($data['spec'], [Dumper::DEPTH => 10, Dumper::COLLAPSE => 1]) ?>
             <br />
         <?php endforeach; ?>
