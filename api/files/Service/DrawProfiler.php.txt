@@ -3,14 +3,14 @@
  * Webino (http://webino.sk)
  *
  * @link        https://github.com/webino/WebinoDraw for the canonical source repository
- * @copyright   Copyright (c) 2012-2017 Webino, s. r. o. (http://webino.sk)
+ * @copyright   Copyright (c) 2012-2018 Webino, s. r. o. (http://webino.sk)
  * @author      Peter Bačinský <peter@bacinsky.sk>
  * @license     BSD-3-Clause
  */
 
 namespace WebinoDraw\Service;
 
-use WebinoDebug\Service\DebuggerInterface as Debugger;
+use WebinoDebug\Debugger\DebuggerInterface as Debugger;
 
 /**
  * Class DrawProfiler
@@ -87,7 +87,7 @@ class DrawProfiler
     {
         // TODO show more info (nodes, helper, vars?)
 
-        $time = $this->debugger->timer(__CLASS__);
+        $time = $this->debugger->timer(__CLASS__)->getDelta();
         $this->data[$this->createKey($spec)]['time'] = $time;
         $this->totalTime+= $time;
     }
