@@ -9,6 +9,7 @@
 
 namespace WebinoDraw\Debugger\Bar;
 
+use Tracy\Dumper;
 use WebinoDebug\Debugger\Bar\AbstractPanel;
 use WebinoDebug\Debugger\Bar\PanelInitInterface;
 use WebinoDebug\Debugger\Bar\PanelInterface;
@@ -78,6 +79,14 @@ class DrawPanel extends AbstractPanel implements
         return $this;
     }
 
+    public function dump($var)
+    {
+        if (!class_exists(Dumper::class)) {
+            return 'Required: ' . Dumper::class;
+        }
+        return Dumper::toHtml($var, [Dumper::DEPTH => 10, Dumper::COLLAPSE => 1]);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -91,6 +100,6 @@ class DrawPanel extends AbstractPanel implements
      */
     public function getPanel()
     {
-        return $this->renderTemplate('draw');
+        return $this->renderTemplate('draw.panel');
     }
 }

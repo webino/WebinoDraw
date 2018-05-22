@@ -46,7 +46,8 @@
         "zendframework/zend-mvc": "To use as a Zend Framework module",
         "zendframework/zend-modulemanager": "To use as a Zend Framework module",
         "zendframework/zend-math": "To use as Zend Csrf validator",
-        "zendframework/zend-i18n-resources": "Use translations"
+        "zendframework/zend-i18n-resources": "Use translations",
+        "tracy/tracy": "Debugger support"
     },
     "require-dev": {
         "webino/webino-dev": "dev-develop",
