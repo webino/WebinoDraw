@@ -7,7 +7,7 @@
  * @license     BSD-3-Clause
  */
 
-namespace WebinoDraw\Debugger\Bar;
+namespace WebinoDraw\Debugger;
 
 use Tracy\Dumper;
 use WebinoDebug\Debugger\AbstractPanel;
