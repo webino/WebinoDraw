@@ -186,35 +186,35 @@
 <polygon fill="none" stroke="black" points="1553.5,-6290 1476.5,-6290 1476.5,-6254 1553.5,-6254 1553.5,-6290"/>
 <text text-anchor="middle" x="1515" y="-6269.2" font-family="Courier,monospace" font-size="11.00">DrawPanel</text>
 </g>
-<!-- \\WebinoDebug\\Debugger\\Bar\\AbstractPanel -->
-<g id="node135" class="node"><title>\\WebinoDebug\\Debugger\\Bar\\AbstractPanel</title>
-<ellipse fill="none" stroke="black" cx="1100" cy="-964" rx="168.97" ry="18"/>
-<text text-anchor="middle" x="1100" y="-960.3" font-family="Times,serif" font-size="14.00" fill="gray">\WebinoDebug\Debugger\Bar\AbstractPanel</text>
+<!-- \\WebinoDebug\\Debugger\\AbstractPanel -->
+<g id="node135" class="node"><title>\\WebinoDebug\\Debugger\\AbstractPanel</title>
+<ellipse fill="none" stroke="black" cx="1100" cy="-964" rx="153.273" ry="18"/>
+<text text-anchor="middle" x="1100" y="-960.3" font-family="Times,serif" font-size="14.00" fill="gray">\WebinoDebug\Debugger\AbstractPanel</text>
 </g>
-<!-- \\WebinoDraw\\Debugger\\Bar\\DrawPanel&#45;&gt;\\WebinoDebug\\Debugger\\Bar\\AbstractPanel -->
-<g id="edge1" class="edge"><title>\\WebinoDraw\\Debugger\\Bar\\DrawPanel&#45;&gt;\\WebinoDebug\\Debugger\\Bar\\AbstractPanel</title>
-<path fill="none" stroke="black" d="M1476.25,-6274.05C1441.54,-6273.64 1391.7,-6266.77 1366,-6234 1276.2,-6119.5 1405.37,-1105.89 1310,-996 1300.66,-985.236 1289.34,-977.001 1276.87,-970.776"/>
-<polygon fill="none" stroke="black" points="1278.14,-967.512 1267.59,-966.59 1275.27,-973.893 1278.14,-967.512"/>
+<!-- \\WebinoDraw\\Debugger\\Bar\\DrawPanel&#45;&gt;\\WebinoDebug\\Debugger\\AbstractPanel -->
+<g id="edge1" class="edge"><title>\\WebinoDraw\\Debugger\\Bar\\DrawPanel&#45;&gt;\\WebinoDebug\\Debugger\\AbstractPanel</title>
+<path fill="none" stroke="black" d="M1476.25,-6274.05C1441.54,-6273.64 1391.7,-6266.77 1366,-6234 1276.2,-6119.5 1405.37,-1105.89 1310,-996 1296.83,-980.822 1279.73,-970.672 1260.99,-964.094"/>
+<polygon fill="none" stroke="black" points="1261.95,-960.727 1251.36,-961.059 1259.84,-967.404 1261.95,-960.727"/>
 </g>
-<!-- \\WebinoDebug\\Debugger\\Bar\\PanelInterface -->
-<g id="node136" class="node"><title>\\WebinoDebug\\Debugger\\Bar\\PanelInterface</title>
-<ellipse fill="none" stroke="black" cx="1100" cy="-910" rx="170.07" ry="18"/>
-<text text-anchor="middle" x="1100" y="-906.3" font-family="Times,serif" font-size="14.00" fill="gray">\WebinoDebug\Debugger\Bar\PanelInterface</text>
+<!-- \\WebinoDebug\\Debugger\\PanelInterface -->
+<g id="node136" class="node"><title>\\WebinoDebug\\Debugger\\PanelInterface</title>
+<ellipse fill="none" stroke="black" cx="1100" cy="-910" rx="155.173" ry="18"/>
+<text text-anchor="middle" x="1100" y="-906.3" font-family="Times,serif" font-size="14.00" fill="gray">\WebinoDebug\Debugger\PanelInterface</text>
 </g>
-<!-- \\WebinoDraw\\Debugger\\Bar\\DrawPanel&#45;&gt;\\WebinoDebug\\Debugger\\Bar\\PanelInterface -->
-<g id="edge2" class="edge"><title>\\WebinoDraw\\Debugger\\Bar\\DrawPanel&#45;&gt;\\WebinoDebug\\Debugger\\Bar\\PanelInterface</title>
-<path fill="none" stroke="black" stroke-dasharray="1,5" d="M1476.25,-6274.05C1441.54,-6273.64 1391.7,-6266.77 1366,-6234 1275.2,-6118.21 1407.74,-1047 1310,-937 1301.37,-927.289 1291.12,-919.752 1279.85,-913.973"/>
-<polygon fill="none" stroke="black" points="1281.16,-910.722 1270.61,-909.708 1278.22,-917.077 1281.16,-910.722"/>
+<!-- \\WebinoDraw\\Debugger\\Bar\\DrawPanel&#45;&gt;\\WebinoDebug\\Debugger\\PanelInterface -->
+<g id="edge2" class="edge"><title>\\WebinoDraw\\Debugger\\Bar\\DrawPanel&#45;&gt;\\WebinoDebug\\Debugger\\PanelInterface</title>
+<path fill="none" stroke="black" stroke-dasharray="1,5" d="M1476.25,-6274.05C1441.54,-6273.64 1391.7,-6266.77 1366,-6234 1275.2,-6118.21 1407.74,-1047 1310,-937 1287.38,-911.547 1253.59,-901.032 1219.74,-897.958"/>
+<polygon fill="none" stroke="black" points="1219.94,-894.463 1209.72,-897.258 1219.45,-901.446 1219.94,-894.463"/>
 </g>
-<!-- \\WebinoDebug\\Debugger\\Bar\\PanelInitInterface -->
-<g id="node137" class="node"><title>\\WebinoDebug\\Debugger\\Bar\\PanelInitInterface</title>
-<ellipse fill="none" stroke="black" cx="1100" cy="-856" rx="182.768" ry="18"/>
-<text text-anchor="middle" x="1100" y="-852.3" font-family="Times,serif" font-size="14.00" fill="gray">\WebinoDebug\Debugger\Bar\PanelInitInterface</text>
+<!-- \\WebinoDebug\\Debugger\\PanelInitInterface -->
+<g id="node137" class="node"><title>\\WebinoDebug\\Debugger\\PanelInitInterface</title>
+<ellipse fill="none" stroke="black" cx="1100" cy="-856" rx="167.07" ry="18"/>
+<text text-anchor="middle" x="1100" y="-852.3" font-family="Times,serif" font-size="14.00" fill="gray">\WebinoDebug\Debugger\PanelInitInterface</text>
 </g>
-<!-- \\WebinoDraw\\Debugger\\Bar\\DrawPanel&#45;&gt;\\WebinoDebug\\Debugger\\Bar\\PanelInitInterface -->
-<g id="edge3" class="edge"><title>\\WebinoDraw\\Debugger\\Bar\\DrawPanel&#45;&gt;\\WebinoDebug\\Debugger\\Bar\\PanelInitInterface</title>
-<path fill="none" stroke="black" stroke-dasharray="1,5" d="M1476.25,-6274.05C1441.54,-6273.64 1391.7,-6266.77 1366,-6234 1274.28,-6117.02 1408.73,-994.125 1310,-883 1303.58,-875.769 1296.25,-869.744 1288.28,-864.752"/>
-<polygon fill="none" stroke="black" points="1289.81,-861.599 1279.38,-859.733 1286.37,-867.696 1289.81,-861.599"/>
+<!-- \\WebinoDraw\\Debugger\\Bar\\DrawPanel&#45;&gt;\\WebinoDebug\\Debugger\\PanelInitInterface -->
+<g id="edge3" class="edge"><title>\\WebinoDraw\\Debugger\\Bar\\DrawPanel&#45;&gt;\\WebinoDebug\\Debugger\\PanelInitInterface</title>
+<path fill="none" stroke="black" stroke-dasharray="1,5" d="M1476.25,-6274.05C1441.54,-6273.64 1391.7,-6266.77 1366,-6234 1274.28,-6117.02 1408.73,-994.125 1310,-883 1300.18,-871.944 1288.25,-863.707 1275.12,-857.673"/>
+<polygon fill="none" stroke="black" points="1276.43,-854.427 1265.85,-853.84 1273.75,-860.896 1276.43,-854.427"/>
 </g>
 <!-- \\WebinoDraw\\Dom\\Locator\\Strategy\\CssStrategy -->
 <g id="node2" class="node"><title>\\WebinoDraw\\Dom\\Locator\\Strategy\\CssStrategy</title>

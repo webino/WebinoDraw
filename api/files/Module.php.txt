@@ -12,7 +12,7 @@ namespace WebinoDraw;
 
 use WebinoDebug\Factory\DebuggerFactory;
 use WebinoDebug\Service\Debugger;
-use WebinoDraw\Debugger\Bar\DrawPanel;
+use WebinoDraw\Debugger\DrawPanel;
 use WebinoDraw\Draw\HelperPluginManager;
 use WebinoDraw\Draw\LoopHelperPluginManager;
 use WebinoDraw\Exception;
