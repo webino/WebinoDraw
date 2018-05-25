@@ -92,6 +92,10 @@ class DrawPanel extends AbstractPanel implements
      */
     public function getTab()
     {
+        $profiler = $this->getProfiler();
+        if (!$profiler || empty($profiler->getData())) {
+            return '';
+        }
         return $this->createIcon('draw', 'top: -3px;') . parent::getTab();
     }
 
