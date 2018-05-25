@@ -45,11 +45,6 @@ class DrawPanel extends AbstractPanel implements
     protected $title = 'WebinoDraw profiler';
 
     /**
-     * @var string
-     */
-    protected $content = '';
-
-    /**
      * @param ServiceManager $services
      */
     public function init(ServiceManager $services)
