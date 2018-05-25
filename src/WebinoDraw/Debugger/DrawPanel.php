@@ -10,9 +10,9 @@
 namespace WebinoDraw\Debugger\Bar;
 
 use Tracy\Dumper;
-use WebinoDebug\Debugger\Bar\AbstractPanel;
-use WebinoDebug\Debugger\Bar\PanelInitInterface;
-use WebinoDebug\Debugger\Bar\PanelInterface;
+use WebinoDebug\Debugger\AbstractPanel;
+use WebinoDebug\Debugger\PanelInitInterface;
+use WebinoDebug\Debugger\PanelInterface;
 use WebinoDebug\Exception;
 use WebinoDraw\Service\DrawProfiler;
 use Zend\ServiceManager\ServiceManager;
@@ -71,7 +71,7 @@ class DrawPanel extends AbstractPanel implements
 
     /**
      * @param object|DrawProfiler $profiler
-     * @return self
+     * @return $this
      */
     public function setProfiler(DrawProfiler $profiler)
     {
@@ -79,7 +79,11 @@ class DrawPanel extends AbstractPanel implements
         return $this;
     }
 
-    public function dump($var)
+    /**
+     * @param $var mixed
+     * @return string
+     */
+    public function dump($var) : string
     {
         if (!class_exists(Dumper::class)) {
             return 'Required: ' . Dumper::class;
