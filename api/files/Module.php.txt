@@ -67,7 +67,7 @@ class Module implements ConfigProviderInterface
         );
 
         // Register a debugger bar panel
-        if (class_exists(DebuggerFactory::class)) {
+        if (class_exists(DebuggerFactory::class) && $services->has(DebuggerFactory::SERVICE)) {
             $debugger = $services->get(DebuggerFactory::SERVICE);
             $debugger instanceof Debugger and $debugger->setBarPanel(new DrawPanel($manager), DrawPanel::ID);
         }
