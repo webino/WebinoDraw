@@ -14,6 +14,12 @@ $profiler = $this->getProfiler();
     .webino-draw-highlight-link strong:hover {
         text-decoration: underline !important;
     }
+
+    .webino-draw-highlight-link .missing,
+    .webino-draw-highlight-link .missing:hover {
+        text-decoration: line-through !important;
+        cursor: not-allowed !important;
+    }
 </style>
 <h1><?= $this->escapeHtml($this->title) ?></h1>
 <div class="tracy-inner tracy-inner-box" style="padding: 10px">
@@ -21,16 +27,20 @@ $profiler = $this->getProfiler();
         <p>Total time: <?= $this->escapeHtml(sprintf('%s ms', number_format($profiler->getTotalTime() * 1000, 1, '.', ' '))) ?></p>
         <br />
         <div>
-            <?php foreach ($profiler->getData() as $key => $data): ?>
+            <?php
+            $n = 0;
+            foreach ($profiler->getData() as $key => $data):
+                $n++;
+                ?>
                 <span class="webino-draw-highlight-link">
                     <?php
                     $locator = join('\', \'', empty($data['spec']['locator']) ? [] : (array) $data['spec']['locator']);
                     $locator = '[\'' . strtr($locator, [PHP_EOL => '', '"' => '\\\'']) . '\']';
                     ?>
-                    <strong style="font-size: larger; cursor: pointer;"
+                    <strong style="font-size: larger; cursor: pointer;" class="<?php if (empty($data['time'])) echo 'missing' ?>"
                             onmouseover="webinoDrawHighlight(<?= $this->escapeHtml($locator) ?>)"
                             onmouseout="webinoDrawRemoveHighlight()">
-                        <?= $this->escapeHtml($key) ?>
+                        <?= $this->escapeHtml($n . '. ' . $key) ?>
                     </strong>
                     <?= $this->escapeHtml($data['time'] ? sprintf(' / %s ms', number_format($data['time'] * 1000, 1, '.', ' ')) : '') ?>
                 </span>
