@@ -27,11 +27,7 @@ $profiler = $this->getProfiler();
         <p>Total time: <?= $this->escapeHtml(sprintf('%s ms', number_format($profiler->getTotalTime() * 1000, 1, '.', ' '))) ?></p>
         <br />
         <div>
-            <?php
-            $n = 0;
-            foreach ($profiler->getData() as $key => $data):
-                $n++;
-                ?>
+            <?php foreach ($profiler->getData() as $data): ?>
                 <span class="webino-draw-highlight-link">
                     <?php
                     $locator = join('\', \'', empty($data['spec']['locator']) ? [] : (array) $data['spec']['locator']);
@@ -40,7 +36,7 @@ $profiler = $this->getProfiler();
                     <strong style="font-size: larger; cursor: pointer;" class="<?php if (empty($data['time'])) echo 'missing' ?>"
                             onmouseover="webinoDrawHighlight(<?= $this->escapeHtml($locator) ?>)"
                             onmouseout="webinoDrawRemoveHighlight()">
-                        <?= $this->escapeHtml($n . '. ' . $key) ?>
+                        <?= $this->escapeHtml($data['n'] . '. ' . $data['key'] ?? '') ?>
                     </strong>
                     <?= $this->escapeHtml($data['time'] ? sprintf(' / %s ms', number_format($data['time'] * 1000, 1, '.', ' ')) : '') ?>
                 </span>

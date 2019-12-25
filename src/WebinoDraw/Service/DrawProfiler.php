@@ -18,6 +18,11 @@ use WebinoDebug\Debugger\DebuggerInterface as Debugger;
 class DrawProfiler
 {
     /**
+     * @var int
+     */
+    protected $n = 0;
+
+    /**
      * @var Debugger
      */
     protected $debugger;
@@ -45,7 +50,12 @@ class DrawProfiler
      */
     public function getData()
     {
-        return $this->data;
+        $data = [];
+        foreach ($this->data as $row) {
+            $data[$row['n']] = $row;
+        }
+        ksort($data);
+        return $data;
     }
 
     /**
@@ -64,9 +74,15 @@ class DrawProfiler
     {
         // TODO disabled indicator
 
+        $this->n++;
+
         $_spec = $spec;
         unset($_spec['_key']);
-        $this->data[$this->createKey($spec)] = [
+
+        $key = $this->createKey($spec);
+        $this->data[$key] = [
+            'n'    => $this->n,
+            'key'  => $key,
             'spec' => $_spec,
             'time' => 0,
         ];
@@ -88,7 +104,8 @@ class DrawProfiler
         // TODO show more info (nodes, helper, vars?)
 
         $time = $this->debugger->timer(__CLASS__)->getDelta();
-        $this->data[$this->createKey($spec)]['time'] = $time;
+        $index = $this->createKey($spec);
+        $this->data[$index]['time'] = $time;
         $this->totalTime+= $time;
     }
 
