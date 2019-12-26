@@ -11,7 +11,6 @@
 namespace WebinoDraw\Manipulator\Plugin;
 
 use Zend\View\Renderer\PhpRenderer;
-
 use WebinoDraw\Dom\Element;
 
 /**
