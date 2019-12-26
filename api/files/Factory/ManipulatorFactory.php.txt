@@ -57,6 +57,7 @@ class ManipulatorFactory implements FactoryInterface
             ->setPlugin(new Plugin\Cdata($instructionsRenderer), 20)
             ->setPlugin(new Plugin\OnVar($varTranslator, $instructionsRenderer), 10)
             ->setPlugin(new Plugin\OnEmpty($instructionsRenderer), -100)
+            ->setPlugin(new Plugin\ViewSnippet($instructionsRenderer), -450)
             ->setPlugin(new Plugin\SubInstructions($instructionsRenderer), -500);
     }
 }

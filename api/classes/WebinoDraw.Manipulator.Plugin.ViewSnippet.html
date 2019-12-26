@@ -21,54 +21,54 @@
     <script src="../js/jquery.smooth-scroll.js"></script>
     <script src="../js/prism.min.js"></script>
     <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
-        <script type="text/javascript">
-        function loadExternalCodeSnippets() {
-            Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
-                var src = pre.getAttribute('data-src');
-                var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
-                var language = 'php';
+    <script type="text/javascript">
+    function loadExternalCodeSnippets() {
+        Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+            var src = pre.getAttribute('data-src');
+            var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+            var language = 'php';
 
-                var code = document.createElement('code');
-                code.className = 'language-' + language;
+            var code = document.createElement('code');
+            code.className = 'language-' + language;
 
-                pre.textContent = '';
+            pre.textContent = '';
 
-                code.textContent = 'Loading…';
+            code.textContent = 'Loading…';
 
-                pre.appendChild(code);
+            pre.appendChild(code);
 
-                var xhr = new XMLHttpRequest();
+            var xhr = new XMLHttpRequest();
 
-                xhr.open('GET', src, true);
+            xhr.open('GET', src, true);
 
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState == 4) {
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
 
-                        if (xhr.status < 400 && xhr.responseText) {
-                            code.textContent = xhr.responseText;
+                    if (xhr.status < 400 && xhr.responseText) {
+                        code.textContent = xhr.responseText;
 
-                            Prism.highlightElement(code);
-                        }
-                        else if (xhr.status >= 400) {
-                            code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
-                        }
-                        else {
-                            code.textContent = '✖ Error: File does not exist or is empty';
-                        }
+                        Prism.highlightElement(code);
                     }
-                };
+                    else if (xhr.status >= 400) {
+                        code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                    }
+                    else {
+                        code.textContent = '✖ Error: File does not exist or is empty';
+                    }
+                }
+            };
 
-                xhr.send(null);
-            });
-        }
-
-        $(document).ready(function(){
-            loadExternalCodeSnippets();
+            xhr.send(null);
         });
-        $('#source-view').on('shown', function () {
-            loadExternalCodeSnippets();
-        })
-    </script>
+    }
+
+    $(document).ready(function(){
+        loadExternalCodeSnippets();
+    });
+    $('#source-view').on('shown', function () {
+        loadExternalCodeSnippets();
+    })
+</script>
 
     <link rel="shortcut icon" href="../images/favicon.ico"/>
     <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
@@ -144,28 +144,28 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1698683007"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-311179781"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-1698683007" class="accordion-body collapse in">
+            <div id="namespace-311179781" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1088206482"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-869128384"></a>
                                 <a href="../namespaces/WebinoDraw.html" style="margin-left: 30px; padding-left: 0">WebinoDraw</a>
             </div>
-            <div id="namespace-1088206482" class="accordion-body collapse ">
+            <div id="namespace-869128384" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-479508087"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1541718537"></a>
                                 <a href="../namespaces/WebinoDraw.Ajax.html" style="margin-left: 30px; padding-left: 0">Ajax</a>
             </div>
-            <div id="namespace-479508087" class="accordion-body collapse ">
+            <div id="namespace-1541718537" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -181,10 +181,10 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1731032195"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-183363806"></a>
                                 <a href="../namespaces/WebinoDraw.Cache.html" style="margin-left: 30px; padding-left: 0">Cache</a>
             </div>
-            <div id="namespace-1731032195" class="accordion-body collapse ">
+            <div id="namespace-183363806" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -199,10 +199,10 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-73982597"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-462164063"></a>
                                 <a href="../namespaces/WebinoDraw.Config.html" style="margin-left: 30px; padding-left: 0">Config</a>
             </div>
-            <div id="namespace-73982597" class="accordion-body collapse ">
+            <div id="namespace-462164063" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -217,10 +217,10 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2035462899"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-746489244"></a>
                                 <a href="../namespaces/WebinoDraw.Debugger.html" style="margin-left: 30px; padding-left: 0">Debugger</a>
             </div>
-            <div id="namespace-2035462899" class="accordion-body collapse ">
+            <div id="namespace-746489244" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -235,19 +235,19 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-970849335"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-722222848"></a>
                                 <a href="../namespaces/WebinoDraw.Dom.html" style="margin-left: 30px; padding-left: 0">Dom</a>
             </div>
-            <div id="namespace-970849335" class="accordion-body collapse ">
+            <div id="namespace-722222848" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-982398685"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1316527813"></a>
                                 <a href="../namespaces/WebinoDraw.Dom.Factory.html" style="margin-left: 30px; padding-left: 0">Factory</a>
             </div>
-            <div id="namespace-982398685" class="accordion-body collapse ">
+            <div id="namespace-1316527813" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -263,19 +263,19 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1562595593"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-555547635"></a>
                                 <a href="../namespaces/WebinoDraw.Dom.Locator.html" style="margin-left: 30px; padding-left: 0">Locator</a>
             </div>
-            <div id="namespace-1562595593" class="accordion-body collapse ">
+            <div id="namespace-555547635" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-7715990"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-18027977"></a>
                                 <a href="../namespaces/WebinoDraw.Dom.Locator.Strategy.html" style="margin-left: 30px; padding-left: 0">Strategy</a>
             </div>
-            <div id="namespace-7715990" class="accordion-body collapse ">
+            <div id="namespace-18027977" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -319,28 +319,28 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-881719244"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1548892614"></a>
                                 <a href="../namespaces/WebinoDraw.Draw.html" style="margin-left: 30px; padding-left: 0">Draw</a>
             </div>
-            <div id="namespace-881719244" class="accordion-body collapse ">
+            <div id="namespace-1548892614" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1219916034"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-30716799"></a>
                                 <a href="../namespaces/WebinoDraw.Draw.Helper.html" style="margin-left: 30px; padding-left: 0">Helper</a>
             </div>
-            <div id="namespace-1219916034" class="accordion-body collapse ">
+            <div id="namespace-30716799" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1355336532"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-869577402"></a>
                                 <a href="../namespaces/WebinoDraw.Draw.Helper.Absolutize.html" style="margin-left: 30px; padding-left: 0">Absolutize</a>
             </div>
-            <div id="namespace-1355336532" class="accordion-body collapse ">
+            <div id="namespace-869577402" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -355,10 +355,10 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-473164814"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-667876584"></a>
                                 <a href="../namespaces/WebinoDraw.Draw.Helper.Form.html" style="margin-left: 30px; padding-left: 0">Form</a>
             </div>
-            <div id="namespace-473164814" class="accordion-body collapse ">
+            <div id="namespace-667876584" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -389,10 +389,10 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-507899270"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-785064679"></a>
                                 <a href="../namespaces/WebinoDraw.Draw.LoopHelper.html" style="margin-left: 30px; padding-left: 0">LoopHelper</a>
             </div>
-            <div id="namespace-507899270" class="accordion-body collapse ">
+            <div id="namespace-785064679" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -419,10 +419,10 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1220986414"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-666492706"></a>
                                 <a href="../namespaces/WebinoDraw.Event.html" style="margin-left: 30px; padding-left: 0">Event</a>
             </div>
-            <div id="namespace-1220986414" class="accordion-body collapse ">
+            <div id="namespace-666492706" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -439,10 +439,10 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1261533361"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2053082379"></a>
                                 <a href="../namespaces/WebinoDraw.Exception.html" style="margin-left: 30px; padding-left: 0">Exception</a>
             </div>
-            <div id="namespace-1261533361" class="accordion-body collapse ">
+            <div id="namespace-2053082379" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -470,19 +470,19 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-153840889"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1693451433"></a>
                                 <a href="../namespaces/WebinoDraw.Factory.html" style="margin-left: 30px; padding-left: 0">Factory</a>
             </div>
-            <div id="namespace-153840889" class="accordion-body collapse ">
+            <div id="namespace-1693451433" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-927234188"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1860118192"></a>
                                 <a href="../namespaces/WebinoDraw.Factory.HelperFactory.html" style="margin-left: 30px; padding-left: 0">HelperFactory</a>
             </div>
-            <div id="namespace-927234188" class="accordion-body collapse ">
+            <div id="namespace-1860118192" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -527,28 +527,28 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1900463017"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-156507431"></a>
                                 <a href="../namespaces/WebinoDraw.Form.html" style="margin-left: 30px; padding-left: 0">Form</a>
             </div>
-            <div id="namespace-1900463017" class="accordion-body collapse ">
+            <div id="namespace-156507431" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1125931694"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2116211873"></a>
                                 <a href="../namespaces/WebinoDraw.Form.View.html" style="margin-left: 30px; padding-left: 0">View</a>
             </div>
-            <div id="namespace-1125931694" class="accordion-body collapse ">
+            <div id="namespace-2116211873" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-879140809"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-711107010"></a>
                                 <a href="../namespaces/WebinoDraw.Form.View.Helper.html" style="margin-left: 30px; padding-left: 0">Helper</a>
             </div>
-            <div id="namespace-879140809" class="accordion-body collapse ">
+            <div id="namespace-711107010" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -580,10 +580,10 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-96676597"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-842230337"></a>
                                 <a href="../namespaces/WebinoDraw.Instructions.html" style="margin-left: 30px; padding-left: 0">Instructions</a>
             </div>
-            <div id="namespace-96676597" class="accordion-body collapse ">
+            <div id="namespace-842230337" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -602,10 +602,10 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1783624831"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1397521280"></a>
                                 <a href="../namespaces/WebinoDraw.Listener.html" style="margin-left: 30px; padding-left: 0">Listener</a>
             </div>
-            <div id="namespace-1783624831" class="accordion-body collapse ">
+            <div id="namespace-1397521280" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -620,19 +620,19 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1048404602"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1274967080"></a>
                                 <a href="../namespaces/WebinoDraw.Manipulator.html" style="margin-left: 30px; padding-left: 0">Manipulator</a>
             </div>
-            <div id="namespace-1048404602" class="accordion-body collapse ">
+            <div id="namespace-1274967080" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-99668350"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2145619664"></a>
                                 <a href="../namespaces/WebinoDraw.Manipulator.Plugin.html" style="margin-left: 30px; padding-left: 0">Plugin</a>
             </div>
-            <div id="namespace-99668350" class="accordion-body collapse ">
+            <div id="namespace-2145619664" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -676,19 +676,19 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1325915063"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1814121942"></a>
                                 <a href="../namespaces/WebinoDraw.ModuleManager.html" style="margin-left: 30px; padding-left: 0">ModuleManager</a>
             </div>
-            <div id="namespace-1325915063" class="accordion-body collapse ">
+            <div id="namespace-1814121942" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1150334331"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1812181556"></a>
                                 <a href="../namespaces/WebinoDraw.ModuleManager.Feature.html" style="margin-left: 30px; padding-left: 0">Feature</a>
             </div>
-            <div id="namespace-1150334331" class="accordion-body collapse ">
+            <div id="namespace-1812181556" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -712,19 +712,19 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1111516620"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1507664204"></a>
                                 <a href="../namespaces/WebinoDraw.Mvc.html" style="margin-left: 30px; padding-left: 0">Mvc</a>
             </div>
-            <div id="namespace-1111516620" class="accordion-body collapse ">
+            <div id="namespace-1507664204" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-938234059"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1882147744"></a>
                                 <a href="../namespaces/WebinoDraw.Mvc.Service.html" style="margin-left: 30px; padding-left: 0">Service</a>
             </div>
-            <div id="namespace-938234059" class="accordion-body collapse ">
+            <div id="namespace-1882147744" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -739,19 +739,19 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1094539723"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-905615213"></a>
                                 <a href="../namespaces/WebinoDraw.Mvc.View.html" style="margin-left: 30px; padding-left: 0">View</a>
             </div>
-            <div id="namespace-1094539723" class="accordion-body collapse ">
+            <div id="namespace-905615213" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1249191449"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-724751178"></a>
                                 <a href="../namespaces/WebinoDraw.Mvc.View.Http.html" style="margin-left: 30px; padding-left: 0">Http</a>
             </div>
-            <div id="namespace-1249191449" class="accordion-body collapse ">
+            <div id="namespace-724751178" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -782,10 +782,10 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-508622979"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-512016650"></a>
                                 <a href="../namespaces/WebinoDraw.Options.html" style="margin-left: 30px; padding-left: 0">Options</a>
             </div>
-            <div id="namespace-508622979" class="accordion-body collapse ">
+            <div id="namespace-512016650" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -800,10 +800,10 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-153715355"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1814545956"></a>
                                 <a href="../namespaces/WebinoDraw.Service.html" style="margin-left: 30px; padding-left: 0">Service</a>
             </div>
-            <div id="namespace-153715355" class="accordion-body collapse ">
+            <div id="namespace-1814545956" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -819,10 +819,10 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1121784641"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-760817143"></a>
                                 <a href="../namespaces/WebinoDraw.Stdlib.html" style="margin-left: 30px; padding-left: 0">Stdlib</a>
             </div>
-            <div id="namespace-1121784641" class="accordion-body collapse ">
+            <div id="namespace-760817143" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -838,28 +838,28 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2014798542"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1590985672"></a>
                                 <a href="../namespaces/WebinoDraw.VarTranslator.html" style="margin-left: 30px; padding-left: 0">VarTranslator</a>
             </div>
-            <div id="namespace-2014798542" class="accordion-body collapse ">
+            <div id="namespace-1590985672" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-985137486"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-928960145"></a>
                                 <a href="../namespaces/WebinoDraw.VarTranslator.Operation.html" style="margin-left: 30px; padding-left: 0">Operation</a>
             </div>
-            <div id="namespace-985137486" class="accordion-body collapse ">
+            <div id="namespace-928960145" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1798964143"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1121701936"></a>
                                 <a href="../namespaces/WebinoDraw.VarTranslator.Operation.OnVar.html" style="margin-left: 30px; padding-left: 0">OnVar</a>
             </div>
-            <div id="namespace-1798964143" class="accordion-body collapse ">
+            <div id="namespace-1121701936" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -900,19 +900,19 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-665262988"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1390562637"></a>
                                 <a href="../namespaces/WebinoDraw.View.html" style="margin-left: 30px; padding-left: 0">View</a>
             </div>
-            <div id="namespace-665262988" class="accordion-body collapse ">
+            <div id="namespace-1390562637" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-38369994"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1237128213"></a>
                                 <a href="../namespaces/WebinoDraw.View.Helper.html" style="margin-left: 30px; padding-left: 0">Helper</a>
             </div>
-            <div id="namespace-38369994" class="accordion-body collapse ">
+            <div id="namespace-1237128213" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -927,10 +927,10 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-243615039"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1332130516"></a>
                                 <a href="../namespaces/WebinoDraw.View.Renderer.html" style="margin-left: 30px; padding-left: 0">Renderer</a>
             </div>
-            <div id="namespace-243615039" class="accordion-body collapse ">
+            <div id="namespace-1332130516" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -946,10 +946,10 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-615254648"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-91476658"></a>
                                 <a href="../namespaces/WebinoDraw.View.Strategy.html" style="margin-left: 30px; padding-left: 0">Strategy</a>
             </div>
-            <div id="namespace-615254648" class="accordion-body collapse ">
+            <div id="namespace-91476658" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -995,78 +995,321 @@
     <section class="row-fluid">
         <div class="span10 offset2">
             <div class="row-fluid">
-                <div class="span8 content file">
+                <div class="span8 content class">
                     <nav>
-                                                                    </nav>
-
+                                                <a href="../namespaces/WebinoDraw.Manipulator.Plugin.html">\WebinoDraw\Manipulator\Plugin</a> <i class="icon-level-up"></i>
+                                            </nav>
                     <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
-                    <h1><small>Manipulator/Plugin</small>PluginArgument.php</h1>
-                    <p><em>Webino (http://webino.sk)</em></p>
-                    
 
+                    <h1><small>\WebinoDraw\Manipulator\Plugin</small>ViewSnippet</h1>
+                    <p><em>Class ViewSnippet</em></p>
                     
                     
-                                        <h2>Classes</h2>
-                    <table class="table table-hover">
-                                            <tr>
-                            <td><a href="../classes/WebinoDraw.Manipulator.Plugin.PluginArgument.html">PluginArgument</a></td>
-                            <td><em></em></td>
-                        </tr>
-                                        </table>
-                                    </div>
-
+                                        
+                    <section id="summary">
+                        <h2>Summary</h2>
+                        <section class="row-fluid heading">
+                            <section class="span4">
+                                <a href="#methods">Methods</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#properties">Properties</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#constants">Constants</a>
+                            </section>
+                        </section>
+                        <section class="row-fluid public">
+                            <section class="span4">
+                                                                    <a href="../classes/WebinoDraw.Manipulator.Plugin.AbstractPlugin.html#method_createNodeVarTranslationArray" class="">createNodeVarTranslationArray()</a><br />
+                                                                    <a href="../classes/WebinoDraw.Manipulator.Plugin.AbstractPlugin.html#method_createNodeTranslation" class="">createNodeTranslation()</a><br />
+                                                                    <a href="../classes/WebinoDraw.Manipulator.Plugin.AbstractPlugin.html#method_createNodeHtmlTranslation" class="">createNodeHtmlTranslation()</a><br />
+                                                                    <a href="../classes/WebinoDraw.Manipulator.Plugin.ViewSnippet.html#method_inLoop" class="">inLoop()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No public properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No constants found</em>
+                                                            </section>
+                        </section>
+                        <section class="row-fluid protected">
+                            <section class="span4">
+                                                                    <a href="../classes/WebinoDraw.Manipulator.Plugin.AbstractPlugin.html#method_updateNodeVarTranslation" class="">updateNodeVarTranslation()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No protected properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                        <section class="row-fluid private">
+                            <section class="span4">
+                                                                    <em>No private methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No private properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                    </section>
+                </div>
                 <aside class="span4 detailsbar">
+                                        
+                    
                     <dl>
-                                                    <dt>Package</dt>
-                            <dd><div class="namespace-wrapper">\Default</div></dd>
+                        <dt>File</dt>
+                            <dd><a href="../files/Manipulator.Plugin.ViewSnippet.html"><div class="path-wrapper">Manipulator/Plugin/ViewSnippet.php</div></a></dd>
+                                                <dt>Package</dt>
+                            <dd><div class="namespace-wrapper">Default</div></dd>
+                                                <dt>Class hierarchy</dt>
+                            <dd class="hierarchy">
+                                                                                                                                                                                                                                                                                                
+                                        <div class="namespace-wrapper"><a href="../classes/WebinoDraw.Manipulator.Plugin.AbstractPlugin.html">\WebinoDraw\Manipulator\Plugin\AbstractPlugin</a></div>
+                                                                                                    <div class="namespace-wrapper">\WebinoDraw\Manipulator\Plugin\ViewSnippet</div>
+                            </dd>
+
+                                                                            <dt>Implements</dt>
+                                                        <dd><a href="../classes/WebinoDraw.Manipulator.Plugin.InLoopPluginInterface.html"><div class="namespace-wrapper">\WebinoDraw\Manipulator\Plugin\InLoopPluginInterface</div></a></dd>
                         
-                                                                                    <dt>See also</dt>
-                                                                                        <dd><a href="https://github.com/webino/WebinoDraw"><div class="namespace-wrapper">for the canonical source repository</div></a></dd>
-                                                    
-                    </dl>
+                        
+                        
+                        
+                                                                        </dl>
                     <h2>Tags</h2>
                     <table class="table table-condensed">
-                                                    <tr>
-                                <th>
-                                    copyright
-                                </th>
-                                <td>
-                                                                            <p>Copyright (c) 2012-2017 Webino, s. r. o. (<a href="http://webino.sk">http://webino.sk</a>)</p>
-                                                                    </td>
-                            </tr>
-                                                    <tr>
-                                <th>
-                                    author
-                                </th>
-                                <td>
-                                                                            <p>Peter Bačinský <a href="mailto:peter@bacinsky.sk">peter@bacinsky.sk</a></p>
-                                                                    </td>
-                            </tr>
-                                                    <tr>
-                                <th>
-                                    license
-                                </th>
-                                <td>
-                                                                            <p>BSD-3-Clause</p>
-                                                                    </td>
-                            </tr>
-                                            </table>
-
+                                            <tr><td colspan="2"><em>None found</em></td></tr>
+                                        </table>
                 </aside>
             </div>
 
-            
-            
+                        
+                        
+                                    <a id="methods" name="methods"></a>
+            <div class="row-fluid">
+                <div class="span8 content class"><h2>Methods</h2></div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_createNodeVarTranslationArray" name="method_createNodeVarTranslationArray" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">createNodeVarTranslationArray()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">createNodeVarTranslationArray(\WebinoDraw\Dom\NodeInterface  <span class="argument">$node</span>, array  <span class="argument">$spec</span>) : array</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td><a href="../classes/WebinoDraw.Dom.NodeInterface.html">\WebinoDraw\Dom\NodeInterface</a></td>
+                                <td>$node </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$spec </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                    				
+                            </article>
         </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/WebinoDraw.Manipulator.Plugin.AbstractPlugin.html"><div class="path-wrapper">\WebinoDraw\Manipulator\Plugin\AbstractPlugin</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_createNodeTranslation" name="method_createNodeTranslation" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">createNodeTranslation()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">createNodeTranslation(\WebinoDraw\Dom\NodeInterface  <span class="argument">$node</span>, array  <span class="argument">$spec</span>) : \WebinoDraw\VarTranslator\Translation</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td><a href="../classes/WebinoDraw.Dom.NodeInterface.html">\WebinoDraw\Dom\NodeInterface</a></td>
+                                <td>$node </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$spec </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/WebinoDraw.VarTranslator.Translation.html">\WebinoDraw\VarTranslator\Translation</a>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/WebinoDraw.Manipulator.Plugin.AbstractPlugin.html"><div class="path-wrapper">\WebinoDraw\Manipulator\Plugin\AbstractPlugin</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_createNodeHtmlTranslation" name="method_createNodeHtmlTranslation" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">createNodeHtmlTranslation()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">createNodeHtmlTranslation(\WebinoDraw\Dom\Element  <span class="argument">$node</span>, array  <span class="argument">$spec</span>) : \WebinoDraw\VarTranslator\Translation</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td><a href="../classes/WebinoDraw.Dom.Element.html">\WebinoDraw\Dom\Element</a></td>
+                                <td>$node </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$spec </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/WebinoDraw.VarTranslator.Translation.html">\WebinoDraw\VarTranslator\Translation</a>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/WebinoDraw.Manipulator.Plugin.AbstractPlugin.html"><div class="path-wrapper">\WebinoDraw\Manipulator\Plugin\AbstractPlugin</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_inLoop" name="method_inLoop" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">inLoop()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">inLoop(\WebinoDraw\Manipulator\Plugin\PluginArgument  <span class="argument">$arg</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td><a href="../classes/WebinoDraw.Manipulator.Plugin.PluginArgument.html">\WebinoDraw\Manipulator\Plugin\PluginArgument</a></td>
+                                <td>$arg </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_updateNodeVarTranslation" name="method_updateNodeVarTranslation" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">updateNodeVarTranslation()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">updateNodeVarTranslation(\WebinoDraw\Dom\NodeInterface  <span class="argument">$node</span>, \WebinoDraw\Manipulator\Plugin\PluginArgument  <span class="argument">$arg</span>) : self</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td><a href="../classes/WebinoDraw.Dom.NodeInterface.html">\WebinoDraw\Dom\NodeInterface</a></td>
+                                <td>$node </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td><a href="../classes/WebinoDraw.Manipulator.Plugin.PluginArgument.html">\WebinoDraw\Manipulator\Plugin\PluginArgument</a></td>
+                                <td>$arg </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    self
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/WebinoDraw.Manipulator.Plugin.AbstractPlugin.html"><div class="path-wrapper">\WebinoDraw\Manipulator\Plugin\AbstractPlugin</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    </div>
     </section>
 
     <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="source-view-label"></h3>
+            <h3 id="source-view-label">ViewSnippet.php</h3>
         </div>
         <div class="modal-body">
-            <pre data-src="../files/Manipulator/Plugin/PluginArgument.php.txt" class="language-php line-numbers"></pre>
+            <pre data-src="../files/Manipulator/Plugin/ViewSnippet.php.txt" class="language-php line-numbers"></pre>
         </div>
     </div>
 
