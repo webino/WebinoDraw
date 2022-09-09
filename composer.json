@@ -58,10 +58,12 @@
         "zendframework/zend-console": "2.*",
         "zendframework/zend-log": "2.*",
         "zendframework/zend-math": "2.*",
-        "zendframework/zend-form": "2.6.*",
         "zendframework/zend-i18n-resources": "2.*"
     },
-    "autoload": {"psr-0": {"WebinoDraw": "src/"}},
+    "autoload": {
+        "psr-0": {"WebinoDraw": "src/"},
+        "psr-4": {"Webino\\": "src/"}
+    },
     "extra": {
         "webino-devkit": {
             "context": ["module", "github", "zend"],
