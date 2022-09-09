@@ -33,7 +33,7 @@ abstract class AbstractVariable
      */
     protected function getDefaultOptions(array $merge = []): array
     {
-        return [$this->name => ArrayUtils::merge($this->spec, $merge)];
+        return ArrayUtils::merge($this->spec, $merge);
     }
 
     /**

@@ -5,7 +5,7 @@ namespace Webino\Config\Draw;
 /**
  * Class Element
  */
-abstract class Element extends AbstractDraw
+class Element extends AbstractDraw
 {
     /**
      * @param int $stackIndex

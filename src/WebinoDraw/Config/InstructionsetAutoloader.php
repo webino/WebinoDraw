@@ -13,6 +13,9 @@ namespace WebinoDraw\Config;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RegexIterator;
+use Webino\Config\Draw\AbstractDraw;
+use Webino\Config\Draw\Spec;
+use Zend\Stdlib\ArrayUtils;
 
 /**
  * Used in configs to automatically load the drawsets
@@ -58,6 +61,21 @@ class InstructionsetAutoloader
 
             /** @noinspection PhpIncludeInspection */
             $drawSpec = require $path[0];
+
+            if (is_array($drawSpec)) {
+                foreach ($drawSpec as $key => $option)
+                {
+                    if (is_object($option)) {
+                        switch (true) {
+                            case $option instanceof AbstractDraw:
+                                $drawSpec = ArrayUtils::merge($drawSpec, $option->toArray());
+                                unset($drawSpec[$key]);
+                                break;
+                        }
+                    }
+                }
+            }
+
             $config[$index] = is_array($drawSpec) ? $drawSpec : $drawSpec->toArray();
         }
 

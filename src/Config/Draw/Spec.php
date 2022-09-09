@@ -30,18 +30,18 @@ class Spec
         $options = $this->options;
 
         foreach ($options as $index => $option) {
-            if (is_object($options)) {
+            if (is_object($option)) {
                 switch (true) {
 
                     case $option instanceof AbstractDraw:
                         isset($options['instructions']) or $options['instructions'] = [];
-                        $options['instructions'] = ArrayUtils::merge($options['instructions'], $options->toArray());
+                        $options['instructions'] = ArrayUtils::merge($options['instructions'], $option->toArray());
                         unset($options[$index]);
                         break;
 
                     case $option instanceof AbstractVariable:
                         isset($options['var']) or $options['var'] = [];
-                        $options['var'] = ArrayUtils::merge($options['var'], $options->toArray());
+                        $options['var'] = ArrayUtils::merge($options['var'], $option->toArray());
                         unset($options[$index]);
                         break;
                 }

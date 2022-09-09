@@ -5,14 +5,15 @@ namespace Webino\Config\Draw;
 /**
  * Class Variable
  */
-abstract class Variable extends AbstractVariable
+class Variable extends AbstractVariable
 {
     /**
-     * @param int $stackIndex
+     * @param string $path
      * @return $this
      */
-    public function setFetch(int $stackIndex): Variable
+    public function setFetch(string $path): Variable
     {
+        $this->spec['fetch'][$this->name] = $path;
         return $this;
     }
 }
