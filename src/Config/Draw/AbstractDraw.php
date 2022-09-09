@@ -45,7 +45,7 @@ abstract class AbstractDraw
      */
     public function setSpec(array $spec): AbstractDraw
     {
-        $this->spec = ArrayUtils::merge($this->spec, (new Spec($spec))->toArray());
+        $this->spec = ArrayUtils::merge($this->spec, (new SubSpec($spec))->toArray());
         return $this;
     }
 

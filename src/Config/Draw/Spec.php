@@ -38,12 +38,6 @@ class Spec
                         $options['instructions'] = ArrayUtils::merge($options['instructions'], $option->toArray());
                         unset($options[$index]);
                         break;
-
-                    case $option instanceof AbstractVariable:
-                        isset($options['var']) or $options['var'] = [];
-                        $options['var'] = ArrayUtils::merge($options['var'], $option->toArray());
-                        unset($options[$index]);
-                        break;
                 }
             }
         }
