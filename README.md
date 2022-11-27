@@ -473,7 +473,7 @@ Provides ability to configure rendering of the layout. **Still under development
             ],
         ],
         'onVar' => [                                     // variables logic
-            'customIndex => [                            // options per variable
+            'customIndex' => [                           // options per variable
                 'var'        => '{$customvar}',          // test variable value
                 'equalTo'    => '',                      // condition method (or)
                 'notEqualTo' => '',                      // condition method
