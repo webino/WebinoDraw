@@ -63,8 +63,7 @@ class InstructionsetAutoloader
             $drawSpec = require $path[0];
 
             if (is_array($drawSpec)) {
-                foreach ($drawSpec as $key => $option)
-                {
+                foreach ($drawSpec as $key => $option) {
                     if (is_object($option)) {
                         switch (true) {
                             case $option instanceof AbstractDraw:
