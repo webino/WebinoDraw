@@ -73,7 +73,6 @@ class Element extends AbstractDraw
      */
     public function setOnEmptyRemove($locator): Element
     {
-        isset($this->spec['onEmpty']) or $this->spec['onEmpty'] = [];
         $this->spec['onEmpty']['remove'] = is_array($locator) ? $locator : (string) $locator;
         return $this;
     }
