@@ -58,16 +58,6 @@ class Element extends AbstractDraw
     }
 
     /**
-     * @param Element\Loop $loop
-     * @return $this
-     */
-    public function setLoop(Element\Loop $loop): Element
-    {
-        $this->spec['loop'] = $loop->toArray();
-        return $this;
-    }
-
-    /**
      * @param string $class
      * @return $this
      */
