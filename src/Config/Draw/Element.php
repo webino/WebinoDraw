@@ -38,12 +38,43 @@ class Element extends AbstractDraw
     }
 
     /**
+     * @param string $html
+     * @return $this
+     */
+    public function setReplace($html): Element
+    {
+        $this->spec['replace'] = (string)$html;
+        return $this;
+    }
+
+    /**
      * @param array $render
      * @return $this
      */
     public function setRender(array $render): Element
     {
         $this->spec['render'] = $render;
+        return $this;
+    }
+
+    /**
+     * @param Element\Loop $loop
+     * @return $this
+     */
+    public function setLoop(Element\Loop $loop): Element
+    {
+        $this->spec['loop'] = $loop->toArray();
+        return $this;
+    }
+
+    /**
+     * @param string|array $locator
+     * @return $this
+     */
+    public function setOnEmptyRemove($locator): Element
+    {
+        isset($this->spec['onEmpty']) or $this->spec['onEmpty'] = [];
+        $this->spec['onEmpty']['remove'] = is_array($locator) ? $locator : (string) $locator;
         return $this;
     }
 }
