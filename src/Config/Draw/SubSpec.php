@@ -25,6 +25,12 @@ class SubSpec extends Spec
                         $options['var'] = ArrayUtils::merge($options['var'], $option->toArray());
                         unset($options[$index]);
                         break;
+
+                    case $option instanceof Element\OnVar:
+                        isset($options['onVar']) or $options['onVar'] = [];
+                        $options['onVar'] = ArrayUtils::merge($options['onVar'], $option->toArray());
+                        unset($options[$index]);
+                        break;
                 }
             }
         }
