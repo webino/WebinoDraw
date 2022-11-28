@@ -68,6 +68,16 @@ class Element extends AbstractDraw
     }
 
     /**
+     * @param string $class
+     * @return $this
+     */
+    public function setClass($class): Element
+    {
+        $this->spec['attribs']['class'] = (string)$class;
+        return $this;
+    }
+
+    /**
      * @param string|array $locator
      * @return $this
      */
