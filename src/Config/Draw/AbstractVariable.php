@@ -7,7 +7,7 @@ use Zend\Stdlib\ArrayUtils;
 /**
  * Class AbstractVariable
  */
-abstract class AbstractVariable
+abstract class AbstractVariable extends AbstractSubSpecItem
 {
     /**
      * @var string
@@ -44,6 +44,17 @@ abstract class AbstractVariable
     {
         $this->spec = ArrayUtils::merge($this->spec, $spec);
         return $this;
+    }
+
+    /**
+     * @param array $spec
+     * @return array
+     */
+    public function toSpec(array &$spec): array
+    {
+        isset($spec['var']) or $spec['var'] = [];
+        $spec['var'] = ArrayUtils::merge($spec['var'], $this->toArray());
+        return $spec;
     }
 
     /**

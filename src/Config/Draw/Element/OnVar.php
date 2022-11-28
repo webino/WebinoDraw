@@ -2,13 +2,14 @@
 
 namespace Webino\Config\Draw\Element;
 
+use Webino\Config\Draw\AbstractSubSpecItem;
 use Webino\Config\Draw\SubSpec;
 use Zend\Stdlib\ArrayUtils;
 
 /**
  * Class OnVar
  */
-class OnVar
+class OnVar extends AbstractSubSpecItem
 {
     /**
      * @var string
@@ -48,6 +49,17 @@ class OnVar
     {
         $this->spec = ArrayUtils::merge($this->spec, (new SubSpec($spec))->toArray());
         return $this;
+    }
+
+    /**
+     * @param array $spec
+     * @return array
+     */
+    public function toSpec(array &$spec): array
+    {
+        isset($spec['onVar']) or $spec['onVar'] = [];
+        $spec['onVar'] = ArrayUtils::merge($spec['onVar'], $this->toArray());
+        return $spec;
     }
 
     /**

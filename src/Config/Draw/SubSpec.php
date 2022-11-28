@@ -20,15 +20,8 @@ class SubSpec extends Spec
             if (is_object($option)) {
                 switch (true) {
 
-                    case $option instanceof AbstractVariable:
-                        isset($options['var']) or $options['var'] = [];
-                        $options['var'] = ArrayUtils::merge($options['var'], $option->toArray());
-                        unset($options[$index]);
-                        break;
-
-                    case $option instanceof Element\OnVar:
-                        isset($options['onVar']) or $options['onVar'] = [];
-                        $options['onVar'] = ArrayUtils::merge($options['onVar'], $option->toArray());
+                    case $option instanceof AbstractSubSpecItem:
+                        $option->toSpec($options);
                         unset($options[$index]);
                         break;
                 }
