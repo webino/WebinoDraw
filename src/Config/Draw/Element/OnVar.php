@@ -42,6 +42,16 @@ class OnVar extends AbstractSubSpecItem
     }
 
     /**
+     * @param mixed $expected
+     * @return $this
+     */
+    public function setNotEqualTo($expected): OnVar
+    {
+        $this->spec['notEqualTo'] = $expected;
+        return $this;
+    }
+
+    /**
      * @param array $spec
      * @return $this
      */
