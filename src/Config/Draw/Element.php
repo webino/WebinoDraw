@@ -78,6 +78,17 @@ class Element extends AbstractDraw
     }
 
     /**
+     * @param array $attribs
+     * @return $this
+     */
+    public function setAttribs(array $attribs): Element
+    {
+        isset($this->spec['attribs']) or $this->spec['attribs'] = [];
+        $this->spec['attribs'] = array_replace($this->spec['attribs'], $attribs);
+        return $this;
+    }
+
+    /**
      * @param string $class
      * @return $this
      */
