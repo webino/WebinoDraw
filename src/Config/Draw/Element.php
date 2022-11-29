@@ -48,12 +48,32 @@ class Element extends AbstractDraw
     }
 
     /**
+     * @param string|array $locator
+     * @return $this
+     */
+    public function setRemove($locator): Element
+    {
+        $this->spec['remove'] = $locator;
+        return $this;
+    }
+
+    /**
      * @param array $render
      * @return $this
      */
     public function setRender(array $render): Element
     {
         $this->spec['render'] = $render;
+        return $this;
+    }
+
+    /**
+     * @param array $trigger
+     * @return $this
+     */
+    public function setTrigger(array $trigger): Element
+    {
+        $this->spec['trigger'] = $trigger;
         return $this;
     }
 
